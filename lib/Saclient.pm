@@ -28,7 +28,15 @@ Saclient - An easy interface to control your resources on SAKURA Cloud.
 
 =head1 DESCRIPTION
 
-How to run the sample code:
+=head2 INSTALLATION
+
+    # Install cpanminus (if not yet)
+    curl -L http://cpanmin.us | perl - App::cpanminus
+
+    # Install Saclient module by cpanminus
+    cpanm git@github.com:sakura-internet/saclient.perl.git
+
+=head2 HOW TO RUN THE SAMPLE CODE
 
     git clone git@github.com:sakura-internet/saclient.perl.git
     cd saclient.perl
