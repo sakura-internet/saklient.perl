@@ -1,12 +1,12 @@
 {
    "abstract" : "An easy interface to control your resources on SAKURA Cloud.",
    "author" : [
-      "SAKURA Internet, Inc.."
+      "SAKURA Internet, Inc."
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v1.1.0, CPAN::Meta::Converter version 2.120921",
    "license" : [
-      "perl_5"
+      "mit"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -33,6 +33,7 @@
       },
       "develop" : {
          "requires" : {
+            "Software::License" : "0",
             "Test::CPAN::Meta" : "0",
             "Test::MinimumVersion::Fast" : "0.04",
             "Test::PAUSE::Permissions" : "0.04",
@@ -53,5 +54,19 @@
       }
    },
    "release_status" : "unstable",
-   "version" : "0.01"
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/sakura-internet/saclient.perl/issues"
+      },
+      "homepage" : "https://github.com/sakura-internet/saclient.perl",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/sakura-internet/saclient.perl.git",
+         "web" : "https://github.com/sakura-internet/saclient.perl"
+      }
+   },
+   "version" : "0.01",
+   "x_contributors" : [
+      "townewgokgok <townewgokgok@gmail.com>"
+   ]
 }
