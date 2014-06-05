@@ -1,0 +1,200 @@
+#!/usr/bin/perl
+
+package Saclient::Cloud::Resource::InternetPlan;
+
+use strict;
+use Error qw(:try);
+use Data::Dumper;
+use Saclient::Cloud::Client;
+use Saclient::Cloud::Resource::Resource;
+
+use base qw(Saclient::Cloud::Resource::Resource);
+
+## @class Saclient::Cloud::Resource::InternetPlan
+#
+
+my $m_id;
+
+my $m_name;
+
+my $m_band_width_mbps;
+
+my $m_service_class;
+
+## @method public string _id()
+# @private
+#
+sub _id {
+	my $self = shift;
+	{
+		return $self->get_id();
+	}
+}
+
+## @method public Void new()
+# @private
+#
+sub new {
+	my $class = shift;
+	my $self;
+	my $client = shift;
+	my $r = shift;
+	{
+		$self = $class->SUPER::new($client);
+		$self->api_deserialize($r);
+	}
+	return $self;
+}
+
+my $n_id = 0;
+
+## @method private string get_id()
+# (This method is generated in Translator_default#buildImpl)
+#
+sub get_id {
+	my $self = shift;
+	{
+		return $self->{'m_id'};
+	}
+}
+
+sub id {
+	return $_[0]->get_id();
+}
+
+my $n_name = 0;
+
+## @method private string get_name()
+# (This method is generated in Translator_default#buildImpl)
+#
+sub get_name {
+	my $self = shift;
+	{
+		return $self->{'m_name'};
+	}
+}
+
+sub name {
+	return $_[0]->get_name();
+}
+
+my $n_band_width_mbps = 0;
+
+## @method private int get_band_width_mbps()
+# (This method is generated in Translator_default#buildImpl)
+#
+sub get_band_width_mbps {
+	my $self = shift;
+	{
+		return $self->{'m_band_width_mbps'};
+	}
+}
+
+sub band_width_mbps {
+	return $_[0]->get_band_width_mbps();
+}
+
+my $n_service_class = 0;
+
+## @method private string get_service_class()
+# (This method is generated in Translator_default#buildImpl)
+#
+sub get_service_class {
+	my $self = shift;
+	{
+		return $self->{'m_service_class'};
+	}
+}
+
+sub service_class {
+	return $_[0]->get_service_class();
+}
+
+## @method public Void api_deserialize()
+# (This method is generated in Translator_default#buildImpl)
+#
+sub api_deserialize {
+	my $self = shift;
+	my $r = shift;
+	{
+		$self->{'is_incomplete'} = 1;
+		if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
+			{
+				$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+				$self->{'n_id'} = 0;
+			};
+		}
+		else {
+			{
+				$self->{'is_incomplete'} = 0;
+			};
+		};
+		if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
+			{
+				$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
+				$self->{'n_name'} = 0;
+			};
+		}
+		else {
+			{
+				$self->{'is_incomplete'} = 0;
+			};
+		};
+		if ((ref($r) eq 'HASH' && exists $r->{"BandWidthMbps"})) {
+			{
+				$self->{'m_band_width_mbps'} = !defined($r->{"BandWidthMbps"}) ? undef : (0+("" . $r->{"BandWidthMbps"}));
+				$self->{'n_band_width_mbps'} = 0;
+			};
+		}
+		else {
+			{
+				$self->{'is_incomplete'} = 0;
+			};
+		};
+		if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
+			{
+				$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
+				$self->{'n_service_class'} = 0;
+			};
+		}
+		else {
+			{
+				$self->{'is_incomplete'} = 0;
+			};
+		};
+	}
+}
+
+## @method public any api_serialize()
+# (This method is generated in Translator_default#buildImpl)
+#
+sub api_serialize {
+	my $self = shift;
+	my $withClean = shift || (0);
+	{
+		my $ret = {};
+		if ($withClean || $self->{'n_id'}) {
+			{
+				$ret->{"ID"} = $self->{'m_id'};
+			};
+		};
+		if ($withClean || $self->{'n_name'}) {
+			{
+				$ret->{"Name"} = $self->{'m_name'};
+			};
+		};
+		if ($withClean || $self->{'n_band_width_mbps'}) {
+			{
+				$ret->{"BandWidthMbps"} = $self->{'m_band_width_mbps'};
+			};
+		};
+		if ($withClean || $self->{'n_service_class'}) {
+			{
+				$ret->{"ServiceClass"} = $self->{'m_service_class'};
+			};
+		};
+		return $ret;
+	}
+}
+
+1;
