@@ -3,17 +3,24 @@
 package Saclient::Cloud::Resource::Resource;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Util;
 
-## @class Saclient::Cloud::Resource::Resource
-#
+=pod
 
-## @var private Saclient::Cloud::Client $_client
-# @private
-#
+=encoding utf8
+
+=head1 Saclient::Cloud::Resource::Resource
+
+@ignore
+
+=cut
+
+
 my $_client;
 
 sub get_client {
@@ -27,9 +34,6 @@ sub client {
 	return $_[0]->get_client();
 }
 
-## @method private string _api_path()
-# @private
-#
 sub _api_path {
 	my $self = shift;
 	{
@@ -37,9 +41,6 @@ sub _api_path {
 	}
 }
 
-## @method private string _root_key()
-# @private
-#
 sub _root_key {
 	my $self = shift;
 	{
@@ -47,9 +48,6 @@ sub _root_key {
 	}
 }
 
-## @method private string _root_key_m()
-# @private
-#
 sub _root_key_m {
 	my $self = shift;
 	{
@@ -57,9 +55,6 @@ sub _root_key_m {
 	}
 }
 
-## @method public string _id()
-# @private
-#
 sub _id {
 	my $self = shift;
 	{
@@ -67,9 +62,6 @@ sub _id {
 	}
 }
 
-## @method public Void new()
-# @private
-#
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
@@ -109,12 +101,6 @@ sub api_serialize_id {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Resource _create()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-# 
-# @private
-# @return this
-#
 sub _create {
 	my $self = shift;
 	{
@@ -122,12 +108,6 @@ sub _create {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Resource _save()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
-# 
-# @private
-# @return this
-#
 sub _save {
 	my $self = shift;
 	{
@@ -139,12 +119,6 @@ sub _save {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Resource _reload()
-# 最新のリソース情報を再取得します。
-# 
-# @private
-# @return this
-#
 sub _reload {
 	my $self = shift;
 	{

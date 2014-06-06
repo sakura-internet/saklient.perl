@@ -3,6 +3,8 @@
 package Saclient::Cloud::Resource::ServerPlan;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
@@ -10,8 +12,16 @@ use Saclient::Cloud::Resource::Resource;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
-## @class Saclient::Cloud::Resource::ServerPlan
-#
+=pod
+
+=encoding utf8
+
+=head1 Saclient::Cloud::Resource::ServerPlan
+
+サーバのプラン情報へのアクセス機能を備えたクラス。
+
+=cut
+
 
 my $m_id;
 
@@ -23,9 +33,6 @@ my $m_memory_mib;
 
 my $m_service_class;
 
-## @method public string _id()
-# @private
-#
 sub _id {
 	my $self = shift;
 	{
@@ -33,9 +40,6 @@ sub _id {
 	}
 }
 
-## @method public Void new()
-# @private
-#
 sub new {
 	my $class = shift;
 	my $self;
@@ -61,9 +65,6 @@ sub memory_gib {
 
 my $n_id = 0;
 
-## @method private string get_id()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_id {
 	my $self = shift;
 	{
@@ -77,9 +78,6 @@ sub id {
 
 my $n_name = 0;
 
-## @method private string get_name()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_name {
 	my $self = shift;
 	{
@@ -93,9 +91,6 @@ sub name {
 
 my $n_cpu = 0;
 
-## @method private int get_cpu()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_cpu {
 	my $self = shift;
 	{
@@ -109,9 +104,6 @@ sub cpu {
 
 my $n_memory_mib = 0;
 
-## @method private int get_memory_mib()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_memory_mib {
 	my $self = shift;
 	{
@@ -125,9 +117,6 @@ sub memory_mib {
 
 my $n_service_class = 0;
 
-## @method private string get_service_class()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_service_class {
 	my $self = shift;
 	{
@@ -139,9 +128,11 @@ sub service_class {
 	return $_[0]->get_service_class();
 }
 
-## @method public Void api_deserialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_deserialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
@@ -205,9 +196,11 @@ sub api_deserialize {
 	}
 }
 
-## @method public any api_serialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_serialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);

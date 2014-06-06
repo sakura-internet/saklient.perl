@@ -3,6 +3,8 @@
 package Saclient::Cloud::Resource::Iface;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
@@ -10,8 +12,16 @@ use Saclient::Cloud::Resource::Resource;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
-## @class Saclient::Cloud::Resource::Iface
-#
+=pod
+
+=encoding utf8
+
+=head1 Saclient::Cloud::Resource::Iface
+
+インタフェースのリソース情報へのアクセス機能や操作機能を備えたクラス。
+
+=cut
+
 
 my $m_id;
 
@@ -21,9 +31,6 @@ my $m_ip_address;
 
 my $m_user_ip_address;
 
-## @method private string _api_path()
-# @private
-#
 sub _api_path {
 	my $self = shift;
 	{
@@ -31,9 +38,6 @@ sub _api_path {
 	}
 }
 
-## @method private string _root_key()
-# @private
-#
 sub _root_key {
 	my $self = shift;
 	{
@@ -41,9 +45,6 @@ sub _root_key {
 	}
 }
 
-## @method private string _root_key_m()
-# @private
-#
 sub _root_key_m {
 	my $self = shift;
 	{
@@ -51,9 +52,6 @@ sub _root_key_m {
 	}
 }
 
-## @method public string _id()
-# @private
-#
 sub _id {
 	my $self = shift;
 	{
@@ -61,11 +59,13 @@ sub _id {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Iface create()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-# 
-# @return this
-#
+=head2 create
+
+このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
+
+@return this
+
+=cut
 sub create {
 	my $self = shift;
 	{
@@ -73,11 +73,13 @@ sub create {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Iface save()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
-# 
-# @return this
-#
+=head2 save
+
+このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+
+@return this
+
+=cut
 sub save {
 	my $self = shift;
 	{
@@ -85,11 +87,13 @@ sub save {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Iface reload()
-# 最新のリソース情報を再取得します。
-# 
-# @return this
-#
+=head2 reload
+
+最新のリソース情報を再取得します。
+
+@return this
+
+=cut
 sub reload {
 	my $self = shift;
 	{
@@ -97,9 +101,6 @@ sub reload {
 	}
 }
 
-## @method public Void new()
-# @private
-#
 sub new {
 	my $class = shift;
 	my $self;
@@ -114,9 +115,6 @@ sub new {
 
 my $n_id = 0;
 
-## @method private string get_id()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_id {
 	my $self = shift;
 	{
@@ -130,9 +128,6 @@ sub id {
 
 my $n_mac_address = 0;
 
-## @method private string get_mac_address()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_mac_address {
 	my $self = shift;
 	{
@@ -146,9 +141,6 @@ sub mac_address {
 
 my $n_ip_address = 0;
 
-## @method private string get_ip_address()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_ip_address {
 	my $self = shift;
 	{
@@ -162,9 +154,6 @@ sub ip_address {
 
 my $n_user_ip_address = 0;
 
-## @method private string get_user_ip_address()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_user_ip_address {
 	my $self = shift;
 	{
@@ -172,9 +161,6 @@ sub get_user_ip_address {
 	}
 }
 
-## @method private string set_user_ip_address()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_user_ip_address {
 	my $self = shift;
 	my $v = shift;
@@ -190,9 +176,11 @@ sub user_ip_address {
 	return $_[0]->get_user_ip_address();
 }
 
-## @method public Void api_deserialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_deserialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
@@ -245,9 +233,11 @@ sub api_deserialize {
 	}
 }
 
-## @method public any api_serialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_serialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);

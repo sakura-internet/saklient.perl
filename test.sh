@@ -2,4 +2,4 @@
 
 cd `dirname $0`
 source config.sh
-./test.pl "$SACLOUD_TOKEN" "$SACLOUD_SECRET"
+perl -I./lib ./test.pl "$SACLOUD_TOKEN" "$SACLOUD_SECRET"

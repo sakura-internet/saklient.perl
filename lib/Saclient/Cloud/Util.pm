@@ -3,13 +3,18 @@
 package Saclient::Cloud::Util;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use URI::Escape;
 use DateTime::Format::Strptime;
 
-## @class Saclient::Cloud::Util
-#
+=pod
+
+=encoding utf8
+
+=cut
 
 sub create_class_instance {
 	my $class = shift;

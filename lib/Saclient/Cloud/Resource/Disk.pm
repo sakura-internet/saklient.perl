@@ -3,6 +3,8 @@
 package Saclient::Cloud::Resource::Disk;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
@@ -13,57 +15,35 @@ use Saclient::Cloud::Resource::Server;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
-## @class Saclient::Cloud::Resource::Disk
-#
+=pod
 
-## @var private string $m_id
-# ID
-#
+=encoding utf8
+
+=head1 Saclient::Cloud::Resource::Disk
+
+ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。
+
+=cut
+
+
 my $m_id;
 
-## @var private string $m_name
-# 名前
-#
 my $m_name;
 
-## @var private string $m_description
-# 説明
-#
 my $m_description;
 
-## @var private string[] $m_tags
-# タグ
-#
 my $m_tags;
 
-## @var private Saclient::Cloud::Resource::Icon $m_icon
-# アイコン
-#
 my $m_icon;
 
-## @var private int $m_size_mib
-# サイズ[MiB]
-#
 my $m_size_mib;
 
-## @var private string $m_service_class
-# サービスクラス
-#
 my $m_service_class;
 
-## @var private Saclient::Cloud::Resource::DiskPlan $m_plan
-# プラン
-#
 my $m_plan;
 
-## @var private Saclient::Cloud::Resource::Server $m_server
-# 接続先のサーバ
-#
 my $m_server;
 
-## @method private string _api_path()
-# @private
-#
 sub _api_path {
 	my $self = shift;
 	{
@@ -71,9 +51,6 @@ sub _api_path {
 	}
 }
 
-## @method private string _root_key()
-# @private
-#
 sub _root_key {
 	my $self = shift;
 	{
@@ -81,9 +58,6 @@ sub _root_key {
 	}
 }
 
-## @method private string _root_key_m()
-# @private
-#
 sub _root_key_m {
 	my $self = shift;
 	{
@@ -91,9 +65,6 @@ sub _root_key_m {
 	}
 }
 
-## @method public string _id()
-# @private
-#
 sub _id {
 	my $self = shift;
 	{
@@ -101,11 +72,13 @@ sub _id {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Disk create()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-# 
-# @return this
-#
+=head2 create
+
+このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
+
+@return this
+
+=cut
 sub create {
 	my $self = shift;
 	{
@@ -113,11 +86,13 @@ sub create {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Disk save()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
-# 
-# @return this
-#
+=head2 save
+
+このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+
+@return this
+
+=cut
 sub save {
 	my $self = shift;
 	{
@@ -125,11 +100,13 @@ sub save {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Disk reload()
-# 最新のリソース情報を再取得します。
-# 
-# @return this
-#
+=head2 reload
+
+最新のリソース情報を再取得します。
+
+@return this
+
+=cut
 sub reload {
 	my $self = shift;
 	{
@@ -137,9 +114,6 @@ sub reload {
 	}
 }
 
-## @method public Void new()
-# @private
-#
 sub new {
 	my $class = shift;
 	my $self;
@@ -159,16 +133,20 @@ sub get_size_gib {
 	}
 }
 
-## @method public int size_gib()
-# サイズ[GiB]
-#
+=head2 size_gib
+
+サイズ[GiB]
+
+=cut
 sub size_gib {
 	return $_[0]->get_size_gib();
 }
 
-## @method public Saclient::Cloud::Resource::Disk attach_to()
-# ディスクをサーバに取り付けます。
-#
+=head2 attach_to
+
+ディスクをサーバに取り付けます。
+
+=cut
 sub attach_to {
 	my $self = shift;
 	my $serverId = shift;
@@ -178,9 +156,11 @@ sub attach_to {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Disk detach()
-# ディスクをサーバから取り外します。
-#
+=head2 detach
+
+ディスクをサーバから取り外します。
+
+=cut
 sub detach {
 	my $self = shift;
 	{
@@ -191,9 +171,6 @@ sub detach {
 
 my $n_id = 0;
 
-## @method private string get_id()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_id {
 	my $self = shift;
 	{
@@ -201,18 +178,17 @@ sub get_id {
 	}
 }
 
-## @method public string id()
-# ID
-#
+=head2 id
+
+ID
+
+=cut
 sub id {
 	return $_[0]->get_id();
 }
 
 my $n_name = 0;
 
-## @method private string get_name()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_name {
 	my $self = shift;
 	{
@@ -220,9 +196,6 @@ sub get_name {
 	}
 }
 
-## @method private string set_name()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_name {
 	my $self = shift;
 	my $v = shift;
@@ -233,9 +206,11 @@ sub set_name {
 	}
 }
 
-## @method public string name()
-# 名前
-#
+=head2 name
+
+名前
+
+=cut
 sub name {
 	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
 	return $_[0]->get_name();
@@ -243,9 +218,6 @@ sub name {
 
 my $n_description = 0;
 
-## @method private string get_description()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_description {
 	my $self = shift;
 	{
@@ -253,9 +225,6 @@ sub get_description {
 	}
 }
 
-## @method private string set_description()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_description {
 	my $self = shift;
 	my $v = shift;
@@ -266,9 +235,11 @@ sub set_description {
 	}
 }
 
-## @method public string description()
-# 説明
-#
+=head2 description
+
+説明
+
+=cut
 sub description {
 	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
 	return $_[0]->get_description();
@@ -276,9 +247,6 @@ sub description {
 
 my $n_tags = 0;
 
-## @method private string[] get_tags()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_tags {
 	my $self = shift;
 	{
@@ -286,9 +254,6 @@ sub get_tags {
 	}
 }
 
-## @method private string[] set_tags()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_tags {
 	my $self = shift;
 	my $v = shift;
@@ -299,9 +264,11 @@ sub set_tags {
 	}
 }
 
-## @method public string[] tags()
-# タグ
-#
+=head2 tags
+
+タグ
+
+=cut
 sub tags {
 	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
 	return $_[0]->get_tags();
@@ -309,9 +276,6 @@ sub tags {
 
 my $n_icon = 0;
 
-## @method private Saclient::Cloud::Resource::Icon get_icon()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_icon {
 	my $self = shift;
 	{
@@ -319,9 +283,6 @@ sub get_icon {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Icon set_icon()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_icon {
 	my $self = shift;
 	my $v = shift;
@@ -332,9 +293,11 @@ sub set_icon {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Icon icon()
-# アイコン
-#
+=head2 icon
+
+アイコン
+
+=cut
 sub icon {
 	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
 	return $_[0]->get_icon();
@@ -342,9 +305,6 @@ sub icon {
 
 my $n_size_mib = 0;
 
-## @method private int get_size_mib()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_size_mib {
 	my $self = shift;
 	{
@@ -352,18 +312,17 @@ sub get_size_mib {
 	}
 }
 
-## @method public int size_mib()
-# サイズ[MiB]
-#
+=head2 size_mib
+
+サイズ[MiB]
+
+=cut
 sub size_mib {
 	return $_[0]->get_size_mib();
 }
 
 my $n_service_class = 0;
 
-## @method private string get_service_class()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_service_class {
 	my $self = shift;
 	{
@@ -371,18 +330,17 @@ sub get_service_class {
 	}
 }
 
-## @method public string service_class()
-# サービスクラス
-#
+=head2 service_class
+
+サービスクラス
+
+=cut
 sub service_class {
 	return $_[0]->get_service_class();
 }
 
 my $n_plan = 0;
 
-## @method private Saclient::Cloud::Resource::DiskPlan get_plan()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_plan {
 	my $self = shift;
 	{
@@ -390,18 +348,17 @@ sub get_plan {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::DiskPlan plan()
-# プラン
-#
+=head2 plan
+
+プラン
+
+=cut
 sub plan {
 	return $_[0]->get_plan();
 }
 
 my $n_server = 0;
 
-## @method private Saclient::Cloud::Resource::Server get_server()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_server {
 	my $self = shift;
 	{
@@ -409,16 +366,20 @@ sub get_server {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server server()
-# 接続先のサーバ
-#
+=head2 server
+
+接続先のサーバ
+
+=cut
 sub server {
 	return $_[0]->get_server();
 }
 
-## @method public Void api_deserialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_deserialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
@@ -542,9 +503,11 @@ sub api_deserialize {
 	}
 }
 
-## @method public any api_serialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_serialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);

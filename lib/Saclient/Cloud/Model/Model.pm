@@ -3,17 +3,24 @@
 package Saclient::Cloud::Model::Model;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 
-## @class Saclient::Cloud::Model::Model
-#
+=pod
 
-## @var private Saclient::Cloud::Client $_client
-# @private
-#
+=encoding utf8
+
+=head1 Saclient::Cloud::Model::Model
+
+@ignore
+
+=cut
+
+
 my $_client;
 
 sub get_client {
@@ -27,9 +34,6 @@ sub client {
 	return $_[0]->get_client();
 }
 
-## @var private TQueryParams $_params
-# @private
-#
 my $_params;
 
 sub get_params {
@@ -43,9 +47,6 @@ sub params {
 	return $_[0]->get_params();
 }
 
-## @var private int $_total
-# @private
-#
 my $_total;
 
 sub get_total {
@@ -59,9 +60,6 @@ sub total {
 	return $_[0]->get_total();
 }
 
-## @var private int $_count
-# @private
-#
 my $_count;
 
 sub get_count {
@@ -75,9 +73,6 @@ sub count {
 	return $_[0]->get_count();
 }
 
-## @method private string _api_path()
-# @private
-#
 sub _api_path {
 	my $self = shift;
 	{
@@ -85,9 +80,6 @@ sub _api_path {
 	}
 }
 
-## @method private string _root_key()
-# @private
-#
 sub _root_key {
 	my $self = shift;
 	{
@@ -95,9 +87,6 @@ sub _root_key {
 	}
 }
 
-## @method private string _root_key_m()
-# @private
-#
 sub _root_key_m {
 	my $self = shift;
 	{
@@ -118,13 +107,6 @@ sub new {
 	return $self;
 }
 
-## @method private Saclient::Cloud::Model::Model _offset()
-# 次に取得するリストの開始オフセットを指定します。
-# 
-# @private
-# @param offset オフセット
-# @return this
-#
 sub _offset {
 	my $self = shift;
 	my $offset = shift;
@@ -134,13 +116,6 @@ sub _offset {
 	}
 }
 
-## @method private Saclient::Cloud::Model::Model _limit()
-# 次に取得するリストの上限レコード数を指定します。
-# 
-# @private
-# @param count 上限レコード数
-# @return this
-#
 sub _limit {
 	my $self = shift;
 	my $count = shift;
@@ -150,12 +125,6 @@ sub _limit {
 	}
 }
 
-## @method private Saclient::Cloud::Model::Model _reset()
-# 次のリクエストのために設定されているステートをすべて破棄します。
-# 
-# @private
-# @return this
-#
 sub _reset {
 	my $self = shift;
 	{
@@ -166,12 +135,6 @@ sub _reset {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Resource _get()
-# 指定したIDを持つ唯一のリソースを取得します。
-# 
-# @private
-# @return リソースオブジェクト
-#
 sub _get {
 	my $self = shift;
 	my $id = shift;
@@ -186,12 +149,6 @@ sub _get {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Resource[] _find()
-# リソースの検索リクエストを実行し、結果をリストで取得します。
-# 
-# @private
-# @return リソースオブジェクトの配列
-#
 sub _find {
 	my $self = shift;
 	{
@@ -212,12 +169,6 @@ sub _find {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Resource _find_one()
-# リソースの検索リクエストを実行し、唯一のリソースを取得します。
-# 
-# @private
-# @return リソースオブジェクト
-#
 sub _find_one {
 	my $self = shift;
 	{
@@ -234,9 +185,6 @@ sub _find_one {
 	}
 }
 
-## @method private void _filter_by()
-# @private
-#
 sub _filter_by {
 	my $self = shift;
 	my $key = shift;

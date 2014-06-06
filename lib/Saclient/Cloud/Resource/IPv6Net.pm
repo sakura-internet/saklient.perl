@@ -3,6 +3,8 @@
 package Saclient::Cloud::Resource::IPv6Net;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
@@ -10,8 +12,16 @@ use Saclient::Cloud::Resource::Resource;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
-## @class Saclient::Cloud::Resource::IPv6Net
-#
+=pod
+
+=encoding utf8
+
+=head1 Saclient::Cloud::Resource::IPv6Net
+
+IPv6ネットワークのリソース情報へのアクセス機能や操作機能を備えたクラス。
+
+=cut
+
 
 my $m_id;
 
@@ -21,9 +31,6 @@ my $m_ipv6_prefix_len;
 
 my $m_ipv6_prefix_tail;
 
-## @method public string _id()
-# @private
-#
 sub _id {
 	my $self = shift;
 	{
@@ -31,9 +38,6 @@ sub _id {
 	}
 }
 
-## @method public Void new()
-# @private
-#
 sub new {
 	my $class = shift;
 	my $self;
@@ -48,9 +52,6 @@ sub new {
 
 my $n_id = 0;
 
-## @method private string get_id()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_id {
 	my $self = shift;
 	{
@@ -64,9 +65,6 @@ sub id {
 
 my $n_ipv6_prefix = 0;
 
-## @method private string get_ipv6_prefix()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_ipv6_prefix {
 	my $self = shift;
 	{
@@ -80,9 +78,6 @@ sub ipv6_prefix {
 
 my $n_ipv6_prefix_len = 0;
 
-## @method private int get_ipv6_prefix_len()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_ipv6_prefix_len {
 	my $self = shift;
 	{
@@ -96,9 +91,6 @@ sub ipv6_prefix_len {
 
 my $n_ipv6_prefix_tail = 0;
 
-## @method private string get_ipv6_prefix_tail()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_ipv6_prefix_tail {
 	my $self = shift;
 	{
@@ -110,9 +102,11 @@ sub ipv6_prefix_tail {
 	return $_[0]->get_ipv6_prefix_tail();
 }
 
-## @method public Void api_deserialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_deserialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
@@ -165,9 +159,11 @@ sub api_deserialize {
 	}
 }
 
-## @method public any api_serialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_serialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);

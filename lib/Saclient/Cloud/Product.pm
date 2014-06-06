@@ -3,6 +3,8 @@
 package Saclient::Cloud::Product;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Model::Model_ServerPlan;
@@ -10,12 +12,12 @@ use Saclient::Cloud::Model::Model_DiskPlan;
 use Saclient::Cloud::Model::Model_InternetPlan;
 use Saclient::Cloud::Client;
 
-## @class Saclient::Cloud::Product
-#
+=pod
 
-## @var private Saclient::Cloud::Model::Model_ServerPlan $_server
-# @private
-#
+=encoding utf8
+
+=cut
+
 my $_server;
 
 sub get_server {
@@ -29,9 +31,6 @@ sub server {
 	return $_[0]->get_server();
 }
 
-## @var private Saclient::Cloud::Model::Model_DiskPlan $_disk
-# @private
-#
 my $_disk;
 
 sub get_disk {
@@ -45,9 +44,6 @@ sub disk {
 	return $_[0]->get_disk();
 }
 
-## @var private Saclient::Cloud::Model::Model_InternetPlan $_internet
-# @private
-#
 my $_internet;
 
 sub get_internet {

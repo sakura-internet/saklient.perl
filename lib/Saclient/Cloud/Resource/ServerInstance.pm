@@ -3,6 +3,8 @@
 package Saclient::Cloud::Resource::ServerInstance;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
@@ -11,8 +13,16 @@ use Saclient::Cloud::Resource::Resource;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
-## @class Saclient::Cloud::Resource::ServerInstance
-#
+=pod
+
+=encoding utf8
+
+=head1 Saclient::Cloud::Resource::ServerInstance
+
+サーバインスタンスのリソース情報へのアクセス機能や操作機能を備えたクラス。
+
+=cut
+
 
 my $m_status;
 
@@ -20,9 +30,6 @@ my $m_before_status;
 
 my $m_status_changed_at;
 
-## @method public Void new()
-# @private
-#
 sub new {
 	my $class = shift;
 	my $self;
@@ -37,9 +44,6 @@ sub new {
 
 my $n_status = 0;
 
-## @method private string get_status()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_status {
 	my $self = shift;
 	{
@@ -53,9 +57,6 @@ sub status {
 
 my $n_before_status = 0;
 
-## @method private string get_before_status()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_before_status {
 	my $self = shift;
 	{
@@ -69,9 +70,6 @@ sub before_status {
 
 my $n_status_changed_at = 0;
 
-## @method private NativeDate get_status_changed_at()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_status_changed_at {
 	my $self = shift;
 	{
@@ -83,9 +81,11 @@ sub status_changed_at {
 	return $_[0]->get_status_changed_at();
 }
 
-## @method public Void api_deserialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_deserialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
@@ -127,9 +127,11 @@ sub api_deserialize {
 	}
 }
 
-## @method public any api_serialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_serialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);

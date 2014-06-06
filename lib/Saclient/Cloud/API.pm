@@ -3,6 +3,8 @@
 package Saclient::Cloud::API;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
@@ -14,12 +16,19 @@ use Saclient::Cloud::Model::Model_Appliance;
 use Saclient::Cloud::Model::Model_Archive;
 use Saclient::Cloud::Model::Model_IPv6Net;
 
-## @class Saclient::Cloud::API
-#
+=pod
 
-## @var private Saclient::Cloud::Client $_client
-# @private
-#
+=encoding utf8
+
+=head1 Saclient::Cloud::API
+
+さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。
+
+@see API.authorize
+
+=cut
+
+
 my $_client;
 
 sub get_client {
@@ -33,9 +42,6 @@ sub client {
 	return $_[0]->get_client();
 }
 
-## @var private Saclient::Cloud::Product $_product
-# @private
-#
 my $_product;
 
 sub get_product {
@@ -49,9 +55,6 @@ sub product {
 	return $_[0]->get_product();
 }
 
-## @var private Saclient::Cloud::Model::Model_Icon $_icon
-# @private
-#
 my $_icon;
 
 sub get_icon {
@@ -65,9 +68,6 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
-## @var private Saclient::Cloud::Model::Model_Server $_server
-# @private
-#
 my $_server;
 
 sub get_server {
@@ -81,9 +81,6 @@ sub server {
 	return $_[0]->get_server();
 }
 
-## @var private Saclient::Cloud::Model::Model_Disk $_disk
-# @private
-#
 my $_disk;
 
 sub get_disk {
@@ -97,9 +94,6 @@ sub disk {
 	return $_[0]->get_disk();
 }
 
-## @var private Saclient::Cloud::Model::Model_Appliance $_appliance
-# @private
-#
 my $_appliance;
 
 sub get_appliance {
@@ -113,9 +107,6 @@ sub appliance {
 	return $_[0]->get_appliance();
 }
 
-## @var private Saclient::Cloud::Model::Model_Archive $_archive
-# @private
-#
 my $_archive;
 
 sub get_archive {
@@ -129,9 +120,6 @@ sub archive {
 	return $_[0]->get_archive();
 }
 
-## @var private Saclient::Cloud::Model::Model_IPv6Net $_ipv6net
-# @private
-#
 my $_ipv6net;
 
 sub get_ipv6net {
@@ -162,15 +150,17 @@ sub new {
 	return $self;
 }
 
-## @method static public Saclient::Cloud::API authorize()
-# 指定した認証情報を用いてアクセスを行うAPIクライアントを作成します。
-# 必要な認証情報は、コントロールパネル右上にあるアカウントのプルダウンから
-# 「設定」を選択し、「APIキー」のページにて作成できます。
-# 
-# @param token ACCESS TOKEN
-# @param secret ACCESS TOKEN SECRET
-# @return APIクライアント
-#
+=head2 authorize
+
+指定した認証情報を用いてアクセスを行うAPIクライアントを作成します。
+必要な認証情報は、コントロールパネル右上にあるアカウントのプルダウンから
+「設定」を選択し、「APIキー」のページにて作成できます。
+
+@param token ACCESS TOKEN
+@param secret ACCESS TOKEN SECRET
+@return APIクライアント
+
+=cut
 sub authorize {
 	my $class = shift;
 	my $token = shift;
@@ -181,12 +171,14 @@ sub authorize {
 	}
 }
 
-## @method public Saclient::Cloud::API in_zone()
-# 認証情報を引き継ぎ、指定したゾーンへのアクセスを行うAPIクライアントを作成します。
-# 
-# @param name ゾーン名
-# @return APIクライアント
-#
+=head2 in_zone
+
+認証情報を引き継ぎ、指定したゾーンへのアクセスを行うAPIクライアントを作成します。
+
+@param name ゾーン名
+@return APIクライアント
+
+=cut
 sub in_zone {
 	my $self = shift;
 	my $name = shift;

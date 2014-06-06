@@ -3,6 +3,8 @@
 package Saclient::Cloud::Model::Model_Server;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Model::Model;
@@ -11,12 +13,17 @@ use Saclient::Cloud::Resource::ServerPlan;
 
 use base qw(Saclient::Cloud::Model::Model);
 
-## @class Saclient::Cloud::Model::Model_Server
-#
+=pod
 
-## @method private string _api_path()
-# @private
-#
+=encoding utf8
+
+=head1 Saclient::Cloud::Model::Model_Server
+
+サーバを検索するための機能を備えたクラス。
+
+=cut
+
+
 sub _api_path {
 	my $self = shift;
 	{
@@ -24,9 +31,6 @@ sub _api_path {
 	}
 }
 
-## @method private string _root_key()
-# @private
-#
 sub _root_key {
 	my $self = shift;
 	{
@@ -34,9 +38,6 @@ sub _root_key {
 	}
 }
 
-## @method private string _root_key_m()
-# @private
-#
 sub _root_key_m {
 	my $self = shift;
 	{
@@ -44,12 +45,14 @@ sub _root_key_m {
 	}
 }
 
-## @method public Saclient::Cloud::Model::Model_Server offset()
-# 次に取得するリストの開始オフセットを指定します。
-# 
-# @param offset オフセット
-# @return this
-#
+=head2 offset
+
+次に取得するリストの開始オフセットを指定します。
+
+@param offset オフセット
+@return this
+
+=cut
 sub offset {
 	my $self = shift;
 	my $offset = shift;
@@ -58,12 +61,14 @@ sub offset {
 	}
 }
 
-## @method public Saclient::Cloud::Model::Model_Server limit()
-# 次に取得するリストの上限レコード数を指定します。
-# 
-# @param count 上限レコード数
-# @return this
-#
+=head2 limit
+
+次に取得するリストの上限レコード数を指定します。
+
+@param count 上限レコード数
+@return this
+
+=cut
 sub limit {
 	my $self = shift;
 	my $count = shift;
@@ -72,11 +77,13 @@ sub limit {
 	}
 }
 
-## @method public Saclient::Cloud::Model::Model_Server reset()
-# 次のリクエストのために設定されているステートをすべて破棄します。
-# 
-# @return this
-#
+=head2 reset
+
+次のリクエストのために設定されているステートをすべて破棄します。
+
+@return this
+
+=cut
 sub reset {
 	my $self = shift;
 	{
@@ -84,11 +91,13 @@ sub reset {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server get()
-# 指定したIDを持つ唯一のリソースを取得します。
-# 
-# @return リソースオブジェクト
-#
+=head2 get
+
+指定したIDを持つ唯一のリソースを取得します。
+
+@return リソースオブジェクト
+
+=cut
 sub get {
 	my $self = shift;
 	my $id = shift;
@@ -97,11 +106,13 @@ sub get {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server[] find()
-# リソースの検索リクエストを実行し、結果をリストで取得します。
-# 
-# @return リソースオブジェクトの配列
-#
+=head2 find
+
+リソースの検索リクエストを実行し、結果をリストで取得します。
+
+@return リソースオブジェクトの配列
+
+=cut
 sub find {
 	my $self = shift;
 	{
@@ -109,9 +120,11 @@ sub find {
 	}
 }
 
-## @method public Saclient::Cloud::Model::Model_Server with_name_like()
-# 指定した文字列を名前に含むサーバに絞り込みます。
-#
+=head2 with_name_like
+
+指定した文字列を名前に含むサーバに絞り込みます。
+
+=cut
 sub with_name_like {
 	my $self = shift;
 	my $name = shift;
@@ -121,9 +134,11 @@ sub with_name_like {
 	}
 }
 
-## @method public Saclient::Cloud::Model::Model_Server with_tag()
-# 指定したタグを持つサーバに絞り込みます。
-#
+=head2 with_tag
+
+指定したタグを持つサーバに絞り込みます。
+
+=cut
 sub with_tag {
 	my $self = shift;
 	my $tag = shift;
@@ -133,9 +148,11 @@ sub with_tag {
 	}
 }
 
-## @method public Saclient::Cloud::Model::Model_Server with_plan()
-# 指定したタグを持つサーバに絞り込みます。
-#
+=head2 with_plan
+
+指定したタグを持つサーバに絞り込みます。
+
+=cut
 sub with_plan {
 	my $self = shift;
 	my $plan = shift;
@@ -145,9 +162,11 @@ sub with_plan {
 	}
 }
 
-## @method public Saclient::Cloud::Model::Model_Server with_instance_status()
-# インスタンスが指定した状態にあるサーバに絞り込みます。
-#
+=head2 with_instance_status
+
+インスタンスが指定した状態にあるサーバに絞り込みます。
+
+=cut
 sub with_instance_status {
 	my $self = shift;
 	my $status = shift;

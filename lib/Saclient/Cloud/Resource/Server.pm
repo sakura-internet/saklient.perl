@@ -3,6 +3,8 @@
 package Saclient::Cloud::Resource::Server;
 
 use strict;
+use warnings;
+use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
@@ -15,52 +17,33 @@ use Saclient::Cloud::Resource::ServerInstance;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
-## @class Saclient::Cloud::Resource::Server
-#
+=pod
 
-## @var private string $m_id
-# ID
-#
+=encoding utf8
+
+=head1 Saclient::Cloud::Resource::Server
+
+サーバのリソース情報へのアクセス機能や操作機能を備えたクラス。
+
+=cut
+
+
 my $m_id;
 
-## @var private string $m_name
-# 名前
-#
 my $m_name;
 
-## @var private string $m_description
-# 説明
-#
 my $m_description;
 
-## @var private string[] $m_tags
-# タグ
-#
 my $m_tags;
 
-## @var private Saclient::Cloud::Resource::Icon $m_icon
-# アイコン
-#
 my $m_icon;
 
-## @var private Saclient::Cloud::Resource::ServerPlan $m_plan
-# プラン
-#
 my $m_plan;
 
-## @var private Saclient::Cloud::Resource::Iface[] $m_ifaces
-# インタフェース
-#
 my $m_ifaces;
 
-## @var private Saclient::Cloud::Resource::ServerInstance $m_instance
-# インスタンス情報
-#
 my $m_instance;
 
-## @method private string _api_path()
-# @private
-#
 sub _api_path {
 	my $self = shift;
 	{
@@ -68,9 +51,6 @@ sub _api_path {
 	}
 }
 
-## @method private string _root_key()
-# @private
-#
 sub _root_key {
 	my $self = shift;
 	{
@@ -78,9 +58,6 @@ sub _root_key {
 	}
 }
 
-## @method private string _root_key_m()
-# @private
-#
 sub _root_key_m {
 	my $self = shift;
 	{
@@ -88,9 +65,6 @@ sub _root_key_m {
 	}
 }
 
-## @method public string _id()
-# @private
-#
 sub _id {
 	my $self = shift;
 	{
@@ -98,11 +72,13 @@ sub _id {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server create()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-# 
-# @return this
-#
+=head2 create
+
+このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
+
+@return this
+
+=cut
 sub create {
 	my $self = shift;
 	{
@@ -110,11 +86,13 @@ sub create {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server save()
-# このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
-# 
-# @return this
-#
+=head2 save
+
+このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+
+@return this
+
+=cut
 sub save {
 	my $self = shift;
 	{
@@ -122,11 +100,13 @@ sub save {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server reload()
-# 最新のリソース情報を再取得します。
-# 
-# @return this
-#
+=head2 reload
+
+最新のリソース情報を再取得します。
+
+@return this
+
+=cut
 sub reload {
 	my $self = shift;
 	{
@@ -134,9 +114,6 @@ sub reload {
 	}
 }
 
-## @method public Void new()
-# @private
-#
 sub new {
 	my $class = shift;
 	my $self;
@@ -149,9 +126,11 @@ sub new {
 	return $self;
 }
 
-## @method public Saclient::Cloud::Resource::Server boot()
-# サーバを起動します。
-#
+=head2 boot
+
+サーバを起動します。
+
+=cut
 sub boot {
 	my $self = shift;
 	{
@@ -160,9 +139,11 @@ sub boot {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server shutdown()
-# サーバをシャットダウンします。
-#
+=head2 shutdown
+
+サーバをシャットダウンします。
+
+=cut
 sub shutdown {
 	my $self = shift;
 	{
@@ -171,9 +152,11 @@ sub shutdown {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server stop()
-# サーバを強制停止します。
-#
+=head2 stop
+
+サーバを強制停止します。
+
+=cut
 sub stop {
 	my $self = shift;
 	{
@@ -182,9 +165,11 @@ sub stop {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server reboot()
-# サーバを強制再起動します。
-#
+=head2 reboot
+
+サーバを強制再起動します。
+
+=cut
 sub reboot {
 	my $self = shift;
 	{
@@ -193,9 +178,11 @@ sub reboot {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Server change_plan()
-# サーバのプランを変更します。
-#
+=head2 change_plan
+
+サーバのプランを変更します。
+
+=cut
 sub change_plan {
 	my $self = shift;
 	my $planTo = shift;
@@ -207,9 +194,11 @@ sub change_plan {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Disk[] find_disks()
-# サーバに接続されているディスクのリストを取得します。
-#
+=head2 find_disks
+
+サーバに接続されているディスクのリストを取得します。
+
+=cut
 sub find_disks {
 	my $self = shift;
 	{
@@ -220,9 +209,6 @@ sub find_disks {
 
 my $n_id = 0;
 
-## @method private string get_id()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_id {
 	my $self = shift;
 	{
@@ -230,18 +216,17 @@ sub get_id {
 	}
 }
 
-## @method public string id()
-# ID
-#
+=head2 id
+
+ID
+
+=cut
 sub id {
 	return $_[0]->get_id();
 }
 
 my $n_name = 0;
 
-## @method private string get_name()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_name {
 	my $self = shift;
 	{
@@ -249,9 +234,6 @@ sub get_name {
 	}
 }
 
-## @method private string set_name()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_name {
 	my $self = shift;
 	my $v = shift;
@@ -262,9 +244,11 @@ sub set_name {
 	}
 }
 
-## @method public string name()
-# 名前
-#
+=head2 name
+
+名前
+
+=cut
 sub name {
 	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
 	return $_[0]->get_name();
@@ -272,9 +256,6 @@ sub name {
 
 my $n_description = 0;
 
-## @method private string get_description()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_description {
 	my $self = shift;
 	{
@@ -282,9 +263,6 @@ sub get_description {
 	}
 }
 
-## @method private string set_description()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_description {
 	my $self = shift;
 	my $v = shift;
@@ -295,9 +273,11 @@ sub set_description {
 	}
 }
 
-## @method public string description()
-# 説明
-#
+=head2 description
+
+説明
+
+=cut
 sub description {
 	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
 	return $_[0]->get_description();
@@ -305,9 +285,6 @@ sub description {
 
 my $n_tags = 0;
 
-## @method private string[] get_tags()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_tags {
 	my $self = shift;
 	{
@@ -315,9 +292,6 @@ sub get_tags {
 	}
 }
 
-## @method private string[] set_tags()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_tags {
 	my $self = shift;
 	my $v = shift;
@@ -328,9 +302,11 @@ sub set_tags {
 	}
 }
 
-## @method public string[] tags()
-# タグ
-#
+=head2 tags
+
+タグ
+
+=cut
 sub tags {
 	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
 	return $_[0]->get_tags();
@@ -338,9 +314,6 @@ sub tags {
 
 my $n_icon = 0;
 
-## @method private Saclient::Cloud::Resource::Icon get_icon()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_icon {
 	my $self = shift;
 	{
@@ -348,9 +321,6 @@ sub get_icon {
 	}
 }
 
-## @method private Saclient::Cloud::Resource::Icon set_icon()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub set_icon {
 	my $self = shift;
 	my $v = shift;
@@ -361,9 +331,11 @@ sub set_icon {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Icon icon()
-# アイコン
-#
+=head2 icon
+
+アイコン
+
+=cut
 sub icon {
 	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
 	return $_[0]->get_icon();
@@ -371,9 +343,6 @@ sub icon {
 
 my $n_plan = 0;
 
-## @method private Saclient::Cloud::Resource::ServerPlan get_plan()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_plan {
 	my $self = shift;
 	{
@@ -381,18 +350,17 @@ sub get_plan {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::ServerPlan plan()
-# プラン
-#
+=head2 plan
+
+プラン
+
+=cut
 sub plan {
 	return $_[0]->get_plan();
 }
 
 my $n_ifaces = 0;
 
-## @method private Saclient::Cloud::Resource::Iface[] get_ifaces()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_ifaces {
 	my $self = shift;
 	{
@@ -400,18 +368,17 @@ sub get_ifaces {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::Iface[] ifaces()
-# インタフェース
-#
+=head2 ifaces
+
+インタフェース
+
+=cut
 sub ifaces {
 	return $_[0]->get_ifaces();
 }
 
 my $n_instance = 0;
 
-## @method private Saclient::Cloud::Resource::ServerInstance get_instance()
-# (This method is generated in Translator_default#buildImpl)
-#
 sub get_instance {
 	my $self = shift;
 	{
@@ -419,16 +386,20 @@ sub get_instance {
 	}
 }
 
-## @method public Saclient::Cloud::Resource::ServerInstance instance()
-# インスタンス情報
-#
+=head2 instance
+
+インスタンス情報
+
+=cut
 sub instance {
 	return $_[0]->get_instance();
 }
 
-## @method public Void api_deserialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_deserialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
@@ -557,9 +528,11 @@ sub api_deserialize {
 	}
 }
 
-## @method public any api_serialize()
-# (This method is generated in Translator_default#buildImpl)
-#
+=head2 api_serialize
+
+(This method is generated in Translator_default#buildImpl)
+
+=cut
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
