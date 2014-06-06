@@ -46,30 +46,22 @@ my $m_server;
 
 sub _api_path {
 	my $self = shift;
-	{
-		return "/disk";
-	}
+	return "/disk";
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return "Disk";
-	}
+	return "Disk";
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return "Disks";
-	}
+	return "Disks";
 }
 
 sub _id {
 	my $self = shift;
-	{
-		return $self->get_id();
-	}
+	return $self->get_id();
 }
 
 =head2 create
@@ -81,9 +73,7 @@ sub _id {
 =cut
 sub create {
 	my $self = shift;
-	{
-		return $self->_create();
-	}
+	return $self->_create();
 }
 
 =head2 save
@@ -95,9 +85,7 @@ sub create {
 =cut
 sub save {
 	my $self = shift;
-	{
-		return $self->_save();
-	}
+	return $self->_save();
 }
 
 =head2 reload
@@ -109,9 +97,7 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
-	{
-		return $self->_reload();
-	}
+	return $self->_reload();
 }
 
 sub new {
@@ -119,18 +105,14 @@ sub new {
 	my $self;
 	my $client = shift;
 	my $r = shift;
-	{
-		$self = $class->SUPER::new($client);
-		$self->api_deserialize($r);
-	}
+	$self = $class->SUPER::new($client);
+	$self->api_deserialize($r);
 	return $self;
 }
 
 sub get_size_gib {
 	my $self = shift;
-	{
-		return $self->get_size_mib() >> 10;
-	}
+	return $self->get_size_mib() >> 10;
 }
 
 =head2 size_gib
@@ -150,10 +132,8 @@ sub size_gib {
 sub attach_to {
 	my $self = shift;
 	my $serverId = shift;
-	{
-		$self->{'_client'}->request("PUT", "/disk/" . $self->_id() . "/to/server/" . $serverId);
-		return $self;
-	}
+	$self->{'_client'}->request("PUT", "/disk/" . $self->_id() . "/to/server/" . $serverId);
+	return $self;
 }
 
 =head2 detach
@@ -163,19 +143,15 @@ sub attach_to {
 =cut
 sub detach {
 	my $self = shift;
-	{
-		$self->{'_client'}->request("DELETE", "/disk/" . $self->_id() . "/to/server");
-		return $self;
-	}
+	$self->{'_client'}->request("DELETE", "/disk/" . $self->_id() . "/to/server");
+	return $self;
 }
 
 my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
-	{
-		return $self->{'m_id'};
-	}
+	return $self->{'m_id'};
 }
 
 =head2 id
@@ -191,19 +167,15 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
-	{
-		return $self->{'m_name'};
-	}
+	return $self->{'m_name'};
 }
 
 sub set_name {
 	my $self = shift;
 	my $v = shift;
-	{
-		$self->{'m_name'} = $v;
-		$self->{'n_name'} = 1;
-		return $self->{'m_name'};
-	}
+	$self->{'m_name'} = $v;
+	$self->{'n_name'} = 1;
+	return $self->{'m_name'};
 }
 
 =head2 name
@@ -220,19 +192,15 @@ my $n_description = 0;
 
 sub get_description {
 	my $self = shift;
-	{
-		return $self->{'m_description'};
-	}
+	return $self->{'m_description'};
 }
 
 sub set_description {
 	my $self = shift;
 	my $v = shift;
-	{
-		$self->{'m_description'} = $v;
-		$self->{'n_description'} = 1;
-		return $self->{'m_description'};
-	}
+	$self->{'m_description'} = $v;
+	$self->{'n_description'} = 1;
+	return $self->{'m_description'};
 }
 
 =head2 description
@@ -249,19 +217,15 @@ my $n_tags = 0;
 
 sub get_tags {
 	my $self = shift;
-	{
-		return $self->{'m_tags'};
-	}
+	return $self->{'m_tags'};
 }
 
 sub set_tags {
 	my $self = shift;
 	my $v = shift;
-	{
-		$self->{'m_tags'} = $v;
-		$self->{'n_tags'} = 1;
-		return $self->{'m_tags'};
-	}
+	$self->{'m_tags'} = $v;
+	$self->{'n_tags'} = 1;
+	return $self->{'m_tags'};
 }
 
 =head2 tags
@@ -278,19 +242,15 @@ my $n_icon = 0;
 
 sub get_icon {
 	my $self = shift;
-	{
-		return $self->{'m_icon'};
-	}
+	return $self->{'m_icon'};
 }
 
 sub set_icon {
 	my $self = shift;
 	my $v = shift;
-	{
-		$self->{'m_icon'} = $v;
-		$self->{'n_icon'} = 1;
-		return $self->{'m_icon'};
-	}
+	$self->{'m_icon'} = $v;
+	$self->{'n_icon'} = 1;
+	return $self->{'m_icon'};
 }
 
 =head2 icon
@@ -307,9 +267,7 @@ my $n_size_mib = 0;
 
 sub get_size_mib {
 	my $self = shift;
-	{
-		return $self->{'m_size_mib'};
-	}
+	return $self->{'m_size_mib'};
 }
 
 =head2 size_mib
@@ -325,9 +283,7 @@ my $n_service_class = 0;
 
 sub get_service_class {
 	my $self = shift;
-	{
-		return $self->{'m_service_class'};
-	}
+	return $self->{'m_service_class'};
 }
 
 =head2 service_class
@@ -343,9 +299,7 @@ my $n_plan = 0;
 
 sub get_plan {
 	my $self = shift;
-	{
-		return $self->{'m_plan'};
-	}
+	return $self->{'m_plan'};
 }
 
 =head2 plan
@@ -361,9 +315,7 @@ my $n_server = 0;
 
 sub get_server {
 	my $self = shift;
-	{
-		return $self->{'m_server'};
-	}
+	return $self->{'m_server'};
 }
 
 =head2 server
@@ -383,123 +335,79 @@ sub server {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	{
-		$self->{'is_incomplete'} = 1;
-		if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-			{
-				$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-				$self->{'n_id'} = 0;
-			};
+	$self->{'is_incomplete'} = 1;
+	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
+		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+		$self->{'n_id'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
+		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
+		$self->{'n_name'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Description"})) {
+		$self->{'m_description'} = !defined($r->{"Description"}) ? undef : "" . $r->{"Description"};
+		$self->{'n_description'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Tags"})) {
+		if (!defined($r->{"Tags"})) {
+			$self->{'m_tags'} = [];
 		}
 		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
-			{
-				$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
-				$self->{'n_name'} = 0;
-			};
+			$self->{'m_tags'} = [];
+			foreach my $t (@{$r->{"Tags"}}) {
+				my $v = undef;
+				$v = !defined($t) ? undef : "" . $t;
+				push(@{$self->{'m_tags'}}, $v);
+			}
 		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Description"})) {
-			{
-				$self->{'m_description'} = !defined($r->{"Description"}) ? undef : "" . $r->{"Description"};
-				$self->{'n_description'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Tags"})) {
-			{
-				if (!defined($r->{"Tags"})) {
-					{
-						$self->{'m_tags'} = [];
-					};
-				}
-				else {
-					{
-						$self->{'m_tags'} = [];
-						foreach my $t (@{$r->{"Tags"}}) {
-							{
-								my $v = undef;
-								$v = !defined($t) ? undef : "" . $t;
-								push(@{$self->{'m_tags'}}, $v);
-							}
-						};
-					};
-				};
-				$self->{'n_tags'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Icon"})) {
-			{
-				$self->{'m_icon'} = !defined($r->{"Icon"}) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, $r->{"Icon"});
-				$self->{'n_icon'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"SizeMB"})) {
-			{
-				$self->{'m_size_mib'} = !defined($r->{"SizeMB"}) ? undef : (0+("" . $r->{"SizeMB"}));
-				$self->{'n_size_mib'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
-			{
-				$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
-				$self->{'n_service_class'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Plan"})) {
-			{
-				$self->{'m_plan'} = !defined($r->{"Plan"}) ? undef : new Saclient::Cloud::Resource::DiskPlan($self->{'_client'}, $r->{"Plan"});
-				$self->{'n_plan'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Server"})) {
-			{
-				$self->{'m_server'} = !defined($r->{"Server"}) ? undef : new Saclient::Cloud::Resource::Server($self->{'_client'}, $r->{"Server"});
-				$self->{'n_server'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
+		$self->{'n_tags'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Icon"})) {
+		$self->{'m_icon'} = !defined($r->{"Icon"}) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, $r->{"Icon"});
+		$self->{'n_icon'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"SizeMB"})) {
+		$self->{'m_size_mib'} = !defined($r->{"SizeMB"}) ? undef : (0+("" . $r->{"SizeMB"}));
+		$self->{'n_size_mib'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
+		$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
+		$self->{'n_service_class'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Plan"})) {
+		$self->{'m_plan'} = !defined($r->{"Plan"}) ? undef : new Saclient::Cloud::Resource::DiskPlan($self->{'_client'}, $r->{"Plan"});
+		$self->{'n_plan'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Server"})) {
+		$self->{'m_server'} = !defined($r->{"Server"}) ? undef : new Saclient::Cloud::Resource::Server($self->{'_client'}, $r->{"Server"});
+		$self->{'n_server'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
 	}
 }
 
@@ -511,62 +419,40 @@ sub api_deserialize {
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
-	{
-		my $ret = {};
-		if ($withClean || $self->{'n_id'}) {
-			{
-				$ret->{"ID"} = $self->{'m_id'};
-			};
-		};
-		if ($withClean || $self->{'n_name'}) {
-			{
-				$ret->{"Name"} = $self->{'m_name'};
-			};
-		};
-		if ($withClean || $self->{'n_description'}) {
-			{
-				$ret->{"Description"} = $self->{'m_description'};
-			};
-		};
-		if ($withClean || $self->{'n_tags'}) {
-			{
-				$ret->{"Tags"} = [];
-				foreach my $r (@{$self->{'m_tags'}}) {
-					{
-						my $v = undef;
-						$v = $r;
-						push(@{$ret->{"Tags"}}, $v);
-					}
-				};
-			};
-		};
-		if ($withClean || $self->{'n_icon'}) {
-			{
-				$ret->{"Icon"} = $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id());
-			};
-		};
-		if ($withClean || $self->{'n_size_mib'}) {
-			{
-				$ret->{"SizeMB"} = $self->{'m_size_mib'};
-			};
-		};
-		if ($withClean || $self->{'n_service_class'}) {
-			{
-				$ret->{"ServiceClass"} = $self->{'m_service_class'};
-			};
-		};
-		if ($withClean || $self->{'n_plan'}) {
-			{
-				$ret->{"Plan"} = $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id());
-			};
-		};
-		if ($withClean || $self->{'n_server'}) {
-			{
-				$ret->{"Server"} = $withClean ? (!defined($self->{'m_server'}) ? undef : $self->{'m_server'}->api_serialize($withClean)) : (!defined($self->{'m_server'}) ? {'ID' => "0"} : $self->{'m_server'}->api_serialize_id());
-			};
-		};
-		return $ret;
+	my $ret = {};
+	if ($withClean || $self->{'n_id'}) {
+		$ret->{"ID"} = $self->{'m_id'};
 	}
+	if ($withClean || $self->{'n_name'}) {
+		$ret->{"Name"} = $self->{'m_name'};
+	}
+	if ($withClean || $self->{'n_description'}) {
+		$ret->{"Description"} = $self->{'m_description'};
+	}
+	if ($withClean || $self->{'n_tags'}) {
+		$ret->{"Tags"} = [];
+		foreach my $r (@{$self->{'m_tags'}}) {
+			my $v = undef;
+			$v = $r;
+			push(@{$ret->{"Tags"}}, $v);
+		}
+	}
+	if ($withClean || $self->{'n_icon'}) {
+		$ret->{"Icon"} = $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id());
+	}
+	if ($withClean || $self->{'n_size_mib'}) {
+		$ret->{"SizeMB"} = $self->{'m_size_mib'};
+	}
+	if ($withClean || $self->{'n_service_class'}) {
+		$ret->{"ServiceClass"} = $self->{'m_service_class'};
+	}
+	if ($withClean || $self->{'n_plan'}) {
+		$ret->{"Plan"} = $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id());
+	}
+	if ($withClean || $self->{'n_server'}) {
+		$ret->{"Server"} = $withClean ? (!defined($self->{'m_server'}) ? undef : $self->{'m_server'}->api_serialize($withClean)) : (!defined($self->{'m_server'}) ? {'ID' => "0"} : $self->{'m_server'}->api_serialize_id());
+	}
+	return $ret;
 }
 
 1;

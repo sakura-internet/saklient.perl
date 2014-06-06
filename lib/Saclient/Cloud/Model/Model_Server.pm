@@ -26,23 +26,17 @@ use base qw(Saclient::Cloud::Model::Model);
 
 sub _api_path {
 	my $self = shift;
-	{
-		return "/server";
-	}
+	return "/server";
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return "Server";
-	}
+	return "Server";
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return "Servers";
-	}
+	return "Servers";
 }
 
 =head2 offset
@@ -56,9 +50,7 @@ sub _root_key_m {
 sub offset {
 	my $self = shift;
 	my $offset = shift;
-	{
-		return $self->_offset($offset);
-	}
+	return $self->_offset($offset);
 }
 
 =head2 limit
@@ -72,9 +64,7 @@ sub offset {
 sub limit {
 	my $self = shift;
 	my $count = shift;
-	{
-		return $self->_limit($count);
-	}
+	return $self->_limit($count);
 }
 
 =head2 reset
@@ -86,9 +76,7 @@ sub limit {
 =cut
 sub reset {
 	my $self = shift;
-	{
-		return $self->_reset();
-	}
+	return $self->_reset();
 }
 
 =head2 get
@@ -101,9 +89,7 @@ sub reset {
 sub get {
 	my $self = shift;
 	my $id = shift;
-	{
-		return $self->_get($id);
-	}
+	return $self->_get($id);
 }
 
 =head2 find
@@ -115,9 +101,7 @@ sub get {
 =cut
 sub find {
 	my $self = shift;
-	{
-		return $self->_find();
-	}
+	return $self->_find();
 }
 
 =head2 with_name_like
@@ -128,10 +112,8 @@ sub find {
 sub with_name_like {
 	my $self = shift;
 	my $name = shift;
-	{
-		$self->_filter_by("Name", $name);
-		return $self;
-	}
+	$self->_filter_by("Name", $name);
+	return $self;
 }
 
 =head2 with_tag
@@ -142,10 +124,8 @@ sub with_name_like {
 sub with_tag {
 	my $self = shift;
 	my $tag = shift;
-	{
-		$self->_filter_by("Tags.Name", $tag, 1);
-		return $self;
-	}
+	$self->_filter_by("Tags.Name", $tag, 1);
+	return $self;
 }
 
 =head2 with_plan
@@ -156,10 +136,8 @@ sub with_tag {
 sub with_plan {
 	my $self = shift;
 	my $plan = shift;
-	{
-		$self->_filter_by("ServerPlan.ID", $plan->_id(), 1);
-		return $self;
-	}
+	$self->_filter_by("ServerPlan.ID", $plan->_id(), 1);
+	return $self;
 }
 
 =head2 with_instance_status
@@ -170,10 +148,8 @@ sub with_plan {
 sub with_instance_status {
 	my $self = shift;
 	my $status = shift;
-	{
-		$self->_filter_by("Instance.Status", $status, 1);
-		return $self;
-	}
+	$self->_filter_by("Instance.Status", $status, 1);
+	return $self;
 }
 
 1;

@@ -22,9 +22,7 @@ my $_server;
 
 sub get_server {
 	my $self = shift;
-	{
-		return $self->{'_server'};
-	}
+	return $self->{'_server'};
 }
 
 sub server {
@@ -35,9 +33,7 @@ my $_disk;
 
 sub get_disk {
 	my $self = shift;
-	{
-		return $self->{'_disk'};
-	}
+	return $self->{'_disk'};
 }
 
 sub disk {
@@ -48,9 +44,7 @@ my $_internet;
 
 sub get_internet {
 	my $self = shift;
-	{
-		return $self->{'_internet'};
-	}
+	return $self->{'_internet'};
 }
 
 sub internet {
@@ -61,11 +55,9 @@ sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
 	my $client = shift;
-	{
-		$self->{'_server'} = new Saclient::Cloud::Model::Model_ServerPlan($client);
-		$self->{'_disk'} = new Saclient::Cloud::Model::Model_DiskPlan($client);
-		$self->{'_internet'} = new Saclient::Cloud::Model::Model_InternetPlan($client);
-	}
+	$self->{'_server'} = new Saclient::Cloud::Model::Model_ServerPlan($client);
+	$self->{'_disk'} = new Saclient::Cloud::Model::Model_DiskPlan($client);
+	$self->{'_internet'} = new Saclient::Cloud::Model::Model_InternetPlan($client);
 	return $self;
 }
 

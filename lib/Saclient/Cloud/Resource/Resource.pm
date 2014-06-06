@@ -25,9 +25,7 @@ my $_client;
 
 sub get_client {
 	my $self = shift;
-	{
-		return $self->{'_client'};
-	}
+	return $self->{'_client'};
 }
 
 sub client {
@@ -36,39 +34,29 @@ sub client {
 
 sub _api_path {
 	my $self = shift;
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub _id {
 	my $self = shift;
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
 	my $client = shift;
-	{
-		$self->{'_client'} = $client;
-	}
+	$self->{'_client'} = $client;
 	return $self;
 }
 
@@ -83,56 +71,44 @@ sub api_deserialize {
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub api_serialize_id {
 	my $self = shift;
-	{
-		my $id = $self->_id();
-		if (!defined($id)) {
-			return undef;
-		};
-		my $r = {};
-		$r->{"ID"} = $id;
-		return $r;
+	my $id = $self->_id();
+	if (!defined($id)) {
+		return undef;
 	}
+	my $r = {};
+	$r->{"ID"} = $id;
+	return $r;
 }
 
 sub _create {
 	my $self = shift;
-	{
-		return $self;
-	}
+	return $self;
 }
 
 sub _save {
 	my $self = shift;
-	{
-		my $r = {};
-		$r->{$self->_root_key()} = $self->api_serialize();
-		my $result = $self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()), $r);
-		$self->api_deserialize($result->{$self->_root_key()});
-		return $self;
-	}
+	my $r = {};
+	$r->{$self->_root_key()} = $self->api_serialize();
+	my $result = $self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()), $r);
+	$self->api_deserialize($result->{$self->_root_key()});
+	return $self;
 }
 
 sub _reload {
 	my $self = shift;
-	{
-		my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()));
-		$self->api_deserialize($result->{$self->_root_key()});
-		return $self;
-	}
+	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()));
+	$self->api_deserialize($result->{$self->_root_key()});
+	return $self;
 }
 
 sub dump {
 	my $self = shift;
-	{
-		return $self->api_serialize();
-	}
+	return $self->api_serialize();
 }
 
 1;

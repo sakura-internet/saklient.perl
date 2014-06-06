@@ -31,30 +31,22 @@ my $m_url;
 
 sub _api_path {
 	my $self = shift;
-	{
-		return "/icon";
-	}
+	return "/icon";
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return "Icon";
-	}
+	return "Icon";
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return "Icons";
-	}
+	return "Icons";
 }
 
 sub _id {
 	my $self = shift;
-	{
-		return $self->get_id();
-	}
+	return $self->get_id();
 }
 
 =head2 create
@@ -66,9 +58,7 @@ sub _id {
 =cut
 sub create {
 	my $self = shift;
-	{
-		return $self->_create();
-	}
+	return $self->_create();
 }
 
 =head2 save
@@ -80,9 +70,7 @@ sub create {
 =cut
 sub save {
 	my $self = shift;
-	{
-		return $self->_save();
-	}
+	return $self->_save();
 }
 
 =head2 reload
@@ -94,9 +82,7 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
-	{
-		return $self->_reload();
-	}
+	return $self->_reload();
 }
 
 sub new {
@@ -104,10 +90,8 @@ sub new {
 	my $self;
 	my $client = shift;
 	my $r = shift;
-	{
-		$self = $class->SUPER::new($client);
-		$self->api_deserialize($r);
-	}
+	$self = $class->SUPER::new($client);
+	$self->api_deserialize($r);
 	return $self;
 }
 
@@ -115,9 +99,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
-	{
-		return $self->{'m_id'};
-	}
+	return $self->{'m_id'};
 }
 
 sub id {
@@ -128,9 +110,7 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
-	{
-		return $self->{'m_name'};
-	}
+	return $self->{'m_name'};
 }
 
 sub name {
@@ -141,9 +121,7 @@ my $n_url = 0;
 
 sub get_url {
 	my $self = shift;
-	{
-		return $self->{'m_url'};
-	}
+	return $self->{'m_url'};
 }
 
 sub url {
@@ -158,41 +136,27 @@ sub url {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	{
-		$self->{'is_incomplete'} = 1;
-		if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-			{
-				$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-				$self->{'n_id'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
-			{
-				$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
-				$self->{'n_name'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"URL"})) {
-			{
-				$self->{'m_url'} = !defined($r->{"URL"}) ? undef : "" . $r->{"URL"};
-				$self->{'n_url'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
+	$self->{'is_incomplete'} = 1;
+	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
+		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+		$self->{'n_id'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
+		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
+		$self->{'n_name'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"URL"})) {
+		$self->{'m_url'} = !defined($r->{"URL"}) ? undef : "" . $r->{"URL"};
+		$self->{'n_url'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
 	}
 }
 
@@ -204,25 +168,17 @@ sub api_deserialize {
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
-	{
-		my $ret = {};
-		if ($withClean || $self->{'n_id'}) {
-			{
-				$ret->{"ID"} = $self->{'m_id'};
-			};
-		};
-		if ($withClean || $self->{'n_name'}) {
-			{
-				$ret->{"Name"} = $self->{'m_name'};
-			};
-		};
-		if ($withClean || $self->{'n_url'}) {
-			{
-				$ret->{"URL"} = $self->{'m_url'};
-			};
-		};
-		return $ret;
+	my $ret = {};
+	if ($withClean || $self->{'n_id'}) {
+		$ret->{"ID"} = $self->{'m_id'};
 	}
+	if ($withClean || $self->{'n_name'}) {
+		$ret->{"Name"} = $self->{'m_name'};
+	}
+	if ($withClean || $self->{'n_url'}) {
+		$ret->{"URL"} = $self->{'m_url'};
+	}
+	return $ret;
 }
 
 1;

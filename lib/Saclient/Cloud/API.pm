@@ -33,9 +33,7 @@ my $_client;
 
 sub get_client {
 	my $self = shift;
-	{
-		return $self->{'_client'};
-	}
+	return $self->{'_client'};
 }
 
 sub client {
@@ -46,9 +44,7 @@ my $_product;
 
 sub get_product {
 	my $self = shift;
-	{
-		return $self->{'_product'};
-	}
+	return $self->{'_product'};
 }
 
 sub product {
@@ -59,9 +55,7 @@ my $_icon;
 
 sub get_icon {
 	my $self = shift;
-	{
-		return $self->{'_icon'};
-	}
+	return $self->{'_icon'};
 }
 
 sub icon {
@@ -72,9 +66,7 @@ my $_server;
 
 sub get_server {
 	my $self = shift;
-	{
-		return $self->{'_server'};
-	}
+	return $self->{'_server'};
 }
 
 sub server {
@@ -85,9 +77,7 @@ my $_disk;
 
 sub get_disk {
 	my $self = shift;
-	{
-		return $self->{'_disk'};
-	}
+	return $self->{'_disk'};
 }
 
 sub disk {
@@ -98,9 +88,7 @@ my $_appliance;
 
 sub get_appliance {
 	my $self = shift;
-	{
-		return $self->{'_appliance'};
-	}
+	return $self->{'_appliance'};
 }
 
 sub appliance {
@@ -111,9 +99,7 @@ my $_archive;
 
 sub get_archive {
 	my $self = shift;
-	{
-		return $self->{'_archive'};
-	}
+	return $self->{'_archive'};
 }
 
 sub archive {
@@ -124,9 +110,7 @@ my $_ipv6net;
 
 sub get_ipv6net {
 	my $self = shift;
-	{
-		return $self->{'_ipv6net'};
-	}
+	return $self->{'_ipv6net'};
 }
 
 sub ipv6net {
@@ -137,16 +121,14 @@ sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
 	my $client = shift;
-	{
-		$self->{'_client'} = $client;
-		$self->{'_product'} = new Saclient::Cloud::Product($client);
-		$self->{'_icon'} = new Saclient::Cloud::Model::Model_Icon($client);
-		$self->{'_server'} = new Saclient::Cloud::Model::Model_Server($client);
-		$self->{'_disk'} = new Saclient::Cloud::Model::Model_Disk($client);
-		$self->{'_appliance'} = new Saclient::Cloud::Model::Model_Appliance($client);
-		$self->{'_archive'} = new Saclient::Cloud::Model::Model_Archive($client);
-		$self->{'_ipv6net'} = new Saclient::Cloud::Model::Model_IPv6Net($client);
-	}
+	$self->{'_client'} = $client;
+	$self->{'_product'} = new Saclient::Cloud::Product($client);
+	$self->{'_icon'} = new Saclient::Cloud::Model::Model_Icon($client);
+	$self->{'_server'} = new Saclient::Cloud::Model::Model_Server($client);
+	$self->{'_disk'} = new Saclient::Cloud::Model::Model_Disk($client);
+	$self->{'_appliance'} = new Saclient::Cloud::Model::Model_Appliance($client);
+	$self->{'_archive'} = new Saclient::Cloud::Model::Model_Archive($client);
+	$self->{'_ipv6net'} = new Saclient::Cloud::Model::Model_IPv6Net($client);
 	return $self;
 }
 
@@ -165,10 +147,8 @@ sub authorize {
 	my $class = shift;
 	my $token = shift;
 	my $secret = shift;
-	{
-		my $c = new Saclient::Cloud::Client($token, $secret);
-		return new Saclient::Cloud::API($c);
-	}
+	my $c = new Saclient::Cloud::Client($token, $secret);
+	return new Saclient::Cloud::API($c);
 }
 
 =head2 in_zone
@@ -182,11 +162,9 @@ sub authorize {
 sub in_zone {
 	my $self = shift;
 	my $name = shift;
-	{
-		my $ret = new Saclient::Cloud::API($self->{'_client'}->clone_instance());
-		$ret->{'_client'}->set_api_root_suffix("zone/" . $name);
-		return $ret;
-	}
+	my $ret = new Saclient::Cloud::API($self->{'_client'}->clone_instance());
+	$ret->{'_client'}->set_api_root_suffix("zone/" . $name);
+	return $ret;
 }
 
 1;

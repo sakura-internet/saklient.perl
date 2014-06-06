@@ -33,9 +33,7 @@ my $m_ipv6_prefix_tail;
 
 sub _id {
 	my $self = shift;
-	{
-		return $self->get_id();
-	}
+	return $self->get_id();
 }
 
 sub new {
@@ -43,10 +41,8 @@ sub new {
 	my $self;
 	my $client = shift;
 	my $r = shift;
-	{
-		$self = $class->SUPER::new($client);
-		$self->api_deserialize($r);
-	}
+	$self = $class->SUPER::new($client);
+	$self->api_deserialize($r);
 	return $self;
 }
 
@@ -54,9 +50,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
-	{
-		return $self->{'m_id'};
-	}
+	return $self->{'m_id'};
 }
 
 sub id {
@@ -67,9 +61,7 @@ my $n_ipv6_prefix = 0;
 
 sub get_ipv6_prefix {
 	my $self = shift;
-	{
-		return $self->{'m_ipv6_prefix'};
-	}
+	return $self->{'m_ipv6_prefix'};
 }
 
 sub ipv6_prefix {
@@ -80,9 +72,7 @@ my $n_ipv6_prefix_len = 0;
 
 sub get_ipv6_prefix_len {
 	my $self = shift;
-	{
-		return $self->{'m_ipv6_prefix_len'};
-	}
+	return $self->{'m_ipv6_prefix_len'};
 }
 
 sub ipv6_prefix_len {
@@ -93,9 +83,7 @@ my $n_ipv6_prefix_tail = 0;
 
 sub get_ipv6_prefix_tail {
 	my $self = shift;
-	{
-		return $self->{'m_ipv6_prefix_tail'};
-	}
+	return $self->{'m_ipv6_prefix_tail'};
 }
 
 sub ipv6_prefix_tail {
@@ -110,52 +98,34 @@ sub ipv6_prefix_tail {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	{
-		$self->{'is_incomplete'} = 1;
-		if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-			{
-				$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-				$self->{'n_id'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"IPv6Prefix"})) {
-			{
-				$self->{'m_ipv6_prefix'} = !defined($r->{"IPv6Prefix"}) ? undef : "" . $r->{"IPv6Prefix"};
-				$self->{'n_ipv6_prefix'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"IPv6PrefixLen"})) {
-			{
-				$self->{'m_ipv6_prefix_len'} = !defined($r->{"IPv6PrefixLen"}) ? undef : (0+("" . $r->{"IPv6PrefixLen"}));
-				$self->{'n_ipv6_prefix_len'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"IPv6PrefixTail"})) {
-			{
-				$self->{'m_ipv6_prefix_tail'} = !defined($r->{"IPv6PrefixTail"}) ? undef : "" . $r->{"IPv6PrefixTail"};
-				$self->{'n_ipv6_prefix_tail'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
+	$self->{'is_incomplete'} = 1;
+	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
+		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+		$self->{'n_id'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"IPv6Prefix"})) {
+		$self->{'m_ipv6_prefix'} = !defined($r->{"IPv6Prefix"}) ? undef : "" . $r->{"IPv6Prefix"};
+		$self->{'n_ipv6_prefix'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"IPv6PrefixLen"})) {
+		$self->{'m_ipv6_prefix_len'} = !defined($r->{"IPv6PrefixLen"}) ? undef : (0+("" . $r->{"IPv6PrefixLen"}));
+		$self->{'n_ipv6_prefix_len'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"IPv6PrefixTail"})) {
+		$self->{'m_ipv6_prefix_tail'} = !defined($r->{"IPv6PrefixTail"}) ? undef : "" . $r->{"IPv6PrefixTail"};
+		$self->{'n_ipv6_prefix_tail'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
 	}
 }
 
@@ -167,30 +137,20 @@ sub api_deserialize {
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
-	{
-		my $ret = {};
-		if ($withClean || $self->{'n_id'}) {
-			{
-				$ret->{"ID"} = $self->{'m_id'};
-			};
-		};
-		if ($withClean || $self->{'n_ipv6_prefix'}) {
-			{
-				$ret->{"IPv6Prefix"} = $self->{'m_ipv6_prefix'};
-			};
-		};
-		if ($withClean || $self->{'n_ipv6_prefix_len'}) {
-			{
-				$ret->{"IPv6PrefixLen"} = $self->{'m_ipv6_prefix_len'};
-			};
-		};
-		if ($withClean || $self->{'n_ipv6_prefix_tail'}) {
-			{
-				$ret->{"IPv6PrefixTail"} = $self->{'m_ipv6_prefix_tail'};
-			};
-		};
-		return $ret;
+	my $ret = {};
+	if ($withClean || $self->{'n_id'}) {
+		$ret->{"ID"} = $self->{'m_id'};
 	}
+	if ($withClean || $self->{'n_ipv6_prefix'}) {
+		$ret->{"IPv6Prefix"} = $self->{'m_ipv6_prefix'};
+	}
+	if ($withClean || $self->{'n_ipv6_prefix_len'}) {
+		$ret->{"IPv6PrefixLen"} = $self->{'m_ipv6_prefix_len'};
+	}
+	if ($withClean || $self->{'n_ipv6_prefix_tail'}) {
+		$ret->{"IPv6PrefixTail"} = $self->{'m_ipv6_prefix_tail'};
+	}
+	return $ret;
 }
 
 1;

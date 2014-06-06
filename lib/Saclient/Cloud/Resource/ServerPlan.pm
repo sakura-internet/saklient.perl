@@ -35,9 +35,7 @@ my $m_service_class;
 
 sub _id {
 	my $self = shift;
-	{
-		return $self->get_id();
-	}
+	return $self->get_id();
 }
 
 sub new {
@@ -45,18 +43,14 @@ sub new {
 	my $self;
 	my $client = shift;
 	my $r = shift;
-	{
-		$self = $class->SUPER::new($client);
-		$self->api_deserialize($r);
-	}
+	$self = $class->SUPER::new($client);
+	$self->api_deserialize($r);
 	return $self;
 }
 
 sub get_memory_gib {
 	my $self = shift;
-	{
-		return $self->get_memory_mib() >> 10;
-	}
+	return $self->get_memory_mib() >> 10;
 }
 
 sub memory_gib {
@@ -67,9 +61,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
-	{
-		return $self->{'m_id'};
-	}
+	return $self->{'m_id'};
 }
 
 sub id {
@@ -80,9 +72,7 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
-	{
-		return $self->{'m_name'};
-	}
+	return $self->{'m_name'};
 }
 
 sub name {
@@ -93,9 +83,7 @@ my $n_cpu = 0;
 
 sub get_cpu {
 	my $self = shift;
-	{
-		return $self->{'m_cpu'};
-	}
+	return $self->{'m_cpu'};
 }
 
 sub cpu {
@@ -106,9 +94,7 @@ my $n_memory_mib = 0;
 
 sub get_memory_mib {
 	my $self = shift;
-	{
-		return $self->{'m_memory_mib'};
-	}
+	return $self->{'m_memory_mib'};
 }
 
 sub memory_mib {
@@ -119,9 +105,7 @@ my $n_service_class = 0;
 
 sub get_service_class {
 	my $self = shift;
-	{
-		return $self->{'m_service_class'};
-	}
+	return $self->{'m_service_class'};
 }
 
 sub service_class {
@@ -136,63 +120,41 @@ sub service_class {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	{
-		$self->{'is_incomplete'} = 1;
-		if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-			{
-				$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-				$self->{'n_id'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
-			{
-				$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
-				$self->{'n_name'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"CPU"})) {
-			{
-				$self->{'m_cpu'} = !defined($r->{"CPU"}) ? undef : (0+("" . $r->{"CPU"}));
-				$self->{'n_cpu'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"MemoryMB"})) {
-			{
-				$self->{'m_memory_mib'} = !defined($r->{"MemoryMB"}) ? undef : (0+("" . $r->{"MemoryMB"}));
-				$self->{'n_memory_mib'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
-			{
-				$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
-				$self->{'n_service_class'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
+	$self->{'is_incomplete'} = 1;
+	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
+		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+		$self->{'n_id'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
+		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
+		$self->{'n_name'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"CPU"})) {
+		$self->{'m_cpu'} = !defined($r->{"CPU"}) ? undef : (0+("" . $r->{"CPU"}));
+		$self->{'n_cpu'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"MemoryMB"})) {
+		$self->{'m_memory_mib'} = !defined($r->{"MemoryMB"}) ? undef : (0+("" . $r->{"MemoryMB"}));
+		$self->{'n_memory_mib'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
+		$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
+		$self->{'n_service_class'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
 	}
 }
 
@@ -204,35 +166,23 @@ sub api_deserialize {
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
-	{
-		my $ret = {};
-		if ($withClean || $self->{'n_id'}) {
-			{
-				$ret->{"ID"} = $self->{'m_id'};
-			};
-		};
-		if ($withClean || $self->{'n_name'}) {
-			{
-				$ret->{"Name"} = $self->{'m_name'};
-			};
-		};
-		if ($withClean || $self->{'n_cpu'}) {
-			{
-				$ret->{"CPU"} = $self->{'m_cpu'};
-			};
-		};
-		if ($withClean || $self->{'n_memory_mib'}) {
-			{
-				$ret->{"MemoryMB"} = $self->{'m_memory_mib'};
-			};
-		};
-		if ($withClean || $self->{'n_service_class'}) {
-			{
-				$ret->{"ServiceClass"} = $self->{'m_service_class'};
-			};
-		};
-		return $ret;
+	my $ret = {};
+	if ($withClean || $self->{'n_id'}) {
+		$ret->{"ID"} = $self->{'m_id'};
 	}
+	if ($withClean || $self->{'n_name'}) {
+		$ret->{"Name"} = $self->{'m_name'};
+	}
+	if ($withClean || $self->{'n_cpu'}) {
+		$ret->{"CPU"} = $self->{'m_cpu'};
+	}
+	if ($withClean || $self->{'n_memory_mib'}) {
+		$ret->{"MemoryMB"} = $self->{'m_memory_mib'};
+	}
+	if ($withClean || $self->{'n_service_class'}) {
+		$ret->{"ServiceClass"} = $self->{'m_service_class'};
+	}
+	return $ret;
 }
 
 1;

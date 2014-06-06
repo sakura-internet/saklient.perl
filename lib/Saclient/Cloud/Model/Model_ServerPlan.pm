@@ -25,23 +25,17 @@ use base qw(Saclient::Cloud::Model::Model);
 
 sub _api_path {
 	my $self = shift;
-	{
-		return "/product/server";
-	}
+	return "/product/server";
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return "ServerPlan";
-	}
+	return "ServerPlan";
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return "ServerPlans";
-	}
+	return "ServerPlans";
 }
 
 =head2 offset
@@ -55,9 +49,7 @@ sub _root_key_m {
 sub offset {
 	my $self = shift;
 	my $offset = shift;
-	{
-		return $self->_offset($offset);
-	}
+	return $self->_offset($offset);
 }
 
 =head2 limit
@@ -71,9 +63,7 @@ sub offset {
 sub limit {
 	my $self = shift;
 	my $count = shift;
-	{
-		return $self->_limit($count);
-	}
+	return $self->_limit($count);
 }
 
 =head2 reset
@@ -85,9 +75,7 @@ sub limit {
 =cut
 sub reset {
 	my $self = shift;
-	{
-		return $self->_reset();
-	}
+	return $self->_reset();
 }
 
 =head2 get
@@ -100,9 +88,7 @@ sub reset {
 sub get {
 	my $self = shift;
 	my $id = shift;
-	{
-		return $self->_get($id);
-	}
+	return $self->_get($id);
 }
 
 =head2 find
@@ -114,9 +100,7 @@ sub get {
 =cut
 sub find {
 	my $self = shift;
-	{
-		return $self->_find();
-	}
+	return $self->_find();
 }
 
 =head2 get_by_spec
@@ -128,11 +112,9 @@ sub get_by_spec {
 	my $self = shift;
 	my $cores = shift;
 	my $memoryGib = shift;
-	{
-		$self->_filter_by("CPU", $cores, 1);
-		$self->_filter_by("MemoryMB", $memoryGib * 1024, 1);
-		return $self->_find_one();
-	}
+	$self->_filter_by("CPU", $cores, 1);
+	$self->_filter_by("MemoryMB", $memoryGib * 1024, 1);
+	return $self->_find_one();
 }
 
 1;

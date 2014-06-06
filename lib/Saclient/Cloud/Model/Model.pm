@@ -25,9 +25,7 @@ my $_client;
 
 sub get_client {
 	my $self = shift;
-	{
-		return $self->{'_client'};
-	}
+	return $self->{'_client'};
 }
 
 sub client {
@@ -38,9 +36,7 @@ my $_params;
 
 sub get_params {
 	my $self = shift;
-	{
-		return $self->{'_params'};
-	}
+	return $self->{'_params'};
 }
 
 sub params {
@@ -51,9 +47,7 @@ my $_total;
 
 sub get_total {
 	my $self = shift;
-	{
-		return $self->{'_total'};
-	}
+	return $self->{'_total'};
 }
 
 sub total {
@@ -64,9 +58,7 @@ my $_count;
 
 sub get_count {
 	my $self = shift;
-	{
-		return $self->{'_count'};
-	}
+	return $self->{'_count'};
 }
 
 sub count {
@@ -75,114 +67,92 @@ sub count {
 
 sub _api_path {
 	my $self = shift;
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return undef;
-	}
+	return undef;
 }
 
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
 	my $client = shift;
-	{
-		$self->{'_client'} = $client;
-		$self->{'_params'} = {};
-		$self->{'_total'} = undef;
-		$self->{'_count'} = undef;
-	}
+	$self->{'_client'} = $client;
+	$self->{'_params'} = {};
+	$self->{'_total'} = undef;
+	$self->{'_count'} = undef;
 	return $self;
 }
 
 sub _offset {
 	my $self = shift;
 	my $offset = shift;
-	{
-		$self->{'_params'}->{'_begin'} = $offset;
-		return $self;
-	}
+	$self->{'_params'}->{'_begin'} = $offset;
+	return $self;
 }
 
 sub _limit {
 	my $self = shift;
 	my $count = shift;
-	{
-		$self->{'_params'}->{'_count'} = $count;
-		return $self;
-	}
+	$self->{'_params'}->{'_count'} = $count;
+	return $self;
 }
 
 sub _reset {
 	my $self = shift;
-	{
-		$self->{'_params'} = {};
-		$self->{'_total'} = 0;
-		$self->{'_count'} = 0;
-		return $self;
-	}
+	$self->{'_params'} = {};
+	$self->{'_total'} = 0;
+	$self->{'_count'} = 0;
+	return $self;
 }
 
 sub _get {
 	my $self = shift;
 	my $id = shift;
-	{
-		my $params = $self->{'_params'};
-		$self->_reset();
-		my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($id), $params);
-		$self->{'_total'} = 1;
-		$self->{'_count'} = 1;
-		my $record = $result->{$self->_root_key()};
-		return Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
-	}
+	my $params = $self->{'_params'};
+	$self->_reset();
+	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($id), $params);
+	$self->{'_total'} = 1;
+	$self->{'_count'} = 1;
+	my $record = $result->{$self->_root_key()};
+	return Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
 }
 
 sub _find {
 	my $self = shift;
-	{
-		my $params = $self->{'_params'};
-		$self->_reset();
-		my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
-		$self->{'_total'} = $result->{"Total"};
-		$self->{'_count'} = $result->{"Count"};
-		my $records = $result->{$self->_root_key_m()};
-		my $data = [];
-		foreach my $record (@{$records}) {
-			{
-				my $i = Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
-				push(@{$data}, $i);
-			}
-		};
-		return $data;
+	my $params = $self->{'_params'};
+	$self->_reset();
+	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
+	$self->{'_total'} = $result->{"Total"};
+	$self->{'_count'} = $result->{"Count"};
+	my $records = $result->{$self->_root_key_m()};
+	my $data = [];
+	foreach my $record (@{$records}) {
+		my $i = Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
+		push(@{$data}, $i);
 	}
+	return $data;
 }
 
 sub _find_one {
 	my $self = shift;
-	{
-		my $params = $self->{'_params'};
-		$self->_reset();
-		my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
-		$self->{'_total'} = $result->{"Total"};
-		$self->{'_count'} = $result->{"Count"};
-		if ($self->{'_total'} eq 0) {
-			return undef;
-		};
-		my $records = $result->{$self->_root_key_m()};
-		return Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $records->[0]]);
+	my $params = $self->{'_params'};
+	$self->_reset();
+	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
+	$self->{'_total'} = $result->{"Total"};
+	$self->{'_count'} = $result->{"Count"};
+	if ($self->{'_total'} eq 0) {
+		return undef;
 	}
+	my $records = $result->{$self->_root_key_m()};
+	return Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $records->[0]]);
 }
 
 sub _filter_by {
@@ -190,29 +160,19 @@ sub _filter_by {
 	my $key = shift;
 	my $value = shift;
 	my $multiple = shift || (0);
-	{
-		if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Filter"})) {
-			{
-				$self->{'_params'}->{"Filter"} = {};
-			};
-		};
-		my $filter = $self->{'_params'}->{"Filter"};
-		if ($multiple) {
-			{
-				if (!(ref($filter) eq 'HASH' && exists $filter->{$key})) {
-					{
-						$filter->{$key} = [];
-					};
-				};
-				my $values = $filter->{$key};
-				push(@{$values}, $value);
-			};
+	if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Filter"})) {
+		$self->{'_params'}->{"Filter"} = {};
+	}
+	my $filter = $self->{'_params'}->{"Filter"};
+	if ($multiple) {
+		if (!(ref($filter) eq 'HASH' && exists $filter->{$key})) {
+			$filter->{$key} = [];
 		}
-		else {
-			{
-				$filter->{$key} = $value;
-			};
-		};
+		my $values = $filter->{$key};
+		push(@{$values}, $value);
+	}
+	else {
+		$filter->{$key} = $value;
 	}
 }
 

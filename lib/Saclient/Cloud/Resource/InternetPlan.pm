@@ -33,9 +33,7 @@ my $m_service_class;
 
 sub _id {
 	my $self = shift;
-	{
-		return $self->get_id();
-	}
+	return $self->get_id();
 }
 
 sub new {
@@ -43,10 +41,8 @@ sub new {
 	my $self;
 	my $client = shift;
 	my $r = shift;
-	{
-		$self = $class->SUPER::new($client);
-		$self->api_deserialize($r);
-	}
+	$self = $class->SUPER::new($client);
+	$self->api_deserialize($r);
 	return $self;
 }
 
@@ -54,9 +50,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
-	{
-		return $self->{'m_id'};
-	}
+	return $self->{'m_id'};
 }
 
 sub id {
@@ -67,9 +61,7 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
-	{
-		return $self->{'m_name'};
-	}
+	return $self->{'m_name'};
 }
 
 sub name {
@@ -80,9 +72,7 @@ my $n_band_width_mbps = 0;
 
 sub get_band_width_mbps {
 	my $self = shift;
-	{
-		return $self->{'m_band_width_mbps'};
-	}
+	return $self->{'m_band_width_mbps'};
 }
 
 sub band_width_mbps {
@@ -93,9 +83,7 @@ my $n_service_class = 0;
 
 sub get_service_class {
 	my $self = shift;
-	{
-		return $self->{'m_service_class'};
-	}
+	return $self->{'m_service_class'};
 }
 
 sub service_class {
@@ -110,52 +98,34 @@ sub service_class {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	{
-		$self->{'is_incomplete'} = 1;
-		if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-			{
-				$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-				$self->{'n_id'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
-			{
-				$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
-				$self->{'n_name'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"BandWidthMbps"})) {
-			{
-				$self->{'m_band_width_mbps'} = !defined($r->{"BandWidthMbps"}) ? undef : (0+("" . $r->{"BandWidthMbps"}));
-				$self->{'n_band_width_mbps'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
-			{
-				$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
-				$self->{'n_service_class'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
+	$self->{'is_incomplete'} = 1;
+	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
+		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+		$self->{'n_id'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
+		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
+		$self->{'n_name'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"BandWidthMbps"})) {
+		$self->{'m_band_width_mbps'} = !defined($r->{"BandWidthMbps"}) ? undef : (0+("" . $r->{"BandWidthMbps"}));
+		$self->{'n_band_width_mbps'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
+		$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
+		$self->{'n_service_class'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
 	}
 }
 
@@ -167,30 +137,20 @@ sub api_deserialize {
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
-	{
-		my $ret = {};
-		if ($withClean || $self->{'n_id'}) {
-			{
-				$ret->{"ID"} = $self->{'m_id'};
-			};
-		};
-		if ($withClean || $self->{'n_name'}) {
-			{
-				$ret->{"Name"} = $self->{'m_name'};
-			};
-		};
-		if ($withClean || $self->{'n_band_width_mbps'}) {
-			{
-				$ret->{"BandWidthMbps"} = $self->{'m_band_width_mbps'};
-			};
-		};
-		if ($withClean || $self->{'n_service_class'}) {
-			{
-				$ret->{"ServiceClass"} = $self->{'m_service_class'};
-			};
-		};
-		return $ret;
+	my $ret = {};
+	if ($withClean || $self->{'n_id'}) {
+		$ret->{"ID"} = $self->{'m_id'};
 	}
+	if ($withClean || $self->{'n_name'}) {
+		$ret->{"Name"} = $self->{'m_name'};
+	}
+	if ($withClean || $self->{'n_band_width_mbps'}) {
+		$ret->{"BandWidthMbps"} = $self->{'m_band_width_mbps'};
+	}
+	if ($withClean || $self->{'n_service_class'}) {
+		$ret->{"ServiceClass"} = $self->{'m_service_class'};
+	}
+	return $ret;
 }
 
 1;

@@ -33,30 +33,22 @@ my $m_user_ip_address;
 
 sub _api_path {
 	my $self = shift;
-	{
-		return "/interface";
-	}
+	return "/interface";
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return "Interface";
-	}
+	return "Interface";
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return "Interfaces";
-	}
+	return "Interfaces";
 }
 
 sub _id {
 	my $self = shift;
-	{
-		return $self->get_id();
-	}
+	return $self->get_id();
 }
 
 =head2 create
@@ -68,9 +60,7 @@ sub _id {
 =cut
 sub create {
 	my $self = shift;
-	{
-		return $self->_create();
-	}
+	return $self->_create();
 }
 
 =head2 save
@@ -82,9 +72,7 @@ sub create {
 =cut
 sub save {
 	my $self = shift;
-	{
-		return $self->_save();
-	}
+	return $self->_save();
 }
 
 =head2 reload
@@ -96,9 +84,7 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
-	{
-		return $self->_reload();
-	}
+	return $self->_reload();
 }
 
 sub new {
@@ -106,10 +92,8 @@ sub new {
 	my $self;
 	my $client = shift;
 	my $r = shift;
-	{
-		$self = $class->SUPER::new($client);
-		$self->api_deserialize($r);
-	}
+	$self = $class->SUPER::new($client);
+	$self->api_deserialize($r);
 	return $self;
 }
 
@@ -117,9 +101,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
-	{
-		return $self->{'m_id'};
-	}
+	return $self->{'m_id'};
 }
 
 sub id {
@@ -130,9 +112,7 @@ my $n_mac_address = 0;
 
 sub get_mac_address {
 	my $self = shift;
-	{
-		return $self->{'m_mac_address'};
-	}
+	return $self->{'m_mac_address'};
 }
 
 sub mac_address {
@@ -143,9 +123,7 @@ my $n_ip_address = 0;
 
 sub get_ip_address {
 	my $self = shift;
-	{
-		return $self->{'m_ip_address'};
-	}
+	return $self->{'m_ip_address'};
 }
 
 sub ip_address {
@@ -156,19 +134,15 @@ my $n_user_ip_address = 0;
 
 sub get_user_ip_address {
 	my $self = shift;
-	{
-		return $self->{'m_user_ip_address'};
-	}
+	return $self->{'m_user_ip_address'};
 }
 
 sub set_user_ip_address {
 	my $self = shift;
 	my $v = shift;
-	{
-		$self->{'m_user_ip_address'} = $v;
-		$self->{'n_user_ip_address'} = 1;
-		return $self->{'m_user_ip_address'};
-	}
+	$self->{'m_user_ip_address'} = $v;
+	$self->{'n_user_ip_address'} = 1;
+	return $self->{'m_user_ip_address'};
 }
 
 sub user_ip_address {
@@ -184,52 +158,34 @@ sub user_ip_address {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	{
-		$self->{'is_incomplete'} = 1;
-		if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-			{
-				$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-				$self->{'n_id'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"MACAddress"})) {
-			{
-				$self->{'m_mac_address'} = !defined($r->{"MACAddress"}) ? undef : "" . $r->{"MACAddress"};
-				$self->{'n_mac_address'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"IPAddress"})) {
-			{
-				$self->{'m_ip_address'} = !defined($r->{"IPAddress"}) ? undef : "" . $r->{"IPAddress"};
-				$self->{'n_ip_address'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
-		if ((ref($r) eq 'HASH' && exists $r->{"UserIPAddress"})) {
-			{
-				$self->{'m_user_ip_address'} = !defined($r->{"UserIPAddress"}) ? undef : "" . $r->{"UserIPAddress"};
-				$self->{'n_user_ip_address'} = 0;
-			};
-		}
-		else {
-			{
-				$self->{'is_incomplete'} = 0;
-			};
-		};
+	$self->{'is_incomplete'} = 1;
+	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
+		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+		$self->{'n_id'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"MACAddress"})) {
+		$self->{'m_mac_address'} = !defined($r->{"MACAddress"}) ? undef : "" . $r->{"MACAddress"};
+		$self->{'n_mac_address'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"IPAddress"})) {
+		$self->{'m_ip_address'} = !defined($r->{"IPAddress"}) ? undef : "" . $r->{"IPAddress"};
+		$self->{'n_ip_address'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"UserIPAddress"})) {
+		$self->{'m_user_ip_address'} = !defined($r->{"UserIPAddress"}) ? undef : "" . $r->{"UserIPAddress"};
+		$self->{'n_user_ip_address'} = 0;
+	}
+	else {
+		$self->{'is_incomplete'} = 0;
 	}
 }
 
@@ -241,30 +197,20 @@ sub api_deserialize {
 sub api_serialize {
 	my $self = shift;
 	my $withClean = shift || (0);
-	{
-		my $ret = {};
-		if ($withClean || $self->{'n_id'}) {
-			{
-				$ret->{"ID"} = $self->{'m_id'};
-			};
-		};
-		if ($withClean || $self->{'n_mac_address'}) {
-			{
-				$ret->{"MACAddress"} = $self->{'m_mac_address'};
-			};
-		};
-		if ($withClean || $self->{'n_ip_address'}) {
-			{
-				$ret->{"IPAddress"} = $self->{'m_ip_address'};
-			};
-		};
-		if ($withClean || $self->{'n_user_ip_address'}) {
-			{
-				$ret->{"UserIPAddress"} = $self->{'m_user_ip_address'};
-			};
-		};
-		return $ret;
+	my $ret = {};
+	if ($withClean || $self->{'n_id'}) {
+		$ret->{"ID"} = $self->{'m_id'};
 	}
+	if ($withClean || $self->{'n_mac_address'}) {
+		$ret->{"MACAddress"} = $self->{'m_mac_address'};
+	}
+	if ($withClean || $self->{'n_ip_address'}) {
+		$ret->{"IPAddress"} = $self->{'m_ip_address'};
+	}
+	if ($withClean || $self->{'n_user_ip_address'}) {
+		$ret->{"UserIPAddress"} = $self->{'m_user_ip_address'};
+	}
+	return $ret;
 }
 
 1;

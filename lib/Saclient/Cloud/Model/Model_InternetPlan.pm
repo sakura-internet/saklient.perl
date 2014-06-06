@@ -25,23 +25,17 @@ use base qw(Saclient::Cloud::Model::Model);
 
 sub _api_path {
 	my $self = shift;
-	{
-		return "/product/internet";
-	}
+	return "/product/internet";
 }
 
 sub _root_key {
 	my $self = shift;
-	{
-		return "InternetPlan";
-	}
+	return "InternetPlan";
 }
 
 sub _root_key_m {
 	my $self = shift;
-	{
-		return "InternetPlans";
-	}
+	return "InternetPlans";
 }
 
 =head2 offset
@@ -55,9 +49,7 @@ sub _root_key_m {
 sub offset {
 	my $self = shift;
 	my $offset = shift;
-	{
-		return $self->_offset($offset);
-	}
+	return $self->_offset($offset);
 }
 
 =head2 limit
@@ -71,9 +63,7 @@ sub offset {
 sub limit {
 	my $self = shift;
 	my $count = shift;
-	{
-		return $self->_limit($count);
-	}
+	return $self->_limit($count);
 }
 
 =head2 reset
@@ -85,9 +75,7 @@ sub limit {
 =cut
 sub reset {
 	my $self = shift;
-	{
-		return $self->_reset();
-	}
+	return $self->_reset();
 }
 
 =head2 get
@@ -100,9 +88,7 @@ sub reset {
 sub get {
 	my $self = shift;
 	my $id = shift;
-	{
-		return $self->_get($id);
-	}
+	return $self->_get($id);
 }
 
 =head2 find
@@ -114,9 +100,7 @@ sub get {
 =cut
 sub find {
 	my $self = shift;
-	{
-		return $self->_find();
-	}
+	return $self->_find();
 }
 
 1;
