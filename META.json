@@ -48,6 +48,7 @@
             "Error" : "0.17022",
             "HTTP::Request" : "6.00",
             "JSON" : "2.53",
+            "LWP::Protocol::https" : "6.03",
             "LWP::UserAgent" : "6.04",
             "URI::Escape" : "3.28",
             "perl" : "5.008008"

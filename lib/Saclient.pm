@@ -30,9 +30,14 @@ Saclient - An easy interface to control your resources on SAKURA Cloud.
 
 =head2 INSTALLATION
 
+    # Install dependent packages
+    yum install make git openssl-devel
+    # or
+    apt-get install make git libssl-dev
+    
     # Install cpanminus (if not yet)
     curl -L http://cpanmin.us | perl - App::cpanminus
-
+    
     # Install Saclient module by cpanminus
     cpanm git@github.com:sakura-internet/saclient.perl.git
 
