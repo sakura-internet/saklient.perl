@@ -132,7 +132,7 @@ sub new {
 	return $self;
 }
 
-=head2 authorize
+=head2 authorize(string $token, string $secret) : Saclient::Cloud::API
 
 指定した認証情報を用いてアクセスを行うAPIクライアントを作成します。
 必要な認証情報は、コントロールパネル右上にあるアカウントのプルダウンから
@@ -151,7 +151,7 @@ sub authorize {
 	return new Saclient::Cloud::API($c);
 }
 
-=head2 in_zone
+=head2 in_zone(string $name) : Saclient::Cloud::API
 
 認証情報を引き継ぎ、指定したゾーンへのアクセスを行うAPIクライアントを作成します。
 

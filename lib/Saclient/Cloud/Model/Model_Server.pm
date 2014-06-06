@@ -39,7 +39,7 @@ sub _root_key_m {
 	return "Servers";
 }
 
-=head2 offset
+=head2 offset(int $offset) : Saclient::Cloud::Model::Model_Server
 
 次に取得するリストの開始オフセットを指定します。
 
@@ -53,7 +53,7 @@ sub offset {
 	return $self->_offset($offset);
 }
 
-=head2 limit
+=head2 limit(int $count) : Saclient::Cloud::Model::Model_Server
 
 次に取得するリストの上限レコード数を指定します。
 
@@ -67,7 +67,7 @@ sub limit {
 	return $self->_limit($count);
 }
 
-=head2 reset
+=head2 reset : Saclient::Cloud::Model::Model_Server
 
 次のリクエストのために設定されているステートをすべて破棄します。
 
@@ -79,7 +79,7 @@ sub reset {
 	return $self->_reset();
 }
 
-=head2 get
+=head2 get(string $id) : Saclient::Cloud::Resource::Server
 
 指定したIDを持つ唯一のリソースを取得します。
 
@@ -92,7 +92,7 @@ sub get {
 	return $self->_get($id);
 }
 
-=head2 find
+=head2 find : Saclient::Cloud::Resource::Server[]
 
 リソースの検索リクエストを実行し、結果をリストで取得します。
 
@@ -104,7 +104,7 @@ sub find {
 	return $self->_find();
 }
 
-=head2 with_name_like
+=head2 with_name_like(string $name) : Saclient::Cloud::Model::Model_Server
 
 指定した文字列を名前に含むサーバに絞り込みます。
 
@@ -116,7 +116,7 @@ sub with_name_like {
 	return $self;
 }
 
-=head2 with_tag
+=head2 with_tag(string $tag) : Saclient::Cloud::Model::Model_Server
 
 指定したタグを持つサーバに絞り込みます。
 
@@ -128,7 +128,7 @@ sub with_tag {
 	return $self;
 }
 
-=head2 with_plan
+=head2 with_plan(Saclient::Cloud::Resource::ServerPlan $plan) : Saclient::Cloud::Model::Model_Server
 
 指定したタグを持つサーバに絞り込みます。
 
@@ -140,7 +140,7 @@ sub with_plan {
 	return $self;
 }
 
-=head2 with_instance_status
+=head2 with_instance_status(string $status) : Saclient::Cloud::Model::Model_Server
 
 インスタンスが指定した状態にあるサーバに絞り込みます。
 

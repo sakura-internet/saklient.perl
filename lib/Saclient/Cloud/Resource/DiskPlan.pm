@@ -77,7 +77,7 @@ sub storage_class {
 	return $_[0]->get_storage_class();
 }
 
-=head2 api_deserialize
+=head2 api_deserialize($r)
 
 (This method is generated in Translator_default#buildImpl)
 
@@ -109,7 +109,7 @@ sub api_deserialize {
 	}
 }
 
-=head2 api_serialize
+=head2 api_serialize(bool $withClean=0) : any
 
 (This method is generated in Translator_default#buildImpl)
 

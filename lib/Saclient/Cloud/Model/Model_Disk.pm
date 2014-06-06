@@ -38,7 +38,7 @@ sub _root_key_m {
 	return "Disks";
 }
 
-=head2 offset
+=head2 offset(int $offset) : Saclient::Cloud::Model::Model_Disk
 
 次に取得するリストの開始オフセットを指定します。
 
@@ -52,7 +52,7 @@ sub offset {
 	return $self->_offset($offset);
 }
 
-=head2 limit
+=head2 limit(int $count) : Saclient::Cloud::Model::Model_Disk
 
 次に取得するリストの上限レコード数を指定します。
 
@@ -66,7 +66,7 @@ sub limit {
 	return $self->_limit($count);
 }
 
-=head2 reset
+=head2 reset : Saclient::Cloud::Model::Model_Disk
 
 次のリクエストのために設定されているステートをすべて破棄します。
 
@@ -78,7 +78,7 @@ sub reset {
 	return $self->_reset();
 }
 
-=head2 get
+=head2 get(string $id) : Saclient::Cloud::Resource::Disk
 
 指定したIDを持つ唯一のリソースを取得します。
 
@@ -91,7 +91,7 @@ sub get {
 	return $self->_get($id);
 }
 
-=head2 find
+=head2 find : Saclient::Cloud::Resource::Disk[]
 
 リソースの検索リクエストを実行し、結果をリストで取得します。
 
@@ -103,7 +103,7 @@ sub find {
 	return $self->_find();
 }
 
-=head2 with_name_like
+=head2 with_name_like(string $name) : Saclient::Cloud::Model::Model_Disk
 
 指定した文字列を名前に含むディスクに絞り込みます。
 
@@ -115,7 +115,7 @@ sub with_name_like {
 	return $self;
 }
 
-=head2 with_tag
+=head2 with_tag(string $tag) : Saclient::Cloud::Model::Model_Disk
 
 指定したタグを持つディスクに絞り込みます。
 
@@ -127,7 +127,7 @@ sub with_tag {
 	return $self;
 }
 
-=head2 with_server_id
+=head2 with_server_id(string $id) : Saclient::Cloud::Model::Model_Disk
 
 指定したサーバへ接続されているディスクに絞り込みます。
 

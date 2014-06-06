@@ -61,7 +61,7 @@ sub _id {
 	return $self->get_id();
 }
 
-=head2 create
+=head2 create : Saclient::Cloud::Resource::Appliance
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
 
@@ -73,7 +73,7 @@ sub create {
 	return $self->_create();
 }
 
-=head2 save
+=head2 save : Saclient::Cloud::Resource::Appliance
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 
@@ -85,7 +85,7 @@ sub save {
 	return $self->_save();
 }
 
-=head2 reload
+=head2 reload : Saclient::Cloud::Resource::Appliance
 
 最新のリソース情報を再取得します。
 
@@ -107,7 +107,7 @@ sub new {
 	return $self;
 }
 
-=head2 boot
+=head2 boot : Saclient::Cloud::Resource::Appliance
 
 アプライアンスを起動します。
 
@@ -118,7 +118,7 @@ sub boot {
 	return $self;
 }
 
-=head2 shutdown
+=head2 shutdown : Saclient::Cloud::Resource::Appliance
 
 アプライアンスをシャットダウンします。
 
@@ -129,7 +129,7 @@ sub shutdown {
 	return $self;
 }
 
-=head2 stop
+=head2 stop : Saclient::Cloud::Resource::Appliance
 
 アプライアンスを強制停止します。
 
@@ -140,7 +140,7 @@ sub stop {
 	return $self;
 }
 
-=head2 reboot
+=head2 reboot : Saclient::Cloud::Resource::Appliance
 
 アプライアンスを強制再起動します。
 
@@ -324,7 +324,7 @@ sub service_class {
 	return $_[0]->get_service_class();
 }
 
-=head2 api_deserialize
+=head2 api_deserialize($r)
 
 (This method is generated in Translator_default#buildImpl)
 
@@ -411,7 +411,7 @@ sub api_deserialize {
 	}
 }
 
-=head2 api_serialize
+=head2 api_serialize(bool $withClean=0) : any
 
 (This method is generated in Translator_default#buildImpl)
 

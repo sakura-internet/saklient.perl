@@ -90,7 +90,7 @@ sub ipv6_prefix_tail {
 	return $_[0]->get_ipv6_prefix_tail();
 }
 
-=head2 api_deserialize
+=head2 api_deserialize($r)
 
 (This method is generated in Translator_default#buildImpl)
 
@@ -129,7 +129,7 @@ sub api_deserialize {
 	}
 }
 
-=head2 api_serialize
+=head2 api_serialize(bool $withClean=0) : any
 
 (This method is generated in Translator_default#buildImpl)
 

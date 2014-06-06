@@ -49,7 +49,7 @@ sub _id {
 	return $self->get_id();
 }
 
-=head2 create
+=head2 create : Saclient::Cloud::Resource::Icon
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
 
@@ -61,7 +61,7 @@ sub create {
 	return $self->_create();
 }
 
-=head2 save
+=head2 save : Saclient::Cloud::Resource::Icon
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 
@@ -73,7 +73,7 @@ sub save {
 	return $self->_save();
 }
 
-=head2 reload
+=head2 reload : Saclient::Cloud::Resource::Icon
 
 最新のリソース情報を再取得します。
 
@@ -128,7 +128,7 @@ sub url {
 	return $_[0]->get_url();
 }
 
-=head2 api_deserialize
+=head2 api_deserialize($r)
 
 (This method is generated in Translator_default#buildImpl)
 
@@ -160,7 +160,7 @@ sub api_deserialize {
 	}
 }
 
-=head2 api_serialize
+=head2 api_serialize(bool $withClean=0) : any
 
 (This method is generated in Translator_default#buildImpl)
 

@@ -64,7 +64,7 @@ sub _id {
 	return $self->get_id();
 }
 
-=head2 create
+=head2 create : Saclient::Cloud::Resource::Disk
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
 
@@ -76,7 +76,7 @@ sub create {
 	return $self->_create();
 }
 
-=head2 save
+=head2 save : Saclient::Cloud::Resource::Disk
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 
@@ -88,7 +88,7 @@ sub save {
 	return $self->_save();
 }
 
-=head2 reload
+=head2 reload : Saclient::Cloud::Resource::Disk
 
 最新のリソース情報を再取得します。
 
@@ -124,7 +124,7 @@ sub size_gib {
 	return $_[0]->get_size_gib();
 }
 
-=head2 attach_to
+=head2 attach_to(string $serverId) : Saclient::Cloud::Resource::Disk
 
 ディスクをサーバに取り付けます。
 
@@ -136,7 +136,7 @@ sub attach_to {
 	return $self;
 }
 
-=head2 detach
+=head2 detach : Saclient::Cloud::Resource::Disk
 
 ディスクをサーバから取り外します。
 
@@ -327,7 +327,7 @@ sub server {
 	return $_[0]->get_server();
 }
 
-=head2 api_deserialize
+=head2 api_deserialize($r)
 
 (This method is generated in Translator_default#buildImpl)
 
@@ -411,7 +411,7 @@ sub api_deserialize {
 	}
 }
 
-=head2 api_serialize
+=head2 api_serialize(bool $withClean=0) : any
 
 (This method is generated in Translator_default#buildImpl)
 
