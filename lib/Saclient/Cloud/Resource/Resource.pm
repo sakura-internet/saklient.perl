@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Util;
 
+
 =pod
 
 =encoding utf8
@@ -94,14 +95,14 @@ sub _save {
 	my $self = shift;
 	my $r = {};
 	$r->{$self->_root_key()} = $self->api_serialize();
-	my $result = $self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()), $r);
+	my $result = $self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()), $r);
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
 }
 
 sub _reload {
 	my $self = shift;
-	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()));
+	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()));
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
 }

@@ -97,7 +97,7 @@ sub api_deserialize {
 		$self->{'is_incomplete'} = 0;
 	}
 	if ((ref($r) eq 'HASH' && exists $r->{"StatusChangedAt"})) {
-		$self->{'m_status_changed_at'} = !defined($r->{"StatusChangedAt"}) ? undef : Saclient::Cloud::Util->str2date("" . $r->{"StatusChangedAt"});
+		$self->{'m_status_changed_at'} = !defined($r->{"StatusChangedAt"}) ? undef : Saclient::Cloud::Util::str2date("" . $r->{"StatusChangedAt"});
 		$self->{'n_status_changed_at'} = 0;
 	}
 	else {
@@ -121,7 +121,7 @@ sub api_serialize {
 		$ret->{"BeforeStatus"} = $self->{'m_before_status'};
 	}
 	if ($withClean || $self->{'n_status_changed_at'}) {
-		$ret->{"StatusChangedAt"} = !defined($self->{'m_status_changed_at'}) ? undef : Saclient::Cloud::Util->date2str($self->{'m_status_changed_at'});
+		$ret->{"StatusChangedAt"} = !defined($self->{'m_status_changed_at'}) ? undef : Saclient::Cloud::Util::date2str($self->{'m_status_changed_at'});
 	}
 	return $ret;
 }

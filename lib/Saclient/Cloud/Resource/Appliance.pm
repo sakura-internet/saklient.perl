@@ -114,7 +114,7 @@ sub new {
 =cut
 sub boot {
 	my $self = shift;
-	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/power");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
 	return $self;
 }
 
@@ -125,7 +125,7 @@ sub boot {
 =cut
 sub shutdown {
 	my $self = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/power");
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
 	return $self;
 }
 
@@ -136,7 +136,7 @@ sub shutdown {
 =cut
 sub stop {
 	my $self = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/power", {'Force' => 1});
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power", {'Force' => 1});
 	return $self;
 }
 
@@ -147,7 +147,7 @@ sub stop {
 =cut
 sub reboot {
 	my $self = shift;
-	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/reset");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/reset");
 	return $self;
 }
 

@@ -14,6 +14,7 @@ use Saclient::Cloud::Resource::Disk;
 use Saclient::Cloud::Resource::Iface;
 use Saclient::Cloud::Resource::ServerPlan;
 use Saclient::Cloud::Resource::ServerInstance;
+use Saclient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
@@ -110,6 +111,16 @@ sub new {
 	return $self;
 }
 
+=head2 is_up : bool
+
+サーバが起動しているときtrueを返します。
+
+=cut
+sub is_up {
+	my $self = shift;
+	return defined($self->{'instance'}->{'status'}) && Saclient::Cloud::Enums::EServerInstanceStatus::compare($self->{'instance'}->{'status'}, Saclient::Cloud::Enums::EServerInstanceStatus::up) eq 0;
+}
+
 =head2 boot : Saclient::Cloud::Resource::Server
 
 サーバを起動します。
@@ -117,7 +128,7 @@ sub new {
 =cut
 sub boot {
 	my $self = shift;
-	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/power");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
 	return $self;
 }
 
@@ -128,7 +139,7 @@ sub boot {
 =cut
 sub shutdown {
 	my $self = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/power");
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
 	return $self;
 }
 
@@ -139,7 +150,7 @@ sub shutdown {
 =cut
 sub stop {
 	my $self = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/power", {'Force' => 1});
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power", {'Force' => 1});
 	return $self;
 }
 
@@ -150,7 +161,7 @@ sub stop {
 =cut
 sub reboot {
 	my $self = shift;
-	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/reset");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/reset");
 	return $self;
 }
 
@@ -162,7 +173,7 @@ sub reboot {
 sub change_plan {
 	my $self = shift;
 	my $planTo = shift;
-	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($self->_id()) . "/to/plan/" . Saclient::Cloud::Util->url_encode($planTo->_id());
+	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/to/plan/" . Saclient::Cloud::Util::url_encode($planTo->_id());
 	my $result = $self->{'_client'}->request("PUT", $path);
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
@@ -175,7 +186,7 @@ sub change_plan {
 =cut
 sub find_disks {
 	my $self = shift;
-	my $model = Saclient::Cloud::Util->create_class_instance("saclient.cloud.model.Model_Disk", [$self->{'_client'}]);
+	my $model = Saclient::Cloud::Util::create_class_instance("saclient.cloud.model.Model_Disk", [$self->{'_client'}]);
 	return $model->with_server_id($self->_id())->find();
 }
 

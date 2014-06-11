@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 
+
 =pod
 
 =encoding utf8
@@ -118,11 +119,11 @@ sub _get {
 	my $id = shift;
 	my $params = $self->{'_params'};
 	$self->_reset();
-	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util->url_encode($id), $params);
+	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($id), $params);
 	$self->{'_total'} = 1;
 	$self->{'_count'} = 1;
 	my $record = $result->{$self->_root_key()};
-	return Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
+	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
 }
 
 sub _find {
@@ -135,7 +136,7 @@ sub _find {
 	my $records = $result->{$self->_root_key_m()};
 	my $data = [];
 	foreach my $record (@{$records}) {
-		my $i = Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
+		my $i = Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
 		push(@{$data}, $i);
 	}
 	return $data;
@@ -152,7 +153,7 @@ sub _find_one {
 		return undef;
 	}
 	my $records = $result->{$self->_root_key_m()};
-	return Saclient::Cloud::Util->create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $records->[0]]);
+	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $records->[0]]);
 }
 
 sub _filter_by {

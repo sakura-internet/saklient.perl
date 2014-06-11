@@ -10,6 +10,7 @@ use Data::Dumper;
 use URI::Escape;
 use DateTime::Format::Strptime;
 
+
 =pod
 
 =encoding utf8
@@ -17,12 +18,12 @@ use DateTime::Format::Strptime;
 =cut
 
 sub create_class_instance {
-	my $class = shift;
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
 	my $classPath = shift;
 	my $args = shift;
 	my $ret = undef;
 	$classPath =~ s/\./::/g;
-	$classPath =~ s/(:|^)([a-z])/$1.uc($2)/eg;;
+	$classPath =~ s/(:|^)([a-z])/$1.uc($2)/eg;
 	$ret = new $classPath(@$args);
 	if (!defined($ret)) {
 		throw Error::Simple("Could not create class instance of " . $classPath);
@@ -31,7 +32,7 @@ sub create_class_instance {
 }
 
 sub str2date {
-	my $class = shift;
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
 	my $s = shift;
 	if (!defined($s)) {
 		return undef;
@@ -41,7 +42,7 @@ sub str2date {
 }
 
 sub date2str {
-	my $class = shift;
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
 	my $d = shift;
 	if (!defined($d)) {
 		return undef;
@@ -52,13 +53,13 @@ sub date2str {
 }
 
 sub url_encode {
-	my $class = shift;
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
 	my $s = shift;
 	return uri_escape($s);
 }
 
 sub cast_array {
-	my $class = shift;
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
 	my $a = shift;
 	my $clazz = shift;
 	return $a;

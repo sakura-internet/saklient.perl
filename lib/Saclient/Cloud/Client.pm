@@ -25,31 +25,31 @@ sub new {
 	$self->{config} = {};
 	$self->{config}->{apiRoot} = "https://secure.sakura.ad.jp/cloud/";
 	$self->{config}->{apiRootSuffix} = undef;
-	$self->setAccessKey($token, $secret);
+	$self->set_access_key($token, $secret);
 	return $self;
 }
 
-sub cloneInstance {
+sub clone_instance {
 	my $self = shift;
-	my $c = saclient::cloud::Client->new($self->{config}->{token}, $self->{config}->{secret});
+	my $c = new Saclient::Cloud::Client($self->{config}->{token}, $self->{config}->{secret});
 	$c->{config}->{apiRoot} = $self->{config}->{apiRoot};
 	$c->{config}->{apiRootSuffix} = $self->{config}->{apiRootSuffix};
 	return $c;
 }
 
-sub setApiRoot {
+sub set_api_root {
 	my $self = shift;
 	my $url = shift;
 	$self->{config}->{apiRoot} = $url;
 }
 
-sub setApiRootSuffix {
+sub set_api_root_suffix {
 	my $self = shift;
 	my $suffix = shift;
 	$self->{config}->{apiRootSuffix} = $suffix;
 }
 
-sub setAccessKey {
+sub set_access_key {
 	my $self = shift;
 	my $token = shift;
 	my $secret = shift;
@@ -84,7 +84,7 @@ sub request {
 	}
 	#print STDERR "// APIリクエスト中: ".$method." ".$path, "\n";
 	
-	my $request = HTTP::Request->new($method ne 'GET' ? 'POST' : 'GET', $path);
+	my $request = new HTTP::Request($method ne 'GET' ? 'POST' : 'GET', $path);
 	$request->header('Content-Type' => 'application/x-www-form-urlencoded');
 	$request->header('Authorization' => $self->{config}->{authorization});
 	$request->header('User-Agent' => 'sacloud-client-perl');

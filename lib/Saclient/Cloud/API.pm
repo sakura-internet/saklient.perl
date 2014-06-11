@@ -16,6 +16,7 @@ use Saclient::Cloud::Model::Model_Appliance;
 use Saclient::Cloud::Model::Model_Archive;
 use Saclient::Cloud::Model::Model_IPv6Net;
 
+
 =pod
 
 =encoding utf8
@@ -144,7 +145,7 @@ sub new {
 
 =cut
 sub authorize {
-	my $class = shift;
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::API';
 	my $token = shift;
 	my $secret = shift;
 	my $c = new Saclient::Cloud::Client($token, $secret);

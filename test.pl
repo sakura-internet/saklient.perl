@@ -1,28 +1,40 @@
 #!/usr/bin/perl
 
+use strict;
+use warnings;
 use Saclient::Cloud::API;
+use Saclient::Cloud::Enums::EServerInstanceStatus;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
 binmode STDOUT, ":utf8";
 
-my $api = Saclient::Cloud::API->authorize($ARGV[0], $ARGV[1]);#->in_zone("is1b");
+my $api = Saclient::Cloud::API::authorize($ARGV[0], $ARGV[1]);#->in_zone("is1b");
 
 if (0) {
 	
-	$plan_from = $api->product->server->get_by_spec(2, 4);
+	my $plan_from = $api->product->server->get_by_spec(2, 4);
 	printf "plan from: [%s] %dcore %dGB\n", $plan_from->id, $plan_from->cpu, $plan_from->memory_gib;
-	$plan_to   = $api->product->server->get_by_spec(4, 8);
+	my $plan_to   = $api->product->server->get_by_spec(4, 8);
 	printf "plan to:   [%s] %dcore %dGB\n", $plan_to->id, $plan_to->cpu, $plan_to->memory_gib;
 	printf "\n";
 	
-	$servers = $api->server->with_plan($plan_from)->find();
+	my $servers = $api->server->with_plan($plan_from)->find();
 	foreach my $server (@$servers) {
 		printf "server [%s] %dcore %dGB '%s'\n", $server->id, $server->plan->cpu, $server->plan->memory_gib, $server->name;
 		$server->change_plan($plan_to);
 		printf "    -> [%s] %dcore %dGB\n\n", $server->id, $server->plan->cpu, $server->plan->memory_gib;
 	}
 
+}
+
+if (0) {
+	
+	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus::down();
+	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus->down();
+	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus::compare("up", "down");
+	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus->compare("up", "down");
+	
 }
 
 if (1) {
@@ -66,7 +78,7 @@ if (0) {
 		#next if $server->instance->status ne "down";
 		next unless scalar @{$server->tags};
 		printf "\n";
-		printf "server [%s] %s at %s\n", $server->id, $server->instance->status, $server->instance->status_changed_at;
+		printf "server [%s] %s%s at %s\n", $server->id, $server->is_up?"+":"-", $server->instance->status, $server->instance->status_changed_at;
 		printf "    tags: %s\n", join ', ', @{$server->tags};
 		#print JSON->new->utf8(0)->pretty(1)->encode($server->dump());
 		#
