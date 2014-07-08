@@ -14,10 +14,14 @@ my $api = Saclient::Cloud::API::authorize($ARGV[0], $ARGV[1]);#->in_zone("is1b")
 if (1) {
 	my $server = $api->server->create;
 	$server->name('saclient.pl');
+	$server->description('This instance was created by saclient.pl example');
+	$server->tags(['saclient-test']);
 	$server->plan($api->product->server->get_by_spec(1, 1));
 	$server->save;
 	my $servers = $api->server->with_name_like('saclient.pl')->find;
 	printf "%s\n", $servers->[0]->name;
+	printf "%s\n", $servers->[0]->description;
+	printf "%s\n", join(', ', @{$servers->[0]->tags});
 	$server->destroy;
 }
 
