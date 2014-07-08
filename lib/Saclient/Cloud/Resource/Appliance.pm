@@ -61,18 +61,6 @@ sub _id {
 	return $self->get_id();
 }
 
-=head2 create : Saclient::Cloud::Resource::Appliance
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-
-@return this
-
-=cut
-sub create {
-	my $self = shift;
-	return $self->_create();
-}
-
 =head2 save : Saclient::Cloud::Resource::Appliance
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
@@ -332,35 +320,43 @@ sub service_class {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	$self->{'is_incomplete'} = 1;
+	$self->{'is_new'} = !defined($r);
+	if ($self->{'is_new'}) {
+		$r = {};
+	}
+	$self->{'is_incomplete'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
 		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-		$self->{'n_id'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_id'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_id'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Class"})) {
 		$self->{'m_clazz'} = !defined($r->{"Class"}) ? undef : "" . $r->{"Class"};
-		$self->{'n_clazz'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_clazz'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_clazz'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
 		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
-		$self->{'n_name'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_name'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_name'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Description"})) {
 		$self->{'m_description'} = !defined($r->{"Description"}) ? undef : "" . $r->{"Description"};
-		$self->{'n_description'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_description'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_description'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Tags"})) {
 		if (!defined($r->{"Tags"})) {
 			$self->{'m_tags'} = [];
@@ -373,18 +369,20 @@ sub api_deserialize {
 				push(@{$self->{'m_tags'}}, $v);
 			}
 		}
-		$self->{'n_tags'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_tags'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_tags'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Icon"})) {
 		$self->{'m_icon'} = !defined($r->{"Icon"}) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, $r->{"Icon"});
-		$self->{'n_icon'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_icon'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_icon'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Interfaces"})) {
 		if (!defined($r->{"Interfaces"})) {
 			$self->{'m_ifaces'} = [];
@@ -397,18 +395,20 @@ sub api_deserialize {
 				push(@{$self->{'m_ifaces'}}, $v);
 			}
 		}
-		$self->{'n_ifaces'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_ifaces'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_ifaces'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
 		$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
-		$self->{'n_service_class'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_service_class'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_service_class'} = 0;
 }
 
 =head2 api_serialize(bool $withClean=0) : any

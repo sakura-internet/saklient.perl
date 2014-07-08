@@ -164,6 +164,7 @@ sub in_zone {
 	my $self = shift;
 	my $name = shift;
 	my $ret = new Saclient::Cloud::API($self->{'_client'}->clone_instance());
+	$ret->{'_client'}->set_api_root("https://secure.sakura.ad.jp/cloud/");
 	$ret->{'_client'}->set_api_root_suffix("zone/" . $name);
 	return $ret;
 }

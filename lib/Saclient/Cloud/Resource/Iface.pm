@@ -51,18 +51,6 @@ sub _id {
 	return $self->get_id();
 }
 
-=head2 create : Saclient::Cloud::Resource::Iface
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-
-@return this
-
-=cut
-sub create {
-	my $self = shift;
-	return $self->_create();
-}
-
 =head2 save : Saclient::Cloud::Resource::Iface
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
@@ -158,35 +146,43 @@ sub user_ip_address {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	$self->{'is_incomplete'} = 1;
+	$self->{'is_new'} = !defined($r);
+	if ($self->{'is_new'}) {
+		$r = {};
+	}
+	$self->{'is_incomplete'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
 		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-		$self->{'n_id'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_id'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_id'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"MACAddress"})) {
 		$self->{'m_mac_address'} = !defined($r->{"MACAddress"}) ? undef : "" . $r->{"MACAddress"};
-		$self->{'n_mac_address'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_mac_address'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_mac_address'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"IPAddress"})) {
 		$self->{'m_ip_address'} = !defined($r->{"IPAddress"}) ? undef : "" . $r->{"IPAddress"};
-		$self->{'n_ip_address'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_ip_address'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_ip_address'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"UserIPAddress"})) {
 		$self->{'m_user_ip_address'} = !defined($r->{"UserIPAddress"}) ? undef : "" . $r->{"UserIPAddress"};
-		$self->{'n_user_ip_address'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_user_ip_address'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_user_ip_address'} = 0;
 }
 
 =head2 api_serialize(bool $withClean=0) : any

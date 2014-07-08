@@ -81,28 +81,35 @@ sub status_changed_at {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	$self->{'is_incomplete'} = 1;
+	$self->{'is_new'} = !defined($r);
+	if ($self->{'is_new'}) {
+		$r = {};
+	}
+	$self->{'is_incomplete'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Status"})) {
 		$self->{'m_status'} = !defined($r->{"Status"}) ? undef : "" . $r->{"Status"};
-		$self->{'n_status'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_status'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_status'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"BeforeStatus"})) {
 		$self->{'m_before_status'} = !defined($r->{"BeforeStatus"}) ? undef : "" . $r->{"BeforeStatus"};
-		$self->{'n_before_status'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_before_status'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_before_status'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"StatusChangedAt"})) {
 		$self->{'m_status_changed_at'} = !defined($r->{"StatusChangedAt"}) ? undef : Saclient::Cloud::Util::str2date("" . $r->{"StatusChangedAt"});
-		$self->{'n_status_changed_at'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_status_changed_at'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_status_changed_at'} = 0;
 }
 
 =head2 api_serialize(bool $withClean=0) : any

@@ -114,6 +114,11 @@ sub _reset {
 	return $self;
 }
 
+sub _create {
+	my $self = shift;
+	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, undef]);
+}
+
 sub _get {
 	my $self = shift;
 	my $id = shift;

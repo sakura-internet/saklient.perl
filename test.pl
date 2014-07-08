@@ -11,6 +11,16 @@ binmode STDOUT, ":utf8";
 
 my $api = Saclient::Cloud::API::authorize($ARGV[0], $ARGV[1]);#->in_zone("is1b");
 
+if (1) {
+	my $server = $api->server->create;
+	$server->name('saclient.pl');
+	$server->plan($api->product->server->get_by_spec(1, 1));
+	$server->save;
+	my $servers = $api->server->with_name_like('saclient.pl')->find;
+	printf "%s\n", $servers->[0]->name;
+	$server->destroy;
+}
+
 if (0) {
 	
 	my $plan_from = $api->product->server->get_by_spec(2, 4);
@@ -37,7 +47,7 @@ if (0) {
 	
 }
 
-if (1) {
+if (0) {
 
 	my $icons = $api->icon->with_name_like("cent")->limit(1)->find();
 	die "icon not found" unless $icons && @$icons;

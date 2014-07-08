@@ -61,6 +61,8 @@ sub new {
 	return $self;
 }
 
+my $is_new;
+
 my $is_incomplete;
 
 sub api_deserialize {
@@ -86,18 +88,32 @@ sub api_serialize_id {
 	return $r;
 }
 
-sub _create {
-	my $self = shift;
-	return $self;
-}
-
 sub _save {
 	my $self = shift;
 	my $r = {};
 	$r->{$self->_root_key()} = $self->api_serialize();
-	my $result = $self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()), $r);
+	my $method = $self->{'is_new'} ? "POST" : "PUT";
+	my $path = $self->_api_path();
+	if (!$self->{'is_new'}) {
+		$path .= "/" . Saclient::Cloud::Util::url_encode($self->_id());
+	}
+	my $result = $self->{'_client'}->request($method, $path, $r);
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
+}
+
+=head2 destroy : void
+
+このローカルオブジェクトのIDと対応するリソースの削除リクエストをAPIに送信します。
+
+=cut
+sub destroy {
+	my $self = shift;
+	if ($self->{'is_new'}) {
+		return;
+	}
+	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id());
+	$self->{'_client'}->request("DELETE", $path);
 }
 
 sub _reload {

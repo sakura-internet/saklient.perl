@@ -120,42 +120,51 @@ sub service_class {
 sub api_deserialize {
 	my $self = shift;
 	my $r = shift;
-	$self->{'is_incomplete'} = 1;
+	$self->{'is_new'} = !defined($r);
+	if ($self->{'is_new'}) {
+		$r = {};
+	}
+	$self->{'is_incomplete'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
 		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
-		$self->{'n_id'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_id'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_id'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
 		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
-		$self->{'n_name'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_name'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_name'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"CPU"})) {
 		$self->{'m_cpu'} = !defined($r->{"CPU"}) ? undef : (0+("" . $r->{"CPU"}));
-		$self->{'n_cpu'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_cpu'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_cpu'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"MemoryMB"})) {
 		$self->{'m_memory_mib'} = !defined($r->{"MemoryMB"}) ? undef : (0+("" . $r->{"MemoryMB"}));
-		$self->{'n_memory_mib'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_memory_mib'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_memory_mib'} = 0;
 	if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
 		$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
-		$self->{'n_service_class'} = 0;
 	}
 	else {
-		$self->{'is_incomplete'} = 0;
+		$self->{'m_service_class'} = undef;
+		$self->{'is_incomplete'} = 1;
 	}
+	$self->{'n_service_class'} = 0;
 }
 
 =head2 api_serialize(bool $withClean=0) : any
