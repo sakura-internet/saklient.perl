@@ -11,6 +11,7 @@ use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::Iface;
+use Saclient::Cloud::Enums::EApplianceClass;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 

@@ -12,6 +12,7 @@ use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
+use Saclient::Cloud::Enums::EScope;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 

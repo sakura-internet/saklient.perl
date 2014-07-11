@@ -2,14 +2,28 @@
 
 use strict;
 use warnings;
+use errors;
 use Saclient::Cloud::API;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
+use Saclient::Cloud::Errors::HttpException;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
 binmode STDOUT, ":utf8";
 
 my $api = Saclient::Cloud::API::authorize($ARGV[0], $ARGV[1]);#->in_zone("is1b");
+
+if (0) {
+	try {
+		$api->server->get_by_id(12345);
+	}
+	catch Saclient::Cloud::Errors::HttpException with {
+		my $ex = shift;
+		die sprintf('%s(%d): %s', $ex->code, $ex->status, $ex->message) if $ex->code ne 'not_found';
+	};
+	printf "ok\n";
+	exit;
+}
 
 if (1) {
 	my $server = $api->server->create;
@@ -22,7 +36,32 @@ if (1) {
 	printf "%s\n", $servers->[0]->name;
 	printf "%s\n", $servers->[0]->description;
 	printf "%s\n", join(', ', @{$servers->[0]->tags});
+	#
+	$server->boot;
+	sleep 1;
+	$server->reload;
+	die 'サーバが起動しません' if $server->instance->status ne Saclient::Cloud::Enums::EServerInstanceStatus::up;
+	my $ok = 0;
+	try {
+		$server->boot;
+	}
+	catch Saclient::Cloud::Errors::HttpException with {
+		my $ex = shift;
+		throw $ex if $ex->code ne 'conflict';
+		$ok = 1;
+	};
+	#
+	die 'サーバ起動中の起動試行時は HttpException がスローされなければなりません' unless $ok;
+	#
+	$server->stop;
+	do {
+		printf "サーバの停止を待機中… (現在の状態: %s)\n", $server->instance->status;
+		sleep 1;
+		$server->reload;
+	} until ($server->is_down);
+	#
 	$server->destroy;
+	printf "ok\n";
 }
 
 if (0) {

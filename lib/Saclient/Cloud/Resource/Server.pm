@@ -106,7 +106,17 @@ sub new {
 =cut
 sub is_up {
 	my $self = shift;
-	return defined($self->{'instance'}->{'status'}) && Saclient::Cloud::Enums::EServerInstanceStatus::compare($self->{'instance'}->{'status'}, Saclient::Cloud::Enums::EServerInstanceStatus::up) eq 0;
+	return $self->get_instance()->is_up();
+}
+
+=head2 is_down : bool
+
+サーバが停止しているときtrueを返します。
+
+=cut
+sub is_down {
+	my $self = shift;
+	return $self->get_instance()->is_down();
 }
 
 =head2 boot : Saclient::Cloud::Resource::Server
@@ -117,7 +127,7 @@ sub is_up {
 sub boot {
 	my $self = shift;
 	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
-	return $self;
+	return $self->reload();
 }
 
 =head2 shutdown : Saclient::Cloud::Resource::Server
@@ -128,7 +138,7 @@ sub boot {
 sub shutdown {
 	my $self = shift;
 	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
-	return $self;
+	return $self->reload();
 }
 
 =head2 stop : Saclient::Cloud::Resource::Server
@@ -139,7 +149,7 @@ sub shutdown {
 sub stop {
 	my $self = shift;
 	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power", {'Force' => 1});
-	return $self;
+	return $self->reload();
 }
 
 =head2 reboot : Saclient::Cloud::Resource::Server
@@ -150,7 +160,7 @@ sub stop {
 sub reboot {
 	my $self = shift;
 	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/reset");
-	return $self;
+	return $self->reload();
 }
 
 =head2 change_plan(Saclient::Cloud::Resource::ServerPlan $planTo) : Saclient::Cloud::Resource::Server

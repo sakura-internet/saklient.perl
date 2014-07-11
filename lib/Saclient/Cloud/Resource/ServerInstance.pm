@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Util;
 use Saclient::Cloud::Resource::Resource;
+use Saclient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
@@ -38,6 +39,26 @@ sub new {
 	$self = $class->SUPER::new($client);
 	$self->api_deserialize($r);
 	return $self;
+}
+
+=head2 is_up : bool
+
+サーバが起動しているときtrueを返します。
+
+=cut
+sub is_up {
+	my $self = shift;
+	return defined($self->get_status()) && Saclient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saclient::Cloud::Enums::EServerInstanceStatus::up) == 0;
+}
+
+=head2 is_down : bool
+
+サーバが停止しているときtrueを返します。
+
+=cut
+sub is_down {
+	my $self = shift;
+	return !defined($self->get_status()) || Saclient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saclient::Cloud::Enums::EServerInstanceStatus::down) == 0;
 }
 
 my $n_status = 0;

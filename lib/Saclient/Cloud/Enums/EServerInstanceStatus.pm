@@ -18,8 +18,6 @@ our $_map = {
 	"cleaning" => 5,
 	"starting" => 10,
 	"alive" => 49,
-	"suspended" => 70,
-	"running" => 80,
 	"active" => 89,
 	"migrating" => 90,
 	"up" => 100
@@ -31,8 +29,6 @@ sub new {
 	$self->{"cleaning"} = "cleaning";
 	$self->{"starting"} = "starting";
 	$self->{"alive"} = "alive";
-	$self->{"suspended"} = "suspended";
-	$self->{"running"} = "running";
 	$self->{"active"} = "active";
 	$self->{"migrating"} = "migrating";
 	$self->{"up"} = "up";
@@ -47,10 +43,6 @@ sub cleaning { "cleaning"; }
 sub starting { "starting"; }
 
 sub alive { "alive"; }
-
-sub suspended { "suspended"; }
-
-sub running { "running"; }
 
 sub active { "active"; }
 

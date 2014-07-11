@@ -125,7 +125,7 @@ sub _reload {
 
 sub dump {
 	my $self = shift;
-	return $self->api_serialize();
+	return $self->api_serialize(1);
 }
 
 1;

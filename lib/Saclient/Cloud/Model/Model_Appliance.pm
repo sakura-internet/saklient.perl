@@ -78,17 +78,17 @@ sub reset {
 	return $self->_reset();
 }
 
-=head2 get(string $id) : Saclient::Cloud::Resource::Appliance
+=head2 get_by_id(string $id) : Saclient::Cloud::Resource::Appliance
 
 指定したIDを持つ唯一のリソースを取得します。
 
 @return リソースオブジェクト
 
 =cut
-sub get {
+sub get_by_id {
 	my $self = shift;
 	my $id = shift;
-	return $self->_get($id);
+	return $self->_get_by_id($id);
 }
 
 =head2 find : Saclient::Cloud::Resource::Appliance[]

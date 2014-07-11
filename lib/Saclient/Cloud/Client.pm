@@ -9,6 +9,8 @@ use MIME::Base64;
 use URI::Escape;
 use JSON;
 use Data::Dumper;
+#use Saclient::Cloud::Errors::ExceptionFactory;
+use Saclient::Cloud::Errors::HttpException;
 
 sub println {
 	my $msg = shift;
@@ -111,15 +113,21 @@ sub request {
 	#print STDERR '// > '.$response->status_line, "\n";
 	#print STDERR JSON->new->utf8(0)->encode($resh), "\n";
 	
-	if (!$response->is_success) {
-		throw Error::Simple($response->status_line);
-	}
-	#print STDERR $response->content, "\n";
 	my $ret = undef;
 	if (defined($response->content)) {
 		$ret = JSON->new->utf8(0)->decode($response->content);
 #		print STDERR Dumper $ret;
 	}
+	
+	if (!$response->is_success) {
+		$response->status_line =~ /^([0-9]+)/;
+		my $status = 0 + $1;
+		#my $ex = Saclient::Cloud::Errors::ExceptionFactory::create($status, $ret && $ret->{error_code}, $ret && $ret->{error_msg});
+		my $ex = new Saclient::Cloud::Errors::HttpException($status, $ret && $ret->{error_code}, $ret && $ret->{error_msg});
+		throw $ex;
+	}
+	
+	#print STDERR $response->content, "\n";
 	#print STDERR "//  -> " . $response->status, "\n";
 	return $ret; #Util.localizeKeys(ret);
 }

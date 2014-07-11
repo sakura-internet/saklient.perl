@@ -119,7 +119,7 @@ sub _create {
 	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, undef]);
 }
 
-sub _get {
+sub _get_by_id {
 	my $self = shift;
 	my $id = shift;
 	my $params = $self->{'_params'};
@@ -154,7 +154,7 @@ sub _find_one {
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
 	$self->{'_total'} = $result->{"Total"};
 	$self->{'_count'} = $result->{"Count"};
-	if ($self->{'_total'} eq 0) {
+	if ($self->{'_total'} == 0) {
 		return undef;
 	}
 	my $records = $result->{$self->_root_key_m()};
