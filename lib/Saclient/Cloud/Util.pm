@@ -65,4 +65,10 @@ sub cast_array {
 	return $a;
 }
 
+sub sleep {
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	my $sec = shift;
+	sleep($sec);
+}
+
 1;

@@ -163,6 +163,50 @@ sub reboot {
 	return $self->reload();
 }
 
+sub sleep_until {
+	my $self = shift;
+	my $status = shift;
+	my $timeout = shift || (60);
+	my $step = 3;
+	while (0 < $timeout) {
+		$self->reload();
+		my $s = $self->get_instance()->status;
+		if (!defined($s)) {
+			$s = Saclient::Cloud::Enums::EServerInstanceStatus::down;
+		}
+		if ($s eq $status) {
+			return 1;
+		}
+		$timeout -= $step;
+		if (0 < $timeout) {
+			sleep $step;
+		}
+	}
+	return 0;
+}
+
+=head2 sleep_until_up(int $timeout=60) : bool
+
+サーバが起動するまで待機します。
+
+=cut
+sub sleep_until_up {
+	my $self = shift;
+	my $timeout = shift || (60);
+	return $self->sleep_until(Saclient::Cloud::Enums::EServerInstanceStatus::up, $timeout);
+}
+
+=head2 sleep_until_down(int $timeout=60) : bool
+
+サーバが停止するまで待機します。
+
+=cut
+sub sleep_until_down {
+	my $self = shift;
+	my $timeout = shift || (60);
+	return $self->sleep_until(Saclient::Cloud::Enums::EServerInstanceStatus::down, $timeout);
+}
+
 =head2 change_plan(Saclient::Cloud::Resource::ServerPlan $planTo) : Saclient::Cloud::Resource::Server
 
 サーバのプランを変更します。
