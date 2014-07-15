@@ -119,14 +119,32 @@ ok $ok, 'サーバ起動中の起動試行時は HttpConflictException がスロ
 # test_stop
 $server->stop;
 diag 'サーバの停止を待機中…';
-fail 'サーバが正常に停止しません' unless $server->sleep_until_down;
 
-# test_destroy
-$server->destroy;
-
-
-
-#
-plan tests => $tests;
-done_testing;
-
+if (1) {
+	# sleep* style
+	
+	fail 'サーバが正常に停止しません' unless $server->sleep_until_down;
+	
+	# test_destroy
+	$server->destroy;
+	
+	#
+	plan tests => $tests;
+	done_testing;
+	
+}
+else {
+	# after* style
+	
+	$server->after_down(sub{
+		shift;
+		my $ok = shift;
+		fail 'サーバが正常に停止しません' unless $ok;
+		# test_destroy
+		$server->destroy;
+		#
+		plan tests => $tests;
+		done_testing;
+	});
+	
+}

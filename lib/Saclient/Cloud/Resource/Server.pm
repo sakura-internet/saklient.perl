@@ -163,26 +163,37 @@ sub reboot {
 	return $self->reload();
 }
 
-sub sleep_until {
+=head2 after_up((Saclient::Cloud::Resource::Server, bool) => void $callback, int $timeout=60) : void
+
+サーバが起動するまで待機します。
+
+=cut
+sub after_up {
+	my $self = shift;
+	my $callback = shift;
+	my $timeout = shift || (60);
+	$self->after_status(Saclient::Cloud::Enums::EServerInstanceStatus::up, $callback, $timeout);
+}
+
+=head2 after_down((Saclient::Cloud::Resource::Server, bool) => void $callback, int $timeout=60) : void
+
+サーバが停止するまで待機します。
+
+=cut
+sub after_down {
+	my $self = shift;
+	my $callback = shift;
+	my $timeout = shift || (60);
+	$self->after_status(Saclient::Cloud::Enums::EServerInstanceStatus::down, $callback, $timeout);
+}
+
+sub after_status {
 	my $self = shift;
 	my $status = shift;
+	my $callback = shift;
 	my $timeout = shift || (60);
-	my $step = 3;
-	while (0 < $timeout) {
-		$self->reload();
-		my $s = $self->get_instance()->status;
-		if (!defined($s)) {
-			$s = Saclient::Cloud::Enums::EServerInstanceStatus::down;
-		}
-		if ($s eq $status) {
-			return 1;
-		}
-		$timeout -= $step;
-		if (0 < $timeout) {
-			sleep $step;
-		}
-	}
-	return 0;
+	my $ret = $self->sleep_until($status, $timeout);
+	$callback->($self, $ret);
 }
 
 =head2 sleep_until_up(int $timeout=60) : bool
@@ -205,6 +216,28 @@ sub sleep_until_down {
 	my $self = shift;
 	my $timeout = shift || (60);
 	return $self->sleep_until(Saclient::Cloud::Enums::EServerInstanceStatus::down, $timeout);
+}
+
+sub sleep_until {
+	my $self = shift;
+	my $status = shift;
+	my $timeout = shift || (60);
+	my $step = 3;
+	while (0 < $timeout) {
+		$self->reload();
+		my $s = $self->get_instance()->status;
+		if (!defined($s)) {
+			$s = Saclient::Cloud::Enums::EServerInstanceStatus::down;
+		}
+		if ($s eq $status) {
+			return 1;
+		}
+		$timeout -= $step;
+		if (0 < $timeout) {
+			sleep $step;
+		}
+	}
+	return 0;
 }
 
 =head2 change_plan(Saclient::Cloud::Resource::ServerPlan $planTo) : Saclient::Cloud::Resource::Server
