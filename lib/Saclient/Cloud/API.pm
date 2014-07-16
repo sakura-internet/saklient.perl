@@ -8,6 +8,7 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
+use Saclient::Cloud::Util;
 use Saclient::Cloud::Product;
 use Saclient::Cloud::Model::Model_Icon;
 use Saclient::Cloud::Model::Model_Server;
@@ -167,6 +168,12 @@ sub in_zone {
 	$ret->{'_client'}->set_api_root("https://secure.sakura.ad.jp/cloud/");
 	$ret->{'_client'}->set_api_root_suffix("zone/" . $name);
 	return $ret;
+}
+
+sub sleep {
+	my $self = shift;
+	my $sec = shift;
+	sleep $sec;
 }
 
 1;

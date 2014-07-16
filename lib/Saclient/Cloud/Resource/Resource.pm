@@ -75,16 +75,50 @@ my $is_new;
 
 my $is_incomplete;
 
-sub api_deserialize {
+sub _on_before_save {
 	my $self = shift;
 	my $r = shift;
 	{}
 }
 
-sub api_serialize {
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $r = shift;
+	{}
+}
+
+sub _on_after_api_serialize {
+	my $self = shift;
+	my $r = shift;
+	my $withClean = shift;
+	{}
+}
+
+sub api_deserialize_impl {
+	my $self = shift;
+	my $r = shift;
+	{}
+}
+
+sub api_deserialize {
+	my $self = shift;
+	my $r = shift;
+	$self->api_deserialize_impl($r);
+	$self->_on_after_api_deserialize($r);
+}
+
+sub api_serialize_impl {
 	my $self = shift;
 	my $withClean = shift || (0);
 	return undef;
+}
+
+sub api_serialize {
+	my $self = shift;
+	my $withClean = shift || (0);
+	my $ret = $self->api_serialize_impl($withClean);
+	$self->_on_after_api_serialize($ret, $withClean);
+	return $ret;
 }
 
 sub api_serialize_id {
@@ -108,6 +142,7 @@ sub _save {
 		my $v = $params->{$k};
 		$r->{$k} = $v;
 	}
+	$self->_on_before_save($r);
 	my $method = $self->{'is_new'} ? "POST" : "PUT";
 	my $path = $self->_api_path();
 	if (!$self->{'is_new'}) {

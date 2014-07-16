@@ -122,47 +122,119 @@ sub get_size_gib {
 	return $self->get_size_mib() >> 10;
 }
 
+sub set_size_gib {
+	my $self = shift;
+	my $sizeGib = shift;
+	$self->set_size_mib($sizeGib * 1024);
+	return $sizeGib;
+}
+
 =head2 size_gib
 
 サイズ[GiB]
 
 =cut
 sub size_gib {
+	if (1 < scalar(@_)) { $_[0]->set_size_gib($_[1]); return $_[0]; }
 	return $_[0]->get_size_gib();
 }
 
-=head2 attach_to(string $serverId) : Saclient::Cloud::Resource::Disk
+my $_source;
+
+sub get_source {
+	my $self = shift;
+	return $self->{'_source'};
+}
+
+sub set_source {
+	my $self = shift;
+	my $source = shift;
+	$self->{'_source'} = $source;
+	return $source;
+}
+
+=head2 source
+
+ディスクのコピー元
+
+=cut
+sub source {
+	if (1 < scalar(@_)) { $_[0]->set_source($_[1]); return $_[0]; }
+	return $_[0]->get_source();
+}
+
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $r = shift;
+	if (!defined($r)) {
+		return;
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"SourceArchive"})) {
+		my $s = $r->{"SourceArchive"};
+		if (defined($s)) {
+			my $id = $s->{"ID"};
+			if (defined($id)) {
+				$self->{'_source'} = new Saclient::Cloud::Resource::Archive($self->{'_client'}, $s);
+			}
+		}
+	}
+	if ((ref($r) eq 'HASH' && exists $r->{"SourceDisk"})) {
+		my $s = $r->{"SourceDisk"};
+		if (defined($s)) {
+			my $id = $s->{"ID"};
+			if (defined($id)) {
+				$self->{'_source'} = new Saclient::Cloud::Resource::Disk($self->{'_client'}, $s);
+			}
+		}
+	}
+}
+
+sub _on_after_api_serialize {
+	my $self = shift;
+	my $r = shift;
+	my $withClean = shift;
+	if (!defined($r)) {
+		return;
+	}
+	if (defined($self->{'_source'})) {
+		if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Archive")) {
+			my $archive = $self->{'_source'};
+			my $s = $withClean ? $archive->api_serialize(1) : {'ID' => $archive->_id()};
+			$r->{"SourceArchive"} = $s;
+		}
+		else {
+			if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Disk")) {
+				my $disk = $self->{'_source'};
+				my $s = $withClean ? $disk->api_serialize(1) : {'ID' => $disk->_id()};
+				$r->{"SourceDisk"} = $s;
+			}
+			else {
+				$r->{"SourceArchive"} = {'ID' => 1};
+			}
+		}
+	}
+}
+
+=head2 connect_to(Saclient::Cloud::Resource::Server $server) : Saclient::Cloud::Resource::Disk
 
 ディスクをサーバに取り付けます。
 
 =cut
-sub attach_to {
+sub connect_to {
 	my $self = shift;
-	my $serverId = shift;
-	$self->{'_client'}->request("PUT", "/disk/" . $self->_id() . "/to/server/" . $serverId);
+	my $server = shift;
+	$self->{'_client'}->request("PUT", "/disk/" . $self->_id() . "/to/server/" . $server->_id());
 	return $self;
 }
 
-=head2 detach : Saclient::Cloud::Resource::Disk
+=head2 disconnect : Saclient::Cloud::Resource::Disk
 
 ディスクをサーバから取り外します。
 
 =cut
-sub detach {
+sub disconnect {
 	my $self = shift;
 	$self->{'_client'}->request("DELETE", "/disk/" . $self->_id() . "/to/server");
-	return $self;
-}
-
-=head2 copy_from(Saclient::Cloud::Resource::Archive $archive) : Saclient::Cloud::Resource::Disk
-
-この後に save() するディスクのコピー元となるアーカイブを設定します。
-
-=cut
-sub copy_from {
-	my $self = shift;
-	my $archive = shift;
-	$self->set_param("SourceArchive", {'ID' => $archive->_id()});
 	return $self;
 }
 
@@ -328,12 +400,21 @@ sub get_size_mib {
 	return $self->{'m_size_mib'};
 }
 
+sub set_size_mib {
+	my $self = shift;
+	my $v = shift;
+	$self->{'m_size_mib'} = $v;
+	$self->{'n_size_mib'} = 1;
+	return $self->{'m_size_mib'};
+}
+
 =head2 size_mib
 
 サイズ[MiB]
 
 =cut
 sub size_mib {
+	if (1 < scalar(@_)) { $_[0]->set_size_mib($_[1]); return $_[0]; }
 	return $_[0]->get_size_mib();
 }
 
@@ -401,12 +482,7 @@ sub availability {
 	return $_[0]->get_availability();
 }
 
-=head2 api_deserialize($r)
-
-(This method is generated in Translator_default#buildImpl)
-
-=cut
-sub api_deserialize {
+sub api_deserialize_impl {
 	my $self = shift;
 	my $r = shift;
 	$self->{'is_new'} = !defined($r);
@@ -506,12 +582,7 @@ sub api_deserialize {
 	$self->{'n_availability'} = 0;
 }
 
-=head2 api_serialize(bool $withClean=0) : any
-
-(This method is generated in Translator_default#buildImpl)
-
-=cut
-sub api_serialize {
+sub api_serialize_impl {
 	my $self = shift;
 	my $withClean = shift || (0);
 	my $ret = {};

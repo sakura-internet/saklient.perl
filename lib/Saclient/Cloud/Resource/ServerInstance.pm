@@ -94,12 +94,7 @@ sub status_changed_at {
 	return $_[0]->get_status_changed_at();
 }
 
-=head2 api_deserialize($r)
-
-(This method is generated in Translator_default#buildImpl)
-
-=cut
-sub api_deserialize {
+sub api_deserialize_impl {
 	my $self = shift;
 	my $r = shift;
 	$self->{'is_new'} = !defined($r);
@@ -133,12 +128,7 @@ sub api_deserialize {
 	$self->{'n_status_changed_at'} = 0;
 }
 
-=head2 api_serialize(bool $withClean=0) : any
-
-(This method is generated in Translator_default#buildImpl)
-
-=cut
-sub api_serialize {
+sub api_serialize_impl {
 	my $self = shift;
 	my $withClean = shift || (0);
 	my $ret = {};
