@@ -166,39 +166,39 @@ sub copy_from {
 	return $self;
 }
 
-=head2 after_copy(int $timeout, (Saclient::Cloud::Resource::Disk, bool) => void $callback) : void
+=head2 after_copy(int $timeoutSec, (Saclient::Cloud::Resource::Disk, bool) => void $callback) : void
 
 コピー中のディスクが利用可能になるまで待機します。
 
 =cut
 sub after_copy {
 	my $self = shift;
-	my $timeout = shift;
+	my $timeoutSec = shift;
 	my $callback = shift;
-	my $ret = $self->sleep_while_copying($timeout);
+	my $ret = $self->sleep_while_copying($timeoutSec);
 	$callback->($self, $ret);
 }
 
-=head2 sleep_while_copying(int $timeout=3600) : bool
+=head2 sleep_while_copying(int $timeoutSec=3600) : bool
 
 コピー中のディスクが利用可能になるまで待機します。
 
 =cut
 sub sleep_while_copying {
 	my $self = shift;
-	my $timeout = shift || (3600);
+	my $timeoutSec = shift || (3600);
 	my $step = 3;
-	while (0 < $timeout) {
+	while (0 < $timeoutSec) {
 		$self->reload();
 		my $a = $self->get_availability();
 		if ($a eq Saclient::Cloud::Enums::EAvailability::available) {
 			return 1;
 		}
 		if ($a ne Saclient::Cloud::Enums::EAvailability::migrating) {
-			$timeout = 0;
+			$timeoutSec = 0;
 		}
-		$timeout -= $step;
-		if (0 < $timeout) {
+		$timeoutSec -= $step;
+		if (0 < $timeoutSec) {
 			sleep $step;
 		}
 	}

@@ -16,7 +16,7 @@ use File::Basename qw(basename dirname);
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 18;
+my $tests = 19;
 
 
 
@@ -51,7 +51,7 @@ isa_ok $api, 'Saclient::Cloud::API';
 
 
 # should be found
-my $servers = $api->server()->find();
+my $servers = $api->server->find;
 isa_ok $servers, 'ARRAY';
 cmp_ok scalar(@$servers), '>', 0;
 
@@ -70,6 +70,11 @@ foreach my $server (@$servers) {
 		like($tag, qr/./);
 	}
 }
+
+#should be limited
+$servers = $api->server->limit(1)->find;
+is scalar(@$servers), 1;
+
 
 
 

@@ -95,14 +95,14 @@ sub new {
 sub _offset {
 	my $self = shift;
 	my $offset = shift;
-	$self->{'_params'}->{'_begin'} = $offset;
+	$self->{'_params'}->{"Begin"} = $offset;
 	return $self;
 }
 
 sub _limit {
 	my $self = shift;
 	my $count = shift;
-	$self->{'_params'}->{'_count'} = $count;
+	$self->{'_params'}->{"Count"} = $count;
 	return $self;
 }
 
