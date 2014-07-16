@@ -122,6 +122,7 @@ catch Saclient::Cloud::Errors::HttpException with {
 ok $ok, 'サーバ起動中の起動試行時は HttpConflictException がスローされなければなりません';
 
 # test_stop
+sleep 3;
 $server->stop;
 diag 'サーバの停止を待機中…';
 
