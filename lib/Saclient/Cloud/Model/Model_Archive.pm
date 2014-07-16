@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Model::Model;
 use Saclient::Cloud::Resource::Archive;
+use Saclient::Cloud::Enums::EScope;
 
 use base qw(Saclient::Cloud::Model::Model);
 
@@ -124,6 +125,40 @@ sub with_tag {
 	my $self = shift;
 	my $tag = shift;
 	$self->_filter_by("Tags.Name", $tag, 1);
+	return $self;
+}
+
+=head2 with_size_gib(int $sizeGib) : Saclient::Cloud::Model::Model_Archive
+
+指定したサイズのアーカイブに絞り込みます。
+
+=cut
+sub with_size_gib {
+	my $self = shift;
+	my $sizeGib = shift;
+	$self->_filter_by("SizeMB", $sizeGib * 1024);
+	return $self;
+}
+
+=head2 with_shared_scope : Saclient::Cloud::Model::Model_Archive
+
+パブリックアーカイブに絞り込みます。
+
+=cut
+sub with_shared_scope {
+	my $self = shift;
+	$self->_filter_by("Scope", Saclient::Cloud::Enums::EScope::shared);
+	return $self;
+}
+
+=head2 with_user_scope : Saclient::Cloud::Model::Model_Archive
+
+プライベートアーカイブに絞り込みます。
+
+=cut
+sub with_user_scope {
+	my $self = shift;
+	$self->_filter_by("Scope", Saclient::Cloud::Enums::EScope::user);
 	return $self;
 }
 

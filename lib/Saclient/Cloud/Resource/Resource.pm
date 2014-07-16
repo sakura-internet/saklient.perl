@@ -33,6 +33,15 @@ sub client {
 	return $_[0]->get_client();
 }
 
+my $_params;
+
+sub set_param {
+	my $self = shift;
+	my $key = shift;
+	my $value = shift;
+	$self->{'_params'}->{$key} = $value;
+}
+
 sub _api_path {
 	my $self = shift;
 	return undef;
@@ -58,6 +67,7 @@ sub new {
 	my $self = bless {}, $class;
 	my $client = shift;
 	$self->{'_client'} = $client;
+	$self->{'_params'} = {};
 	return $self;
 }
 
@@ -90,14 +100,22 @@ sub api_serialize_id {
 
 sub _save {
 	my $self = shift;
-	my $r = {};
-	$r->{$self->_root_key()} = $self->api_serialize();
+	my $r = $self->api_serialize();
+	my $params = $self->{'_params'};
+	$self->{'_params'} = {};
+	my $keys = [keys %{$params}];
+	foreach my $k (@{$keys}) {
+		my $v = $params->{$k};
+		$r->{$k} = $v;
+	}
 	my $method = $self->{'is_new'} ? "POST" : "PUT";
 	my $path = $self->_api_path();
 	if (!$self->{'is_new'}) {
 		$path .= "/" . Saclient::Cloud::Util::url_encode($self->_id());
 	}
-	my $result = $self->{'_client'}->request($method, $path, $r);
+	my $q = {};
+	$q->{$self->_root_key()} = $r;
+	my $result = $self->{'_client'}->request($method, $path, $q);
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
 }

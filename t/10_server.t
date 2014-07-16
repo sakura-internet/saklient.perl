@@ -136,7 +136,7 @@ if (1) {
 else {
 	# after* style
 	
-	$server->after_down(sub{
+	$server->after_down(60, sub{
 		shift;
 		my $ok = shift;
 		fail 'サーバが正常に停止しません' unless $ok;

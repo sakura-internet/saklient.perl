@@ -78,6 +78,16 @@ sub reset {
 	return $self->_reset();
 }
 
+=head2 create : Saclient::Cloud::Resource::Disk
+
+*
+
+=cut
+sub create {
+	my $self = shift;
+	return $self->_create();
+}
+
 =head2 get_by_id(string $id) : Saclient::Cloud::Resource::Disk
 
 指定したIDを持つ唯一のリソースを取得します。
@@ -124,6 +134,18 @@ sub with_tag {
 	my $self = shift;
 	my $tag = shift;
 	$self->_filter_by("Tags.Name", $tag, 1);
+	return $self;
+}
+
+=head2 with_size_gib(int $sizeGib) : Saclient::Cloud::Model::Model_Disk
+
+指定したサイズのディスクに絞り込みます。
+
+=cut
+sub with_size_gib {
+	my $self = shift;
+	my $sizeGib = shift;
+	$self->_filter_by("SizeMB", $sizeGib * 1024);
 	return $self;
 }
 

@@ -45,6 +45,8 @@ my $m_ifaces;
 
 my $m_instance;
 
+my $m_availability;
+
 sub _api_path {
 	my $self = shift;
 	return "/server";
@@ -163,67 +165,44 @@ sub reboot {
 	return $self->reload();
 }
 
-=head2 after_up((Saclient::Cloud::Resource::Server, bool) => void $callback, int $timeout=60) : void
-
-サーバが起動するまで待機します。
-
-=cut
-sub after_up {
-	my $self = shift;
-	my $callback = shift;
-	my $timeout = shift || (60);
-	$self->after_status(Saclient::Cloud::Enums::EServerInstanceStatus::up, $callback, $timeout);
-}
-
-=head2 after_down((Saclient::Cloud::Resource::Server, bool) => void $callback, int $timeout=60) : void
+=head2 after_down(int $timeoutSec, (Saclient::Cloud::Resource::Server, bool) => void $callback) : void
 
 サーバが停止するまで待機します。
 
 =cut
 sub after_down {
 	my $self = shift;
+	my $timeoutSec = shift;
 	my $callback = shift;
-	my $timeout = shift || (60);
-	$self->after_status(Saclient::Cloud::Enums::EServerInstanceStatus::down, $callback, $timeout);
+	$self->after_status(Saclient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec, $callback);
 }
 
 sub after_status {
 	my $self = shift;
 	my $status = shift;
+	my $timeoutSec = shift;
 	my $callback = shift;
-	my $timeout = shift || (60);
-	my $ret = $self->sleep_until($status, $timeout);
+	my $ret = $self->sleep_until($status, $timeoutSec);
 	$callback->($self, $ret);
 }
 
-=head2 sleep_until_up(int $timeout=60) : bool
-
-サーバが起動するまで待機します。
-
-=cut
-sub sleep_until_up {
-	my $self = shift;
-	my $timeout = shift || (60);
-	return $self->sleep_until(Saclient::Cloud::Enums::EServerInstanceStatus::up, $timeout);
-}
-
-=head2 sleep_until_down(int $timeout=60) : bool
+=head2 sleep_until_down(int $timeoutSec=180) : bool
 
 サーバが停止するまで待機します。
 
 =cut
 sub sleep_until_down {
 	my $self = shift;
-	my $timeout = shift || (60);
-	return $self->sleep_until(Saclient::Cloud::Enums::EServerInstanceStatus::down, $timeout);
+	my $timeoutSec = shift || (180);
+	return $self->sleep_until(Saclient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec);
 }
 
 sub sleep_until {
 	my $self = shift;
 	my $status = shift;
-	my $timeout = shift || (60);
+	my $timeoutSec = shift || (180);
 	my $step = 3;
-	while (0 < $timeout) {
+	while (0 < $timeoutSec) {
 		$self->reload();
 		my $s = $self->get_instance()->status;
 		if (!defined($s)) {
@@ -232,8 +211,8 @@ sub sleep_until {
 		if ($s eq $status) {
 			return 1;
 		}
-		$timeout -= $step;
-		if (0 < $timeout) {
+		$timeoutSec -= $step;
+		if (0 < $timeoutSec) {
 			sleep $step;
 		}
 	}
@@ -438,6 +417,22 @@ sub instance {
 	return $_[0]->get_instance();
 }
 
+my $n_availability = 0;
+
+sub get_availability {
+	my $self = shift;
+	return $self->{'m_availability'};
+}
+
+=head2 availability
+
+有効状態
+
+=cut
+sub availability {
+	return $_[0]->get_availability();
+}
+
 =head2 api_deserialize($r)
 
 (This method is generated in Translator_default#buildImpl)
@@ -535,6 +530,14 @@ sub api_deserialize {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_instance'} = 0;
+	if ((ref($r) eq 'HASH' && exists $r->{"Availability"})) {
+		$self->{'m_availability'} = !defined($r->{"Availability"}) ? undef : "" . $r->{"Availability"};
+	}
+	else {
+		$self->{'m_availability'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_availability'} = 0;
 }
 
 =head2 api_serialize(bool $withClean=0) : any
@@ -579,6 +582,9 @@ sub api_serialize {
 	}
 	if ($withClean || $self->{'n_instance'}) {
 		$ret->{"Instance"} = $withClean ? (!defined($self->{'m_instance'}) ? undef : $self->{'m_instance'}->api_serialize($withClean)) : (!defined($self->{'m_instance'}) ? {'ID' => "0"} : $self->{'m_instance'}->api_serialize_id());
+	}
+	if ($withClean || $self->{'n_availability'}) {
+		$ret->{"Availability"} = $self->{'m_availability'};
 	}
 	return $ret;
 }

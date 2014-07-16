@@ -12,6 +12,8 @@ use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
+use Saclient::Cloud::Resource::Archive;
+use Saclient::Cloud::Enums::EAvailability;
 use Saclient::Cloud::Enums::EDiskConnection;
 
 use base qw(Saclient::Cloud::Resource::Resource);
@@ -44,6 +46,8 @@ my $m_service_class;
 my $m_plan;
 
 my $m_server;
+
+my $m_availability;
 
 sub _api_path {
 	my $self = shift;
@@ -99,6 +103,20 @@ sub new {
 	return $self;
 }
 
+sub get_is_available {
+	my $self = shift;
+	return $self->get_availability() eq Saclient::Cloud::Enums::EAvailability::available;
+}
+
+=head2 is_available
+
+ディスクが利用可能なときtrueを返します。
+
+=cut
+sub is_available {
+	return $_[0]->get_is_available();
+}
+
 sub get_size_gib {
 	my $self = shift;
 	return $self->get_size_mib() >> 10;
@@ -134,6 +152,57 @@ sub detach {
 	my $self = shift;
 	$self->{'_client'}->request("DELETE", "/disk/" . $self->_id() . "/to/server");
 	return $self;
+}
+
+=head2 copy_from(Saclient::Cloud::Resource::Archive $archive) : Saclient::Cloud::Resource::Disk
+
+この後に save() するディスクのコピー元となるアーカイブを設定します。
+
+=cut
+sub copy_from {
+	my $self = shift;
+	my $archive = shift;
+	$self->set_param("SourceArchive", {'ID' => $archive->_id()});
+	return $self;
+}
+
+=head2 after_copy(int $timeout, (Saclient::Cloud::Resource::Disk, bool) => void $callback) : void
+
+コピー中のディスクが利用可能になるまで待機します。
+
+=cut
+sub after_copy {
+	my $self = shift;
+	my $timeout = shift;
+	my $callback = shift;
+	my $ret = $self->sleep_while_copying($timeout);
+	$callback->($self, $ret);
+}
+
+=head2 sleep_while_copying(int $timeout=3600) : bool
+
+コピー中のディスクが利用可能になるまで待機します。
+
+=cut
+sub sleep_while_copying {
+	my $self = shift;
+	my $timeout = shift || (3600);
+	my $step = 3;
+	while (0 < $timeout) {
+		$self->reload();
+		my $a = $self->get_availability();
+		if ($a eq Saclient::Cloud::Enums::EAvailability::available) {
+			return 1;
+		}
+		if ($a ne Saclient::Cloud::Enums::EAvailability::migrating) {
+			$timeout = 0;
+		}
+		$timeout -= $step;
+		if (0 < $timeout) {
+			sleep $step;
+		}
+	}
+	return 0;
 }
 
 my $n_id = 0;
@@ -316,6 +385,22 @@ sub server {
 	return $_[0]->get_server();
 }
 
+my $n_availability = 0;
+
+sub get_availability {
+	my $self = shift;
+	return $self->{'m_availability'};
+}
+
+=head2 availability
+
+有効状態
+
+=cut
+sub availability {
+	return $_[0]->get_availability();
+}
+
 =head2 api_deserialize($r)
 
 (This method is generated in Translator_default#buildImpl)
@@ -411,6 +496,14 @@ sub api_deserialize {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_server'} = 0;
+	if ((ref($r) eq 'HASH' && exists $r->{"Availability"})) {
+		$self->{'m_availability'} = !defined($r->{"Availability"}) ? undef : "" . $r->{"Availability"};
+	}
+	else {
+		$self->{'m_availability'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_availability'} = 0;
 }
 
 =head2 api_serialize(bool $withClean=0) : any
@@ -453,6 +546,9 @@ sub api_serialize {
 	}
 	if ($withClean || $self->{'n_server'}) {
 		$ret->{"Server"} = $withClean ? (!defined($self->{'m_server'}) ? undef : $self->{'m_server'}->api_serialize($withClean)) : (!defined($self->{'m_server'}) ? {'ID' => "0"} : $self->{'m_server'}->api_serialize_id());
+	}
+	if ($withClean || $self->{'n_availability'}) {
+		$ret->{"Availability"} = $self->{'m_availability'};
 	}
 	return $ret;
 }
