@@ -16,14 +16,20 @@ use File::Basename qw(basename dirname);
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 27;
+my $tests = 26;
 
 
 
 # load config file
 my $root = dirname $FindBin::RealBin;
 my $test_ok_file = $root . '/testok';
-ok -f $test_ok_file, "テストを行うと課金が発生する場合があります。よろしければ、確認のために $test_ok_file をtouchしてください。";
+unless (-f $test_ok_file) {
+	diag "詳細テストを行うには $test_ok_file をtouchしてください。";
+	ok 1;
+	plan tests => 1;
+	done_testing;
+	exit 0;
+}
 my $config_file = $root . '/config.sh';
 ok -f $config_file, "$config_file を作成してください。";
 my %config = ();
