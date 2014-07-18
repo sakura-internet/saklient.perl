@@ -15,6 +15,7 @@ use Saclient::Cloud::Model::Model_Server;
 use Saclient::Cloud::Model::Model_Disk;
 use Saclient::Cloud::Model::Model_Appliance;
 use Saclient::Cloud::Model::Model_Archive;
+use Saclient::Cloud::Model::Model_Iface;
 use Saclient::Cloud::Model::Model_IPv6Net;
 
 
@@ -108,6 +109,17 @@ sub archive {
 	return $_[0]->get_archive();
 }
 
+my $_iface;
+
+sub get_iface {
+	my $self = shift;
+	return $self->{'_iface'};
+}
+
+sub iface {
+	return $_[0]->get_iface();
+}
+
 my $_ipv6net;
 
 sub get_ipv6net {
@@ -130,6 +142,7 @@ sub new {
 	$self->{'_disk'} = new Saclient::Cloud::Model::Model_Disk($client);
 	$self->{'_appliance'} = new Saclient::Cloud::Model::Model_Appliance($client);
 	$self->{'_archive'} = new Saclient::Cloud::Model::Model_Archive($client);
+	$self->{'_iface'} = new Saclient::Cloud::Model::Model_Iface($client);
 	$self->{'_ipv6net'} = new Saclient::Cloud::Model::Model_IPv6Net($client);
 	return $self;
 }

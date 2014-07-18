@@ -81,6 +81,11 @@ sub _root_key_m {
 	return undef;
 }
 
+sub _class_name {
+	my $self = shift;
+	return undef;
+}
+
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
@@ -116,7 +121,7 @@ sub _reset {
 
 sub _create {
 	my $self = shift;
-	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, undef]);
+	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [$self->{'_client'}, undef]);
 }
 
 sub _get_by_id {
@@ -128,7 +133,7 @@ sub _get_by_id {
 	$self->{'_total'} = 1;
 	$self->{'_count'} = 1;
 	my $record = $result->{$self->_root_key()};
-	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
+	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [$self->{'_client'}, $record]);
 }
 
 sub _find {
@@ -141,7 +146,7 @@ sub _find {
 	my $records = $result->{$self->_root_key_m()};
 	my $data = [];
 	foreach my $record (@{$records}) {
-		my $i = Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $record]);
+		my $i = Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [$self->{'_client'}, $record]);
 		push(@{$data}, $i);
 	}
 	return $data;
@@ -158,7 +163,7 @@ sub _find_one {
 		return undef;
 	}
 	my $records = $result->{$self->_root_key_m()};
-	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_root_key(), [$self->{'_client'}, $records->[0]]);
+	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [$self->{'_client'}, $records->[0]]);
 }
 
 sub _filter_by {

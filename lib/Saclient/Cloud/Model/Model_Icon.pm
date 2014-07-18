@@ -38,6 +38,11 @@ sub _root_key_m {
 	return "Icons";
 }
 
+sub _class_name {
+	my $self = shift;
+	return "Icon";
+}
+
 =head2 offset(int $offset) : Saclient::Cloud::Model::Model_Icon
 
 次に取得するリストの開始オフセットを指定します。

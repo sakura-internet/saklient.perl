@@ -102,24 +102,24 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Status"})) {
-		$self->{'m_status'} = !defined($r->{"Status"}) ? undef : "" . $r->{"Status"};
+	if (Saclient::Cloud::Util::exists_path($r, "Status")) {
+		$self->{'m_status'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Status")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Status");
 	}
 	else {
 		$self->{'m_status'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_status'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"BeforeStatus"})) {
-		$self->{'m_before_status'} = !defined($r->{"BeforeStatus"}) ? undef : "" . $r->{"BeforeStatus"};
+	if (Saclient::Cloud::Util::exists_path($r, "BeforeStatus")) {
+		$self->{'m_before_status'} = !defined(Saclient::Cloud::Util::get_by_path($r, "BeforeStatus")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "BeforeStatus");
 	}
 	else {
 		$self->{'m_before_status'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_before_status'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"StatusChangedAt"})) {
-		$self->{'m_status_changed_at'} = !defined($r->{"StatusChangedAt"}) ? undef : Saclient::Cloud::Util::str2date("" . $r->{"StatusChangedAt"});
+	if (Saclient::Cloud::Util::exists_path($r, "StatusChangedAt")) {
+		$self->{'m_status_changed_at'} = !defined(Saclient::Cloud::Util::get_by_path($r, "StatusChangedAt")) ? undef : Saclient::Cloud::Util::str2date("" . Saclient::Cloud::Util::get_by_path($r, "StatusChangedAt"));
 	}
 	else {
 		$self->{'m_status_changed_at'} = undef;

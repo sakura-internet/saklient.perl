@@ -31,6 +31,8 @@ my $m_ip_address;
 
 my $m_user_ip_address;
 
+my $m_server_id;
+
 sub _api_path {
 	my $self = shift;
 	return "/interface";
@@ -138,6 +140,31 @@ sub user_ip_address {
 	return $_[0]->get_user_ip_address();
 }
 
+my $n_server_id = 0;
+
+sub get_server_id {
+	my $self = shift;
+	return $self->{'m_server_id'};
+}
+
+sub set_server_id {
+	my $self = shift;
+	my $v = shift;
+	$self->{'m_server_id'} = $v;
+	$self->{'n_server_id'} = 1;
+	return $self->{'m_server_id'};
+}
+
+=head2 server_id
+
+サーバ
+
+=cut
+sub server_id {
+	if (1 < scalar(@_)) { $_[0]->set_server_id($_[1]); return $_[0]; }
+	return $_[0]->get_server_id();
+}
+
 sub api_deserialize_impl {
 	my $self = shift;
 	my $r = shift;
@@ -146,38 +173,46 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"MACAddress"})) {
-		$self->{'m_mac_address'} = !defined($r->{"MACAddress"}) ? undef : "" . $r->{"MACAddress"};
+	if (Saclient::Cloud::Util::exists_path($r, "MACAddress")) {
+		$self->{'m_mac_address'} = !defined(Saclient::Cloud::Util::get_by_path($r, "MACAddress")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "MACAddress");
 	}
 	else {
 		$self->{'m_mac_address'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_mac_address'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"IPAddress"})) {
-		$self->{'m_ip_address'} = !defined($r->{"IPAddress"}) ? undef : "" . $r->{"IPAddress"};
+	if (Saclient::Cloud::Util::exists_path($r, "IPAddress")) {
+		$self->{'m_ip_address'} = !defined(Saclient::Cloud::Util::get_by_path($r, "IPAddress")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "IPAddress");
 	}
 	else {
 		$self->{'m_ip_address'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_ip_address'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"UserIPAddress"})) {
-		$self->{'m_user_ip_address'} = !defined($r->{"UserIPAddress"}) ? undef : "" . $r->{"UserIPAddress"};
+	if (Saclient::Cloud::Util::exists_path($r, "UserIPAddress")) {
+		$self->{'m_user_ip_address'} = !defined(Saclient::Cloud::Util::get_by_path($r, "UserIPAddress")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "UserIPAddress");
 	}
 	else {
 		$self->{'m_user_ip_address'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_user_ip_address'} = 0;
+	if (Saclient::Cloud::Util::exists_path($r, "Server.ID")) {
+		$self->{'m_server_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Server.ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Server.ID");
+	}
+	else {
+		$self->{'m_server_id'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_server_id'} = 0;
 }
 
 sub api_serialize_impl {
@@ -195,6 +230,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_user_ip_address'}) {
 		$ret->{"UserIPAddress"} = $self->{'m_user_ip_address'};
+	}
+	if ($withClean || $self->{'n_server_id'}) {
+		$ret->{"Server.ID"} = $self->{'m_server_id'};
 	}
 	return $ret;
 }

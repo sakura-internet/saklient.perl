@@ -38,6 +38,11 @@ sub _root_key_m {
 	return "InternetPlans";
 }
 
+sub _class_name {
+	my $self = shift;
+	return "InternetPlan";
+}
+
 =head2 offset(int $offset) : Saclient::Cloud::Model::Model_InternetPlan
 
 次に取得するリストの開始オフセットを指定します。

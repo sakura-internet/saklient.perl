@@ -38,6 +38,11 @@ sub _root_key_m {
 	return "IPv6Nets";
 }
 
+sub _class_name {
+	my $self = shift;
+	return "IPv6Net";
+}
+
 =head2 offset(int $offset) : Saclient::Cloud::Model::Model_IPv6Net
 
 次に取得するリストの開始オフセットを指定します。

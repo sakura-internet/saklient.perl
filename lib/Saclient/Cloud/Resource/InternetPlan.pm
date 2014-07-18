@@ -98,32 +98,32 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
-		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
+	if (Saclient::Cloud::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Name");
 	}
 	else {
 		$self->{'m_name'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_name'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"BandWidthMbps"})) {
-		$self->{'m_band_width_mbps'} = !defined($r->{"BandWidthMbps"}) ? undef : (0+("" . $r->{"BandWidthMbps"}));
+	if (Saclient::Cloud::Util::exists_path($r, "BandWidthMbps")) {
+		$self->{'m_band_width_mbps'} = !defined(Saclient::Cloud::Util::get_by_path($r, "BandWidthMbps")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "BandWidthMbps")));
 	}
 	else {
 		$self->{'m_band_width_mbps'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_band_width_mbps'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
-		$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
+	if (Saclient::Cloud::Util::exists_path($r, "ServiceClass")) {
+		$self->{'m_service_class'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ServiceClass");
 	}
 	else {
 		$self->{'m_service_class'} = undef;

@@ -490,37 +490,37 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Name"})) {
-		$self->{'m_name'} = !defined($r->{"Name"}) ? undef : "" . $r->{"Name"};
+	if (Saclient::Cloud::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Name");
 	}
 	else {
 		$self->{'m_name'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_name'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Description"})) {
-		$self->{'m_description'} = !defined($r->{"Description"}) ? undef : "" . $r->{"Description"};
+	if (Saclient::Cloud::Util::exists_path($r, "Description")) {
+		$self->{'m_description'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Description");
 	}
 	else {
 		$self->{'m_description'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_description'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Tags"})) {
-		if (!defined($r->{"Tags"})) {
+	if (Saclient::Cloud::Util::exists_path($r, "Tags")) {
+		if (!defined(Saclient::Cloud::Util::get_by_path($r, "Tags"))) {
 			$self->{'m_tags'} = [];
 		}
 		else {
 			$self->{'m_tags'} = [];
-			foreach my $t (@{$r->{"Tags"}}) {
+			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Tags")}) {
 				my $v = undef;
 				$v = !defined($t) ? undef : "" . $t;
 				push(@{$self->{'m_tags'}}, $v);
@@ -532,48 +532,48 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_tags'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Icon"})) {
-		$self->{'m_icon'} = !defined($r->{"Icon"}) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, $r->{"Icon"});
+	if (Saclient::Cloud::Util::exists_path($r, "Icon")) {
+		$self->{'m_icon'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Icon")) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "Icon"));
 	}
 	else {
 		$self->{'m_icon'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_icon'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"SizeMB"})) {
-		$self->{'m_size_mib'} = !defined($r->{"SizeMB"}) ? undef : (0+("" . $r->{"SizeMB"}));
+	if (Saclient::Cloud::Util::exists_path($r, "SizeMB")) {
+		$self->{'m_size_mib'} = !defined(Saclient::Cloud::Util::get_by_path($r, "SizeMB")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "SizeMB")));
 	}
 	else {
 		$self->{'m_size_mib'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_size_mib'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"ServiceClass"})) {
-		$self->{'m_service_class'} = !defined($r->{"ServiceClass"}) ? undef : "" . $r->{"ServiceClass"};
+	if (Saclient::Cloud::Util::exists_path($r, "ServiceClass")) {
+		$self->{'m_service_class'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ServiceClass");
 	}
 	else {
 		$self->{'m_service_class'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_service_class'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Plan"})) {
-		$self->{'m_plan'} = !defined($r->{"Plan"}) ? undef : new Saclient::Cloud::Resource::DiskPlan($self->{'_client'}, $r->{"Plan"});
+	if (Saclient::Cloud::Util::exists_path($r, "Plan")) {
+		$self->{'m_plan'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Plan")) ? undef : new Saclient::Cloud::Resource::DiskPlan($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "Plan"));
 	}
 	else {
 		$self->{'m_plan'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_plan'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Server"})) {
-		$self->{'m_server'} = !defined($r->{"Server"}) ? undef : new Saclient::Cloud::Resource::Server($self->{'_client'}, $r->{"Server"});
+	if (Saclient::Cloud::Util::exists_path($r, "Server")) {
+		$self->{'m_server'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Server")) ? undef : new Saclient::Cloud::Resource::Server($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "Server"));
 	}
 	else {
 		$self->{'m_server'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_server'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"Availability"})) {
-		$self->{'m_availability'} = !defined($r->{"Availability"}) ? undef : "" . $r->{"Availability"};
+	if (Saclient::Cloud::Util::exists_path($r, "Availability")) {
+		$self->{'m_availability'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Availability")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Availability");
 	}
 	else {
 		$self->{'m_availability'} = undef;

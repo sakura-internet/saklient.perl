@@ -39,6 +39,11 @@ sub _root_key_m {
 	return "Archives";
 }
 
+sub _class_name {
+	my $self = shift;
+	return "Archive";
+}
+
 =head2 offset(int $offset) : Saclient::Cloud::Model::Model_Archive
 
 次に取得するリストの開始オフセットを指定します。

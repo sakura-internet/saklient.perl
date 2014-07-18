@@ -10,12 +10,81 @@ use Data::Dumper;
 use URI::Escape;
 use DateTime::Format::Strptime;
 
+our @ISA = qw(Exporter);
+our @EXPORT_OK = qw(exists_path get_by_path set_by_path create_class_instance);
+
 
 =pod
 
 =encoding utf8
 
 =cut
+
+sub exists_path {
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	my $obj = shift;
+	my $path = shift;
+	my $aPath = [split(quotemeta("."), $path)];
+	foreach my $seg (@{$aPath}) {
+		if (!defined($obj)) {
+			return 0;
+		}
+		if ($seg eq "") {
+			next;
+		}
+		if (!(ref($obj) eq 'HASH' && exists $obj->{$seg})) {
+			return 0;
+		}
+		$obj = $obj->{$seg};
+	}
+	return 1;
+}
+
+sub get_by_path {
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	my $obj = shift;
+	my $path = shift;
+	my $aPath = [split(quotemeta("."), $path)];
+	foreach my $seg (@{$aPath}) {
+		if (!defined($obj)) {
+			return undef;
+		}
+		if ($seg eq "") {
+			next;
+		}
+		if (!(ref($obj) eq 'HASH' && exists $obj->{$seg})) {
+			return undef;
+		}
+		$obj = $obj->{$seg};
+	}
+	return $obj;
+}
+
+=head2 set_by_path($obj, string $path, $value) : void
+
+@todo array support
+@todo overwriting
+@todo writing into children of non-object
+
+=cut
+sub set_by_path {
+	shift if 3 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	my $obj = shift;
+	my $path = shift;
+	my $value = shift;
+	my $aPath = [split(quotemeta("."), $path)];
+	my $key = pop(@{$aPath});
+	foreach my $seg (@{$aPath}) {
+		if ($seg eq "") {
+			next;
+		}
+		if (!(ref($obj) eq 'HASH' && exists $obj->{$seg})) {
+			$obj->{$seg} = {};
+		}
+		$obj = $obj->{$seg};
+	}
+	$obj->{$key} = $value;
+}
 
 sub create_class_instance {
 	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';

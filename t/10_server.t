@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use errors;
 use Test::More;
-use FindBin;
-use lib "$FindBin::RealBin/../lib";
+use File::Basename qw(basename dirname);
+BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
 use Saclient::Cloud::API;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
 use Saclient::Cloud::Errors::HttpException;

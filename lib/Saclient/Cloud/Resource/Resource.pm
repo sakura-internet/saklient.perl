@@ -57,6 +57,11 @@ sub _root_key_m {
 	return undef;
 }
 
+sub _class_name {
+	my $self = shift;
+	return undef;
+}
+
 sub _id {
 	my $self = shift;
 	return undef;

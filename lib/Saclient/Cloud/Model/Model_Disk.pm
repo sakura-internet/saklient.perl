@@ -38,6 +38,11 @@ sub _root_key_m {
 	return "Disks";
 }
 
+sub _class_name {
+	my $self = shift;
+	return "Disk";
+}
+
 =head2 offset(int $offset) : Saclient::Cloud::Model::Model_Disk
 
 次に取得するリストの開始オフセットを指定します。

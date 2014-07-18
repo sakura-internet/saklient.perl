@@ -98,32 +98,32 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"ID"})) {
-		$self->{'m_id'} = !defined($r->{"ID"}) ? undef : "" . $r->{"ID"};
+	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"IPv6Prefix"})) {
-		$self->{'m_ipv6_prefix'} = !defined($r->{"IPv6Prefix"}) ? undef : "" . $r->{"IPv6Prefix"};
+	if (Saclient::Cloud::Util::exists_path($r, "IPv6Prefix")) {
+		$self->{'m_ipv6_prefix'} = !defined(Saclient::Cloud::Util::get_by_path($r, "IPv6Prefix")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "IPv6Prefix");
 	}
 	else {
 		$self->{'m_ipv6_prefix'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_ipv6_prefix'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"IPv6PrefixLen"})) {
-		$self->{'m_ipv6_prefix_len'} = !defined($r->{"IPv6PrefixLen"}) ? undef : (0+("" . $r->{"IPv6PrefixLen"}));
+	if (Saclient::Cloud::Util::exists_path($r, "IPv6PrefixLen")) {
+		$self->{'m_ipv6_prefix_len'} = !defined(Saclient::Cloud::Util::get_by_path($r, "IPv6PrefixLen")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "IPv6PrefixLen")));
 	}
 	else {
 		$self->{'m_ipv6_prefix_len'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_ipv6_prefix_len'} = 0;
-	if ((ref($r) eq 'HASH' && exists $r->{"IPv6PrefixTail"})) {
-		$self->{'m_ipv6_prefix_tail'} = !defined($r->{"IPv6PrefixTail"}) ? undef : "" . $r->{"IPv6PrefixTail"};
+	if (Saclient::Cloud::Util::exists_path($r, "IPv6PrefixTail")) {
+		$self->{'m_ipv6_prefix_tail'} = !defined(Saclient::Cloud::Util::get_by_path($r, "IPv6PrefixTail")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "IPv6PrefixTail");
 	}
 	else {
 		$self->{'m_ipv6_prefix_tail'} = undef;
