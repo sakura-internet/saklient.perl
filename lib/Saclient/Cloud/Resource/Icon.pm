@@ -155,13 +155,13 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		$ret->{"ID"} = $self->{'m_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		$ret->{"Name"} = $self->{'m_name'};
+		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_url'}) {
-		$ret->{"URL"} = $self->{'m_url'};
+		Saclient::Cloud::Util::set_by_path($ret, "URL", $self->{'m_url'});
 	}
 	return $ret;
 }

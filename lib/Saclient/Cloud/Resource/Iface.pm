@@ -87,6 +87,17 @@ sub new {
 	return $self;
 }
 
+=head2 connect_to_shared_segment : Saclient::Cloud::Resource::Iface
+
+共有セグメントに接続します。
+
+=cut
+sub connect_to_shared_segment {
+	my $self = shift;
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/to/switch/shared");
+	return $self->reload();
+}
+
 my $n_id = 0;
 
 sub get_id {
@@ -220,19 +231,19 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		$ret->{"ID"} = $self->{'m_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_mac_address'}) {
-		$ret->{"MACAddress"} = $self->{'m_mac_address'};
+		Saclient::Cloud::Util::set_by_path($ret, "MACAddress", $self->{'m_mac_address'});
 	}
 	if ($withClean || $self->{'n_ip_address'}) {
-		$ret->{"IPAddress"} = $self->{'m_ip_address'};
+		Saclient::Cloud::Util::set_by_path($ret, "IPAddress", $self->{'m_ip_address'});
 	}
 	if ($withClean || $self->{'n_user_ip_address'}) {
-		$ret->{"UserIPAddress"} = $self->{'m_user_ip_address'};
+		Saclient::Cloud::Util::set_by_path($ret, "UserIPAddress", $self->{'m_user_ip_address'});
 	}
 	if ($withClean || $self->{'n_server_id'}) {
-		$ret->{"Server.ID"} = $self->{'m_server_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "Server.ID", $self->{'m_server_id'});
 	}
 	return $ret;
 }

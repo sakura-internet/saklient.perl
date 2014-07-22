@@ -360,9 +360,9 @@ sub api_deserialize_impl {
 		else {
 			$self->{'m_tags'} = [];
 			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Tags")}) {
-				my $v = undef;
-				$v = !defined($t) ? undef : "" . $t;
-				push(@{$self->{'m_tags'}}, $v);
+				my $v1 = undef;
+				$v1 = !defined($t) ? undef : "" . $t;
+				push(@{$self->{'m_tags'}}, $v1);
 			}
 		}
 	}
@@ -386,9 +386,9 @@ sub api_deserialize_impl {
 		else {
 			$self->{'m_ifaces'} = [];
 			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Interfaces")}) {
-				my $v = undef;
-				$v = !defined($t) ? undef : new Saclient::Cloud::Resource::Iface($self->{'_client'}, $t);
-				push(@{$self->{'m_ifaces'}}, $v);
+				my $v2 = undef;
+				$v2 = !defined($t) ? undef : new Saclient::Cloud::Resource::Iface($self->{'_client'}, $t);
+				push(@{$self->{'m_ifaces'}}, $v2);
 			}
 		}
 	}
@@ -412,38 +412,38 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		$ret->{"ID"} = $self->{'m_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_clazz'}) {
-		$ret->{"Class"} = $self->{'m_clazz'};
+		Saclient::Cloud::Util::set_by_path($ret, "Class", $self->{'m_clazz'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		$ret->{"Name"} = $self->{'m_name'};
+		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_description'}) {
-		$ret->{"Description"} = $self->{'m_description'};
+		Saclient::Cloud::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_tags'}) {
-		$ret->{"Tags"} = [];
-		foreach my $r (@{$self->{'m_tags'}}) {
+		Saclient::Cloud::Util::set_by_path($ret, "Tags", []);
+		foreach my $r1 (@{$self->{'m_tags'}}) {
 			my $v = undef;
-			$v = $r;
+			$v = $r1;
 			push(@{$ret->{"Tags"}}, $v);
 		}
 	}
 	if ($withClean || $self->{'n_icon'}) {
-		$ret->{"Icon"} = $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id());
+		Saclient::Cloud::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_ifaces'}) {
-		$ret->{"Interfaces"} = [];
-		foreach my $r (@{$self->{'m_ifaces'}}) {
+		Saclient::Cloud::Util::set_by_path($ret, "Interfaces", []);
+		foreach my $r2 (@{$self->{'m_ifaces'}}) {
 			my $v = undef;
-			$v = $withClean ? (!defined($r) ? undef : $r->api_serialize($withClean)) : (!defined($r) ? {'ID' => "0"} : $r->api_serialize_id());
+			$v = $withClean ? (!defined($r2) ? undef : $r2->api_serialize($withClean)) : (!defined($r2) ? {'ID' => "0"} : $r2->api_serialize_id());
 			push(@{$ret->{"Interfaces"}}, $v);
 		}
 	}
 	if ($withClean || $self->{'n_service_class'}) {
-		$ret->{"ServiceClass"} = $self->{'m_service_class'};
+		Saclient::Cloud::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
 	}
 	return $ret;
 }

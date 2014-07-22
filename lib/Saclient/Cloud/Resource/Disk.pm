@@ -13,6 +13,7 @@ use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
 use Saclient::Cloud::Resource::Archive;
+use Saclient::Cloud::Resource::DiskConfig;
 use Saclient::Cloud::Enums::EAvailability;
 use Saclient::Cloud::Enums::EDiskConnection;
 
@@ -236,6 +237,16 @@ sub disconnect {
 	my $self = shift;
 	$self->{'_client'}->request("DELETE", "/disk/" . $self->_id() . "/to/server");
 	return $self;
+}
+
+=head2 create_config : Saclient::Cloud::Resource::DiskConfig
+
+*
+
+=cut
+sub create_config {
+	my $self = shift;
+	return new Saclient::Cloud::Resource::DiskConfig($self->{'_client'}, $self->_id());
 }
 
 =head2 after_copy(int $timeoutSec, (Saclient::Cloud::Resource::Disk, bool) => void $callback) : void
@@ -521,9 +532,9 @@ sub api_deserialize_impl {
 		else {
 			$self->{'m_tags'} = [];
 			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Tags")}) {
-				my $v = undef;
-				$v = !defined($t) ? undef : "" . $t;
-				push(@{$self->{'m_tags'}}, $v);
+				my $v1 = undef;
+				$v1 = !defined($t) ? undef : "" . $t;
+				push(@{$self->{'m_tags'}}, $v1);
 			}
 		}
 	}
@@ -587,39 +598,39 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		$ret->{"ID"} = $self->{'m_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		$ret->{"Name"} = $self->{'m_name'};
+		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_description'}) {
-		$ret->{"Description"} = $self->{'m_description'};
+		Saclient::Cloud::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_tags'}) {
-		$ret->{"Tags"} = [];
-		foreach my $r (@{$self->{'m_tags'}}) {
+		Saclient::Cloud::Util::set_by_path($ret, "Tags", []);
+		foreach my $r1 (@{$self->{'m_tags'}}) {
 			my $v = undef;
-			$v = $r;
+			$v = $r1;
 			push(@{$ret->{"Tags"}}, $v);
 		}
 	}
 	if ($withClean || $self->{'n_icon'}) {
-		$ret->{"Icon"} = $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id());
+		Saclient::Cloud::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_size_mib'}) {
-		$ret->{"SizeMB"} = $self->{'m_size_mib'};
+		Saclient::Cloud::Util::set_by_path($ret, "SizeMB", $self->{'m_size_mib'});
 	}
 	if ($withClean || $self->{'n_service_class'}) {
-		$ret->{"ServiceClass"} = $self->{'m_service_class'};
+		Saclient::Cloud::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
 	}
 	if ($withClean || $self->{'n_plan'}) {
-		$ret->{"Plan"} = $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id());
+		Saclient::Cloud::Util::set_by_path($ret, "Plan", $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_server'}) {
-		$ret->{"Server"} = $withClean ? (!defined($self->{'m_server'}) ? undef : $self->{'m_server'}->api_serialize($withClean)) : (!defined($self->{'m_server'}) ? {'ID' => "0"} : $self->{'m_server'}->api_serialize_id());
+		Saclient::Cloud::Util::set_by_path($ret, "Server", $withClean ? (!defined($self->{'m_server'}) ? undef : $self->{'m_server'}->api_serialize($withClean)) : (!defined($self->{'m_server'}) ? {'ID' => "0"} : $self->{'m_server'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_availability'}) {
-		$ret->{"Availability"} = $self->{'m_availability'};
+		Saclient::Cloud::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
 	}
 	return $ret;
 }

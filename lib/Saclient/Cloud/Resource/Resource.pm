@@ -137,6 +137,22 @@ sub api_serialize_id {
 	return $r;
 }
 
+sub normalize_field_name {
+	my $self = shift;
+	my $name = shift;
+	$name =~ s/([A-Z])/'_'.lc($1)/eg;
+	return $name;
+}
+
+sub set_property {
+	my $self = shift;
+	my $name = shift;
+	my $value = shift;
+	$name = $self->normalize_field_name($name);
+	$self->{"m_" . $name} = $value;
+	$self->{"n_" . $name} = 1;
+}
+
 sub _save {
 	my $self = shift;
 	my $r = $self->api_serialize();

@@ -133,13 +133,13 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_status'}) {
-		$ret->{"Status"} = $self->{'m_status'};
+		Saclient::Cloud::Util::set_by_path($ret, "Status", $self->{'m_status'});
 	}
 	if ($withClean || $self->{'n_before_status'}) {
-		$ret->{"BeforeStatus"} = $self->{'m_before_status'};
+		Saclient::Cloud::Util::set_by_path($ret, "BeforeStatus", $self->{'m_before_status'});
 	}
 	if ($withClean || $self->{'n_status_changed_at'}) {
-		$ret->{"StatusChangedAt"} = !defined($self->{'m_status_changed_at'}) ? undef : Saclient::Cloud::Util::date2str($self->{'m_status_changed_at'});
+		Saclient::Cloud::Util::set_by_path($ret, "StatusChangedAt", !defined($self->{'m_status_changed_at'}) ? undef : Saclient::Cloud::Util::date2str($self->{'m_status_changed_at'}));
 	}
 	return $ret;
 }

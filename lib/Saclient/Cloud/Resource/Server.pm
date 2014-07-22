@@ -244,6 +244,19 @@ sub find_disks {
 	return $model->with_server_id($self->_id())->find();
 }
 
+=head2 add_iface : Saclient::Cloud::Resource::Iface
+
+インタフェースを1つ増設し、それを取得します。
+
+=cut
+sub add_iface {
+	my $self = shift;
+	my $model = Saclient::Cloud::Util::create_class_instance("saclient.cloud.model.Model_Iface", [$self->{'_client'}]);
+	my $res = $model->create();
+	$res->set_property("serverId", $self->_id());
+	return $res->save();
+}
+
 my $n_id = 0;
 
 sub get_id {
@@ -472,9 +485,9 @@ sub api_deserialize_impl {
 		else {
 			$self->{'m_tags'} = [];
 			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Tags")}) {
-				my $v = undef;
-				$v = !defined($t) ? undef : "" . $t;
-				push(@{$self->{'m_tags'}}, $v);
+				my $v1 = undef;
+				$v1 = !defined($t) ? undef : "" . $t;
+				push(@{$self->{'m_tags'}}, $v1);
 			}
 		}
 	}
@@ -506,9 +519,9 @@ sub api_deserialize_impl {
 		else {
 			$self->{'m_ifaces'} = [];
 			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Interfaces")}) {
-				my $v = undef;
-				$v = !defined($t) ? undef : new Saclient::Cloud::Resource::Iface($self->{'_client'}, $t);
-				push(@{$self->{'m_ifaces'}}, $v);
+				my $v2 = undef;
+				$v2 = !defined($t) ? undef : new Saclient::Cloud::Resource::Iface($self->{'_client'}, $t);
+				push(@{$self->{'m_ifaces'}}, $v2);
 			}
 		}
 	}
@@ -540,41 +553,41 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		$ret->{"ID"} = $self->{'m_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		$ret->{"Name"} = $self->{'m_name'};
+		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_description'}) {
-		$ret->{"Description"} = $self->{'m_description'};
+		Saclient::Cloud::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_tags'}) {
-		$ret->{"Tags"} = [];
-		foreach my $r (@{$self->{'m_tags'}}) {
+		Saclient::Cloud::Util::set_by_path($ret, "Tags", []);
+		foreach my $r1 (@{$self->{'m_tags'}}) {
 			my $v = undef;
-			$v = $r;
+			$v = $r1;
 			push(@{$ret->{"Tags"}}, $v);
 		}
 	}
 	if ($withClean || $self->{'n_icon'}) {
-		$ret->{"Icon"} = $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id());
+		Saclient::Cloud::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_plan'}) {
-		$ret->{"ServerPlan"} = $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id());
+		Saclient::Cloud::Util::set_by_path($ret, "ServerPlan", $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_ifaces'}) {
-		$ret->{"Interfaces"} = [];
-		foreach my $r (@{$self->{'m_ifaces'}}) {
+		Saclient::Cloud::Util::set_by_path($ret, "Interfaces", []);
+		foreach my $r2 (@{$self->{'m_ifaces'}}) {
 			my $v = undef;
-			$v = $withClean ? (!defined($r) ? undef : $r->api_serialize($withClean)) : (!defined($r) ? {'ID' => "0"} : $r->api_serialize_id());
+			$v = $withClean ? (!defined($r2) ? undef : $r2->api_serialize($withClean)) : (!defined($r2) ? {'ID' => "0"} : $r2->api_serialize_id());
 			push(@{$ret->{"Interfaces"}}, $v);
 		}
 	}
 	if ($withClean || $self->{'n_instance'}) {
-		$ret->{"Instance"} = $withClean ? (!defined($self->{'m_instance'}) ? undef : $self->{'m_instance'}->api_serialize($withClean)) : (!defined($self->{'m_instance'}) ? {'ID' => "0"} : $self->{'m_instance'}->api_serialize_id());
+		Saclient::Cloud::Util::set_by_path($ret, "Instance", $withClean ? (!defined($self->{'m_instance'}) ? undef : $self->{'m_instance'}->api_serialize($withClean)) : (!defined($self->{'m_instance'}) ? {'ID' => "0"} : $self->{'m_instance'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_availability'}) {
-		$ret->{"Availability"} = $self->{'m_availability'};
+		Saclient::Cloud::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
 	}
 	return $ret;
 }

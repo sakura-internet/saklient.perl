@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use errors;
 use Test::More;
+use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
 use Saclient::Cloud::API;
@@ -12,11 +13,10 @@ use Saclient::Cloud::Errors::HttpException;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
-use File::Basename qw(basename dirname);
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 26;
+my $tests = 30;
 
 
 
@@ -89,6 +89,9 @@ my $description = 'This instance was created by saclient.perl test';
 my $tag = 'saclient-test';
 my $cpu = 1;
 my $mem = 2;
+my $host_name = 'saclient-test';
+my $ssh_public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3sSg8Vfxrs3eFTx3G//wMRlgqmFGxh5Ia8DZSSf2YrkZGqKbL1t2AsiUtIMwxGiEVVBc0K89lORzra7qoHQj5v5Xlcdqodgcs9nwuSeS38XWO6tXNF4a8LvKnfGS55+uzmBmVUwAztr3TIJR5TTWxZXpcxSsSEHx7nIcr31zcvosjgdxqvSokAsIgJyPQyxCxsPK8SFIsUV+aATqBCWNyp+R1jECPkd74ipEBoccnA0pYZnRhIsKNWR9phBRXIVd5jx/gK5jHqouhFWvCucUs0gwilEGwpng3b/YxrinNskpfOpMhOD9zjNU58OCoMS8MA17yqoZv59l3u16CrnrD saclient-test@local';
+my $ssh_private_key_file = dirname($FindBin::RealBin) . '/test-sshkey.txt';
 
 # search archives
 diag 'searching archives...';
@@ -115,11 +118,11 @@ is $disk->size_gib, 20;
 diag 'creating a server...';
 my $server = $api->server->create;
 isa_ok $server, 'Saclient::Cloud::Resource::Server';
-$server->name($name);
-$server->description($description);
-$server->tags([$tag]);
-$server->plan($api->product->server->get_by_spec($cpu, $mem));
-$server->save();
+$server->name($name)
+	->description($description)
+	->tags([$tag])
+	->plan($api->product->server->get_by_spec($cpu, $mem))
+	->save;
 
 # check the server properties
 cmp_ok $server->id, '>', 0;
@@ -130,6 +133,13 @@ is scalar(@{$server->tags}), 1;
 is $server->tags->[0], $tag;
 is $server->plan->cpu, $cpu;
 is $server->plan->memory_gib, $mem;
+
+# connect to shared segment
+diag 'connecting the server to shared segment...';
+my $iface = $server->add_iface;
+isa_ok $iface, 'Saclient::Cloud::Resource::Iface';
+cmp_ok $iface->id, '>', 0;
+$iface->connect_to_shared_segment;
 
 # wait disk copy
 diag 'waiting disk copy...';
@@ -143,6 +153,14 @@ is $disk->size_gib, $archive->size_gib;
 # connect the disk to the server
 diag 'connecting the disk to the server...';
 $disk->connect_to($server);
+
+# config the disk
+diag 'writing configuration to the disk...';
+$disk->create_config
+	->host_name($host_name)
+	->password(String::Random->new->randregex('\\w{8}'))
+	->ssh_key($ssh_public_key)
+	->write;
 
 # boot
 diag 'booting the server...';
@@ -164,6 +182,22 @@ catch Saclient::Cloud::Errors::HttpException with {
 };
 #
 ok $ok, 'サーバ起動中の起動試行時は HttpConflictException がスローされなければなりません';
+
+# ssh
+my $ip_address = $server->ifaces->[0]->ip_address;
+ok $ip_address;
+my $cmd = "ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i$ssh_private_key_file root\@$ip_address hostname 2>/dev/null";
+my $ssh_success = 0;
+diag 'trying to SSH to the server...';
+for (my $i=0; $i<10; $i++) {
+	sleep 5;
+	my $host_name_got = `$cmd`;
+	chomp $host_name_got;
+	next unless $host_name eq $host_name_got;
+	$ssh_success = 1;
+	last;
+}
+ok $ssh_success, '作成したサーバへ正常にSSHできません';
 
 # stop
 sleep 3;

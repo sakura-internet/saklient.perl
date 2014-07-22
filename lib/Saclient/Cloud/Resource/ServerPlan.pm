@@ -167,19 +167,19 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		$ret->{"ID"} = $self->{'m_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		$ret->{"Name"} = $self->{'m_name'};
+		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_cpu'}) {
-		$ret->{"CPU"} = $self->{'m_cpu'};
+		Saclient::Cloud::Util::set_by_path($ret, "CPU", $self->{'m_cpu'});
 	}
 	if ($withClean || $self->{'n_memory_mib'}) {
-		$ret->{"MemoryMB"} = $self->{'m_memory_mib'};
+		Saclient::Cloud::Util::set_by_path($ret, "MemoryMB", $self->{'m_memory_mib'});
 	}
 	if ($withClean || $self->{'n_service_class'}) {
-		$ret->{"ServiceClass"} = $self->{'m_service_class'};
+		Saclient::Cloud::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
 	}
 	return $ret;
 }

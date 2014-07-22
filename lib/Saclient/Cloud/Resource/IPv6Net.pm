@@ -137,16 +137,16 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		$ret->{"ID"} = $self->{'m_id'};
+		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_ipv6_prefix'}) {
-		$ret->{"IPv6Prefix"} = $self->{'m_ipv6_prefix'};
+		Saclient::Cloud::Util::set_by_path($ret, "IPv6Prefix", $self->{'m_ipv6_prefix'});
 	}
 	if ($withClean || $self->{'n_ipv6_prefix_len'}) {
-		$ret->{"IPv6PrefixLen"} = $self->{'m_ipv6_prefix_len'};
+		Saclient::Cloud::Util::set_by_path($ret, "IPv6PrefixLen", $self->{'m_ipv6_prefix_len'});
 	}
 	if ($withClean || $self->{'n_ipv6_prefix_tail'}) {
-		$ret->{"IPv6PrefixTail"} = $self->{'m_ipv6_prefix_tail'};
+		Saclient::Cloud::Util::set_by_path($ret, "IPv6PrefixTail", $self->{'m_ipv6_prefix_tail'});
 	}
 	return $ret;
 }
