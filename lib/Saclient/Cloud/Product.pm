@@ -9,7 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Model::Model_ServerPlan;
 use Saclient::Cloud::Model::Model_DiskPlan;
-use Saclient::Cloud::Model::Model_InternetPlan;
+use Saclient::Cloud::Model::Model_RouterPlan;
 use Saclient::Cloud::Client;
 
 
@@ -41,15 +41,15 @@ sub disk {
 	return $_[0]->get_disk();
 }
 
-my $_internet;
+my $_router;
 
-sub get_internet {
+sub get_router {
 	my $self = shift;
-	return $self->{'_internet'};
+	return $self->{'_router'};
 }
 
-sub internet {
-	return $_[0]->get_internet();
+sub router {
+	return $_[0]->get_router();
 }
 
 sub new {
@@ -58,7 +58,7 @@ sub new {
 	my $client = shift;
 	$self->{'_server'} = new Saclient::Cloud::Model::Model_ServerPlan($client);
 	$self->{'_disk'} = new Saclient::Cloud::Model::Model_DiskPlan($client);
-	$self->{'_internet'} = new Saclient::Cloud::Model::Model_InternetPlan($client);
+	$self->{'_router'} = new Saclient::Cloud::Model::Model_RouterPlan($client);
 	return $self;
 }
 

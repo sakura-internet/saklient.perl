@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saclient::Cloud::Model::Model_InternetPlan;
+package Saclient::Cloud::Model::Model_RouterPlan;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Model::Model;
-use Saclient::Cloud::Resource::InternetPlan;
+use Saclient::Cloud::Resource::RouterPlan;
 
 use base qw(Saclient::Cloud::Model::Model);
 
@@ -16,7 +16,7 @@ use base qw(Saclient::Cloud::Model::Model);
 
 =encoding utf8
 
-=head1 Saclient::Cloud::Model::Model_InternetPlan
+=head1 Saclient::Cloud::Model::Model_RouterPlan
 
 ルータのプランを検索するための機能を備えたクラス。
 
@@ -40,10 +40,10 @@ sub _root_key_m {
 
 sub _class_name {
 	my $self = shift;
-	return "InternetPlan";
+	return "RouterPlan";
 }
 
-=head2 offset(int $offset) : Saclient::Cloud::Model::Model_InternetPlan
+=head2 offset(int $offset) : Saclient::Cloud::Model::Model_RouterPlan
 
 次に取得するリストの開始オフセットを指定します。
 
@@ -57,7 +57,7 @@ sub offset {
 	return $self->_offset($offset);
 }
 
-=head2 limit(int $count) : Saclient::Cloud::Model::Model_InternetPlan
+=head2 limit(int $count) : Saclient::Cloud::Model::Model_RouterPlan
 
 次に取得するリストの上限レコード数を指定します。
 
@@ -71,7 +71,20 @@ sub limit {
 	return $self->_limit($count);
 }
 
-=head2 reset : Saclient::Cloud::Model::Model_InternetPlan
+=head2 filter_by(string $key, $value, bool $multiple=0) : Saclient::Cloud::Model::Model_RouterPlan
+
+APIのフィルタリング設定を直接指定します。
+
+=cut
+sub filter_by {
+	my $self = shift;
+	my $key = shift;
+	my $value = shift;
+	my $multiple = shift || (0);
+	return $self->_filter_by($key, $value, $multiple);
+}
+
+=head2 reset : Saclient::Cloud::Model::Model_RouterPlan
 
 次のリクエストのために設定されているステートをすべて破棄します。
 
@@ -83,7 +96,7 @@ sub reset {
 	return $self->_reset();
 }
 
-=head2 get_by_id(string $id) : Saclient::Cloud::Resource::InternetPlan
+=head2 get_by_id(string $id) : Saclient::Cloud::Resource::RouterPlan
 
 指定したIDを持つ唯一のリソースを取得します。
 
@@ -96,7 +109,7 @@ sub get_by_id {
 	return $self->_get_by_id($id);
 }
 
-=head2 find : Saclient::Cloud::Resource::InternetPlan[]
+=head2 find : Saclient::Cloud::Resource::RouterPlan[]
 
 リソースの検索リクエストを実行し、結果をリストで取得します。
 

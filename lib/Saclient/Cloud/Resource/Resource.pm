@@ -197,6 +197,20 @@ sub _reload {
 	return $self;
 }
 
+=head2 exists : bool
+
+このリソースが存在するかを調べます。
+
+=cut
+sub exists {
+	my $self = shift;
+	my $params = {};
+	Saclient::Cloud::Util::set_by_path($params, "Filter.ID", [$self->_id()]);
+	Saclient::Cloud::Util::set_by_path($params, "Include", ["ID"]);
+	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
+	return $result->{"Count"} == 1;
+}
+
 sub dump {
 	my $self = shift;
 	return $self->api_serialize(1);

@@ -17,7 +17,7 @@ Saclient - An easy interface to control your resources on SAKURA Cloud.
 ## INSTALLATION
 
     # Install dependent packages
-    yum install make git openssl-devel
+    yum install make git openssl-devel cpan
     # or
     apt-get install make git libssl-dev
     

@@ -16,7 +16,9 @@ use Saclient::Cloud::Model::Model_Disk;
 use Saclient::Cloud::Model::Model_Appliance;
 use Saclient::Cloud::Model::Model_Archive;
 use Saclient::Cloud::Model::Model_Iface;
-use Saclient::Cloud::Model::Model_IPv6Net;
+use Saclient::Cloud::Model::Model_Swytch;
+use Saclient::Cloud::Model::Model_Router;
+use Saclient::Cloud::Model::Model_Ipv6Net;
 
 
 =pod
@@ -120,15 +122,37 @@ sub iface {
 	return $_[0]->get_iface();
 }
 
-my $_ipv6net;
+my $_swytch;
 
-sub get_ipv6net {
+sub get_swytch {
 	my $self = shift;
-	return $self->{'_ipv6net'};
+	return $self->{'_swytch'};
 }
 
-sub ipv6net {
-	return $_[0]->get_ipv6net();
+sub swytch {
+	return $_[0]->get_swytch();
+}
+
+my $_router;
+
+sub get_router {
+	my $self = shift;
+	return $self->{'_router'};
+}
+
+sub router {
+	return $_[0]->get_router();
+}
+
+my $_ipv6_net;
+
+sub get_ipv6_net {
+	my $self = shift;
+	return $self->{'_ipv6_net'};
+}
+
+sub ipv6_net {
+	return $_[0]->get_ipv6_net();
 }
 
 sub new {
@@ -143,7 +167,9 @@ sub new {
 	$self->{'_appliance'} = new Saclient::Cloud::Model::Model_Appliance($client);
 	$self->{'_archive'} = new Saclient::Cloud::Model::Model_Archive($client);
 	$self->{'_iface'} = new Saclient::Cloud::Model::Model_Iface($client);
-	$self->{'_ipv6net'} = new Saclient::Cloud::Model::Model_IPv6Net($client);
+	$self->{'_swytch'} = new Saclient::Cloud::Model::Model_Swytch($client);
+	$self->{'_router'} = new Saclient::Cloud::Model::Model_Router($client);
+	$self->{'_ipv6_net'} = new Saclient::Cloud::Model::Model_Ipv6Net($client);
 	return $self;
 }
 

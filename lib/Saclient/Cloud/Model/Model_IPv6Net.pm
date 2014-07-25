@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saclient::Cloud::Model::Model_IPv6Net;
+package Saclient::Cloud::Model::Model_Ipv6Net;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Model::Model;
-use Saclient::Cloud::Resource::IPv6Net;
+use Saclient::Cloud::Resource::Ipv6Net;
 
 use base qw(Saclient::Cloud::Model::Model);
 
@@ -16,7 +16,7 @@ use base qw(Saclient::Cloud::Model::Model);
 
 =encoding utf8
 
-=head1 Saclient::Cloud::Model::Model_IPv6Net
+=head1 Saclient::Cloud::Model::Model_Ipv6Net
 
 IPv6ネットワークを検索するための機能を備えたクラス。
 
@@ -43,7 +43,7 @@ sub _class_name {
 	return "IPv6Net";
 }
 
-=head2 offset(int $offset) : Saclient::Cloud::Model::Model_IPv6Net
+=head2 offset(int $offset) : Saclient::Cloud::Model::Model_Ipv6Net
 
 次に取得するリストの開始オフセットを指定します。
 
@@ -57,7 +57,7 @@ sub offset {
 	return $self->_offset($offset);
 }
 
-=head2 limit(int $count) : Saclient::Cloud::Model::Model_IPv6Net
+=head2 limit(int $count) : Saclient::Cloud::Model::Model_Ipv6Net
 
 次に取得するリストの上限レコード数を指定します。
 
@@ -71,7 +71,20 @@ sub limit {
 	return $self->_limit($count);
 }
 
-=head2 reset : Saclient::Cloud::Model::Model_IPv6Net
+=head2 filter_by(string $key, $value, bool $multiple=0) : Saclient::Cloud::Model::Model_Ipv6Net
+
+APIのフィルタリング設定を直接指定します。
+
+=cut
+sub filter_by {
+	my $self = shift;
+	my $key = shift;
+	my $value = shift;
+	my $multiple = shift || (0);
+	return $self->_filter_by($key, $value, $multiple);
+}
+
+=head2 reset : Saclient::Cloud::Model::Model_Ipv6Net
 
 次のリクエストのために設定されているステートをすべて破棄します。
 
@@ -83,7 +96,7 @@ sub reset {
 	return $self->_reset();
 }
 
-=head2 get_by_id(string $id) : Saclient::Cloud::Resource::IPv6Net
+=head2 get_by_id(string $id) : Saclient::Cloud::Resource::Ipv6Net
 
 指定したIDを持つ唯一のリソースを取得します。
 
@@ -96,7 +109,7 @@ sub get_by_id {
 	return $self->_get_by_id($id);
 }
 
-=head2 find : Saclient::Cloud::Resource::IPv6Net[]
+=head2 find : Saclient::Cloud::Resource::Ipv6Net[]
 
 リソースの検索リクエストを実行し、結果をリストで取得します。
 

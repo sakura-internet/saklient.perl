@@ -120,23 +120,23 @@ sub ip_address {
 	return $_[0]->get_ip_address();
 }
 
-my $_gateway;
+my $_default_route;
 
-sub get_gateway {
+sub get_default_route {
 	my $self = shift;
-	return $self->{'_gateway'};
+	return $self->{'_default_route'};
 }
 
-sub set_gateway {
+sub set_default_route {
 	my $self = shift;
 	my $v = shift;
-	$self->{'_gateway'} = $v;
+	$self->{'_default_route'} = $v;
 	return $v;
 }
 
-sub gateway {
-	if (1 < scalar(@_)) { $_[0]->set_gateway($_[1]); return $_[0]; }
-	return $_[0]->get_gateway();
+sub default_route {
+	if (1 < scalar(@_)) { $_[0]->set_default_route($_[1]); return $_[0]; }
+	return $_[0]->get_default_route();
 }
 
 my $_network_mask_len;
@@ -169,7 +169,7 @@ sub new {
 	$self->{'_password'} = undef;
 	$self->{'_ssh_key'} = undef;
 	$self->{'_ip_address'} = undef;
-	$self->{'_gateway'} = undef;
+	$self->{'_default_route'} = undef;
 	$self->{'_network_mask_len'} = undef;
 	return $self;
 }
@@ -194,8 +194,8 @@ sub write {
 	if (defined($self->{'_ip_address'})) {
 		Saclient::Cloud::Util::set_by_path($q, "UserIPAddress", $self->{'_ip_address'});
 	}
-	if (defined($self->{'_gateway'})) {
-		Saclient::Cloud::Util::set_by_path($q, "UserSubnet.DefaultRoute", $self->{'_gateway'});
+	if (defined($self->{'_default_route'})) {
+		Saclient::Cloud::Util::set_by_path($q, "UserSubnet.DefaultRoute", $self->{'_default_route'});
 	}
 	if (defined($self->{'_network_mask_len'})) {
 		Saclient::Cloud::Util::set_by_path($q, "UserSubnet.NetworkMaskLen", $self->{'_network_mask_len'});

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saclient::Cloud::Resource::InternetPlan;
+package Saclient::Cloud::Resource::RouterPlan;
 
 use strict;
 use warnings;
@@ -16,7 +16,7 @@ use base qw(Saclient::Cloud::Resource::Resource);
 
 =encoding utf8
 
-=head1 Saclient::Cloud::Resource::InternetPlan
+=head1 Saclient::Cloud::Resource::RouterPlan
 
 ルータのプラン情報へのアクセス機能を備えたクラス。
 

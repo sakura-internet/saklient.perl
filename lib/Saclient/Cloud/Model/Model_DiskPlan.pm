@@ -71,6 +71,19 @@ sub limit {
 	return $self->_limit($count);
 }
 
+=head2 filter_by(string $key, $value, bool $multiple=0) : Saclient::Cloud::Model::Model_DiskPlan
+
+APIのフィルタリング設定を直接指定します。
+
+=cut
+sub filter_by {
+	my $self = shift;
+	my $key = shift;
+	my $value = shift;
+	my $multiple = shift || (0);
+	return $self->_filter_by($key, $value, $multiple);
+}
+
 =head2 reset : Saclient::Cloud::Model::Model_DiskPlan
 
 次のリクエストのために設定されているステートをすべて破棄します。

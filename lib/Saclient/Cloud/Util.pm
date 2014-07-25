@@ -29,6 +29,9 @@ sub exists_path {
 		if (!defined($obj)) {
 			return 0;
 		}
+		if (ref($obj) ne 'HASH') {
+			return 0;
+		}
 		if ($seg eq "") {
 			next;
 		}
@@ -47,6 +50,9 @@ sub get_by_path {
 	my $aPath = [split(quotemeta("."), $path)];
 	foreach my $seg (@{$aPath}) {
 		if (!defined($obj)) {
+			return undef;
+		}
+		if (ref($obj) ne 'HASH') {
 			return undef;
 		}
 		if ($seg eq "") {

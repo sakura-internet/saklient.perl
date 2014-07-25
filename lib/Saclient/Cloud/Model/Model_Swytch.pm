@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saclient::Cloud::Model::Model_Server;
+package Saclient::Cloud::Model::Model_Swytch;
 
 use strict;
 use warnings;
@@ -8,8 +8,7 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Model::Model;
-use Saclient::Cloud::Resource::Server;
-use Saclient::Cloud::Resource::ServerPlan;
+use Saclient::Cloud::Resource::Swytch;
 
 use base qw(Saclient::Cloud::Model::Model);
 
@@ -17,34 +16,34 @@ use base qw(Saclient::Cloud::Model::Model);
 
 =encoding utf8
 
-=head1 Saclient::Cloud::Model::Model_Server
+=head1 Saclient::Cloud::Model::Model_Swytch
 
-サーバを検索するための機能を備えたクラス。
+スイッチを検索するための機能を備えたクラス。
 
 =cut
 
 
 sub _api_path {
 	my $self = shift;
-	return "/server";
+	return "/switch";
 }
 
 sub _root_key {
 	my $self = shift;
-	return "Server";
+	return "Switch";
 }
 
 sub _root_key_m {
 	my $self = shift;
-	return "Servers";
+	return "Switches";
 }
 
 sub _class_name {
 	my $self = shift;
-	return "Server";
+	return "Swytch";
 }
 
-=head2 offset(int $offset) : Saclient::Cloud::Model::Model_Server
+=head2 offset(int $offset) : Saclient::Cloud::Model::Model_Swytch
 
 次に取得するリストの開始オフセットを指定します。
 
@@ -58,7 +57,7 @@ sub offset {
 	return $self->_offset($offset);
 }
 
-=head2 limit(int $count) : Saclient::Cloud::Model::Model_Server
+=head2 limit(int $count) : Saclient::Cloud::Model::Model_Swytch
 
 次に取得するリストの上限レコード数を指定します。
 
@@ -72,7 +71,7 @@ sub limit {
 	return $self->_limit($count);
 }
 
-=head2 filter_by(string $key, $value, bool $multiple=0) : Saclient::Cloud::Model::Model_Server
+=head2 filter_by(string $key, $value, bool $multiple=0) : Saclient::Cloud::Model::Model_Swytch
 
 APIのフィルタリング設定を直接指定します。
 
@@ -85,7 +84,7 @@ sub filter_by {
 	return $self->_filter_by($key, $value, $multiple);
 }
 
-=head2 reset : Saclient::Cloud::Model::Model_Server
+=head2 reset : Saclient::Cloud::Model::Model_Swytch
 
 次のリクエストのために設定されているステートをすべて破棄します。
 
@@ -97,7 +96,7 @@ sub reset {
 	return $self->_reset();
 }
 
-=head2 create : Saclient::Cloud::Resource::Server
+=head2 create : Saclient::Cloud::Resource::Swytch
 
 *
 
@@ -107,7 +106,7 @@ sub create {
 	return $self->_create();
 }
 
-=head2 get_by_id(string $id) : Saclient::Cloud::Resource::Server
+=head2 get_by_id(string $id) : Saclient::Cloud::Resource::Swytch
 
 指定したIDを持つ唯一のリソースを取得します。
 
@@ -120,7 +119,7 @@ sub get_by_id {
 	return $self->_get_by_id($id);
 }
 
-=head2 find : Saclient::Cloud::Resource::Server[]
+=head2 find : Saclient::Cloud::Resource::Swytch[]
 
 リソースの検索リクエストを実行し、結果をリストで取得します。
 
@@ -132,51 +131,15 @@ sub find {
 	return $self->_find();
 }
 
-=head2 with_name_like(string $name) : Saclient::Cloud::Model::Model_Server
+=head2 with_name_like(string $name) : Saclient::Cloud::Model::Model_Swytch
 
-指定した文字列を名前に含むサーバに絞り込みます。
+指定した文字列を名前に含むスイッチに絞り込みます。
 
 =cut
 sub with_name_like {
 	my $self = shift;
 	my $name = shift;
 	$self->_filter_by("Name", $name);
-	return $self;
-}
-
-=head2 with_tag(string $tag) : Saclient::Cloud::Model::Model_Server
-
-指定したタグを持つサーバに絞り込みます。
-
-=cut
-sub with_tag {
-	my $self = shift;
-	my $tag = shift;
-	$self->_filter_by("Tags.Name", $tag, 1);
-	return $self;
-}
-
-=head2 with_plan(Saclient::Cloud::Resource::ServerPlan $plan) : Saclient::Cloud::Model::Model_Server
-
-指定したタグを持つサーバに絞り込みます。
-
-=cut
-sub with_plan {
-	my $self = shift;
-	my $plan = shift;
-	$self->_filter_by("ServerPlan.ID", $plan->_id(), 1);
-	return $self;
-}
-
-=head2 with_instance_status(string $status) : Saclient::Cloud::Model::Model_Server
-
-インスタンスが指定した状態にあるサーバに絞り込みます。
-
-=cut
-sub with_instance_status {
-	my $self = shift;
-	my $status = shift;
-	$self->_filter_by("Instance.Status", $status, 1);
 	return $self;
 }
 

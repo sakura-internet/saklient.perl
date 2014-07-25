@@ -111,6 +111,28 @@ sub _limit {
 	return $self;
 }
 
+sub _filter_by {
+	my $self = shift;
+	my $key = shift;
+	my $value = shift;
+	my $multiple = shift || (0);
+	if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Filter"})) {
+		$self->{'_params'}->{"Filter"} = {};
+	}
+	my $filter = $self->{'_params'}->{"Filter"};
+	if ($multiple) {
+		if (!(ref($filter) eq 'HASH' && exists $filter->{$key})) {
+			$filter->{$key} = [];
+		}
+		my $values = $filter->{$key};
+		push(@{$values}, $value);
+	}
+	else {
+		$filter->{$key} = $value;
+	}
+	return $self;
+}
+
 sub _reset {
 	my $self = shift;
 	$self->{'_params'} = {};
@@ -164,27 +186,6 @@ sub _find_one {
 	}
 	my $records = $result->{$self->_root_key_m()};
 	return Saclient::Cloud::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [$self->{'_client'}, $records->[0]]);
-}
-
-sub _filter_by {
-	my $self = shift;
-	my $key = shift;
-	my $value = shift;
-	my $multiple = shift || (0);
-	if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Filter"})) {
-		$self->{'_params'}->{"Filter"} = {};
-	}
-	my $filter = $self->{'_params'}->{"Filter"};
-	if ($multiple) {
-		if (!(ref($filter) eq 'HASH' && exists $filter->{$key})) {
-			$filter->{$key} = [];
-		}
-		my $values = $filter->{$key};
-		push(@{$values}, $value);
-	}
-	else {
-		$filter->{$key} = $value;
-	}
 }
 
 1;
