@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
+use Saclient::Cloud::Resource::Swytch;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
@@ -53,7 +54,7 @@ sub _id {
 	return $self->get_id();
 }
 
-=head2 reload : Swytch
+=head2 reload : Saclient::Cloud::Resource::Swytch
 
 最新のリソース情報を再取得します。
 

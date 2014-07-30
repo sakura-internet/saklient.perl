@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Util;
 use Saclient::Cloud::Resource::Resource;
+use Saclient::Cloud::Resource::IsoImage;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saclient::Cloud::Resource::Resource);
@@ -30,6 +31,8 @@ my $m_status;
 my $m_before_status;
 
 my $m_status_changed_at;
+
+my $m_iso_image;
 
 sub new {
 	my $class = shift;
@@ -68,6 +71,11 @@ sub get_status {
 	return $self->{'m_status'};
 }
 
+=head2 status
+
+起動状態
+
+=cut
 sub status {
 	return $_[0]->get_status();
 }
@@ -79,6 +87,11 @@ sub get_before_status {
 	return $self->{'m_before_status'};
 }
 
+=head2 before_status
+
+前回の起動状態
+
+=cut
 sub before_status {
 	return $_[0]->get_before_status();
 }
@@ -90,8 +103,29 @@ sub get_status_changed_at {
 	return $self->{'m_status_changed_at'};
 }
 
+=head2 status_changed_at
+
+現在の起動状態に変化した日時
+
+=cut
 sub status_changed_at {
 	return $_[0]->get_status_changed_at();
+}
+
+my $n_iso_image = 0;
+
+sub get_iso_image {
+	my $self = shift;
+	return $self->{'m_iso_image'};
+}
+
+=head2 iso_image
+
+挿入されているISOイメージ
+
+=cut
+sub iso_image {
+	return $_[0]->get_iso_image();
 }
 
 sub api_deserialize_impl {
@@ -126,6 +160,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_status_changed_at'} = 0;
+	if (Saclient::Cloud::Util::exists_path($r, "CDROM")) {
+		$self->{'m_iso_image'} = !defined(Saclient::Cloud::Util::get_by_path($r, "CDROM")) ? undef : new Saclient::Cloud::Resource::IsoImage($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "CDROM"));
+	}
+	else {
+		$self->{'m_iso_image'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_iso_image'} = 0;
 }
 
 sub api_serialize_impl {
@@ -140,6 +182,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_status_changed_at'}) {
 		Saclient::Cloud::Util::set_by_path($ret, "StatusChangedAt", !defined($self->{'m_status_changed_at'}) ? undef : Saclient::Cloud::Util::date2str($self->{'m_status_changed_at'}));
+	}
+	if ($withClean || $self->{'n_iso_image'}) {
+		Saclient::Cloud::Util::set_by_path($ret, "CDROM", $withClean ? (!defined($self->{'m_iso_image'}) ? undef : $self->{'m_iso_image'}->api_serialize($withClean)) : (!defined($self->{'m_iso_image'}) ? {'ID' => "0"} : $self->{'m_iso_image'}->api_serialize_id()));
 	}
 	return $ret;
 }

@@ -246,7 +246,7 @@ sub find_disks {
 
 =head2 add_iface : Saclient::Cloud::Resource::Iface
 
-インタフェースを1つ増設し、それを取得します。
+サーバにインタフェースを1つ増設し、それを取得します。
 
 =cut
 sub add_iface {
@@ -255,6 +255,34 @@ sub add_iface {
 	my $res = $model->create();
 	$res->set_property("serverId", $self->_id());
 	return $res->save();
+}
+
+=head2 insert_iso_image(IsoImage $iso) : Saclient::Cloud::Resource::Server
+
+サーバにISOイメージを挿入します。
+
+=cut
+sub insert_iso_image {
+	my $self = shift;
+	my $iso = shift;
+	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/cdrom";
+	my $q = {'CDROM' => {'ID' => $iso->_id()}};
+	my $result = $self->{'_client'}->request("PUT", $path, $q);
+	$self->reload();
+	return $self;
+}
+
+=head2 eject_iso_image : Saclient::Cloud::Resource::Server
+
+サーバに挿入されているISOイメージを排出します。
+
+=cut
+sub eject_iso_image {
+	my $self = shift;
+	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/cdrom";
+	my $result = $self->{'_client'}->request("DELETE", $path);
+	$self->reload();
+	return $self;
 }
 
 my $n_id = 0;

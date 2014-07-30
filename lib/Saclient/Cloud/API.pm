@@ -15,6 +15,7 @@ use Saclient::Cloud::Model::Model_Server;
 use Saclient::Cloud::Model::Model_Disk;
 use Saclient::Cloud::Model::Model_Appliance;
 use Saclient::Cloud::Model::Model_Archive;
+use Saclient::Cloud::Model::Model_IsoImage;
 use Saclient::Cloud::Model::Model_Iface;
 use Saclient::Cloud::Model::Model_Swytch;
 use Saclient::Cloud::Model::Model_Router;
@@ -111,6 +112,17 @@ sub archive {
 	return $_[0]->get_archive();
 }
 
+my $_iso_image;
+
+sub get_iso_image {
+	my $self = shift;
+	return $self->{'_iso_image'};
+}
+
+sub iso_image {
+	return $_[0]->get_iso_image();
+}
+
 my $_iface;
 
 sub get_iface {
@@ -166,6 +178,7 @@ sub new {
 	$self->{'_disk'} = new Saclient::Cloud::Model::Model_Disk($client);
 	$self->{'_appliance'} = new Saclient::Cloud::Model::Model_Appliance($client);
 	$self->{'_archive'} = new Saclient::Cloud::Model::Model_Archive($client);
+	$self->{'_iso_image'} = new Saclient::Cloud::Model::Model_IsoImage($client);
 	$self->{'_iface'} = new Saclient::Cloud::Model::Model_Iface($client);
 	$self->{'_swytch'} = new Saclient::Cloud::Model::Model_Swytch($client);
 	$self->{'_router'} = new Saclient::Cloud::Model::Model_Router($client);

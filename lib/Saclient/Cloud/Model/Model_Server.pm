@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saclient::Cloud::Model::Model;
 use Saclient::Cloud::Resource::Server;
 use Saclient::Cloud::Resource::ServerPlan;
+use Saclient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saclient::Cloud::Model::Model);
 
@@ -178,6 +179,26 @@ sub with_instance_status {
 	my $status = shift;
 	$self->_filter_by("Instance.Status", $status, 1);
 	return $self;
+}
+
+=head2 with_instance_up : Saclient::Cloud::Model::Model_Server
+
+インスタンスが起動中のサーバに絞り込みます。
+
+=cut
+sub with_instance_up {
+	my $self = shift;
+	return $self->with_instance_status(Saclient::Cloud::Enums::EServerInstanceStatus::up);
+}
+
+=head2 with_instance_down : Saclient::Cloud::Model::Model_Server
+
+インスタンスが停止中のサーバに絞り込みます。
+
+=cut
+sub with_instance_down {
+	my $self = shift;
+	return $self->with_instance_status(Saclient::Cloud::Enums::EServerInstanceStatus::down);
 }
 
 1;
