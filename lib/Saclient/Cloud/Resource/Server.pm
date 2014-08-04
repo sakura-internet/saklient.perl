@@ -14,6 +14,7 @@ use Saclient::Cloud::Resource::Disk;
 use Saclient::Cloud::Resource::Iface;
 use Saclient::Cloud::Resource::ServerPlan;
 use Saclient::Cloud::Resource::ServerInstance;
+use Saclient::Cloud::Resource::IsoImage;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saclient::Cloud::Resource::Resource);
@@ -257,7 +258,7 @@ sub add_iface {
 	return $res->save();
 }
 
-=head2 insert_iso_image(IsoImage $iso) : Saclient::Cloud::Resource::Server
+=head2 insert_iso_image(Saclient::Cloud::Resource::IsoImage $iso) : Saclient::Cloud::Resource::Server
 
 サーバにISOイメージを挿入します。
 

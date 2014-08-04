@@ -155,6 +155,18 @@ sub with_tag {
 	return $self;
 }
 
+=head2 with_tags(string[] $tags) : Saclient::Cloud::Model::Model_Disk
+
+指定したタグを持つディスクに絞り込みます。
+
+=cut
+sub with_tags {
+	my $self = shift;
+	my $tags = shift;
+	$self->_filter_by("Tags.Name", $tags, 1);
+	return $self;
+}
+
 =head2 with_size_gib(int $sizeGib) : Saclient::Cloud::Model::Model_Disk
 
 指定したサイズのディスクに絞り込みます。

@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Errors::SaclientException;
 use URI::Escape;
 use DateTime::Format::Strptime;
 
@@ -144,6 +145,15 @@ sub sleep {
 	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
 	my $sec = shift;
 	sleep($sec);
+}
+
+sub validate_type {
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	my $value = shift;
+	my $typeName = shift;
+	if ($typeName eq "test") {
+		throw Error::Simple(new Saclient::Errors::SaclientException("type_mismatch", "Type mismatch"));
+	}
 }
 
 1;

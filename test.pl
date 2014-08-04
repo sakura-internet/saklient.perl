@@ -126,7 +126,7 @@ if (0) {
 if (0) {
 
 	# Lists all disks connected to stopped servers
-	my $servers = $api->server->with_instance_status("down")->find();
+	my $servers = $api->server->with_status("down")->find();
 	foreach my $server (@$servers) {
 		#next if $server->instance->status ne "down";
 		next unless scalar @{$server->tags};
@@ -152,7 +152,7 @@ if (0) {
 }
 
 
-#my $server = $api->server->with_instance_status("down")->find()->[0];
+#my $server = $api->server->with_status("down")->find()->[0];
 #print Dumper $server->tags;
 
 

@@ -145,4 +145,16 @@ sub with_tag {
 	return $self;
 }
 
+=head2 with_tags(string[] $tags) : Saclient::Cloud::Model::Model_Icon
+
+指定したタグを持つアイコンに絞り込みます。
+
+=cut
+sub with_tags {
+	my $self = shift;
+	my $tags = shift;
+	$self->_filter_by("Tags.Name", $tags, 1);
+	return $self;
+}
+
 1;

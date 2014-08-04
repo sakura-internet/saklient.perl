@@ -124,7 +124,7 @@ sub find {
 
 =head2 with_name_like(string $name) : Saclient::Cloud::Model::Model_IsoImage
 
-指定した文字列を名前に含むアーカイブに絞り込みます。
+指定した文字列を名前に含むISOイメージに絞り込みます。
 
 =cut
 sub with_name_like {
@@ -136,7 +136,7 @@ sub with_name_like {
 
 =head2 with_tag(string $tag) : Saclient::Cloud::Model::Model_IsoImage
 
-指定したタグを持つアーカイブに絞り込みます。
+指定したタグを持つISOイメージに絞り込みます。
 
 =cut
 sub with_tag {
@@ -148,7 +148,7 @@ sub with_tag {
 
 =head2 with_size_gib(int $sizeGib) : Saclient::Cloud::Model::Model_IsoImage
 
-指定したサイズのアーカイブに絞り込みます。
+指定したサイズのISOイメージに絞り込みます。
 
 =cut
 sub with_size_gib {
@@ -160,7 +160,7 @@ sub with_size_gib {
 
 =head2 with_shared_scope : Saclient::Cloud::Model::Model_IsoImage
 
-パブリックアーカイブに絞り込みます。
+パブリックISOイメージに絞り込みます。
 
 =cut
 sub with_shared_scope {
@@ -171,7 +171,7 @@ sub with_shared_scope {
 
 =head2 with_user_scope : Saclient::Cloud::Model::Model_IsoImage
 
-プライベートアーカイブに絞り込みます。
+プライベートISOイメージに絞り込みます。
 
 =cut
 sub with_user_scope {

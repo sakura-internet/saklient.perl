@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saclient::Cloud::Model::Model;
 use Saclient::Cloud::Resource::Server;
 use Saclient::Cloud::Resource::ServerPlan;
+use Saclient::Cloud::Resource::IsoImage;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saclient::Cloud::Model::Model);
@@ -157,6 +158,18 @@ sub with_tag {
 	return $self;
 }
 
+=head2 with_tags(string[] $tags) : Saclient::Cloud::Model::Model_Server
+
+指定したタグを持つサーバに絞り込みます。
+
+=cut
+sub with_tags {
+	my $self = shift;
+	my $tags = shift;
+	$self->_filter_by("Tags.Name", $tags, 1);
+	return $self;
+}
+
 =head2 with_plan(Saclient::Cloud::Resource::ServerPlan $plan) : Saclient::Cloud::Model::Model_Server
 
 指定したタグを持つサーバに絞り込みます。
@@ -169,36 +182,48 @@ sub with_plan {
 	return $self;
 }
 
-=head2 with_instance_status(string $status) : Saclient::Cloud::Model::Model_Server
+=head2 with_status(string $status) : Saclient::Cloud::Model::Model_Server
 
 インスタンスが指定した状態にあるサーバに絞り込みます。
 
 =cut
-sub with_instance_status {
+sub with_status {
 	my $self = shift;
 	my $status = shift;
 	$self->_filter_by("Instance.Status", $status, 1);
 	return $self;
 }
 
-=head2 with_instance_up : Saclient::Cloud::Model::Model_Server
+=head2 with_status_up : Saclient::Cloud::Model::Model_Server
 
 インスタンスが起動中のサーバに絞り込みます。
 
 =cut
-sub with_instance_up {
+sub with_status_up {
 	my $self = shift;
-	return $self->with_instance_status(Saclient::Cloud::Enums::EServerInstanceStatus::up);
+	return $self->with_status(Saclient::Cloud::Enums::EServerInstanceStatus::up);
 }
 
-=head2 with_instance_down : Saclient::Cloud::Model::Model_Server
+=head2 with_status_down : Saclient::Cloud::Model::Model_Server
 
 インスタンスが停止中のサーバに絞り込みます。
 
 =cut
-sub with_instance_down {
+sub with_status_down {
 	my $self = shift;
-	return $self->with_instance_status(Saclient::Cloud::Enums::EServerInstanceStatus::down);
+	return $self->with_status(Saclient::Cloud::Enums::EServerInstanceStatus::down);
+}
+
+=head2 with_iso_image(Saclient::Cloud::Resource::IsoImage $iso) : Saclient::Cloud::Model::Model_Server
+
+指定したISOイメージが挿入されているサーバに絞り込みます。
+
+=cut
+sub with_iso_image {
+	my $self = shift;
+	my $iso = shift;
+	$self->_filter_by("Instance.CDROM.ID", $iso->_id(), 1);
+	return $self;
 }
 
 1;

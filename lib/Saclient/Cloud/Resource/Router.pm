@@ -93,6 +93,19 @@ sub new {
 	return $self;
 }
 
+=head2 after_create(int $timeoutSec, (Saclient::Cloud::Resource::Router, bool) => void $callback) : void
+
+作成中のルータが利用可能になるまで待機します。
+
+=cut
+sub after_create {
+	my $self = shift;
+	my $timeoutSec = shift;
+	my $callback = shift;
+	my $ret = $self->sleep_while_creating($timeoutSec);
+	$callback->($self, $ret);
+}
+
 =head2 sleep_while_creating(int $timeoutSec=120) : bool
 
 作成中のルータが利用可能になるまで待機します。
