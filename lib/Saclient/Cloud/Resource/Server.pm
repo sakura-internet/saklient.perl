@@ -214,7 +214,7 @@ sub sleep_until {
 		}
 		$timeoutSec -= $step;
 		if (0 < $timeoutSec) {
-			sleep $step;
+			Saclient::Cloud::Util::sleep($step);
 		}
 	}
 	return 0;

@@ -282,7 +282,7 @@ sub sleep_while_copying {
 		}
 		$timeoutSec -= $step;
 		if (0 < $timeoutSec) {
-			sleep $step;
+			Saclient::Cloud::Util::sleep($step);
 		}
 	}
 	return 0;

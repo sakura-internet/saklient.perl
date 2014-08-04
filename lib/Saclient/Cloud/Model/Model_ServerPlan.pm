@@ -118,7 +118,7 @@ sub get_by_id {
 =cut
 sub find {
 	my $self = shift;
-	return $self->_find();
+	return Saclient::Cloud::Util::cast_array($self->_find(), undef);
 }
 
 =head2 get_by_spec(int $cores, int $memoryGib) : Saclient::Cloud::Resource::ServerPlan

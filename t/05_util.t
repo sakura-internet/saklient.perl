@@ -6,7 +6,7 @@ use Test::More tests => 20;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
-use Saclient::Cloud::Util qw(get_by_path set_by_path exists_path);
+use Saclient::Util qw(get_by_path set_by_path exists_path);
 binmode STDOUT, ":utf8";
 
 

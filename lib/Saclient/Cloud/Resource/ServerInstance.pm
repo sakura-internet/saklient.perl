@@ -7,8 +7,8 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Util;
 use Saclient::Cloud::Client;
-use Saclient::Cloud::Util;
 use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::IsoImage;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
@@ -136,32 +136,32 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Status")) {
-		$self->{'m_status'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Status")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Status");
+	if (Saclient::Util::exists_path($r, "Status")) {
+		$self->{'m_status'} = !defined(Saclient::Util::get_by_path($r, "Status")) ? undef : "" . Saclient::Util::get_by_path($r, "Status");
 	}
 	else {
 		$self->{'m_status'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_status'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "BeforeStatus")) {
-		$self->{'m_before_status'} = !defined(Saclient::Cloud::Util::get_by_path($r, "BeforeStatus")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "BeforeStatus");
+	if (Saclient::Util::exists_path($r, "BeforeStatus")) {
+		$self->{'m_before_status'} = !defined(Saclient::Util::get_by_path($r, "BeforeStatus")) ? undef : "" . Saclient::Util::get_by_path($r, "BeforeStatus");
 	}
 	else {
 		$self->{'m_before_status'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_before_status'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "StatusChangedAt")) {
-		$self->{'m_status_changed_at'} = !defined(Saclient::Cloud::Util::get_by_path($r, "StatusChangedAt")) ? undef : Saclient::Cloud::Util::str2date("" . Saclient::Cloud::Util::get_by_path($r, "StatusChangedAt"));
+	if (Saclient::Util::exists_path($r, "StatusChangedAt")) {
+		$self->{'m_status_changed_at'} = !defined(Saclient::Util::get_by_path($r, "StatusChangedAt")) ? undef : Saclient::Util::str2date("" . Saclient::Util::get_by_path($r, "StatusChangedAt"));
 	}
 	else {
 		$self->{'m_status_changed_at'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_status_changed_at'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "CDROM")) {
-		$self->{'m_iso_image'} = !defined(Saclient::Cloud::Util::get_by_path($r, "CDROM")) ? undef : new Saclient::Cloud::Resource::IsoImage($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "CDROM"));
+	if (Saclient::Util::exists_path($r, "CDROM")) {
+		$self->{'m_iso_image'} = !defined(Saclient::Util::get_by_path($r, "CDROM")) ? undef : new Saclient::Cloud::Resource::IsoImage($self->{'_client'}, Saclient::Util::get_by_path($r, "CDROM"));
 	}
 	else {
 		$self->{'m_iso_image'} = undef;
@@ -175,16 +175,16 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_status'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Status", $self->{'m_status'});
+		Saclient::Util::set_by_path($ret, "Status", $self->{'m_status'});
 	}
 	if ($withClean || $self->{'n_before_status'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "BeforeStatus", $self->{'m_before_status'});
+		Saclient::Util::set_by_path($ret, "BeforeStatus", $self->{'m_before_status'});
 	}
 	if ($withClean || $self->{'n_status_changed_at'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "StatusChangedAt", !defined($self->{'m_status_changed_at'}) ? undef : Saclient::Cloud::Util::date2str($self->{'m_status_changed_at'}));
+		Saclient::Util::set_by_path($ret, "StatusChangedAt", !defined($self->{'m_status_changed_at'}) ? undef : Saclient::Util::date2str($self->{'m_status_changed_at'}));
 	}
 	if ($withClean || $self->{'n_iso_image'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "CDROM", $withClean ? (!defined($self->{'m_iso_image'}) ? undef : $self->{'m_iso_image'}->api_serialize($withClean)) : (!defined($self->{'m_iso_image'}) ? {'ID' => "0"} : $self->{'m_iso_image'}->api_serialize_id()));
+		Saclient::Util::set_by_path($ret, "CDROM", $withClean ? (!defined($self->{'m_iso_image'}) ? undef : $self->{'m_iso_image'}->api_serialize($withClean)) : (!defined($self->{'m_iso_image'}) ? {'ID' => "0"} : $self->{'m_iso_image'}->api_serialize_id()));
 	}
 	return $ret;
 }

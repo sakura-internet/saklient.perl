@@ -7,8 +7,8 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Util;
 use Saclient::Cloud::Client;
-use Saclient::Cloud::Util;
 
 
 =pod
@@ -167,7 +167,7 @@ sub _save {
 	my $method = $self->{'is_new'} ? "POST" : "PUT";
 	my $path = $self->_api_path();
 	if (!$self->{'is_new'}) {
-		$path .= "/" . Saclient::Cloud::Util::url_encode($self->_id());
+		$path .= "/" . Saclient::Util::url_encode($self->_id());
 	}
 	my $q = {};
 	$q->{$self->_root_key()} = $r;
@@ -186,13 +186,13 @@ sub destroy {
 	if ($self->{'is_new'}) {
 		return;
 	}
-	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id());
+	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id());
 	$self->{'_client'}->request("DELETE", $path);
 }
 
 sub _reload {
 	my $self = shift;
-	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()));
+	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()));
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
 }
@@ -205,8 +205,8 @@ sub _reload {
 sub exists {
 	my $self = shift;
 	my $params = {};
-	Saclient::Cloud::Util::set_by_path($params, "Filter.ID", [$self->_id()]);
-	Saclient::Cloud::Util::set_by_path($params, "Include", ["ID"]);
+	Saclient::Util::set_by_path($params, "Filter.ID", [$self->_id()]);
+	Saclient::Util::set_by_path($params, "Include", ["ID"]);
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
 	return $result->{"Count"} == 1;
 }

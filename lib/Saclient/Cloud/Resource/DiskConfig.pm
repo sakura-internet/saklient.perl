@@ -7,8 +7,8 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Util;
 use Saclient::Cloud::Client;
-use Saclient::Cloud::Util;
 
 
 =pod
@@ -183,22 +183,22 @@ sub write {
 	my $self = shift;
 	my $q = {};
 	if (defined($self->{'_host_name'})) {
-		Saclient::Cloud::Util::set_by_path($q, "HostName", $self->{'_host_name'});
+		Saclient::Util::set_by_path($q, "HostName", $self->{'_host_name'});
 	}
 	if (defined($self->{'_password'})) {
-		Saclient::Cloud::Util::set_by_path($q, "Password", $self->{'_password'});
+		Saclient::Util::set_by_path($q, "Password", $self->{'_password'});
 	}
 	if (defined($self->{'_ssh_key'})) {
-		Saclient::Cloud::Util::set_by_path($q, "SSHKey.PublicKey", $self->{'_ssh_key'});
+		Saclient::Util::set_by_path($q, "SSHKey.PublicKey", $self->{'_ssh_key'});
 	}
 	if (defined($self->{'_ip_address'})) {
-		Saclient::Cloud::Util::set_by_path($q, "UserIPAddress", $self->{'_ip_address'});
+		Saclient::Util::set_by_path($q, "UserIPAddress", $self->{'_ip_address'});
 	}
 	if (defined($self->{'_default_route'})) {
-		Saclient::Cloud::Util::set_by_path($q, "UserSubnet.DefaultRoute", $self->{'_default_route'});
+		Saclient::Util::set_by_path($q, "UserSubnet.DefaultRoute", $self->{'_default_route'});
 	}
 	if (defined($self->{'_network_mask_len'})) {
-		Saclient::Cloud::Util::set_by_path($q, "UserSubnet.NetworkMaskLen", $self->{'_network_mask_len'});
+		Saclient::Util::set_by_path($q, "UserSubnet.NetworkMaskLen", $self->{'_network_mask_len'});
 	}
 	my $path = "/disk/" . $self->{'_disk_id'} . "/config";
 	my $result = $self->{'_client'}->request("PUT", $path, $q);

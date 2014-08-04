@@ -128,7 +128,7 @@ sub get_by_id {
 =cut
 sub find {
 	my $self = shift;
-	return $self->_find();
+	return Saclient::Cloud::Util::cast_array($self->_find(), undef);
 }
 
 =head2 with_name_like(string $name) : Saclient::Cloud::Model::Model_Router

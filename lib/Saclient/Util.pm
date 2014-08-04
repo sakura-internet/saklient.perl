@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saclient::Cloud::Util;
+package Saclient::Util;
 
 use strict;
 use warnings;
@@ -22,7 +22,7 @@ our @EXPORT_OK = qw(exists_path get_by_path set_by_path create_class_instance);
 =cut
 
 sub exists_path {
-	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $obj = shift;
 	my $path = shift;
 	my $aPath = [split(quotemeta("."), $path)];
@@ -45,7 +45,7 @@ sub exists_path {
 }
 
 sub get_by_path {
-	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $obj = shift;
 	my $path = shift;
 	my $aPath = [split(quotemeta("."), $path)];
@@ -75,7 +75,7 @@ sub get_by_path {
 
 =cut
 sub set_by_path {
-	shift if 3 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 3 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $obj = shift;
 	my $path = shift;
 	my $value = shift;
@@ -94,7 +94,7 @@ sub set_by_path {
 }
 
 sub create_class_instance {
-	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $classPath = shift;
 	my $args = shift;
 	my $ret = undef;
@@ -108,7 +108,7 @@ sub create_class_instance {
 }
 
 sub str2date {
-	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $s = shift;
 	if (!defined($s)) {
 		return undef;
@@ -118,7 +118,7 @@ sub str2date {
 }
 
 sub date2str {
-	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $d = shift;
 	if (!defined($d)) {
 		return undef;
@@ -129,26 +129,19 @@ sub date2str {
 }
 
 sub url_encode {
-	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $s = shift;
 	return uri_escape($s);
 }
 
-sub cast_array {
-	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
-	my $a = shift;
-	my $clazz = shift;
-	return $a;
-}
-
 sub sleep {
-	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $sec = shift;
 	sleep($sec);
 }
 
 sub validate_type {
-	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::Util';
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $value = shift;
 	my $typeName = shift;
 	if ($typeName eq "test") {
