@@ -129,7 +129,7 @@ sub is_down {
 =cut
 sub boot {
 	my $self = shift;
-	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/power");
 	return $self->reload();
 }
 
@@ -140,7 +140,7 @@ sub boot {
 =cut
 sub shutdown {
 	my $self = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power");
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/power");
 	return $self->reload();
 }
 
@@ -151,7 +151,7 @@ sub shutdown {
 =cut
 sub stop {
 	my $self = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/power", {'Force' => 1});
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/power", {'Force' => 1});
 	return $self->reload();
 }
 
@@ -162,7 +162,7 @@ sub stop {
 =cut
 sub reboot {
 	my $self = shift;
-	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/reset");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/reset");
 	return $self->reload();
 }
 
@@ -214,7 +214,7 @@ sub sleep_until {
 		}
 		$timeoutSec -= $step;
 		if (0 < $timeoutSec) {
-			Saclient::Cloud::Util::sleep($step);
+			sleep $step;
 		}
 	}
 	return 0;
@@ -228,7 +228,7 @@ sub sleep_until {
 sub change_plan {
 	my $self = shift;
 	my $planTo = shift;
-	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/to/plan/" . Saclient::Cloud::Util::url_encode($planTo->_id());
+	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/to/plan/" . Saclient::Util::url_encode($planTo->_id());
 	my $result = $self->{'_client'}->request("PUT", $path);
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
@@ -241,7 +241,7 @@ sub change_plan {
 =cut
 sub find_disks {
 	my $self = shift;
-	my $model = Saclient::Cloud::Util::create_class_instance("saclient.cloud.model.Model_Disk", [$self->{'_client'}]);
+	my $model = Saclient::Util::create_class_instance("saclient.cloud.model.Model_Disk", [$self->{'_client'}]);
 	return $model->with_server_id($self->_id())->find();
 }
 
@@ -252,7 +252,7 @@ sub find_disks {
 =cut
 sub add_iface {
 	my $self = shift;
-	my $model = Saclient::Cloud::Util::create_class_instance("saclient.cloud.model.Model_Iface", [$self->{'_client'}]);
+	my $model = Saclient::Util::create_class_instance("saclient.cloud.model.Model_Iface", [$self->{'_client'}]);
 	my $res = $model->create();
 	$res->set_property("serverId", $self->_id());
 	return $res->save();
@@ -266,7 +266,7 @@ sub add_iface {
 sub insert_iso_image {
 	my $self = shift;
 	my $iso = shift;
-	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/cdrom";
+	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/cdrom";
 	my $q = {'CDROM' => {'ID' => $iso->_id()}};
 	my $result = $self->{'_client'}->request("PUT", $path, $q);
 	$self->reload();
@@ -280,7 +280,7 @@ sub insert_iso_image {
 =cut
 sub eject_iso_image {
 	my $self = shift;
-	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/cdrom";
+	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/cdrom";
 	my $result = $self->{'_client'}->request("DELETE", $path);
 	$self->reload();
 	return $self;
@@ -483,37 +483,37 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
-		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
+	if (Saclient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Name")) {
-		$self->{'m_name'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Name");
+	if (Saclient::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saclient::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Util::get_by_path($r, "Name");
 	}
 	else {
 		$self->{'m_name'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_name'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Description")) {
-		$self->{'m_description'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Description");
+	if (Saclient::Util::exists_path($r, "Description")) {
+		$self->{'m_description'} = !defined(Saclient::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Util::get_by_path($r, "Description");
 	}
 	else {
 		$self->{'m_description'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_description'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Tags")) {
-		if (!defined(Saclient::Cloud::Util::get_by_path($r, "Tags"))) {
+	if (Saclient::Util::exists_path($r, "Tags")) {
+		if (!defined(Saclient::Util::get_by_path($r, "Tags"))) {
 			$self->{'m_tags'} = [];
 		}
 		else {
 			$self->{'m_tags'} = [];
-			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Tags")}) {
+			foreach my $t (@{Saclient::Util::get_by_path($r, "Tags")}) {
 				my $v1 = undef;
 				$v1 = !defined($t) ? undef : "" . $t;
 				push(@{$self->{'m_tags'}}, $v1);
@@ -525,29 +525,29 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_tags'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Icon")) {
-		$self->{'m_icon'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Icon")) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "Icon"));
+	if (Saclient::Util::exists_path($r, "Icon")) {
+		$self->{'m_icon'} = !defined(Saclient::Util::get_by_path($r, "Icon")) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, Saclient::Util::get_by_path($r, "Icon"));
 	}
 	else {
 		$self->{'m_icon'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_icon'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ServerPlan")) {
-		$self->{'m_plan'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ServerPlan")) ? undef : new Saclient::Cloud::Resource::ServerPlan($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "ServerPlan"));
+	if (Saclient::Util::exists_path($r, "ServerPlan")) {
+		$self->{'m_plan'} = !defined(Saclient::Util::get_by_path($r, "ServerPlan")) ? undef : new Saclient::Cloud::Resource::ServerPlan($self->{'_client'}, Saclient::Util::get_by_path($r, "ServerPlan"));
 	}
 	else {
 		$self->{'m_plan'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_plan'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Interfaces")) {
-		if (!defined(Saclient::Cloud::Util::get_by_path($r, "Interfaces"))) {
+	if (Saclient::Util::exists_path($r, "Interfaces")) {
+		if (!defined(Saclient::Util::get_by_path($r, "Interfaces"))) {
 			$self->{'m_ifaces'} = [];
 		}
 		else {
 			$self->{'m_ifaces'} = [];
-			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Interfaces")}) {
+			foreach my $t (@{Saclient::Util::get_by_path($r, "Interfaces")}) {
 				my $v2 = undef;
 				$v2 = !defined($t) ? undef : new Saclient::Cloud::Resource::Iface($self->{'_client'}, $t);
 				push(@{$self->{'m_ifaces'}}, $v2);
@@ -559,16 +559,16 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_ifaces'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Instance")) {
-		$self->{'m_instance'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Instance")) ? undef : new Saclient::Cloud::Resource::ServerInstance($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "Instance"));
+	if (Saclient::Util::exists_path($r, "Instance")) {
+		$self->{'m_instance'} = !defined(Saclient::Util::get_by_path($r, "Instance")) ? undef : new Saclient::Cloud::Resource::ServerInstance($self->{'_client'}, Saclient::Util::get_by_path($r, "Instance"));
 	}
 	else {
 		$self->{'m_instance'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_instance'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Availability")) {
-		$self->{'m_availability'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Availability")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Availability");
+	if (Saclient::Util::exists_path($r, "Availability")) {
+		$self->{'m_availability'} = !defined(Saclient::Util::get_by_path($r, "Availability")) ? undef : "" . Saclient::Util::get_by_path($r, "Availability");
 	}
 	else {
 		$self->{'m_availability'} = undef;
@@ -582,16 +582,16 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
+		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
+		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_description'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Description", $self->{'m_description'});
+		Saclient::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_tags'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Tags", []);
+		Saclient::Util::set_by_path($ret, "Tags", []);
 		foreach my $r1 (@{$self->{'m_tags'}}) {
 			my $v = undef;
 			$v = $r1;
@@ -599,13 +599,13 @@ sub api_serialize_impl {
 		}
 	}
 	if ($withClean || $self->{'n_icon'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
+		Saclient::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_plan'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ServerPlan", $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id()));
+		Saclient::Util::set_by_path($ret, "ServerPlan", $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_ifaces'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Interfaces", []);
+		Saclient::Util::set_by_path($ret, "Interfaces", []);
 		foreach my $r2 (@{$self->{'m_ifaces'}}) {
 			my $v = undef;
 			$v = $withClean ? (!defined($r2) ? undef : $r2->api_serialize($withClean)) : (!defined($r2) ? {'ID' => "0"} : $r2->api_serialize_id());
@@ -613,10 +613,10 @@ sub api_serialize_impl {
 		}
 	}
 	if ($withClean || $self->{'n_instance'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Instance", $withClean ? (!defined($self->{'m_instance'}) ? undef : $self->{'m_instance'}->api_serialize($withClean)) : (!defined($self->{'m_instance'}) ? {'ID' => "0"} : $self->{'m_instance'}->api_serialize_id()));
+		Saclient::Util::set_by_path($ret, "Instance", $withClean ? (!defined($self->{'m_instance'}) ? undef : $self->{'m_instance'}->api_serialize($withClean)) : (!defined($self->{'m_instance'}) ? {'ID' => "0"} : $self->{'m_instance'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_availability'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
+		Saclient::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
 	}
 	return $ret;
 }

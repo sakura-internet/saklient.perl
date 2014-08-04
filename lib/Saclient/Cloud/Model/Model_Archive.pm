@@ -119,7 +119,7 @@ sub get_by_id {
 =cut
 sub find {
 	my $self = shift;
-	return Saclient::Cloud::Util::cast_array($self->_find(), undef);
+	return $self->_find();
 }
 
 =head2 with_name_like(string $name) : Saclient::Cloud::Model::Model_Archive

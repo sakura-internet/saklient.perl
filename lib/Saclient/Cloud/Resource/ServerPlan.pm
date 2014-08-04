@@ -120,40 +120,40 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
-		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
+	if (Saclient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Name")) {
-		$self->{'m_name'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Name");
+	if (Saclient::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saclient::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Util::get_by_path($r, "Name");
 	}
 	else {
 		$self->{'m_name'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_name'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "CPU")) {
-		$self->{'m_cpu'} = !defined(Saclient::Cloud::Util::get_by_path($r, "CPU")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "CPU")));
+	if (Saclient::Util::exists_path($r, "CPU")) {
+		$self->{'m_cpu'} = !defined(Saclient::Util::get_by_path($r, "CPU")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "CPU")));
 	}
 	else {
 		$self->{'m_cpu'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_cpu'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "MemoryMB")) {
-		$self->{'m_memory_mib'} = !defined(Saclient::Cloud::Util::get_by_path($r, "MemoryMB")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "MemoryMB")));
+	if (Saclient::Util::exists_path($r, "MemoryMB")) {
+		$self->{'m_memory_mib'} = !defined(Saclient::Util::get_by_path($r, "MemoryMB")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "MemoryMB")));
 	}
 	else {
 		$self->{'m_memory_mib'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_memory_mib'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ServiceClass")) {
-		$self->{'m_service_class'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ServiceClass");
+	if (Saclient::Util::exists_path($r, "ServiceClass")) {
+		$self->{'m_service_class'} = !defined(Saclient::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saclient::Util::get_by_path($r, "ServiceClass");
 	}
 	else {
 		$self->{'m_service_class'} = undef;
@@ -167,19 +167,19 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
+		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
+		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_cpu'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "CPU", $self->{'m_cpu'});
+		Saclient::Util::set_by_path($ret, "CPU", $self->{'m_cpu'});
 	}
 	if ($withClean || $self->{'n_memory_mib'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "MemoryMB", $self->{'m_memory_mib'});
+		Saclient::Util::set_by_path($ret, "MemoryMB", $self->{'m_memory_mib'});
 	}
 	if ($withClean || $self->{'n_service_class'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
+		Saclient::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
 	}
 	return $ret;
 }

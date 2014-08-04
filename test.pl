@@ -5,7 +5,7 @@ use warnings;
 use errors;
 use Saclient::Cloud::API;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
-use Saclient::Cloud::Errors::HttpException;
+use Saclient::Errors::HttpException;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
@@ -17,7 +17,7 @@ if (0) {
 	try {
 		$api->server->get_by_id(12345);
 	}
-	catch Saclient::Cloud::Errors::HttpException with {
+	catch Saclient::Errors::HttpException with {
 		my $ex = shift;
 		die sprintf('%s(%d): %s', $ex->code, $ex->status, $ex->message) if $ex->code ne 'not_found';
 	};
@@ -45,7 +45,7 @@ if (1) {
 	try {
 		$server->boot;
 	}
-	catch Saclient::Cloud::Errors::HttpException with {
+	catch Saclient::Errors::HttpException with {
 		my $ex = shift;
 		throw $ex if $ex->code ne 'conflict';
 		$ok = 1;

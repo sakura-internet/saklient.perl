@@ -94,7 +94,7 @@ sub new {
 =cut
 sub connect_to_shared_segment {
 	my $self = shift;
-	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/to/switch/shared");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/to/switch/shared");
 	return $self->reload();
 }
 
@@ -184,40 +184,40 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
-		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
+	if (Saclient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "MACAddress")) {
-		$self->{'m_mac_address'} = !defined(Saclient::Cloud::Util::get_by_path($r, "MACAddress")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "MACAddress");
+	if (Saclient::Util::exists_path($r, "MACAddress")) {
+		$self->{'m_mac_address'} = !defined(Saclient::Util::get_by_path($r, "MACAddress")) ? undef : "" . Saclient::Util::get_by_path($r, "MACAddress");
 	}
 	else {
 		$self->{'m_mac_address'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_mac_address'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "IPAddress")) {
-		$self->{'m_ip_address'} = !defined(Saclient::Cloud::Util::get_by_path($r, "IPAddress")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "IPAddress");
+	if (Saclient::Util::exists_path($r, "IPAddress")) {
+		$self->{'m_ip_address'} = !defined(Saclient::Util::get_by_path($r, "IPAddress")) ? undef : "" . Saclient::Util::get_by_path($r, "IPAddress");
 	}
 	else {
 		$self->{'m_ip_address'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_ip_address'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "UserIPAddress")) {
-		$self->{'m_user_ip_address'} = !defined(Saclient::Cloud::Util::get_by_path($r, "UserIPAddress")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "UserIPAddress");
+	if (Saclient::Util::exists_path($r, "UserIPAddress")) {
+		$self->{'m_user_ip_address'} = !defined(Saclient::Util::get_by_path($r, "UserIPAddress")) ? undef : "" . Saclient::Util::get_by_path($r, "UserIPAddress");
 	}
 	else {
 		$self->{'m_user_ip_address'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_user_ip_address'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Server.ID")) {
-		$self->{'m_server_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Server.ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Server.ID");
+	if (Saclient::Util::exists_path($r, "Server.ID")) {
+		$self->{'m_server_id'} = !defined(Saclient::Util::get_by_path($r, "Server.ID")) ? undef : "" . Saclient::Util::get_by_path($r, "Server.ID");
 	}
 	else {
 		$self->{'m_server_id'} = undef;
@@ -231,19 +231,19 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
+		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_mac_address'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "MACAddress", $self->{'m_mac_address'});
+		Saclient::Util::set_by_path($ret, "MACAddress", $self->{'m_mac_address'});
 	}
 	if ($withClean || $self->{'n_ip_address'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "IPAddress", $self->{'m_ip_address'});
+		Saclient::Util::set_by_path($ret, "IPAddress", $self->{'m_ip_address'});
 	}
 	if ($withClean || $self->{'n_user_ip_address'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "UserIPAddress", $self->{'m_user_ip_address'});
+		Saclient::Util::set_by_path($ret, "UserIPAddress", $self->{'m_user_ip_address'});
 	}
 	if ($withClean || $self->{'n_server_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Server.ID", $self->{'m_server_id'});
+		Saclient::Util::set_by_path($ret, "Server.ID", $self->{'m_server_id'});
 	}
 	return $ret;
 }

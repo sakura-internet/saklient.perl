@@ -9,7 +9,7 @@ use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
 use Saclient::Cloud::API;
 use Saclient::Cloud::Enums::EServerInstanceStatus;
-use Saclient::Cloud::Errors::HttpException;
+use Saclient::Errors::HttpException;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
@@ -175,7 +175,7 @@ my $ok = 0;
 try {
 	$server->boot;
 }
-catch Saclient::Cloud::Errors::HttpException with {
+catch Saclient::Errors::HttpException with {
 	my $ex = shift;
 	throw $ex if $ex->code ne 'conflict';
 	$ok = 1;

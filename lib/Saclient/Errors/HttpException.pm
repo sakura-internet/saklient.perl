@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saclient::Cloud::Errors::HttpException;
+package Saclient::Errors::HttpException;
 
 use strict;
 use warnings;

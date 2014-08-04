@@ -122,7 +122,7 @@ sub sleep_while_creating {
 		}
 		$timeoutSec -= $step;
 		if (0 < $timeoutSec) {
-			Saclient::Cloud::Util::sleep($step);
+			sleep $step;
 		}
 	}
 	return 0;
@@ -135,7 +135,7 @@ sub sleep_while_creating {
 =cut
 sub get_swytch {
 	my $self = shift;
-	my $model = Saclient::Cloud::Util::create_class_instance("saclient.cloud.model.Model_Swytch", [$self->{'_client'}]);
+	my $model = Saclient::Util::create_class_instance("saclient.cloud.model.Model_Swytch", [$self->{'_client'}]);
 	my $id = $self->get_swytch_id();
 	return $model->get_by_id($id);
 }
@@ -147,7 +147,7 @@ sub get_swytch {
 =cut
 sub add_ipv6_net {
 	my $self = shift;
-	my $result = $self->{'_client'}->request("POST", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/ipv6net");
+	my $result = $self->{'_client'}->request("POST", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/ipv6net");
 	$self->reload();
 	return new Saclient::Cloud::Resource::Ipv6Net($self->{'_client'}, $result->{"IPv6Net"});
 }
@@ -160,7 +160,7 @@ sub add_ipv6_net {
 sub remove_ipv6_net {
 	my $self = shift;
 	my $ipv6Net = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/ipv6net/" . $ipv6Net->_id());
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/ipv6net/" . $ipv6Net->_id());
 	$self->reload();
 	return $self;
 }
@@ -175,9 +175,9 @@ sub add_static_route {
 	my $maskLen = shift;
 	my $nextHop = shift;
 	my $q = {};
-	Saclient::Cloud::Util::set_by_path($q, "NetworkMaskLen", $maskLen);
-	Saclient::Cloud::Util::set_by_path($q, "NextHop", $nextHop);
-	my $result = $self->{'_client'}->request("POST", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/subnet", $q);
+	Saclient::Util::set_by_path($q, "NetworkMaskLen", $maskLen);
+	Saclient::Util::set_by_path($q, "NextHop", $nextHop);
+	my $result = $self->{'_client'}->request("POST", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/subnet", $q);
 	$self->reload();
 	return new Saclient::Cloud::Resource::Ipv4Net($self->{'_client'}, $result->{"Subnet"});
 }
@@ -190,7 +190,7 @@ sub add_static_route {
 sub remove_static_route {
 	my $self = shift;
 	my $ipv4Net = shift;
-	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/subnet/" . $ipv4Net->_id());
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/subnet/" . $ipv4Net->_id());
 	$self->reload();
 	return $self;
 }
@@ -203,9 +203,9 @@ sub remove_static_route {
 sub change_plan {
 	my $self = shift;
 	my $bandWidthMbps = shift;
-	my $path = $self->_api_path() . "/" . Saclient::Cloud::Util::url_encode($self->_id()) . "/bandwidth";
+	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/bandwidth";
 	my $q = {};
-	Saclient::Cloud::Util::set_by_path($q, "Internet.BandWidthMbps", $bandWidthMbps);
+	Saclient::Util::set_by_path($q, "Internet.BandWidthMbps", $bandWidthMbps);
 	my $result = $self->{'_client'}->request("PUT", $path, $q);
 	$self->api_deserialize($result->{$self->_root_key()});
 	return $self;
@@ -351,48 +351,48 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
-		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
+	if (Saclient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Name")) {
-		$self->{'m_name'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Name");
+	if (Saclient::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saclient::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Util::get_by_path($r, "Name");
 	}
 	else {
 		$self->{'m_name'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_name'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Description")) {
-		$self->{'m_description'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Description");
+	if (Saclient::Util::exists_path($r, "Description")) {
+		$self->{'m_description'} = !defined(Saclient::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Util::get_by_path($r, "Description");
 	}
 	else {
 		$self->{'m_description'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_description'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "NetworkMaskLen")) {
-		$self->{'m_network_mask_len'} = !defined(Saclient::Cloud::Util::get_by_path($r, "NetworkMaskLen")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "NetworkMaskLen")));
+	if (Saclient::Util::exists_path($r, "NetworkMaskLen")) {
+		$self->{'m_network_mask_len'} = !defined(Saclient::Util::get_by_path($r, "NetworkMaskLen")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "NetworkMaskLen")));
 	}
 	else {
 		$self->{'m_network_mask_len'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_network_mask_len'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "BandWidthMbps")) {
-		$self->{'m_band_width_mbps'} = !defined(Saclient::Cloud::Util::get_by_path($r, "BandWidthMbps")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "BandWidthMbps")));
+	if (Saclient::Util::exists_path($r, "BandWidthMbps")) {
+		$self->{'m_band_width_mbps'} = !defined(Saclient::Util::get_by_path($r, "BandWidthMbps")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "BandWidthMbps")));
 	}
 	else {
 		$self->{'m_band_width_mbps'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_band_width_mbps'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Switch.ID")) {
-		$self->{'m_swytch_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Switch.ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Switch.ID");
+	if (Saclient::Util::exists_path($r, "Switch.ID")) {
+		$self->{'m_swytch_id'} = !defined(Saclient::Util::get_by_path($r, "Switch.ID")) ? undef : "" . Saclient::Util::get_by_path($r, "Switch.ID");
 	}
 	else {
 		$self->{'m_swytch_id'} = undef;
@@ -406,22 +406,22 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
+		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
+		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_description'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Description", $self->{'m_description'});
+		Saclient::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_network_mask_len'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "NetworkMaskLen", $self->{'m_network_mask_len'});
+		Saclient::Util::set_by_path($ret, "NetworkMaskLen", $self->{'m_network_mask_len'});
 	}
 	if ($withClean || $self->{'n_band_width_mbps'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "BandWidthMbps", $self->{'m_band_width_mbps'});
+		Saclient::Util::set_by_path($ret, "BandWidthMbps", $self->{'m_band_width_mbps'});
 	}
 	if ($withClean || $self->{'n_swytch_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Switch.ID", $self->{'m_swytch_id'});
+		Saclient::Util::set_by_path($ret, "Switch.ID", $self->{'m_swytch_id'});
 	}
 	return $ret;
 }

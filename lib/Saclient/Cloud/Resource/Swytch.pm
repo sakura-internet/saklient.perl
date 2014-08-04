@@ -316,61 +316,61 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
-		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
+	if (Saclient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Name")) {
-		$self->{'m_name'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Name");
+	if (Saclient::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saclient::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Util::get_by_path($r, "Name");
 	}
 	else {
 		$self->{'m_name'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_name'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Description")) {
-		$self->{'m_description'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Description");
+	if (Saclient::Util::exists_path($r, "Description")) {
+		$self->{'m_description'} = !defined(Saclient::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Util::get_by_path($r, "Description");
 	}
 	else {
 		$self->{'m_description'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_description'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "UserSubnet.DefaultRoute")) {
-		$self->{'m_user_default_route'} = !defined(Saclient::Cloud::Util::get_by_path($r, "UserSubnet.DefaultRoute")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "UserSubnet.DefaultRoute");
+	if (Saclient::Util::exists_path($r, "UserSubnet.DefaultRoute")) {
+		$self->{'m_user_default_route'} = !defined(Saclient::Util::get_by_path($r, "UserSubnet.DefaultRoute")) ? undef : "" . Saclient::Util::get_by_path($r, "UserSubnet.DefaultRoute");
 	}
 	else {
 		$self->{'m_user_default_route'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_user_default_route'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "UserSubnet.NetworkMaskLen")) {
-		$self->{'m_user_mask_len'} = !defined(Saclient::Cloud::Util::get_by_path($r, "UserSubnet.NetworkMaskLen")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "UserSubnet.NetworkMaskLen")));
+	if (Saclient::Util::exists_path($r, "UserSubnet.NetworkMaskLen")) {
+		$self->{'m_user_mask_len'} = !defined(Saclient::Util::get_by_path($r, "UserSubnet.NetworkMaskLen")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "UserSubnet.NetworkMaskLen")));
 	}
 	else {
 		$self->{'m_user_mask_len'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_user_mask_len'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Internet")) {
-		$self->{'m_router'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Internet")) ? undef : new Saclient::Cloud::Resource::Router($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "Internet"));
+	if (Saclient::Util::exists_path($r, "Internet")) {
+		$self->{'m_router'} = !defined(Saclient::Util::get_by_path($r, "Internet")) ? undef : new Saclient::Cloud::Resource::Router($self->{'_client'}, Saclient::Util::get_by_path($r, "Internet"));
 	}
 	else {
 		$self->{'m_router'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_router'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Subnets")) {
-		if (!defined(Saclient::Cloud::Util::get_by_path($r, "Subnets"))) {
+	if (Saclient::Util::exists_path($r, "Subnets")) {
+		if (!defined(Saclient::Util::get_by_path($r, "Subnets"))) {
 			$self->{'m_ipv4_nets'} = [];
 		}
 		else {
 			$self->{'m_ipv4_nets'} = [];
-			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Subnets")}) {
+			foreach my $t (@{Saclient::Util::get_by_path($r, "Subnets")}) {
 				my $v1 = undef;
 				$v1 = !defined($t) ? undef : new Saclient::Cloud::Resource::Ipv4Net($self->{'_client'}, $t);
 				push(@{$self->{'m_ipv4_nets'}}, $v1);
@@ -382,13 +382,13 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_ipv4_nets'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "IPv6Nets")) {
-		if (!defined(Saclient::Cloud::Util::get_by_path($r, "IPv6Nets"))) {
+	if (Saclient::Util::exists_path($r, "IPv6Nets")) {
+		if (!defined(Saclient::Util::get_by_path($r, "IPv6Nets"))) {
 			$self->{'m_ipv6_nets'} = [];
 		}
 		else {
 			$self->{'m_ipv6_nets'} = [];
-			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "IPv6Nets")}) {
+			foreach my $t (@{Saclient::Util::get_by_path($r, "IPv6Nets")}) {
 				my $v2 = undef;
 				$v2 = !defined($t) ? undef : new Saclient::Cloud::Resource::Ipv6Net($self->{'_client'}, $t);
 				push(@{$self->{'m_ipv6_nets'}}, $v2);
@@ -407,25 +407,25 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
+		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
+		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_description'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Description", $self->{'m_description'});
+		Saclient::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_user_default_route'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "UserSubnet.DefaultRoute", $self->{'m_user_default_route'});
+		Saclient::Util::set_by_path($ret, "UserSubnet.DefaultRoute", $self->{'m_user_default_route'});
 	}
 	if ($withClean || $self->{'n_user_mask_len'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "UserSubnet.NetworkMaskLen", $self->{'m_user_mask_len'});
+		Saclient::Util::set_by_path($ret, "UserSubnet.NetworkMaskLen", $self->{'m_user_mask_len'});
 	}
 	if ($withClean || $self->{'n_router'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Internet", $withClean ? (!defined($self->{'m_router'}) ? undef : $self->{'m_router'}->api_serialize($withClean)) : (!defined($self->{'m_router'}) ? {'ID' => "0"} : $self->{'m_router'}->api_serialize_id()));
+		Saclient::Util::set_by_path($ret, "Internet", $withClean ? (!defined($self->{'m_router'}) ? undef : $self->{'m_router'}->api_serialize($withClean)) : (!defined($self->{'m_router'}) ? {'ID' => "0"} : $self->{'m_router'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_ipv4_nets'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Subnets", []);
+		Saclient::Util::set_by_path($ret, "Subnets", []);
 		foreach my $r1 (@{$self->{'m_ipv4_nets'}}) {
 			my $v = undef;
 			$v = $withClean ? (!defined($r1) ? undef : $r1->api_serialize($withClean)) : (!defined($r1) ? {'ID' => "0"} : $r1->api_serialize_id());
@@ -433,7 +433,7 @@ sub api_serialize_impl {
 		}
 	}
 	if ($withClean || $self->{'n_ipv6_nets'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "IPv6Nets", []);
+		Saclient::Util::set_by_path($ret, "IPv6Nets", []);
 		foreach my $r2 (@{$self->{'m_ipv6_nets'}}) {
 			my $v = undef;
 			$v = $withClean ? (!defined($r2) ? undef : $r2->api_serialize($withClean)) : (!defined($r2) ? {'ID' => "0"} : $r2->api_serialize_id());

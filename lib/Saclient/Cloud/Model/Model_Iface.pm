@@ -128,7 +128,7 @@ sub get_by_id {
 =cut
 sub find {
 	my $self = shift;
-	return Saclient::Cloud::Util::cast_array($self->_find(), undef);
+	return $self->_find();
 }
 
 1;

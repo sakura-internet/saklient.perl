@@ -290,45 +290,45 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
-		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
+	if (Saclient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Scope")) {
-		$self->{'m_scope'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Scope")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Scope");
+	if (Saclient::Util::exists_path($r, "Scope")) {
+		$self->{'m_scope'} = !defined(Saclient::Util::get_by_path($r, "Scope")) ? undef : "" . Saclient::Util::get_by_path($r, "Scope");
 	}
 	else {
 		$self->{'m_scope'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_scope'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Name")) {
-		$self->{'m_name'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Name");
+	if (Saclient::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saclient::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Util::get_by_path($r, "Name");
 	}
 	else {
 		$self->{'m_name'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_name'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Description")) {
-		$self->{'m_description'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "Description");
+	if (Saclient::Util::exists_path($r, "Description")) {
+		$self->{'m_description'} = !defined(Saclient::Util::get_by_path($r, "Description")) ? undef : "" . Saclient::Util::get_by_path($r, "Description");
 	}
 	else {
 		$self->{'m_description'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_description'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Tags")) {
-		if (!defined(Saclient::Cloud::Util::get_by_path($r, "Tags"))) {
+	if (Saclient::Util::exists_path($r, "Tags")) {
+		if (!defined(Saclient::Util::get_by_path($r, "Tags"))) {
 			$self->{'m_tags'} = [];
 		}
 		else {
 			$self->{'m_tags'} = [];
-			foreach my $t (@{Saclient::Cloud::Util::get_by_path($r, "Tags")}) {
+			foreach my $t (@{Saclient::Util::get_by_path($r, "Tags")}) {
 				my $v1 = undef;
 				$v1 = !defined($t) ? undef : "" . $t;
 				push(@{$self->{'m_tags'}}, $v1);
@@ -340,24 +340,24 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_tags'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "Icon")) {
-		$self->{'m_icon'} = !defined(Saclient::Cloud::Util::get_by_path($r, "Icon")) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, Saclient::Cloud::Util::get_by_path($r, "Icon"));
+	if (Saclient::Util::exists_path($r, "Icon")) {
+		$self->{'m_icon'} = !defined(Saclient::Util::get_by_path($r, "Icon")) ? undef : new Saclient::Cloud::Resource::Icon($self->{'_client'}, Saclient::Util::get_by_path($r, "Icon"));
 	}
 	else {
 		$self->{'m_icon'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_icon'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "SizeMB")) {
-		$self->{'m_size_mib'} = !defined(Saclient::Cloud::Util::get_by_path($r, "SizeMB")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "SizeMB")));
+	if (Saclient::Util::exists_path($r, "SizeMB")) {
+		$self->{'m_size_mib'} = !defined(Saclient::Util::get_by_path($r, "SizeMB")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "SizeMB")));
 	}
 	else {
 		$self->{'m_size_mib'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_size_mib'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ServiceClass")) {
-		$self->{'m_service_class'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ServiceClass");
+	if (Saclient::Util::exists_path($r, "ServiceClass")) {
+		$self->{'m_service_class'} = !defined(Saclient::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saclient::Util::get_by_path($r, "ServiceClass");
 	}
 	else {
 		$self->{'m_service_class'} = undef;
@@ -371,19 +371,19 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
+		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_scope'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Scope", $self->{'m_scope'});
+		Saclient::Util::set_by_path($ret, "Scope", $self->{'m_scope'});
 	}
 	if ($withClean || $self->{'n_name'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Name", $self->{'m_name'});
+		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
 	if ($withClean || $self->{'n_description'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Description", $self->{'m_description'});
+		Saclient::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_tags'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Tags", []);
+		Saclient::Util::set_by_path($ret, "Tags", []);
 		foreach my $r1 (@{$self->{'m_tags'}}) {
 			my $v = undef;
 			$v = $r1;
@@ -391,13 +391,13 @@ sub api_serialize_impl {
 		}
 	}
 	if ($withClean || $self->{'n_icon'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
+		Saclient::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_size_mib'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "SizeMB", $self->{'m_size_mib'});
+		Saclient::Util::set_by_path($ret, "SizeMB", $self->{'m_size_mib'});
 	}
 	if ($withClean || $self->{'n_service_class'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
+		Saclient::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
 	}
 	return $ret;
 }

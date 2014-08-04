@@ -9,8 +9,8 @@ use MIME::Base64;
 use URI::Escape;
 use JSON;
 use Data::Dumper;
-#use Saclient::Cloud::Errors::ExceptionFactory;
-use Saclient::Cloud::Errors::HttpException;
+#use Saclient::Errors::ExceptionFactory;
+use Saclient::Errors::HttpException;
 
 sub println {
 	my $msg = shift;
@@ -122,8 +122,8 @@ sub request {
 	if (!$response->is_success) {
 		$response->status_line =~ /^([0-9]+)/;
 		my $status = 0 + $1;
-		#my $ex = Saclient::Cloud::Errors::ExceptionFactory::create($status, $ret && $ret->{error_code}, $ret && $ret->{error_msg});
-		my $ex = new Saclient::Cloud::Errors::HttpException($status, $ret && $ret->{error_code}, $ret && $ret->{error_msg});
+		#my $ex = Saclient::Errors::ExceptionFactory::create($status, $ret && $ret->{error_code}, $ret && $ret->{error_msg});
+		my $ex = new Saclient::Errors::HttpException($status, $ret && $ret->{error_code}, $ret && $ret->{error_msg});
 		throw $ex;
 	}
 	

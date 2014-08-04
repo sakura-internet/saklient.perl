@@ -139,40 +139,40 @@ sub api_deserialize_impl {
 		$r = {};
 	}
 	$self->{'is_incomplete'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "ID")) {
-		$self->{'m_id'} = !defined(Saclient::Cloud::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "ID");
+	if (Saclient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saclient::Util::get_by_path($r, "ID")) ? undef : "" . Saclient::Util::get_by_path($r, "ID");
 	}
 	else {
 		$self->{'m_id'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "NetworkAddress")) {
-		$self->{'m_address'} = !defined(Saclient::Cloud::Util::get_by_path($r, "NetworkAddress")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "NetworkAddress");
+	if (Saclient::Util::exists_path($r, "NetworkAddress")) {
+		$self->{'m_address'} = !defined(Saclient::Util::get_by_path($r, "NetworkAddress")) ? undef : "" . Saclient::Util::get_by_path($r, "NetworkAddress");
 	}
 	else {
 		$self->{'m_address'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_address'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "NetworkMaskLen")) {
-		$self->{'m_mask_len'} = !defined(Saclient::Cloud::Util::get_by_path($r, "NetworkMaskLen")) ? undef : (0+("" . Saclient::Cloud::Util::get_by_path($r, "NetworkMaskLen")));
+	if (Saclient::Util::exists_path($r, "NetworkMaskLen")) {
+		$self->{'m_mask_len'} = !defined(Saclient::Util::get_by_path($r, "NetworkMaskLen")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "NetworkMaskLen")));
 	}
 	else {
 		$self->{'m_mask_len'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_mask_len'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "DefaultRoute")) {
-		$self->{'m_default_route'} = !defined(Saclient::Cloud::Util::get_by_path($r, "DefaultRoute")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "DefaultRoute");
+	if (Saclient::Util::exists_path($r, "DefaultRoute")) {
+		$self->{'m_default_route'} = !defined(Saclient::Util::get_by_path($r, "DefaultRoute")) ? undef : "" . Saclient::Util::get_by_path($r, "DefaultRoute");
 	}
 	else {
 		$self->{'m_default_route'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_default_route'} = 0;
-	if (Saclient::Cloud::Util::exists_path($r, "NextHop")) {
-		$self->{'m_next_hop'} = !defined(Saclient::Cloud::Util::get_by_path($r, "NextHop")) ? undef : "" . Saclient::Cloud::Util::get_by_path($r, "NextHop");
+	if (Saclient::Util::exists_path($r, "NextHop")) {
+		$self->{'m_next_hop'} = !defined(Saclient::Util::get_by_path($r, "NextHop")) ? undef : "" . Saclient::Util::get_by_path($r, "NextHop");
 	}
 	else {
 		$self->{'m_next_hop'} = undef;
@@ -186,19 +186,19 @@ sub api_serialize_impl {
 	my $withClean = shift || (0);
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "ID", $self->{'m_id'});
+		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_address'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "NetworkAddress", $self->{'m_address'});
+		Saclient::Util::set_by_path($ret, "NetworkAddress", $self->{'m_address'});
 	}
 	if ($withClean || $self->{'n_mask_len'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "NetworkMaskLen", $self->{'m_mask_len'});
+		Saclient::Util::set_by_path($ret, "NetworkMaskLen", $self->{'m_mask_len'});
 	}
 	if ($withClean || $self->{'n_default_route'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "DefaultRoute", $self->{'m_default_route'});
+		Saclient::Util::set_by_path($ret, "DefaultRoute", $self->{'m_default_route'});
 	}
 	if ($withClean || $self->{'n_next_hop'}) {
-		Saclient::Cloud::Util::set_by_path($ret, "NextHop", $self->{'m_next_hop'});
+		Saclient::Util::set_by_path($ret, "NextHop", $self->{'m_next_hop'});
 	}
 	return $ret;
 }
