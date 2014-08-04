@@ -35,21 +35,25 @@ my $m_server_id;
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/interface";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Interface";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Interfaces";
 }
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
@@ -62,6 +66,7 @@ sub _id {
 =cut
 sub save {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
@@ -74,15 +79,19 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
@@ -94,6 +103,7 @@ sub new {
 =cut
 sub connect_to_shared_segment {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/to/switch/shared");
 	return $self->reload();
 }
@@ -102,6 +112,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -113,6 +124,7 @@ my $n_mac_address = 0;
 
 sub get_mac_address {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_mac_address'};
 }
 
@@ -124,6 +136,7 @@ my $n_ip_address = 0;
 
 sub get_ip_address {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_ip_address'};
 }
 
@@ -135,12 +148,16 @@ my $n_user_ip_address = 0;
 
 sub get_user_ip_address {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_user_ip_address'};
 }
 
 sub set_user_ip_address {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_user_ip_address'} = $v;
 	$self->{'n_user_ip_address'} = 1;
 	return $self->{'m_user_ip_address'};
@@ -155,12 +172,16 @@ my $n_server_id = 0;
 
 sub get_server_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_server_id'};
 }
 
 sub set_server_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_server_id'} = $v;
 	$self->{'n_server_id'} = 1;
 	return $self->{'m_server_id'};
@@ -178,7 +199,9 @@ sub server_id {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -228,7 +251,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});

@@ -25,21 +25,25 @@ use base qw(Saclient::Cloud::Model::Model);
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/appliance";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Appliance";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Appliances";
 }
 
 sub _class_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Appliance";
 }
 
@@ -53,7 +57,10 @@ sub _class_name {
 =cut
 sub offset {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $offset = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($offset, "int");
 	return $self->_offset($offset);
 }
 
@@ -67,7 +74,10 @@ sub offset {
 =cut
 sub limit {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $count = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($count, "int");
 	return $self->_limit($count);
 }
 
@@ -78,9 +88,13 @@ APIのフィルタリング設定を直接指定します。
 =cut
 sub filter_by {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $key = shift;
 	my $value = shift;
 	my $multiple = shift || (0);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($key, "string");
+	Saclient::Util::validate_type($multiple, "bool");
 	return $self->_filter_by($key, $value, $multiple);
 }
 
@@ -93,6 +107,7 @@ sub filter_by {
 =cut
 sub reset {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reset();
 }
 
@@ -105,7 +120,10 @@ sub reset {
 =cut
 sub get_by_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $id = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($id, "string");
 	return $self->_get_by_id($id);
 }
 
@@ -118,6 +136,7 @@ sub get_by_id {
 =cut
 sub find {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_find();
 }
 
@@ -128,7 +147,10 @@ sub find {
 =cut
 sub with_name_like {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $name = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($name, "string");
 	$self->_filter_by("Name", $name);
 	return $self;
 }
@@ -140,7 +162,10 @@ sub with_name_like {
 =cut
 sub with_tag {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $tag = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($tag, "string");
 	$self->_filter_by("Tags.Name", $tag, 1);
 	return $self;
 }
@@ -152,7 +177,10 @@ sub with_tag {
 =cut
 sub with_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $tags = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($tags, "ARRAY");
 	$self->_filter_by("Tags.Name", $tags, 1);
 	return $self;
 }

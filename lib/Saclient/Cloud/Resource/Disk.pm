@@ -52,21 +52,25 @@ my $m_availability;
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/disk";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Disk";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Disks";
 }
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
@@ -79,6 +83,7 @@ sub _id {
 =cut
 sub save {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
@@ -91,21 +96,26 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
 
 sub get_is_available {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_availability() eq Saclient::Cloud::Enums::EAvailability::available;
 }
 
@@ -120,12 +130,16 @@ sub is_available {
 
 sub get_size_gib {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_size_mib() >> 10;
 }
 
 sub set_size_gib {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $sizeGib = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($sizeGib, "int");
 	$self->set_size_mib($sizeGib * 1024);
 	return $sizeGib;
 }
@@ -144,12 +158,15 @@ my $_source;
 
 sub get_source {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_source'};
 }
 
 sub set_source {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $source = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'_source'} = $source;
 	return $source;
 }
@@ -166,7 +183,9 @@ sub source {
 
 sub _on_after_api_deserialize {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	if (!defined($r)) {
 		return;
 	}
@@ -192,8 +211,11 @@ sub _on_after_api_deserialize {
 
 sub _on_after_api_serialize {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
 	my $withClean = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($withClean, "bool");
 	if (!defined($r)) {
 		return;
 	}
@@ -223,7 +245,10 @@ sub _on_after_api_serialize {
 =cut
 sub connect_to {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $server = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($server, "Saclient::Cloud::Resource::Server");
 	$self->{'_client'}->request("PUT", "/disk/" . $self->_id() . "/to/server/" . $server->_id());
 	return $self;
 }
@@ -235,6 +260,7 @@ sub connect_to {
 =cut
 sub disconnect {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	$self->{'_client'}->request("DELETE", "/disk/" . $self->_id() . "/to/server");
 	return $self;
 }
@@ -246,6 +272,7 @@ sub disconnect {
 =cut
 sub create_config {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return new Saclient::Cloud::Resource::DiskConfig($self->{'_client'}, $self->_id());
 }
 
@@ -256,8 +283,12 @@ sub create_config {
 =cut
 sub after_copy {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $timeoutSec = shift;
 	my $callback = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($timeoutSec, "int");
+	Saclient::Util::validate_type($callback, "CODE");
 	my $ret = $self->sleep_while_copying($timeoutSec);
 	$callback->($self, $ret);
 }
@@ -269,7 +300,9 @@ sub after_copy {
 =cut
 sub sleep_while_copying {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $timeoutSec = shift || (3600);
+	Saclient::Util::validate_type($timeoutSec, "int");
 	my $step = 3;
 	while (0 < $timeoutSec) {
 		$self->reload();
@@ -292,6 +325,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -308,12 +342,16 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
 sub set_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_name'} = $v;
 	$self->{'n_name'} = 1;
 	return $self->{'m_name'};
@@ -333,12 +371,16 @@ my $n_description = 0;
 
 sub get_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
 sub set_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_description'} = $v;
 	$self->{'n_description'} = 1;
 	return $self->{'m_description'};
@@ -358,12 +400,16 @@ my $n_tags = 0;
 
 sub get_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_tags'};
 }
 
 sub set_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "ARRAY");
 	$self->{'m_tags'} = $v;
 	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
@@ -383,12 +429,16 @@ my $n_icon = 0;
 
 sub get_icon {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_icon'};
 }
 
 sub set_icon {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "Saclient::Cloud::Resource::Icon");
 	$self->{'m_icon'} = $v;
 	$self->{'n_icon'} = 1;
 	return $self->{'m_icon'};
@@ -408,12 +458,16 @@ my $n_size_mib = 0;
 
 sub get_size_mib {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_size_mib'};
 }
 
 sub set_size_mib {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "int");
 	$self->{'m_size_mib'} = $v;
 	$self->{'n_size_mib'} = 1;
 	return $self->{'m_size_mib'};
@@ -433,6 +487,7 @@ my $n_service_class = 0;
 
 sub get_service_class {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_service_class'};
 }
 
@@ -449,6 +504,7 @@ my $n_plan = 0;
 
 sub get_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_plan'};
 }
 
@@ -465,6 +521,7 @@ my $n_server = 0;
 
 sub get_server {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_server'};
 }
 
@@ -481,6 +538,7 @@ my $n_availability = 0;
 
 sub get_availability {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_availability'};
 }
 
@@ -495,7 +553,9 @@ sub availability {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -595,7 +655,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});

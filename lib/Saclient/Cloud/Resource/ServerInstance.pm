@@ -37,9 +37,12 @@ my $m_iso_image;
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
@@ -51,6 +54,7 @@ sub new {
 =cut
 sub is_up {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return defined($self->get_status()) && Saclient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saclient::Cloud::Enums::EServerInstanceStatus::up) == 0;
 }
 
@@ -61,6 +65,7 @@ sub is_up {
 =cut
 sub is_down {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return !defined($self->get_status()) || Saclient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saclient::Cloud::Enums::EServerInstanceStatus::down) == 0;
 }
 
@@ -68,6 +73,7 @@ my $n_status = 0;
 
 sub get_status {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_status'};
 }
 
@@ -84,6 +90,7 @@ my $n_before_status = 0;
 
 sub get_before_status {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_before_status'};
 }
 
@@ -100,6 +107,7 @@ my $n_status_changed_at = 0;
 
 sub get_status_changed_at {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_status_changed_at'};
 }
 
@@ -116,6 +124,7 @@ my $n_iso_image = 0;
 
 sub get_iso_image {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_iso_image'};
 }
 
@@ -130,7 +139,9 @@ sub iso_image {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -172,7 +183,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_status'}) {
 		Saclient::Util::set_by_path($ret, "Status", $self->{'m_status'});

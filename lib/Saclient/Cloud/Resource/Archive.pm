@@ -47,21 +47,25 @@ my $m_plan;
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/archive";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Archive";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Archives";
 }
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
@@ -74,6 +78,7 @@ sub _id {
 =cut
 sub save {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
@@ -86,21 +91,26 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
 
 sub get_size_gib {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_size_mib() >> 10;
 }
 
@@ -117,6 +127,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -133,12 +144,16 @@ my $n_scope = 0;
 
 sub get_scope {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_scope'};
 }
 
 sub set_scope {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_scope'} = $v;
 	$self->{'n_scope'} = 1;
 	return $self->{'m_scope'};
@@ -158,12 +173,16 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
 sub set_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_name'} = $v;
 	$self->{'n_name'} = 1;
 	return $self->{'m_name'};
@@ -183,12 +202,16 @@ my $n_description = 0;
 
 sub get_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
 sub set_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_description'} = $v;
 	$self->{'n_description'} = 1;
 	return $self->{'m_description'};
@@ -208,12 +231,16 @@ my $n_tags = 0;
 
 sub get_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_tags'};
 }
 
 sub set_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "ARRAY");
 	$self->{'m_tags'} = $v;
 	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
@@ -233,12 +260,16 @@ my $n_icon = 0;
 
 sub get_icon {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_icon'};
 }
 
 sub set_icon {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "Saclient::Cloud::Resource::Icon");
 	$self->{'m_icon'} = $v;
 	$self->{'n_icon'} = 1;
 	return $self->{'m_icon'};
@@ -258,6 +289,7 @@ my $n_size_mib = 0;
 
 sub get_size_mib {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_size_mib'};
 }
 
@@ -274,6 +306,7 @@ my $n_service_class = 0;
 
 sub get_service_class {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_service_class'};
 }
 
@@ -290,6 +323,7 @@ my $n_plan = 0;
 
 sub get_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_plan'};
 }
 
@@ -304,7 +338,9 @@ sub plan {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -396,7 +432,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});

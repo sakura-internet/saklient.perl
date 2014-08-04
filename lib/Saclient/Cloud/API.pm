@@ -39,6 +39,7 @@ my $_client;
 
 sub get_client {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_client'};
 }
 
@@ -50,6 +51,7 @@ my $_product;
 
 sub get_product {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_product'};
 }
 
@@ -61,6 +63,7 @@ my $_icon;
 
 sub get_icon {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_icon'};
 }
 
@@ -72,6 +75,7 @@ my $_server;
 
 sub get_server {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_server'};
 }
 
@@ -83,6 +87,7 @@ my $_disk;
 
 sub get_disk {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_disk'};
 }
 
@@ -94,6 +99,7 @@ my $_appliance;
 
 sub get_appliance {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_appliance'};
 }
 
@@ -105,6 +111,7 @@ my $_archive;
 
 sub get_archive {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_archive'};
 }
 
@@ -116,6 +123,7 @@ my $_iso_image;
 
 sub get_iso_image {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_iso_image'};
 }
 
@@ -127,6 +135,7 @@ my $_iface;
 
 sub get_iface {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_iface'};
 }
 
@@ -138,6 +147,7 @@ my $_swytch;
 
 sub get_swytch {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_swytch'};
 }
 
@@ -149,6 +159,7 @@ my $_router;
 
 sub get_router {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_router'};
 }
 
@@ -160,6 +171,7 @@ my $_ipv6_net;
 
 sub get_ipv6_net {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_ipv6_net'};
 }
 
@@ -170,7 +182,10 @@ sub ipv6_net {
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
+	my $_argnum = scalar @_;
 	my $client = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->{'_client'} = $client;
 	$self->{'_product'} = new Saclient::Cloud::Product($client);
 	$self->{'_icon'} = new Saclient::Cloud::Model::Model_Icon($client);
@@ -199,8 +214,12 @@ sub new {
 =cut
 sub authorize {
 	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Cloud::API';
+	my $_argnum = scalar @_;
 	my $token = shift;
 	my $secret = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($token, "string");
+	Saclient::Util::validate_type($secret, "string");
 	my $c = new Saclient::Cloud::Client($token, $secret);
 	return new Saclient::Cloud::API($c);
 }
@@ -215,7 +234,10 @@ sub authorize {
 =cut
 sub in_zone {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $name = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($name, "string");
 	my $ret = new Saclient::Cloud::API($self->{'_client'}->clone_instance());
 	$ret->{'_client'}->set_api_root("https://secure.sakura.ad.jp/cloud/");
 	$ret->{'_client'}->set_api_root_suffix("zone/" . $name);
@@ -224,7 +246,10 @@ sub in_zone {
 
 sub sleep {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $sec = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($sec, "int");
 	sleep $sec;
 }
 

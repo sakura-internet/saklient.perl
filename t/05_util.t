@@ -2,11 +2,14 @@
 
 use strict;
 use warnings;
-use Test::More tests => 20;
+use errors;
+use Test::More tests => 22;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
 use Saclient::Util qw(get_by_path set_by_path exists_path);
+use Saclient::Cloud::API;
+use Saclient::Errors::SaclientException;
 binmode STDOUT, ":utf8";
 
 
@@ -51,6 +54,32 @@ diag "test 5";
 $test->{first}->{second} *= 10;
 is get_by_path($test, 'first.second'), 4560;
 
+
+
 #
+my $ok = 0;
+try {
+	Saclient::Cloud::API::authorize('abc');
+}
+catch Saclient::Errors::SaclientException with {
+	my $ex = shift;
+	throw $ex if $ex->code ne 'argument_count_mismatch';
+	$ok = 1;
+};
+ok $ok, '引数の数が足りない時は SaclientException がスローされなければなりません';
+
+#
+$ok = 0;
+try {
+	Saclient::Cloud::API::authorize('abc', []);
+}
+catch Saclient::Errors::SaclientException with {
+	my $ex = shift;
+	throw $ex if $ex->code ne 'argument_type_mismatch';
+	$ok = 1;
+};
+ok $ok, '引数の型が異なる時は SaclientException がスローされなければなりません';
+
+
 
 done_testing;

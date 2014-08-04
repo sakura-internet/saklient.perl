@@ -28,21 +28,25 @@ use base qw(Saclient::Cloud::Model::Model);
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/server";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Server";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Servers";
 }
 
 sub _class_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Server";
 }
 
@@ -56,7 +60,10 @@ sub _class_name {
 =cut
 sub offset {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $offset = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($offset, "int");
 	return $self->_offset($offset);
 }
 
@@ -70,7 +77,10 @@ sub offset {
 =cut
 sub limit {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $count = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($count, "int");
 	return $self->_limit($count);
 }
 
@@ -81,9 +91,13 @@ APIのフィルタリング設定を直接指定します。
 =cut
 sub filter_by {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $key = shift;
 	my $value = shift;
 	my $multiple = shift || (0);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($key, "string");
+	Saclient::Util::validate_type($multiple, "bool");
 	return $self->_filter_by($key, $value, $multiple);
 }
 
@@ -96,6 +110,7 @@ sub filter_by {
 =cut
 sub reset {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reset();
 }
 
@@ -106,6 +121,7 @@ sub reset {
 =cut
 sub create {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_create();
 }
 
@@ -118,7 +134,10 @@ sub create {
 =cut
 sub get_by_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $id = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($id, "string");
 	return $self->_get_by_id($id);
 }
 
@@ -131,6 +150,7 @@ sub get_by_id {
 =cut
 sub find {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_find();
 }
 
@@ -141,7 +161,10 @@ sub find {
 =cut
 sub with_name_like {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $name = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($name, "string");
 	$self->_filter_by("Name", $name);
 	return $self;
 }
@@ -153,7 +176,10 @@ sub with_name_like {
 =cut
 sub with_tag {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $tag = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($tag, "string");
 	$self->_filter_by("Tags.Name", $tag, 1);
 	return $self;
 }
@@ -165,7 +191,10 @@ sub with_tag {
 =cut
 sub with_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $tags = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($tags, "ARRAY");
 	$self->_filter_by("Tags.Name", $tags, 1);
 	return $self;
 }
@@ -177,7 +206,10 @@ sub with_tags {
 =cut
 sub with_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $plan = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($plan, "Saclient::Cloud::Resource::ServerPlan");
 	$self->_filter_by("ServerPlan.ID", $plan->_id(), 1);
 	return $self;
 }
@@ -189,7 +221,10 @@ sub with_plan {
 =cut
 sub with_status {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $status = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($status, "string");
 	$self->_filter_by("Instance.Status", $status, 1);
 	return $self;
 }
@@ -201,6 +236,7 @@ sub with_status {
 =cut
 sub with_status_up {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->with_status(Saclient::Cloud::Enums::EServerInstanceStatus::up);
 }
 
@@ -211,6 +247,7 @@ sub with_status_up {
 =cut
 sub with_status_down {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->with_status(Saclient::Cloud::Enums::EServerInstanceStatus::down);
 }
 
@@ -221,7 +258,10 @@ sub with_status_down {
 =cut
 sub with_iso_image {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $iso = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($iso, "Saclient::Cloud::Resource::IsoImage");
 	$self->_filter_by("Instance.CDROM.ID", $iso->_id(), 1);
 	return $self;
 }

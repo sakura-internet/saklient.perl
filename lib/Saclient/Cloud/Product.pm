@@ -23,6 +23,7 @@ my $_server;
 
 sub get_server {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_server'};
 }
 
@@ -34,6 +35,7 @@ my $_disk;
 
 sub get_disk {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_disk'};
 }
 
@@ -45,6 +47,7 @@ my $_router;
 
 sub get_router {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_router'};
 }
 
@@ -55,7 +58,10 @@ sub router {
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
+	my $_argnum = scalar @_;
 	my $client = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->{'_server'} = new Saclient::Cloud::Model::Model_ServerPlan($client);
 	$self->{'_disk'} = new Saclient::Cloud::Model::Model_DiskPlan($client);
 	$self->{'_router'} = new Saclient::Cloud::Model::Model_RouterPlan($client);

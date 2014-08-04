@@ -26,6 +26,7 @@ my $_client;
 
 sub get_client {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_client'};
 }
 
@@ -37,6 +38,7 @@ my $_params;
 
 sub get_params {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_params'};
 }
 
@@ -48,6 +50,7 @@ my $_total;
 
 sub get_total {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_total'};
 }
 
@@ -59,6 +62,7 @@ my $_count;
 
 sub get_count {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'_count'};
 }
 
@@ -68,28 +72,35 @@ sub count {
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return undef;
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return undef;
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return undef;
 }
 
 sub _class_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return undef;
 }
 
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
+	my $_argnum = scalar @_;
 	my $client = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->{'_client'} = $client;
 	$self->{'_params'} = {};
 	$self->{'_total'} = undef;
@@ -99,23 +110,33 @@ sub new {
 
 sub _offset {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $offset = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($offset, "int");
 	$self->{'_params'}->{"Begin"} = $offset;
 	return $self;
 }
 
 sub _limit {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $count = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($count, "int");
 	$self->{'_params'}->{"Count"} = $count;
 	return $self;
 }
 
 sub _filter_by {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $key = shift;
 	my $value = shift;
 	my $multiple = shift || (0);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($key, "string");
+	Saclient::Util::validate_type($multiple, "bool");
 	if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Filter"})) {
 		$self->{'_params'}->{"Filter"} = {};
 	}
@@ -135,6 +156,7 @@ sub _filter_by {
 
 sub _reset {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	$self->{'_params'} = {};
 	$self->{'_total'} = 0;
 	$self->{'_count'} = 0;
@@ -143,12 +165,16 @@ sub _reset {
 
 sub _create {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return Saclient::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [$self->{'_client'}, undef]);
 }
 
 sub _get_by_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $id = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($id, "string");
 	my $params = $self->{'_params'};
 	$self->_reset();
 	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Util::url_encode($id), $params);
@@ -160,6 +186,7 @@ sub _get_by_id {
 
 sub _find {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $params = $self->{'_params'};
 	$self->_reset();
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
@@ -176,6 +203,7 @@ sub _find {
 
 sub _find_one {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $params = $self->{'_params'};
 	$self->_reset();
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);

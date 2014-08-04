@@ -41,21 +41,25 @@ my $m_swytch_id;
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/internet";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Internet";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Internet";
 }
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
@@ -68,6 +72,7 @@ sub _id {
 =cut
 sub save {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
@@ -80,15 +85,19 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
@@ -100,8 +109,12 @@ sub new {
 =cut
 sub after_create {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $timeoutSec = shift;
 	my $callback = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($timeoutSec, "int");
+	Saclient::Util::validate_type($callback, "CODE");
 	my $ret = $self->sleep_while_creating($timeoutSec);
 	$callback->($self, $ret);
 }
@@ -113,7 +126,9 @@ sub after_create {
 =cut
 sub sleep_while_creating {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $timeoutSec = shift || (120);
+	Saclient::Util::validate_type($timeoutSec, "int");
 	my $step = 3;
 	while (0 < $timeoutSec) {
 		if ($self->exists()) {
@@ -135,6 +150,7 @@ sub sleep_while_creating {
 =cut
 sub get_swytch {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $model = Saclient::Util::create_class_instance("saclient.cloud.model.Model_Swytch", [$self->{'_client'}]);
 	my $id = $self->get_swytch_id();
 	return $model->get_by_id($id);
@@ -147,6 +163,7 @@ sub get_swytch {
 =cut
 sub add_ipv6_net {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $result = $self->{'_client'}->request("POST", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/ipv6net");
 	$self->reload();
 	return new Saclient::Cloud::Resource::Ipv6Net($self->{'_client'}, $result->{"IPv6Net"});
@@ -159,7 +176,10 @@ sub add_ipv6_net {
 =cut
 sub remove_ipv6_net {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $ipv6Net = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($ipv6Net, "Saclient::Cloud::Resource::Ipv6Net");
 	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/ipv6net/" . $ipv6Net->_id());
 	$self->reload();
 	return $self;
@@ -172,8 +192,12 @@ sub remove_ipv6_net {
 =cut
 sub add_static_route {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $maskLen = shift;
 	my $nextHop = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($maskLen, "int");
+	Saclient::Util::validate_type($nextHop, "string");
 	my $q = {};
 	Saclient::Util::set_by_path($q, "NetworkMaskLen", $maskLen);
 	Saclient::Util::set_by_path($q, "NextHop", $nextHop);
@@ -189,7 +213,10 @@ sub add_static_route {
 =cut
 sub remove_static_route {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $ipv4Net = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($ipv4Net, "Saclient::Cloud::Resource::Ipv4Net");
 	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/subnet/" . $ipv4Net->_id());
 	$self->reload();
 	return $self;
@@ -202,7 +229,10 @@ sub remove_static_route {
 =cut
 sub change_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $bandWidthMbps = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($bandWidthMbps, "int");
 	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/bandwidth";
 	my $q = {};
 	Saclient::Util::set_by_path($q, "Internet.BandWidthMbps", $bandWidthMbps);
@@ -215,6 +245,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -231,12 +262,16 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
 sub set_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_name'} = $v;
 	$self->{'n_name'} = 1;
 	return $self->{'m_name'};
@@ -256,12 +291,16 @@ my $n_description = 0;
 
 sub get_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
 sub set_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_description'} = $v;
 	$self->{'n_description'} = 1;
 	return $self->{'m_description'};
@@ -281,12 +320,16 @@ my $n_network_mask_len = 0;
 
 sub get_network_mask_len {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_network_mask_len'};
 }
 
 sub set_network_mask_len {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "int");
 	$self->{'m_network_mask_len'} = $v;
 	$self->{'n_network_mask_len'} = 1;
 	return $self->{'m_network_mask_len'};
@@ -306,12 +349,16 @@ my $n_band_width_mbps = 0;
 
 sub get_band_width_mbps {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_band_width_mbps'};
 }
 
 sub set_band_width_mbps {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "int");
 	$self->{'m_band_width_mbps'} = $v;
 	$self->{'n_band_width_mbps'} = 1;
 	return $self->{'m_band_width_mbps'};
@@ -331,6 +378,7 @@ my $n_swytch_id = 0;
 
 sub get_swytch_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_swytch_id'};
 }
 
@@ -345,7 +393,9 @@ sub swytch_id {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -403,7 +453,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});

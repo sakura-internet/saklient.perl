@@ -1,5 +1,6 @@
 requires 'perl', '5.008008';
 requires 'Error', '>=0.17022';
+requires 'errors', '>=0.03';
 requires 'JSON', '>=2.53';
 requires 'HTTP::Request', '>=6.00';
 requires 'Crypt::SSLeay', '>=0.72';

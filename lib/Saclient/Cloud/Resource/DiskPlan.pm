@@ -31,15 +31,19 @@ my $m_storage_class;
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
@@ -48,6 +52,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -59,6 +64,7 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
@@ -70,6 +76,7 @@ my $n_storage_class = 0;
 
 sub get_storage_class {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_storage_class'};
 }
 
@@ -79,7 +86,9 @@ sub storage_class {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -113,7 +122,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});

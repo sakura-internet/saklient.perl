@@ -50,21 +50,25 @@ my $m_availability;
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/server";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Server";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Servers";
 }
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
@@ -77,6 +81,7 @@ sub _id {
 =cut
 sub save {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
@@ -89,15 +94,19 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
@@ -109,6 +118,7 @@ sub new {
 =cut
 sub is_up {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_instance()->is_up();
 }
 
@@ -119,6 +129,7 @@ sub is_up {
 =cut
 sub is_down {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_instance()->is_down();
 }
 
@@ -129,6 +140,7 @@ sub is_down {
 =cut
 sub boot {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/power");
 	return $self->reload();
 }
@@ -140,6 +152,7 @@ sub boot {
 =cut
 sub shutdown {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/power");
 	return $self->reload();
 }
@@ -151,6 +164,7 @@ sub shutdown {
 =cut
 sub stop {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/power", {'Force' => 1});
 	return $self->reload();
 }
@@ -162,6 +176,7 @@ sub stop {
 =cut
 sub reboot {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/reset");
 	return $self->reload();
 }
@@ -173,16 +188,25 @@ sub reboot {
 =cut
 sub after_down {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $timeoutSec = shift;
 	my $callback = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($timeoutSec, "int");
+	Saclient::Util::validate_type($callback, "CODE");
 	$self->after_status(Saclient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec, $callback);
 }
 
 sub after_status {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $status = shift;
 	my $timeoutSec = shift;
 	my $callback = shift;
+	Saclient::Util::validate_arg_count($_argnum, 3);
+	Saclient::Util::validate_type($status, "string");
+	Saclient::Util::validate_type($timeoutSec, "int");
+	Saclient::Util::validate_type($callback, "CODE");
 	my $ret = $self->sleep_until($status, $timeoutSec);
 	$callback->($self, $ret);
 }
@@ -194,14 +218,20 @@ sub after_status {
 =cut
 sub sleep_until_down {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $timeoutSec = shift || (180);
+	Saclient::Util::validate_type($timeoutSec, "int");
 	return $self->sleep_until(Saclient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec);
 }
 
 sub sleep_until {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $status = shift;
 	my $timeoutSec = shift || (180);
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($status, "string");
+	Saclient::Util::validate_type($timeoutSec, "int");
 	my $step = 3;
 	while (0 < $timeoutSec) {
 		$self->reload();
@@ -227,7 +257,10 @@ sub sleep_until {
 =cut
 sub change_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $planTo = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($planTo, "Saclient::Cloud::Resource::ServerPlan");
 	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/to/plan/" . Saclient::Util::url_encode($planTo->_id());
 	my $result = $self->{'_client'}->request("PUT", $path);
 	$self->api_deserialize($result->{$self->_root_key()});
@@ -241,6 +274,7 @@ sub change_plan {
 =cut
 sub find_disks {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $model = Saclient::Util::create_class_instance("saclient.cloud.model.Model_Disk", [$self->{'_client'}]);
 	return $model->with_server_id($self->_id())->find();
 }
@@ -252,6 +286,7 @@ sub find_disks {
 =cut
 sub add_iface {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $model = Saclient::Util::create_class_instance("saclient.cloud.model.Model_Iface", [$self->{'_client'}]);
 	my $res = $model->create();
 	$res->set_property("serverId", $self->_id());
@@ -265,7 +300,10 @@ sub add_iface {
 =cut
 sub insert_iso_image {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $iso = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($iso, "Saclient::Cloud::Resource::IsoImage");
 	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/cdrom";
 	my $q = {'CDROM' => {'ID' => $iso->_id()}};
 	my $result = $self->{'_client'}->request("PUT", $path, $q);
@@ -280,6 +318,7 @@ sub insert_iso_image {
 =cut
 sub eject_iso_image {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/cdrom";
 	my $result = $self->{'_client'}->request("DELETE", $path);
 	$self->reload();
@@ -290,6 +329,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -306,12 +346,16 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
 sub set_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_name'} = $v;
 	$self->{'n_name'} = 1;
 	return $self->{'m_name'};
@@ -331,12 +375,16 @@ my $n_description = 0;
 
 sub get_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
 sub set_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_description'} = $v;
 	$self->{'n_description'} = 1;
 	return $self->{'m_description'};
@@ -356,12 +404,16 @@ my $n_tags = 0;
 
 sub get_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_tags'};
 }
 
 sub set_tags {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "ARRAY");
 	$self->{'m_tags'} = $v;
 	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
@@ -381,12 +433,16 @@ my $n_icon = 0;
 
 sub get_icon {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_icon'};
 }
 
 sub set_icon {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "Saclient::Cloud::Resource::Icon");
 	$self->{'m_icon'} = $v;
 	$self->{'n_icon'} = 1;
 	return $self->{'m_icon'};
@@ -406,12 +462,16 @@ my $n_plan = 0;
 
 sub get_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_plan'};
 }
 
 sub set_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "Saclient::Cloud::Resource::ServerPlan");
 	$self->{'m_plan'} = $v;
 	$self->{'n_plan'} = 1;
 	return $self->{'m_plan'};
@@ -431,6 +491,7 @@ my $n_ifaces = 0;
 
 sub get_ifaces {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_ifaces'};
 }
 
@@ -447,6 +508,7 @@ my $n_instance = 0;
 
 sub get_instance {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_instance'};
 }
 
@@ -463,6 +525,7 @@ my $n_availability = 0;
 
 sub get_availability {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_availability'};
 }
 
@@ -477,7 +540,9 @@ sub availability {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -579,7 +644,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});

@@ -45,21 +45,25 @@ my $m_ipv6_nets;
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/switch";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Switch";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Switches";
 }
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
@@ -72,6 +76,7 @@ sub _id {
 =cut
 sub save {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
@@ -84,15 +89,19 @@ sub save {
 =cut
 sub reload {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
@@ -104,6 +113,7 @@ sub new {
 =cut
 sub add_ipv6_net {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $ret = $self->get_router()->add_ipv6_net();
 	$self->reload();
 	return $ret;
@@ -116,6 +126,7 @@ sub add_ipv6_net {
 =cut
 sub remove_ipv6_net {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $nets = $self->get_ipv6_nets();
 	$self->get_router()->remove_ipv6_net($nets->[0]);
 	$self->reload();
@@ -129,8 +140,12 @@ sub remove_ipv6_net {
 =cut
 sub add_static_route {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $maskLen = shift;
 	my $nextHop = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($maskLen, "int");
+	Saclient::Util::validate_type($nextHop, "string");
 	my $ret = $self->get_router()->add_static_route($maskLen, $nextHop);
 	$self->reload();
 	return $ret;
@@ -143,7 +158,10 @@ sub add_static_route {
 =cut
 sub remove_static_route {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $ipv4Net = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($ipv4Net, "Saclient::Cloud::Resource::Ipv4Net");
 	$self->get_router()->remove_static_route($ipv4Net);
 	$self->reload();
 	return $self;
@@ -156,7 +174,10 @@ sub remove_static_route {
 =cut
 sub change_plan {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $bandWidthMbps = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($bandWidthMbps, "int");
 	$self->get_router()->change_plan($bandWidthMbps);
 	$self->reload();
 	return $self;
@@ -166,6 +187,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -182,12 +204,16 @@ my $n_name = 0;
 
 sub get_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
 sub set_name {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_name'} = $v;
 	$self->{'n_name'} = 1;
 	return $self->{'m_name'};
@@ -207,12 +233,16 @@ my $n_description = 0;
 
 sub get_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
 sub set_description {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
 	$self->{'m_description'} = $v;
 	$self->{'n_description'} = 1;
 	return $self->{'m_description'};
@@ -232,6 +262,7 @@ my $n_user_default_route = 0;
 
 sub get_user_default_route {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_user_default_route'};
 }
 
@@ -248,6 +279,7 @@ my $n_user_mask_len = 0;
 
 sub get_user_mask_len {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_user_mask_len'};
 }
 
@@ -264,6 +296,7 @@ my $n_router = 0;
 
 sub get_router {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_router'};
 }
 
@@ -280,6 +313,7 @@ my $n_ipv4_nets = 0;
 
 sub get_ipv4_nets {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_ipv4_nets'};
 }
 
@@ -296,6 +330,7 @@ my $n_ipv6_nets = 0;
 
 sub get_ipv6_nets {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_ipv6_nets'};
 }
 
@@ -310,7 +345,9 @@ sub ipv6_nets {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -404,7 +441,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});

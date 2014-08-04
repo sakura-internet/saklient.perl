@@ -36,21 +36,25 @@ my $m_next_hop;
 
 sub _api_path {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "/subnet";
 }
 
 sub _root_key {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Subnet";
 }
 
 sub _root_key_m {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return "Subnets";
 }
 
 sub _id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
@@ -63,15 +67,19 @@ sub _id {
 =cut
 sub reload {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
 sub new {
 	my $class = shift;
 	my $self;
+	my $_argnum = scalar @_;
 	my $client = shift;
 	my $r = shift;
 	$self = $class->SUPER::new($client);
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
 }
@@ -80,6 +88,7 @@ my $n_id = 0;
 
 sub get_id {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
@@ -91,6 +100,7 @@ my $n_address = 0;
 
 sub get_address {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_address'};
 }
 
@@ -102,6 +112,7 @@ my $n_mask_len = 0;
 
 sub get_mask_len {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_mask_len'};
 }
 
@@ -113,6 +124,7 @@ my $n_default_route = 0;
 
 sub get_default_route {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_default_route'};
 }
 
@@ -124,6 +136,7 @@ my $n_next_hop = 0;
 
 sub get_next_hop {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_next_hop'};
 }
 
@@ -133,7 +146,9 @@ sub next_hop {
 
 sub api_deserialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $r = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
 	$self->{'is_new'} = !defined($r);
 	if ($self->{'is_new'}) {
 		$r = {};
@@ -183,7 +198,9 @@ sub api_deserialize_impl {
 
 sub api_serialize_impl {
 	my $self = shift;
+	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
+	Saclient::Util::validate_type($withClean, "bool");
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
