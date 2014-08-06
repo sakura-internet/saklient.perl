@@ -20,6 +20,7 @@ use Saclient::Cloud::Model::Model_Iface;
 use Saclient::Cloud::Model::Model_Swytch;
 use Saclient::Cloud::Model::Model_Router;
 use Saclient::Cloud::Model::Model_Ipv6Net;
+use Saclient::Cloud::Model::Model_Script;
 
 
 =pod
@@ -179,6 +180,18 @@ sub ipv6_net {
 	return $_[0]->get_ipv6_net();
 }
 
+my $_script;
+
+sub get_script {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_script'};
+}
+
+sub script {
+	return $_[0]->get_script();
+}
+
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
@@ -198,6 +211,7 @@ sub new {
 	$self->{'_swytch'} = new Saclient::Cloud::Model::Model_Swytch($client);
 	$self->{'_router'} = new Saclient::Cloud::Model::Model_Router($client);
 	$self->{'_ipv6_net'} = new Saclient::Cloud::Model::Model_Ipv6Net($client);
+	$self->{'_script'} = new Saclient::Cloud::Model::Model_Script($client);
 	return $self;
 }
 

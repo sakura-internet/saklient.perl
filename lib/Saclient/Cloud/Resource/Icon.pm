@@ -25,6 +25,8 @@ use base qw(Saclient::Cloud::Resource::Resource);
 
 my $m_id;
 
+my $m_scope;
+
 my $m_name;
 
 my $m_url;
@@ -100,8 +102,30 @@ sub get_id {
 	return $self->{'m_id'};
 }
 
+=head2 id
+
+ID
+
+=cut
 sub id {
 	return $_[0]->get_id();
+}
+
+my $n_scope = 0;
+
+sub get_scope {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_scope'};
+}
+
+=head2 scope
+
+スコープ
+
+=cut
+sub scope {
+	return $_[0]->get_scope();
 }
 
 my $n_name = 0;
@@ -112,6 +136,11 @@ sub get_name {
 	return $self->{'m_name'};
 }
 
+=head2 name
+
+名前
+
+=cut
 sub name {
 	return $_[0]->get_name();
 }
@@ -124,6 +153,11 @@ sub get_url {
 	return $self->{'m_url'};
 }
 
+=head2 url
+
+URL
+
+=cut
 sub url {
 	return $_[0]->get_url();
 }
@@ -146,6 +180,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_id'} = 0;
+	if (Saclient::Util::exists_path($r, "Scope")) {
+		$self->{'m_scope'} = !defined(Saclient::Util::get_by_path($r, "Scope")) ? undef : "" . Saclient::Util::get_by_path($r, "Scope");
+	}
+	else {
+		$self->{'m_scope'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_scope'} = 0;
 	if (Saclient::Util::exists_path($r, "Name")) {
 		$self->{'m_name'} = !defined(Saclient::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Util::get_by_path($r, "Name");
 	}
@@ -172,6 +214,9 @@ sub api_serialize_impl {
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
+	}
+	if ($withClean || $self->{'n_scope'}) {
+		Saclient::Util::set_by_path($ret, "Scope", $self->{'m_scope'});
 	}
 	if ($withClean || $self->{'n_name'}) {
 		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});

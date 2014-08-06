@@ -16,7 +16,7 @@ use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 30;
+my $tests = 31;
 
 
 
@@ -104,6 +104,16 @@ my $archives = $api->archive
 cmp_ok scalar(@$archives), '>', 0;
 my $archive = $archives->[0];
 
+# search scripts
+diag 'searching scripts...';
+my $scripts = $api->script
+	->with_name_like('WordPress')
+	->with_shared_scope
+	->limit(1)
+	->find;
+cmp_ok scalar(@$scripts), '>', 0;
+my $script = $scripts->[0];
+
 # create a disk
 diag 'creating a disk...';
 my $disk = $api->disk->create
@@ -160,6 +170,7 @@ $disk->create_config
 	->host_name($host_name)
 	->password(String::Random->new->randregex('\\w{8}'))
 	->ssh_key($ssh_public_key)
+	->add_script($script)
 	->write;
 
 # boot

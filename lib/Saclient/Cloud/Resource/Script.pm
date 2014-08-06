@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saclient::Cloud::Resource::Archive;
+package Saclient::Cloud::Resource::Script;
 
 use strict;
 use warnings;
@@ -10,9 +10,6 @@ use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
-use Saclient::Cloud::Resource::DiskPlan;
-use Saclient::Cloud::Resource::Server;
-use Saclient::Cloud::Enums::EScope;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
@@ -20,9 +17,9 @@ use base qw(Saclient::Cloud::Resource::Resource);
 
 =encoding utf8
 
-=head1 Saclient::Cloud::Resource::Archive
+=head1 Saclient::Cloud::Resource::Script
 
-アーカイブのリソース情報へのアクセス機能や操作機能を備えたクラス。
+スクリプトのリソース情報へのアクセス機能や操作機能を備えたクラス。
 
 =cut
 
@@ -30,6 +27,8 @@ use base qw(Saclient::Cloud::Resource::Resource);
 my $m_id;
 
 my $m_scope;
+
+my $m_clazz;
 
 my $m_name;
 
@@ -39,28 +38,26 @@ my $m_tags;
 
 my $m_icon;
 
-my $m_size_mib;
+my $m_content;
 
-my $m_service_class;
-
-my $m_plan;
+my $m_annotation;
 
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return "/archive";
+	return "/note";
 }
 
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return "Archive";
+	return "Note";
 }
 
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return "Archives";
+	return "Notes";
 }
 
 sub _id {
@@ -69,7 +66,7 @@ sub _id {
 	return $self->get_id();
 }
 
-=head2 save : Saclient::Cloud::Resource::Archive
+=head2 save : Saclient::Cloud::Resource::Script
 
 このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 
@@ -82,7 +79,7 @@ sub save {
 	return $self->_save();
 }
 
-=head2 reload : Saclient::Cloud::Resource::Archive
+=head2 reload : Saclient::Cloud::Resource::Script
 
 最新のリソース情報を再取得します。
 
@@ -106,21 +103,6 @@ sub new {
 	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
 	$self->api_deserialize($r);
 	return $self;
-}
-
-sub get_size_gib {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	return $self->get_size_mib() >> 10;
-}
-
-=head2 size_gib
-
-サイズ[GiB]
-
-=cut
-sub size_gib {
-	return $_[0]->get_size_gib();
 }
 
 my $n_id = 0;
@@ -157,22 +139,40 @@ sub scope {
 	return $_[0]->get_scope();
 }
 
-my $n_name = 0;
+my $n_clazz = 0;
 
-sub get_name {
+sub get_clazz {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->{'m_name'};
+	return $self->{'m_clazz'};
 }
 
-sub set_name {
+sub set_clazz {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $v = shift;
 	Saclient::Util::validate_arg_count($_argnum, 1);
 	Saclient::Util::validate_type($v, "string");
-	$self->{'m_name'} = $v;
-	$self->{'n_name'} = 1;
+	$self->{'m_clazz'} = $v;
+	$self->{'n_clazz'} = 1;
+	return $self->{'m_clazz'};
+}
+
+=head2 clazz
+
+クラス
+
+=cut
+sub clazz {
+	if (1 < scalar(@_)) { $_[0]->set_clazz($_[1]); return $_[0]; }
+	return $_[0]->get_clazz();
+}
+
+my $n_name = 0;
+
+sub get_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
@@ -182,7 +182,6 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
 	return $_[0]->get_name();
 }
 
@@ -273,55 +272,61 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
-my $n_size_mib = 0;
+my $n_content = 0;
 
-sub get_size_mib {
+sub get_content {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->{'m_size_mib'};
+	return $self->{'m_content'};
 }
 
-=head2 size_mib
-
-サイズ[MiB]
-
-=cut
-sub size_mib {
-	return $_[0]->get_size_mib();
-}
-
-my $n_service_class = 0;
-
-sub get_service_class {
+sub set_content {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->{'m_service_class'};
+	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
+	$self->{'m_content'} = $v;
+	$self->{'n_content'} = 1;
+	return $self->{'m_content'};
 }
 
-=head2 service_class
+=head2 content
 
-サービスクラス
+内容
 
 =cut
-sub service_class {
-	return $_[0]->get_service_class();
+sub content {
+	if (1 < scalar(@_)) { $_[0]->set_content($_[1]); return $_[0]; }
+	return $_[0]->get_content();
 }
 
-my $n_plan = 0;
+my $n_annotation = 0;
 
-sub get_plan {
+sub get_annotation {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->{'m_plan'};
+	return $self->{'m_annotation'};
 }
 
-=head2 plan
+sub set_annotation {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	$self->{'m_annotation'} = $v;
+	$self->{'n_annotation'} = 1;
+	return $self->{'m_annotation'};
+}
 
-プラン
+=head2 annotation
+
+注釈
 
 =cut
-sub plan {
-	return $_[0]->get_plan();
+sub annotation {
+	if (1 < scalar(@_)) { $_[0]->set_annotation($_[1]); return $_[0]; }
+	return $_[0]->get_annotation();
 }
 
 sub api_deserialize_impl {
@@ -350,6 +355,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_scope'} = 0;
+	if (Saclient::Util::exists_path($r, "Class")) {
+		$self->{'m_clazz'} = !defined(Saclient::Util::get_by_path($r, "Class")) ? undef : "" . Saclient::Util::get_by_path($r, "Class");
+	}
+	else {
+		$self->{'m_clazz'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_clazz'} = 0;
 	if (Saclient::Util::exists_path($r, "Name")) {
 		$self->{'m_name'} = !defined(Saclient::Util::get_by_path($r, "Name")) ? undef : "" . Saclient::Util::get_by_path($r, "Name");
 	}
@@ -392,30 +405,22 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_icon'} = 0;
-	if (Saclient::Util::exists_path($r, "SizeMB")) {
-		$self->{'m_size_mib'} = !defined(Saclient::Util::get_by_path($r, "SizeMB")) ? undef : (0+("" . Saclient::Util::get_by_path($r, "SizeMB")));
+	if (Saclient::Util::exists_path($r, "Content")) {
+		$self->{'m_content'} = !defined(Saclient::Util::get_by_path($r, "Content")) ? undef : "" . Saclient::Util::get_by_path($r, "Content");
 	}
 	else {
-		$self->{'m_size_mib'} = undef;
+		$self->{'m_content'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
-	$self->{'n_size_mib'} = 0;
-	if (Saclient::Util::exists_path($r, "ServiceClass")) {
-		$self->{'m_service_class'} = !defined(Saclient::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saclient::Util::get_by_path($r, "ServiceClass");
+	$self->{'n_content'} = 0;
+	if (Saclient::Util::exists_path($r, "Remark")) {
+		$self->{'m_annotation'} = Saclient::Util::get_by_path($r, "Remark");
 	}
 	else {
-		$self->{'m_service_class'} = undef;
+		$self->{'m_annotation'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
-	$self->{'n_service_class'} = 0;
-	if (Saclient::Util::exists_path($r, "Plan")) {
-		$self->{'m_plan'} = !defined(Saclient::Util::get_by_path($r, "Plan")) ? undef : new Saclient::Cloud::Resource::DiskPlan($self->{'_client'}, Saclient::Util::get_by_path($r, "Plan"));
-	}
-	else {
-		$self->{'m_plan'} = undef;
-		$self->{'is_incomplete'} = 1;
-	}
-	$self->{'n_plan'} = 0;
+	$self->{'n_annotation'} = 0;
 }
 
 sub api_serialize_impl {
@@ -429,6 +434,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_scope'}) {
 		Saclient::Util::set_by_path($ret, "Scope", $self->{'m_scope'});
+	}
+	if ($withClean || $self->{'n_clazz'}) {
+		Saclient::Util::set_by_path($ret, "Class", $self->{'m_clazz'});
 	}
 	if ($withClean || $self->{'n_name'}) {
 		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
@@ -447,14 +455,11 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_icon'}) {
 		Saclient::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
 	}
-	if ($withClean || $self->{'n_size_mib'}) {
-		Saclient::Util::set_by_path($ret, "SizeMB", $self->{'m_size_mib'});
+	if ($withClean || $self->{'n_content'}) {
+		Saclient::Util::set_by_path($ret, "Content", $self->{'m_content'});
 	}
-	if ($withClean || $self->{'n_service_class'}) {
-		Saclient::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
-	}
-	if ($withClean || $self->{'n_plan'}) {
-		Saclient::Util::set_by_path($ret, "Plan", $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id()));
+	if ($withClean || $self->{'n_annotation'}) {
+		Saclient::Util::set_by_path($ret, "Remark", $self->{'m_annotation'});
 	}
 	return $ret;
 }
