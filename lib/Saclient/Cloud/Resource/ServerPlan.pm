@@ -59,6 +59,10 @@ sub get_memory_gib {
 }
 
 sub memory_gib {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerPlan#memory_gib");
+		throw $ex;
+	}
 	return $_[0]->get_memory_gib();
 }
 
@@ -71,6 +75,10 @@ sub get_id {
 }
 
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerPlan#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -83,6 +91,10 @@ sub get_name {
 }
 
 sub name {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerPlan#name");
+		throw $ex;
+	}
 	return $_[0]->get_name();
 }
 
@@ -95,6 +107,10 @@ sub get_cpu {
 }
 
 sub cpu {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerPlan#cpu");
+		throw $ex;
+	}
 	return $_[0]->get_cpu();
 }
 
@@ -107,6 +123,10 @@ sub get_memory_mib {
 }
 
 sub memory_mib {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerPlan#memory_mib");
+		throw $ex;
+	}
 	return $_[0]->get_memory_mib();
 }
 
@@ -119,6 +139,10 @@ sub get_service_class {
 }
 
 sub service_class {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerPlan#service_class");
+		throw $ex;
+	}
 	return $_[0]->get_service_class();
 }
 

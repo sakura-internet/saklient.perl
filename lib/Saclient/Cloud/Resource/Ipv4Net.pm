@@ -93,6 +93,10 @@ sub get_id {
 }
 
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv4Net#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -105,6 +109,10 @@ sub get_address {
 }
 
 sub address {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv4Net#address");
+		throw $ex;
+	}
 	return $_[0]->get_address();
 }
 
@@ -117,6 +125,10 @@ sub get_mask_len {
 }
 
 sub mask_len {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv4Net#mask_len");
+		throw $ex;
+	}
 	return $_[0]->get_mask_len();
 }
 
@@ -129,6 +141,10 @@ sub get_default_route {
 }
 
 sub default_route {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv4Net#default_route");
+		throw $ex;
+	}
 	return $_[0]->get_default_route();
 }
 
@@ -141,6 +157,10 @@ sub get_next_hop {
 }
 
 sub next_hop {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv4Net#next_hop");
+		throw $ex;
+	}
 	return $_[0]->get_next_hop();
 }
 

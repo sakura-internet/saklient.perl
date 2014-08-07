@@ -255,6 +255,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Router#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -283,7 +287,10 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_name();
 }
 
@@ -312,7 +319,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -341,7 +351,10 @@ sub set_network_mask_len {
 
 =cut
 sub network_mask_len {
-	if (1 < scalar(@_)) { $_[0]->set_network_mask_len($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_network_mask_len($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_network_mask_len();
 }
 
@@ -370,7 +383,10 @@ sub set_band_width_mbps {
 
 =cut
 sub band_width_mbps {
-	if (1 < scalar(@_)) { $_[0]->set_band_width_mbps($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_band_width_mbps($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_band_width_mbps();
 }
 
@@ -388,6 +404,10 @@ sub get_swytch_id {
 
 =cut
 sub swytch_id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Router#swytch_id");
+		throw $ex;
+	}
 	return $_[0]->get_swytch_id();
 }
 

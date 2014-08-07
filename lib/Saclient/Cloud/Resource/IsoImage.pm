@@ -116,6 +116,10 @@ sub get_size_gib {
 
 =cut
 sub size_gib {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::IsoImage#size_gib");
+		throw $ex;
+	}
 	return $_[0]->get_size_gib();
 }
 
@@ -133,6 +137,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::IsoImage#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -161,7 +169,10 @@ sub set_scope {
 
 =cut
 sub scope {
-	if (1 < scalar(@_)) { $_[0]->set_scope($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_scope($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_scope();
 }
 
@@ -190,7 +201,10 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_name();
 }
 
@@ -219,7 +233,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -248,7 +265,10 @@ sub set_tags {
 
 =cut
 sub tags {
-	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_tags();
 }
 
@@ -277,7 +297,10 @@ sub set_icon {
 
 =cut
 sub icon {
-	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_icon();
 }
 
@@ -295,6 +318,10 @@ sub get_size_mib {
 
 =cut
 sub size_mib {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::IsoImage#size_mib");
+		throw $ex;
+	}
 	return $_[0]->get_size_mib();
 }
 
@@ -312,6 +339,10 @@ sub get_service_class {
 
 =cut
 sub service_class {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::IsoImage#service_class");
+		throw $ex;
+	}
 	return $_[0]->get_service_class();
 }
 

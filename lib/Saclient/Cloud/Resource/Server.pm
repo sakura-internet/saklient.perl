@@ -339,6 +339,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Server#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -367,7 +371,10 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_name();
 }
 
@@ -396,7 +403,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -425,7 +435,10 @@ sub set_tags {
 
 =cut
 sub tags {
-	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_tags();
 }
 
@@ -454,7 +467,10 @@ sub set_icon {
 
 =cut
 sub icon {
-	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_icon();
 }
 
@@ -483,7 +499,10 @@ sub set_plan {
 
 =cut
 sub plan {
-	if (1 < scalar(@_)) { $_[0]->set_plan($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_plan($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_plan();
 }
 
@@ -501,6 +520,10 @@ sub get_ifaces {
 
 =cut
 sub ifaces {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Server#ifaces");
+		throw $ex;
+	}
 	return $_[0]->get_ifaces();
 }
 
@@ -518,6 +541,10 @@ sub get_instance {
 
 =cut
 sub instance {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Server#instance");
+		throw $ex;
+	}
 	return $_[0]->get_instance();
 }
 
@@ -535,6 +562,10 @@ sub get_availability {
 
 =cut
 sub availability {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Server#availability");
+		throw $ex;
+	}
 	return $_[0]->get_availability();
 }
 

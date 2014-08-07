@@ -83,6 +83,10 @@ sub get_status {
 
 =cut
 sub status {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerInstance#status");
+		throw $ex;
+	}
 	return $_[0]->get_status();
 }
 
@@ -100,6 +104,10 @@ sub get_before_status {
 
 =cut
 sub before_status {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerInstance#before_status");
+		throw $ex;
+	}
 	return $_[0]->get_before_status();
 }
 
@@ -117,6 +125,10 @@ sub get_status_changed_at {
 
 =cut
 sub status_changed_at {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerInstance#status_changed_at");
+		throw $ex;
+	}
 	return $_[0]->get_status_changed_at();
 }
 
@@ -134,6 +146,10 @@ sub get_iso_image {
 
 =cut
 sub iso_image {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::ServerInstance#iso_image");
+		throw $ex;
+	}
 	return $_[0]->get_iso_image();
 }
 

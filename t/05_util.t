@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use errors;
-use Test::More tests => 22;
+use Test::More tests => 23;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
@@ -80,6 +80,20 @@ catch Saclient::Errors::SaclientException with {
 };
 ok $ok, '引数の型が異なる時は SaclientException がスローされなければなりません';
 
+#
+$ok = 0;
+try {
+	my $server = Saclient::Cloud::API::authorize('a', 'a')->server->create;
+	$server->availability('available');
+}
+catch Saclient::Errors::SaclientException with {
+	my $ex = shift;
+	throw $ex if $ex->code ne 'non_writable_field';
+	$ok = 1;
+};
+ok $ok, '未定義または読み取り専用フィールドへのset時は SaclientException がスローされなければなりません';
 
 
+
+#
 done_testing;

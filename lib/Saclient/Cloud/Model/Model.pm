@@ -31,6 +31,10 @@ sub get_client {
 }
 
 sub client {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Model::Model#client");
+		throw $ex;
+	}
 	return $_[0]->get_client();
 }
 
@@ -43,6 +47,10 @@ sub get_params {
 }
 
 sub params {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Model::Model#params");
+		throw $ex;
+	}
 	return $_[0]->get_params();
 }
 
@@ -55,6 +63,10 @@ sub get_total {
 }
 
 sub total {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Model::Model#total");
+		throw $ex;
+	}
 	return $_[0]->get_total();
 }
 
@@ -67,6 +79,10 @@ sub get_count {
 }
 
 sub count {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Model::Model#count");
+		throw $ex;
+	}
 	return $_[0]->get_count();
 }
 

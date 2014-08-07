@@ -108,6 +108,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Icon#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -125,6 +129,10 @@ sub get_scope {
 
 =cut
 sub scope {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Icon#scope");
+		throw $ex;
+	}
 	return $_[0]->get_scope();
 }
 
@@ -142,6 +150,10 @@ sub get_name {
 
 =cut
 sub name {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Icon#name");
+		throw $ex;
+	}
 	return $_[0]->get_name();
 }
 
@@ -159,6 +171,10 @@ URL
 
 =cut
 sub url {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Icon#url");
+		throw $ex;
+	}
 	return $_[0]->get_url();
 }
 

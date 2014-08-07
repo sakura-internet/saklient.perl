@@ -59,6 +59,10 @@ sub get_id {
 }
 
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::RouterPlan#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -71,6 +75,10 @@ sub get_name {
 }
 
 sub name {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::RouterPlan#name");
+		throw $ex;
+	}
 	return $_[0]->get_name();
 }
 
@@ -83,6 +91,10 @@ sub get_band_width_mbps {
 }
 
 sub band_width_mbps {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::RouterPlan#band_width_mbps");
+		throw $ex;
+	}
 	return $_[0]->get_band_width_mbps();
 }
 
@@ -95,6 +107,10 @@ sub get_service_class {
 }
 
 sub service_class {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::RouterPlan#service_class");
+		throw $ex;
+	}
 	return $_[0]->get_service_class();
 }
 

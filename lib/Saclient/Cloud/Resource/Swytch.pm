@@ -197,6 +197,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Swytch#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -225,7 +229,10 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_name();
 }
 
@@ -254,7 +261,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -272,6 +282,10 @@ sub get_user_default_route {
 
 =cut
 sub user_default_route {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Swytch#user_default_route");
+		throw $ex;
+	}
 	return $_[0]->get_user_default_route();
 }
 
@@ -289,6 +303,10 @@ sub get_user_mask_len {
 
 =cut
 sub user_mask_len {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Swytch#user_mask_len");
+		throw $ex;
+	}
 	return $_[0]->get_user_mask_len();
 }
 
@@ -306,6 +324,10 @@ sub get_router {
 
 =cut
 sub router {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Swytch#router");
+		throw $ex;
+	}
 	return $_[0]->get_router();
 }
 
@@ -323,6 +345,10 @@ IPv4ネットワーク
 
 =cut
 sub ipv4_nets {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Swytch#ipv4_nets");
+		throw $ex;
+	}
 	return $_[0]->get_ipv4_nets();
 }
 
@@ -340,6 +366,10 @@ IPv6ネットワーク
 
 =cut
 sub ipv6_nets {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Swytch#ipv6_nets");
+		throw $ex;
+	}
 	return $_[0]->get_ipv6_nets();
 }
 

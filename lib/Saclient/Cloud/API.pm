@@ -45,6 +45,10 @@ sub get_client {
 }
 
 sub client {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#client");
+		throw $ex;
+	}
 	return $_[0]->get_client();
 }
 
@@ -57,6 +61,10 @@ sub get_product {
 }
 
 sub product {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#product");
+		throw $ex;
+	}
 	return $_[0]->get_product();
 }
 
@@ -69,6 +77,10 @@ sub get_icon {
 }
 
 sub icon {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#icon");
+		throw $ex;
+	}
 	return $_[0]->get_icon();
 }
 
@@ -81,6 +93,10 @@ sub get_server {
 }
 
 sub server {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#server");
+		throw $ex;
+	}
 	return $_[0]->get_server();
 }
 
@@ -93,6 +109,10 @@ sub get_disk {
 }
 
 sub disk {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#disk");
+		throw $ex;
+	}
 	return $_[0]->get_disk();
 }
 
@@ -105,6 +125,10 @@ sub get_appliance {
 }
 
 sub appliance {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#appliance");
+		throw $ex;
+	}
 	return $_[0]->get_appliance();
 }
 
@@ -117,6 +141,10 @@ sub get_archive {
 }
 
 sub archive {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#archive");
+		throw $ex;
+	}
 	return $_[0]->get_archive();
 }
 
@@ -129,6 +157,10 @@ sub get_iso_image {
 }
 
 sub iso_image {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#iso_image");
+		throw $ex;
+	}
 	return $_[0]->get_iso_image();
 }
 
@@ -141,6 +173,10 @@ sub get_iface {
 }
 
 sub iface {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#iface");
+		throw $ex;
+	}
 	return $_[0]->get_iface();
 }
 
@@ -153,6 +189,10 @@ sub get_swytch {
 }
 
 sub swytch {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#swytch");
+		throw $ex;
+	}
 	return $_[0]->get_swytch();
 }
 
@@ -165,6 +205,10 @@ sub get_router {
 }
 
 sub router {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#router");
+		throw $ex;
+	}
 	return $_[0]->get_router();
 }
 
@@ -177,6 +221,10 @@ sub get_ipv6_net {
 }
 
 sub ipv6_net {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#ipv6_net");
+		throw $ex;
+	}
 	return $_[0]->get_ipv6_net();
 }
 
@@ -189,6 +237,10 @@ sub get_script {
 }
 
 sub script {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::API#script");
+		throw $ex;
+	}
 	return $_[0]->get_script();
 }
 

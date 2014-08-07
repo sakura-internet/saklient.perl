@@ -119,6 +119,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Script#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -136,6 +140,10 @@ sub get_scope {
 
 =cut
 sub scope {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Script#scope");
+		throw $ex;
+	}
 	return $_[0]->get_scope();
 }
 
@@ -164,7 +172,10 @@ sub set_clazz {
 
 =cut
 sub clazz {
-	if (1 < scalar(@_)) { $_[0]->set_clazz($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_clazz($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_clazz();
 }
 
@@ -182,6 +193,10 @@ sub get_name {
 
 =cut
 sub name {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Script#name");
+		throw $ex;
+	}
 	return $_[0]->get_name();
 }
 
@@ -210,7 +225,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -239,7 +257,10 @@ sub set_tags {
 
 =cut
 sub tags {
-	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_tags();
 }
 
@@ -268,7 +289,10 @@ sub set_icon {
 
 =cut
 sub icon {
-	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_icon();
 }
 
@@ -297,7 +321,10 @@ sub set_content {
 
 =cut
 sub content {
-	if (1 < scalar(@_)) { $_[0]->set_content($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_content($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_content();
 }
 
@@ -325,7 +352,10 @@ sub set_annotation {
 
 =cut
 sub annotation {
-	if (1 < scalar(@_)) { $_[0]->set_annotation($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_annotation($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_annotation();
 }
 

@@ -117,6 +117,10 @@ sub get_id {
 }
 
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Iface#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -129,6 +133,10 @@ sub get_mac_address {
 }
 
 sub mac_address {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Iface#mac_address");
+		throw $ex;
+	}
 	return $_[0]->get_mac_address();
 }
 
@@ -141,6 +149,10 @@ sub get_ip_address {
 }
 
 sub ip_address {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Iface#ip_address");
+		throw $ex;
+	}
 	return $_[0]->get_ip_address();
 }
 
@@ -164,7 +176,10 @@ sub set_user_ip_address {
 }
 
 sub user_ip_address {
-	if (1 < scalar(@_)) { $_[0]->set_user_ip_address($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_user_ip_address($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_user_ip_address();
 }
 
@@ -193,7 +208,10 @@ sub set_server_id {
 
 =cut
 sub server_id {
-	if (1 < scalar(@_)) { $_[0]->set_server_id($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_server_id($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_server_id();
 }
 

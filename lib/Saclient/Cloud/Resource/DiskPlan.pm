@@ -57,6 +57,10 @@ sub get_id {
 }
 
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::DiskPlan#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -69,6 +73,10 @@ sub get_name {
 }
 
 sub name {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::DiskPlan#name");
+		throw $ex;
+	}
 	return $_[0]->get_name();
 }
 
@@ -81,6 +89,10 @@ sub get_storage_class {
 }
 
 sub storage_class {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::DiskPlan#storage_class");
+		throw $ex;
+	}
 	return $_[0]->get_storage_class();
 }
 

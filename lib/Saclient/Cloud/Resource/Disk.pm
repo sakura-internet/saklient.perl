@@ -125,6 +125,10 @@ sub get_is_available {
 
 =cut
 sub is_available {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Disk#is_available");
+		throw $ex;
+	}
 	return $_[0]->get_is_available();
 }
 
@@ -150,7 +154,10 @@ sub set_size_gib {
 
 =cut
 sub size_gib {
-	if (1 < scalar(@_)) { $_[0]->set_size_gib($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_size_gib($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_size_gib();
 }
 
@@ -177,7 +184,10 @@ sub set_source {
 
 =cut
 sub source {
-	if (1 < scalar(@_)) { $_[0]->set_source($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_source($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_source();
 }
 
@@ -335,6 +345,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Disk#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -363,7 +377,10 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_name();
 }
 
@@ -392,7 +409,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -421,7 +441,10 @@ sub set_tags {
 
 =cut
 sub tags {
-	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_tags();
 }
 
@@ -450,7 +473,10 @@ sub set_icon {
 
 =cut
 sub icon {
-	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_icon();
 }
 
@@ -479,7 +505,10 @@ sub set_size_mib {
 
 =cut
 sub size_mib {
-	if (1 < scalar(@_)) { $_[0]->set_size_mib($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_size_mib($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_size_mib();
 }
 
@@ -497,6 +526,10 @@ sub get_service_class {
 
 =cut
 sub service_class {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Disk#service_class");
+		throw $ex;
+	}
 	return $_[0]->get_service_class();
 }
 
@@ -514,6 +547,10 @@ sub get_plan {
 
 =cut
 sub plan {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Disk#plan");
+		throw $ex;
+	}
 	return $_[0]->get_plan();
 }
 
@@ -531,6 +568,10 @@ sub get_server {
 
 =cut
 sub server {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Disk#server");
+		throw $ex;
+	}
 	return $_[0]->get_server();
 }
 
@@ -548,6 +589,10 @@ sub get_availability {
 
 =cut
 sub availability {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Disk#availability");
+		throw $ex;
+	}
 	return $_[0]->get_availability();
 }
 

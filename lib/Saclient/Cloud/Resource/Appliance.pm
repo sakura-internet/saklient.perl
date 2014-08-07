@@ -167,6 +167,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Appliance#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -195,7 +199,10 @@ sub set_clazz {
 
 =cut
 sub clazz {
-	if (1 < scalar(@_)) { $_[0]->set_clazz($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_clazz($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_clazz();
 }
 
@@ -224,7 +231,10 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_name();
 }
 
@@ -253,7 +263,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -282,7 +295,10 @@ sub set_tags {
 
 =cut
 sub tags {
-	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_tags();
 }
 
@@ -311,7 +327,10 @@ sub set_icon {
 
 =cut
 sub icon {
-	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_icon();
 }
 
@@ -329,6 +348,10 @@ sub get_ifaces {
 
 =cut
 sub ifaces {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Appliance#ifaces");
+		throw $ex;
+	}
 	return $_[0]->get_ifaces();
 }
 
@@ -346,6 +369,10 @@ sub get_service_class {
 
 =cut
 sub service_class {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Appliance#service_class");
+		throw $ex;
+	}
 	return $_[0]->get_service_class();
 }
 

@@ -32,6 +32,10 @@ sub get_client {
 }
 
 sub client {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::DiskConfig#client");
+		throw $ex;
+	}
 	return $_[0]->get_client();
 }
 
@@ -49,6 +53,10 @@ sub get_disk_id {
 
 =cut
 sub disk_id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::DiskConfig#disk_id");
+		throw $ex;
+	}
 	return $_[0]->get_disk_id();
 }
 
@@ -76,7 +84,10 @@ sub set_host_name {
 
 =cut
 sub host_name {
-	if (1 < scalar(@_)) { $_[0]->set_host_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_host_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_host_name();
 }
 
@@ -104,7 +115,10 @@ sub set_password {
 
 =cut
 sub password {
-	if (1 < scalar(@_)) { $_[0]->set_password($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_password($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_password();
 }
 
@@ -132,7 +146,10 @@ SSHキー
 
 =cut
 sub ssh_key {
-	if (1 < scalar(@_)) { $_[0]->set_ssh_key($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_ssh_key($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_ssh_key();
 }
 
@@ -160,7 +177,10 @@ IPアドレス
 
 =cut
 sub ip_address {
-	if (1 < scalar(@_)) { $_[0]->set_ip_address($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_ip_address($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_ip_address();
 }
 
@@ -188,7 +208,10 @@ sub set_default_route {
 
 =cut
 sub default_route {
-	if (1 < scalar(@_)) { $_[0]->set_default_route($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_default_route($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_default_route();
 }
 
@@ -216,7 +239,10 @@ sub set_network_mask_len {
 
 =cut
 sub network_mask_len {
-	if (1 < scalar(@_)) { $_[0]->set_network_mask_len($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_network_mask_len($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_network_mask_len();
 }
 
@@ -234,6 +260,10 @@ sub get_scripts {
 
 =cut
 sub scripts {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::DiskConfig#scripts");
+		throw $ex;
+	}
 	return $_[0]->get_scripts();
 }
 

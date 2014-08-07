@@ -28,6 +28,10 @@ sub get_server {
 }
 
 sub server {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Product#server");
+		throw $ex;
+	}
 	return $_[0]->get_server();
 }
 
@@ -40,6 +44,10 @@ sub get_disk {
 }
 
 sub disk {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Product#disk");
+		throw $ex;
+	}
 	return $_[0]->get_disk();
 }
 
@@ -52,6 +60,10 @@ sub get_router {
 }
 
 sub router {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Product#router");
+		throw $ex;
+	}
 	return $_[0]->get_router();
 }
 

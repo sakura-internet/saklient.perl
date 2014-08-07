@@ -31,6 +31,10 @@ sub get_client {
 }
 
 sub client {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Resource#client");
+		throw $ex;
+	}
 	return $_[0]->get_client();
 }
 

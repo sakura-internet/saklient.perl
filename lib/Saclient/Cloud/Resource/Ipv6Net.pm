@@ -91,6 +91,10 @@ sub get_id {
 }
 
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv6Net#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -103,6 +107,10 @@ sub get_prefix {
 }
 
 sub prefix {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv6Net#prefix");
+		throw $ex;
+	}
 	return $_[0]->get_prefix();
 }
 
@@ -115,6 +123,10 @@ sub get_prefix_len {
 }
 
 sub prefix_len {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv6Net#prefix_len");
+		throw $ex;
+	}
 	return $_[0]->get_prefix_len();
 }
 
@@ -127,6 +139,10 @@ sub get_prefix_tail {
 }
 
 sub prefix_tail {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Ipv6Net#prefix_tail");
+		throw $ex;
+	}
 	return $_[0]->get_prefix_tail();
 }
 

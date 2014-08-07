@@ -120,6 +120,10 @@ sub get_size_gib {
 
 =cut
 sub size_gib {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#size_gib");
+		throw $ex;
+	}
 	return $_[0]->get_size_gib();
 }
 
@@ -137,6 +141,10 @@ ID
 
 =cut
 sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#id");
+		throw $ex;
+	}
 	return $_[0]->get_id();
 }
 
@@ -154,6 +162,10 @@ sub get_scope {
 
 =cut
 sub scope {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#scope");
+		throw $ex;
+	}
 	return $_[0]->get_scope();
 }
 
@@ -182,7 +194,10 @@ sub set_name {
 
 =cut
 sub name {
-	if (1 < scalar(@_)) { $_[0]->set_name($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_name($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_name();
 }
 
@@ -211,7 +226,10 @@ sub set_description {
 
 =cut
 sub description {
-	if (1 < scalar(@_)) { $_[0]->set_description($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_description();
 }
 
@@ -240,7 +258,10 @@ sub set_tags {
 
 =cut
 sub tags {
-	if (1 < scalar(@_)) { $_[0]->set_tags($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_tags();
 }
 
@@ -269,7 +290,10 @@ sub set_icon {
 
 =cut
 sub icon {
-	if (1 < scalar(@_)) { $_[0]->set_icon($_[1]); return $_[0]; }
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
 	return $_[0]->get_icon();
 }
 
@@ -287,6 +311,10 @@ sub get_size_mib {
 
 =cut
 sub size_mib {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#size_mib");
+		throw $ex;
+	}
 	return $_[0]->get_size_mib();
 }
 
@@ -304,6 +332,10 @@ sub get_service_class {
 
 =cut
 sub service_class {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#service_class");
+		throw $ex;
+	}
 	return $_[0]->get_service_class();
 }
 
@@ -321,6 +353,10 @@ sub get_plan {
 
 =cut
 sub plan {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#plan");
+		throw $ex;
+	}
 	return $_[0]->get_plan();
 }
 
