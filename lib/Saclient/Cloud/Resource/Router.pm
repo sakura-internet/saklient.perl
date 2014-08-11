@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Errors::SaclientException;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
@@ -340,6 +341,9 @@ sub set_network_mask_len {
 	my $v = shift;
 	Saclient::Util::validate_arg_count($_argnum, 1);
 	Saclient::Util::validate_type($v, "int");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saclient::Errors::SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saclient::Cloud::Resource::Router#network_mask_len"); throw $ex; };
+	}
 	$self->{'m_network_mask_len'} = $v;
 	$self->{'n_network_mask_len'} = 1;
 	return $self->{'m_network_mask_len'};
@@ -372,6 +376,9 @@ sub set_band_width_mbps {
 	my $v = shift;
 	Saclient::Util::validate_arg_count($_argnum, 1);
 	Saclient::Util::validate_type($v, "int");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saclient::Errors::SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saclient::Cloud::Resource::Router#band_width_mbps"); throw $ex; };
+	}
 	$self->{'m_band_width_mbps'} = $v;
 	$self->{'n_band_width_mbps'} = 1;
 	return $self->{'m_band_width_mbps'};

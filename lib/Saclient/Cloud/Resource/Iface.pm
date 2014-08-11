@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Errors::SaclientException;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 
@@ -197,6 +198,9 @@ sub set_server_id {
 	my $v = shift;
 	Saclient::Util::validate_arg_count($_argnum, 1);
 	Saclient::Util::validate_type($v, "string");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saclient::Errors::SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saclient::Cloud::Resource::Iface#server_id"); throw $ex; };
+	}
 	$self->{'m_server_id'} = $v;
 	$self->{'n_server_id'} = 1;
 	return $self->{'m_server_id'};

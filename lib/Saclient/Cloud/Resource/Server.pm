@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Errors::SaclientException;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
@@ -488,6 +489,9 @@ sub set_plan {
 	my $v = shift;
 	Saclient::Util::validate_arg_count($_argnum, 1);
 	Saclient::Util::validate_type($v, "Saclient::Cloud::Resource::ServerPlan");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saclient::Errors::SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saclient::Cloud::Resource::Server#plan"); throw $ex; };
+	}
 	$self->{'m_plan'} = $v;
 	$self->{'n_plan'} = 1;
 	return $self->{'m_plan'};

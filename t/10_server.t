@@ -16,7 +16,7 @@ use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 31;
+my $tests = 32;
 
 
 
@@ -123,6 +123,20 @@ my $disk = $api->disk->create
 	->source($archive)
 	->save;
 is $disk->size_gib, 20;
+
+# check an immutable field
+diag 'updating the disk...';
+my $ok = 0;
+try {
+	$disk->size_mib(20480)->save;
+}
+catch Saclient::Errors::SaclientException with {
+	my $ex = shift;
+	throw $ex if $ex->code ne 'immutable_field';
+	$ok = 1;
+};
+#
+ok $ok, 'Immutableフィールドの再set時は SaclientException がスローされなければなりません';
 
 # create a server
 diag 'creating a server...';
