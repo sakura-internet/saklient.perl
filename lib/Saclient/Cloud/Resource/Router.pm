@@ -95,11 +95,13 @@ sub new {
 	my $self;
 	my $_argnum = scalar @_;
 	my $client = shift;
-	my $r = shift;
+	my $obj = shift;
+	my $wrapped = shift || (0);
 	$self = $class->SUPER::new($client);
 	Saclient::Util::validate_arg_count($_argnum, 2);
 	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
-	$self->api_deserialize($r);
+	Saclient::Util::validate_type($wrapped, "bool");
+	$self->api_deserialize($obj, $wrapped);
 	return $self;
 }
 
@@ -238,7 +240,7 @@ sub change_plan {
 	my $q = {};
 	Saclient::Util::set_by_path($q, "Internet.BandWidthMbps", $bandWidthMbps);
 	my $result = $self->{'_client'}->request("PUT", $path, $q);
-	$self->api_deserialize($result->{$self->_root_key()});
+	$self->api_deserialize($result, 1);
 	return $self;
 }
 

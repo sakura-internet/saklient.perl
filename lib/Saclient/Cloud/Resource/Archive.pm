@@ -13,6 +13,7 @@ use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
 use Saclient::Cloud::Enums::EScope;
+use Saclient::Errors::SaclientException;
 
 use base qw(Saclient::Cloud::Resource::Resource);
 
@@ -100,12 +101,31 @@ sub new {
 	my $self;
 	my $_argnum = scalar @_;
 	my $client = shift;
-	my $r = shift;
+	my $obj = shift;
+	my $wrapped = shift || (0);
 	$self = $class->SUPER::new($client);
 	Saclient::Util::validate_arg_count($_argnum, 2);
 	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
-	$self->api_deserialize($r);
+	Saclient::Util::validate_type($wrapped, "bool");
+	$self->api_deserialize($obj, $wrapped);
 	return $self;
+}
+
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	if (!defined($root)) {
+		return;
+	}
+	if ((ref($root) eq 'HASH' && exists $root->{"FTPServer"})) {
+		my $ftp = $root->{"FTPServer"};
+		if (defined($ftp)) {
+			$self->{'_ftp_info'} = new FtpInfo($ftp);
+		}
+	}
 }
 
 sub get_size_gib {
@@ -125,6 +145,51 @@ sub size_gib {
 		throw $ex;
 	}
 	return $_[0]->get_size_gib();
+}
+
+my $_ftp_info;
+
+sub get_ftp_info {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_ftp_info'};
+}
+
+=head2 ftp_info
+
+FTP情報
+
+=cut
+sub ftp_info {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#ftp_info");
+		throw $ex;
+	}
+	return $_[0]->get_ftp_info();
+}
+
+sub open_ftp {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reset = shift || (0);
+	Saclient::Util::validate_type($reset, "bool");
+	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/ftp";
+	my $q = {};
+	Saclient::Util::set_by_path($q, "ChangePassword", $reset);
+	my $result = $self->{'_client'}->request("PUT", $path, $q);
+	$self->_on_after_api_deserialize(undef, $result);
+	return $self;
+}
+
+sub close_ftp {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reset = shift || (0);
+	Saclient::Util::validate_type($reset, "bool");
+	my $path = $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()) . "/ftp";
+	my $result = $self->{'_client'}->request("DELETE", $path);
+	$self->{'_ftp_info'} = undef;
+	return $self;
 }
 
 my $n_id = 0;
@@ -305,6 +370,20 @@ sub get_size_mib {
 	return $self->{'m_size_mib'};
 }
 
+sub set_size_mib {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "int");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saclient::Errors::SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saclient::Cloud::Resource::Archive#size_mib"); throw $ex; };
+	}
+	$self->{'m_size_mib'} = $v;
+	$self->{'n_size_mib'} = 1;
+	return $self->{'m_size_mib'};
+}
+
 =head2 size_mib
 
 サイズ[MiB]
@@ -312,8 +391,8 @@ sub get_size_mib {
 =cut
 sub size_mib {
 	if (1 < scalar(@_)) {
-		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#size_mib");
-		throw $ex;
+		$_[0]->set_size_mib($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_size_mib();
 }

@@ -107,7 +107,8 @@ sub _on_after_api_deserialize {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $r = shift;
-	Saclient::Util::validate_arg_count($_argnum, 1);
+	my $root = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
 }
 
 sub _on_after_api_serialize {
@@ -129,10 +130,28 @@ sub api_deserialize_impl {
 sub api_deserialize {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $r = shift;
+	my $obj = shift;
+	my $wrapped = shift || (0);
 	Saclient::Util::validate_arg_count($_argnum, 1);
-	$self->api_deserialize_impl($r);
-	$self->_on_after_api_deserialize($r);
+	Saclient::Util::validate_type($wrapped, "bool");
+	my $root = undef;
+	my $record = undef;
+	my $rkey = $self->_root_key();
+	if (defined($obj)) {
+		if (!$wrapped) {
+			if (defined($rkey)) {
+				$root = {};
+				$root->{$rkey} = $obj;
+			}
+			$record = $obj;
+		}
+		else {
+			$root = $obj;
+			$record = $obj->{$rkey};
+		}
+	}
+	$self->api_deserialize_impl($record);
+	$self->_on_after_api_deserialize($record, $root);
 }
 
 sub api_serialize_impl {
@@ -207,7 +226,7 @@ sub _save {
 	my $q = {};
 	$q->{$self->_root_key()} = $r;
 	my $result = $self->{'_client'}->request($method, $path, $q);
-	$self->api_deserialize($result->{$self->_root_key()});
+	$self->api_deserialize($result, 1);
 	return $self;
 }
 
@@ -230,7 +249,7 @@ sub _reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Util::url_encode($self->_id()));
-	$self->api_deserialize($result->{$self->_root_key()});
+	$self->api_deserialize($result, 1);
 	return $self;
 }
 

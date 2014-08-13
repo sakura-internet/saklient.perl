@@ -112,6 +112,17 @@ sub reset {
 	return $self->_reset();
 }
 
+=head2 create : Saclient::Cloud::Resource::Archive
+
+*
+
+=cut
+sub create {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->_create();
+}
+
 =head2 get_by_id(string $id) : Saclient::Cloud::Resource::Archive
 
 指定したIDを持つ唯一のリソースを取得します。

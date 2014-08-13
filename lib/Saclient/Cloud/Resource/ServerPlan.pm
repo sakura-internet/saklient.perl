@@ -33,6 +33,24 @@ my $m_memory_mib;
 
 my $m_service_class;
 
+sub _api_path {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "/product/server";
+}
+
+sub _root_key {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "ServerPlan";
+}
+
+sub _root_key_m {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "ServerPlans";
+}
+
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -44,11 +62,13 @@ sub new {
 	my $self;
 	my $_argnum = scalar @_;
 	my $client = shift;
-	my $r = shift;
+	my $obj = shift;
+	my $wrapped = shift || (0);
 	$self = $class->SUPER::new($client);
 	Saclient::Util::validate_arg_count($_argnum, 2);
 	Saclient::Util::validate_type($client, "Saclient::Cloud::Client");
-	$self->api_deserialize($r);
+	Saclient::Util::validate_type($wrapped, "bool");
+	$self->api_deserialize($obj, $wrapped);
 	return $self;
 }
 

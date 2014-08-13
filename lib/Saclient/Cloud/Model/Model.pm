@@ -196,8 +196,11 @@ sub _get_by_id {
 	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saclient::Util::url_encode($id), $params);
 	$self->{'_total'} = 1;
 	$self->{'_count'} = 1;
-	my $record = $result->{$self->_root_key()};
-	return Saclient::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [$self->{'_client'}, $record]);
+	return Saclient::Util::create_class_instance("saclient.cloud.resource." . $self->_class_name(), [
+		$self->{'_client'},
+		$result,
+		1
+	]);
 }
 
 sub _find {
