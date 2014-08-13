@@ -154,14 +154,17 @@ sub validate_type {
 	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $value = shift;
 	my $typeName = shift;
-	return if $typeName eq 'any' || $typeName eq 'void' || !defined($value);
+	my $force = shift;
 	my $isOk = 0;
-	if ($typeName eq 'int' || $typeName eq 'double' || $typeName eq 'bool' || $typeName eq 'string') {
-		$isOk = !ref($value);
-	}
-	else {
-		# ($typeName eq 'ARRAY' || $typeName eq 'HASH' || $typeName eq 'CODE' || $typeName eq 'REF' || $typeName eq 'GLOB' || $typeName eq 'SCALAR') ||...
-		$isOk = ref($value) eq $typeName;
+	if (!$force) {
+		return if $typeName eq 'any' || $typeName eq 'void' || !defined($value);
+		if ($typeName eq 'int' || $typeName eq 'double' || $typeName eq 'bool' || $typeName eq 'string') {
+			$isOk = !ref($value);
+		}
+		else {
+			# ($typeName eq 'ARRAY' || $typeName eq 'HASH' || $typeName eq 'CODE' || $typeName eq 'REF' || $typeName eq 'GLOB' || $typeName eq 'SCALAR') ||...
+			$isOk = ref($value) eq $typeName;
+		}
 	}
 	unless ($isOk) {
 		my $ex = new Saclient::Errors::SaclientException('argument_type_mismatch', 'Argument type mismatch (expected '.$typeName.')');

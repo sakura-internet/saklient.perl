@@ -10,9 +10,13 @@ use Data::Dumper;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
+use Saclient::Cloud::Resource::FtpInfo;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
+use Saclient::Cloud::Resource::Archive;
+use Saclient::Cloud::Resource::Disk;
 use Saclient::Cloud::Enums::EScope;
+use Saclient::Cloud::Enums::EAvailability;
 use Saclient::Errors::SaclientException;
 
 use base qw(Saclient::Cloud::Resource::Resource);
@@ -45,6 +49,8 @@ my $m_size_mib;
 my $m_service_class;
 
 my $m_plan;
+
+my $m_availability;
 
 sub _api_path {
 	my $self = shift;
@@ -111,27 +117,39 @@ sub new {
 	return $self;
 }
 
-sub _on_after_api_deserialize {
+sub get_is_available {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $r = shift;
-	my $root = shift;
-	Saclient::Util::validate_arg_count($_argnum, 2);
-	if (!defined($root)) {
-		return;
+	return $self->get_availability() eq Saclient::Cloud::Enums::EAvailability::available;
+}
+
+=head2 is_available
+
+ディスクが利用可能なときtrueを返します。
+
+=cut
+sub is_available {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#is_available");
+		throw $ex;
 	}
-	if ((ref($root) eq 'HASH' && exists $root->{"FTPServer"})) {
-		my $ftp = $root->{"FTPServer"};
-		if (defined($ftp)) {
-			$self->{'_ftp_info'} = new FtpInfo($ftp);
-		}
-	}
+	return $_[0]->get_is_available();
 }
 
 sub get_size_gib {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_size_mib() >> 10;
+}
+
+sub set_size_gib {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $sizeGib = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($sizeGib, "int");
+	$self->set_size_mib($sizeGib * 1024);
+	return $sizeGib;
 }
 
 =head2 size_gib
@@ -141,10 +159,40 @@ sub get_size_gib {
 =cut
 sub size_gib {
 	if (1 < scalar(@_)) {
-		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#size_gib");
-		throw $ex;
+		$_[0]->set_size_gib($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_size_gib();
+}
+
+my $_source;
+
+sub get_source {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_source'};
+}
+
+sub set_source {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $source = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	$self->{'_source'} = $source;
+	return $source;
+}
+
+=head2 source
+
+アーカイブのコピー元
+
+=cut
+sub source {
+	if (1 < scalar(@_)) {
+		$_[0]->set_source($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_source();
 }
 
 my $_ftp_info;
@@ -166,6 +214,72 @@ sub ftp_info {
 		throw $ex;
 	}
 	return $_[0]->get_ftp_info();
+}
+
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	if (defined($root)) {
+		if ((ref($root) eq 'HASH' && exists $root->{"FTPServer"})) {
+			my $ftp = $root->{"FTPServer"};
+			if (defined($ftp)) {
+				$self->{'_ftp_info'} = new Saclient::Cloud::Resource::FtpInfo($ftp);
+			}
+		}
+	}
+	if (defined($r)) {
+		if ((ref($r) eq 'HASH' && exists $r->{"SourceArchive"})) {
+			my $s = $r->{"SourceArchive"};
+			if (defined($s)) {
+				my $id = $s->{"ID"};
+				if (defined($id)) {
+					$self->{'_source'} = new Saclient::Cloud::Resource::Archive($self->{'_client'}, $s);
+				}
+			}
+		}
+		if ((ref($r) eq 'HASH' && exists $r->{"SourceDisk"})) {
+			my $s = $r->{"SourceDisk"};
+			if (defined($s)) {
+				my $id = $s->{"ID"};
+				if (defined($id)) {
+					$self->{'_source'} = new Saclient::Cloud::Resource::Disk($self->{'_client'}, $s);
+				}
+			}
+		}
+	}
+}
+
+sub _on_after_api_serialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $withClean = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($withClean, "bool");
+	if (!defined($r)) {
+		return;
+	}
+	if (defined($self->{'_source'})) {
+		if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Archive")) {
+			my $archive = $self->{'_source'};
+			my $s = $withClean ? $archive->api_serialize(1) : {'ID' => $archive->_id()};
+			$r->{"SourceArchive"} = $s;
+		}
+		else {
+			if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Disk")) {
+				my $disk = $self->{'_source'};
+				my $s = $withClean ? $disk->api_serialize(1) : {'ID' => $disk->_id()};
+				$r->{"SourceDisk"} = $s;
+			}
+			else {
+				$self->{'_source'} = undef;
+				Saclient::Util::validate_type($self->{'_source'}, "Disk or Archive", 1);
+			}
+		}
+	}
 }
 
 sub open_ftp {
@@ -190,6 +304,51 @@ sub close_ftp {
 	my $result = $self->{'_client'}->request("DELETE", $path);
 	$self->{'_ftp_info'} = undef;
 	return $self;
+}
+
+=head2 after_copy(int $timeoutSec, (Saclient::Cloud::Resource::Archive, bool) => void $callback) : void
+
+コピー中のアーカイブが利用可能になるまで待機します。
+
+=cut
+sub after_copy {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $timeoutSec = shift;
+	my $callback = shift;
+	Saclient::Util::validate_arg_count($_argnum, 2);
+	Saclient::Util::validate_type($timeoutSec, "int");
+	Saclient::Util::validate_type($callback, "CODE");
+	my $ret = $self->sleep_while_copying($timeoutSec);
+	$callback->($self, $ret);
+}
+
+=head2 sleep_while_copying(int $timeoutSec=3600) : bool
+
+コピー中のアーカイブが利用可能になるまで待機します。
+
+=cut
+sub sleep_while_copying {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $timeoutSec = shift || (3600);
+	Saclient::Util::validate_type($timeoutSec, "int");
+	my $step = 3;
+	while (0 < $timeoutSec) {
+		$self->reload();
+		my $a = $self->get_availability();
+		if ($a eq Saclient::Cloud::Enums::EAvailability::available) {
+			return 1;
+		}
+		if ($a ne Saclient::Cloud::Enums::EAvailability::migrating) {
+			$timeoutSec = 0;
+		}
+		$timeoutSec -= $step;
+		if (0 < $timeoutSec) {
+			sleep $step;
+		}
+	}
+	return 0;
 }
 
 my $n_id = 0;
@@ -439,6 +598,27 @@ sub plan {
 	return $_[0]->get_plan();
 }
 
+my $n_availability = 0;
+
+sub get_availability {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_availability'};
+}
+
+=head2 availability
+
+有効状態
+
+=cut
+sub availability {
+	if (1 < scalar(@_)) {
+		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Archive#availability");
+		throw $ex;
+	}
+	return $_[0]->get_availability();
+}
+
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -531,6 +711,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_plan'} = 0;
+	if (Saclient::Util::exists_path($r, "Availability")) {
+		$self->{'m_availability'} = !defined(Saclient::Util::get_by_path($r, "Availability")) ? undef : "" . Saclient::Util::get_by_path($r, "Availability");
+	}
+	else {
+		$self->{'m_availability'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_availability'} = 0;
 }
 
 sub api_serialize_impl {
@@ -570,6 +758,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_plan'}) {
 		Saclient::Util::set_by_path($ret, "Plan", $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id()));
+	}
+	if ($withClean || $self->{'n_availability'}) {
+		Saclient::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
 	}
 	return $ret;
 }

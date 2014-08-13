@@ -14,6 +14,7 @@ use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
 use Saclient::Cloud::Resource::Archive;
+use Saclient::Cloud::Resource::Disk;
 use Saclient::Cloud::Resource::DiskConfig;
 use Saclient::Cloud::Enums::EAvailability;
 use Saclient::Cloud::Enums::EDiskConnection;
@@ -200,24 +201,23 @@ sub _on_after_api_deserialize {
 	my $r = shift;
 	my $root = shift;
 	Saclient::Util::validate_arg_count($_argnum, 2);
-	if (!defined($r)) {
-		return;
-	}
-	if ((ref($r) eq 'HASH' && exists $r->{"SourceArchive"})) {
-		my $s = $r->{"SourceArchive"};
-		if (defined($s)) {
-			my $id = $s->{"ID"};
-			if (defined($id)) {
-				$self->{'_source'} = new Saclient::Cloud::Resource::Archive($self->{'_client'}, $s);
+	if (defined($r)) {
+		if ((ref($r) eq 'HASH' && exists $r->{"SourceArchive"})) {
+			my $s = $r->{"SourceArchive"};
+			if (defined($s)) {
+				my $id = $s->{"ID"};
+				if (defined($id)) {
+					$self->{'_source'} = new Saclient::Cloud::Resource::Archive($self->{'_client'}, $s);
+				}
 			}
 		}
-	}
-	if ((ref($r) eq 'HASH' && exists $r->{"SourceDisk"})) {
-		my $s = $r->{"SourceDisk"};
-		if (defined($s)) {
-			my $id = $s->{"ID"};
-			if (defined($id)) {
-				$self->{'_source'} = new Saclient::Cloud::Resource::Disk($self->{'_client'}, $s);
+		if ((ref($r) eq 'HASH' && exists $r->{"SourceDisk"})) {
+			my $s = $r->{"SourceDisk"};
+			if (defined($s)) {
+				my $id = $s->{"ID"};
+				if (defined($id)) {
+					$self->{'_source'} = new Saclient::Cloud::Resource::Disk($self->{'_client'}, $s);
+				}
 			}
 		}
 	}
@@ -246,7 +246,8 @@ sub _on_after_api_serialize {
 				$r->{"SourceDisk"} = $s;
 			}
 			else {
-				$r->{"SourceArchive"} = {'ID' => 1};
+				$self->{'_source'} = undef;
+				Saclient::Util::validate_type($self->{'_source'}, "Disk or Archive", 1);
 			}
 		}
 	}
