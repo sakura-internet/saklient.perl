@@ -13,7 +13,6 @@ use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::FtpInfo;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
-use Saclient::Cloud::Resource::Archive;
 use Saclient::Cloud::Resource::Disk;
 use Saclient::Cloud::Enums::EScope;
 use Saclient::Cloud::Enums::EAvailability;

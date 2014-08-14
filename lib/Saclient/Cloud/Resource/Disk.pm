@@ -14,7 +14,6 @@ use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
 use Saclient::Cloud::Resource::Archive;
-use Saclient::Cloud::Resource::Disk;
 use Saclient::Cloud::Resource::DiskConfig;
 use Saclient::Cloud::Enums::EAvailability;
 use Saclient::Cloud::Enums::EDiskConnection;
