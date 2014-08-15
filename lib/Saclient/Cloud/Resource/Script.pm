@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Errors::SaclientException;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
@@ -460,6 +461,7 @@ sub api_serialize_impl {
 	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
 	Saclient::Util::validate_type($withClean, "bool");
+	my $missing = [];
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
@@ -472,6 +474,11 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_name'}) {
 		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
+	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "name");
+		}
 	}
 	if ($withClean || $self->{'n_description'}) {
 		Saclient::Util::set_by_path($ret, "Description", $self->{'m_description'});
@@ -490,8 +497,16 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_content'}) {
 		Saclient::Util::set_by_path($ret, "Content", $self->{'m_content'});
 	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "content");
+		}
+	}
 	if ($withClean || $self->{'n_annotation'}) {
 		Saclient::Util::set_by_path($ret, "Remark", $self->{'m_annotation'});
+	}
+	if (scalar(@{$missing}) > 0) {
+		{ my $ex = new Saclient::Errors::SaclientException("required_field", "Required fields must be set before the Script creation: " . join(", ", @{$missing})); throw $ex; };
 	}
 	return $ret;
 }

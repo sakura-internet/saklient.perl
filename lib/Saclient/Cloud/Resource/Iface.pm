@@ -278,6 +278,7 @@ sub api_serialize_impl {
 	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
 	Saclient::Util::validate_type($withClean, "bool");
+	my $missing = [];
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
@@ -293,6 +294,14 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_server_id'}) {
 		Saclient::Util::set_by_path($ret, "Server.ID", $self->{'m_server_id'});
+	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "serverId");
+		}
+	}
+	if (scalar(@{$missing}) > 0) {
+		{ my $ex = new Saclient::Errors::SaclientException("required_field", "Required fields must be set before the Iface creation: " . join(", ", @{$missing})); throw $ex; };
 	}
 	return $ret;
 }

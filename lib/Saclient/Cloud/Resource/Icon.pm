@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saclient::Errors::SaclientException;
 use Saclient::Cloud::Client;
 use Saclient::Cloud::Resource::Resource;
 
@@ -146,6 +147,17 @@ sub get_name {
 	return $self->{'m_name'};
 }
 
+sub set_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($v, "string");
+	$self->{'m_name'} = $v;
+	$self->{'n_name'} = 1;
+	return $self->{'m_name'};
+}
+
 =head2 name
 
 名前
@@ -153,8 +165,8 @@ sub get_name {
 =cut
 sub name {
 	if (1 < scalar(@_)) {
-		my $ex = new Saclient::Errors::SaclientException('non_writable_field', "Non-writable field: Saclient::Cloud::Resource::Icon#name");
-		throw $ex;
+		$_[0]->set_name($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_name();
 }
@@ -229,6 +241,7 @@ sub api_serialize_impl {
 	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
 	Saclient::Util::validate_type($withClean, "bool");
+	my $missing = [];
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
@@ -239,8 +252,16 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_name'}) {
 		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "name");
+		}
+	}
 	if ($withClean || $self->{'n_url'}) {
 		Saclient::Util::set_by_path($ret, "URL", $self->{'m_url'});
+	}
+	if (scalar(@{$missing}) > 0) {
+		{ my $ex = new Saclient::Errors::SaclientException("required_field", "Required fields must be set before the Icon creation: " . join(", ", @{$missing})); throw $ex; };
 	}
 	return $ret;
 }

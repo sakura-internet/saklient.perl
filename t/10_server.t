@@ -116,7 +116,18 @@ my $script = $scripts->[0];
 
 # create a disk
 diag 'creating a disk...';
-my $disk = $api->disk->create
+my $disk = $api->disk->create;
+my $ok = 0;
+try {
+	$disk->save;
+}
+catch Saclient::Errors::SaclientException with {
+	my $ex = shift;
+	throw $ex if $ex->code ne 'required_field';
+	$ok = 1;
+};
+ok $ok, 'Requiredフィールドが未set時は SaclientException がスローされなければなりません';
+$disk
 	->name($name)
 	->description($description)
 	->tags([$tag])

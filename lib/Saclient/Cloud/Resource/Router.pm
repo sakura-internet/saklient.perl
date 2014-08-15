@@ -485,6 +485,7 @@ sub api_serialize_impl {
 	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
 	Saclient::Util::validate_type($withClean, "bool");
+	my $missing = [];
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
@@ -492,17 +493,35 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_name'}) {
 		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
 	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "name");
+		}
+	}
 	if ($withClean || $self->{'n_description'}) {
 		Saclient::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
 	if ($withClean || $self->{'n_network_mask_len'}) {
 		Saclient::Util::set_by_path($ret, "NetworkMaskLen", $self->{'m_network_mask_len'});
 	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "networkMaskLen");
+		}
+	}
 	if ($withClean || $self->{'n_band_width_mbps'}) {
 		Saclient::Util::set_by_path($ret, "BandWidthMbps", $self->{'m_band_width_mbps'});
 	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "bandWidthMbps");
+		}
+	}
 	if ($withClean || $self->{'n_swytch_id'}) {
 		Saclient::Util::set_by_path($ret, "Switch.ID", $self->{'m_swytch_id'});
+	}
+	if (scalar(@{$missing}) > 0) {
+		{ my $ex = new Saclient::Errors::SaclientException("required_field", "Required fields must be set before the Router creation: " . join(", ", @{$missing})); throw $ex; };
 	}
 	return $ret;
 }

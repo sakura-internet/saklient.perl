@@ -76,9 +76,6 @@ sub request {
 	unless ($path =~ /^http/) {
 		my $urlRoot = $self->{config}->{apiRoot};
 		if (defined $self->{config}->{apiRootSuffix}) {
-			if ($self->{config}->{apiRootSuffix} =~ /is1[v-z]/) {
-				$urlRoot =~ s|/cloud/$|/cloud-test/|;
-			}
 			$urlRoot .= $self->{config}->{apiRootSuffix};
 			$urlRoot =~ s|/?$|/|;
 		}

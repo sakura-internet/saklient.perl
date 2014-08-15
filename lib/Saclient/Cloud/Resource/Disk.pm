@@ -710,12 +710,18 @@ sub api_serialize_impl {
 	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
 	Saclient::Util::validate_type($withClean, "bool");
+	my $missing = [];
 	my $ret = {};
 	if ($withClean || $self->{'n_id'}) {
 		Saclient::Util::set_by_path($ret, "ID", $self->{'m_id'});
 	}
 	if ($withClean || $self->{'n_name'}) {
 		Saclient::Util::set_by_path($ret, "Name", $self->{'m_name'});
+	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "name");
+		}
 	}
 	if ($withClean || $self->{'n_description'}) {
 		Saclient::Util::set_by_path($ret, "Description", $self->{'m_description'});
@@ -745,6 +751,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_availability'}) {
 		Saclient::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
+	}
+	if (scalar(@{$missing}) > 0) {
+		{ my $ex = new Saclient::Errors::SaclientException("required_field", "Required fields must be set before the Disk creation: " . join(", ", @{$missing})); throw $ex; };
 	}
 	return $ret;
 }
