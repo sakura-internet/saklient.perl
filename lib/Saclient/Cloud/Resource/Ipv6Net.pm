@@ -50,6 +50,12 @@ sub _root_key_m {
 	return "IPv6Nets";
 }
 
+sub class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Ipv6Net";
+}
+
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;

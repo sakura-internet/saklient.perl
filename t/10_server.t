@@ -16,7 +16,7 @@ use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 32;
+my $tests = 33;
 
 
 
@@ -137,7 +137,7 @@ is $disk->size_gib, 20;
 
 # check an immutable field
 diag 'updating the disk...';
-my $ok = 0;
+$ok = 0;
 try {
 	$disk->size_mib(20480)->save;
 }
@@ -207,7 +207,7 @@ is $server->instance->status, Saclient::Cloud::Enums::EServerInstanceStatus::up,
 
 # boot conflict
 diag 'checking the server power conflicts...';
-my $ok = 0;
+$ok = 0;
 try {
 	$server->boot;
 }

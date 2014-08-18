@@ -68,7 +68,7 @@ sub _root_key_m {
 	return undef;
 }
 
-sub _class_name {
+sub class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return undef;

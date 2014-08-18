@@ -13,7 +13,6 @@ use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::FtpInfo;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
-use Saclient::Cloud::Resource::Disk;
 use Saclient::Cloud::Enums::EScope;
 use Saclient::Cloud::Enums::EAvailability;
 use Saclient::Errors::SaclientException;
@@ -67,6 +66,12 @@ sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Archives";
+}
+
+sub class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Archive";
 }
 
 sub _id {
@@ -177,6 +182,7 @@ sub set_source {
 	my $_argnum = scalar @_;
 	my $source = shift;
 	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($source, "Saclient::Cloud::Resource::Resource");
 	$self->{'_source'} = $source;
 	return $source;
 }
@@ -244,7 +250,8 @@ sub _on_after_api_deserialize {
 			if (defined($s)) {
 				my $id = $s->{"ID"};
 				if (defined($id)) {
-					$self->{'_source'} = new Saclient::Cloud::Resource::Disk($self->{'_client'}, $s);
+					my $obj = Saclient::Util::create_class_instance("saclient.cloud.resource.Disk", [$self->{'_client'}, $s]);
+					$self->{'_source'} = $obj;
 				}
 			}
 		}
@@ -262,15 +269,13 @@ sub _on_after_api_serialize {
 		return;
 	}
 	if (defined($self->{'_source'})) {
-		if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Archive")) {
-			my $archive = $self->{'_source'};
-			my $s = $withClean ? $archive->api_serialize(1) : {'ID' => $archive->_id()};
+		if ($self->{'_source'}->class_name() eq "Archive") {
+			my $s = $withClean ? $self->{'_source'}->api_serialize(1) : {'ID' => $self->{'_source'}->_id()};
 			$r->{"SourceArchive"} = $s;
 		}
 		else {
-			if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Disk")) {
-				my $disk = $self->{'_source'};
-				my $s = $withClean ? $disk->api_serialize(1) : {'ID' => $disk->_id()};
+			if ($self->{'_source'}->class_name() eq "Disk") {
+				my $s = $withClean ? $self->{'_source'}->api_serialize(1) : {'ID' => $self->{'_source'}->_id()};
 				$r->{"SourceDisk"} = $s;
 			}
 			else {

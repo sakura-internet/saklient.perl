@@ -50,6 +50,12 @@ sub _root_key_m {
 	return "Icons";
 }
 
+sub class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Icon";
+}
+
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;

@@ -49,6 +49,12 @@ sub _root_key_m {
 	return "InternetPlans";
 }
 
+sub class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "RouterPlan";
+}
+
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;

@@ -62,6 +62,12 @@ sub _root_key_m {
 	return "Switches";
 }
 
+sub class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Swytch";
+}
+
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;

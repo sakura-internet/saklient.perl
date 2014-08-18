@@ -150,6 +150,8 @@ sub validate_arg_count {
 	}
 }
 
+our %_ref_types = (SCALAR=>1, ARRAY=>1, HASH=>1, GLOB=>1, CODE=>1, REF=>1);
+
 sub validate_type {
 	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saclient::Util';
 	my $value = shift;
@@ -162,8 +164,12 @@ sub validate_type {
 			$isOk = !ref($value);
 		}
 		else {
-			# ($typeName eq 'ARRAY' || $typeName eq 'HASH' || $typeName eq 'CODE' || $typeName eq 'REF' || $typeName eq 'GLOB' || $typeName eq 'SCALAR') ||...
-			$isOk = ref($value) eq $typeName;
+			if ($_ref_types{$typeName}) {
+				$isOk = ref($value) eq $typeName;
+			}
+			else {
+				$isOk = $value->isa($typeName);
+			}
 		}
 	}
 	unless ($isOk) {

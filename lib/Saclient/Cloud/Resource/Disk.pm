@@ -13,7 +13,6 @@ use Saclient::Cloud::Resource::Resource;
 use Saclient::Cloud::Resource::Icon;
 use Saclient::Cloud::Resource::DiskPlan;
 use Saclient::Cloud::Resource::Server;
-use Saclient::Cloud::Resource::Archive;
 use Saclient::Cloud::Resource::DiskConfig;
 use Saclient::Cloud::Enums::EAvailability;
 use Saclient::Cloud::Enums::EDiskConnection;
@@ -67,6 +66,12 @@ sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Disks";
+}
+
+sub class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Disk";
 }
 
 sub _id {
@@ -177,6 +182,7 @@ sub set_source {
 	my $_argnum = scalar @_;
 	my $source = shift;
 	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($source, "Saclient::Cloud::Resource::Resource");
 	$self->{'_source'} = $source;
 	return $source;
 }
@@ -201,21 +207,22 @@ sub _on_after_api_deserialize {
 	my $root = shift;
 	Saclient::Util::validate_arg_count($_argnum, 2);
 	if (defined($r)) {
-		if ((ref($r) eq 'HASH' && exists $r->{"SourceArchive"})) {
-			my $s = $r->{"SourceArchive"};
-			if (defined($s)) {
-				my $id = $s->{"ID"};
-				if (defined($id)) {
-					$self->{'_source'} = new Saclient::Cloud::Resource::Archive($self->{'_client'}, $s);
-				}
-			}
-		}
 		if ((ref($r) eq 'HASH' && exists $r->{"SourceDisk"})) {
 			my $s = $r->{"SourceDisk"};
 			if (defined($s)) {
 				my $id = $s->{"ID"};
 				if (defined($id)) {
 					$self->{'_source'} = new Saclient::Cloud::Resource::Disk($self->{'_client'}, $s);
+				}
+			}
+		}
+		if ((ref($r) eq 'HASH' && exists $r->{"SourceArchive"})) {
+			my $s = $r->{"SourceArchive"};
+			if (defined($s)) {
+				my $id = $s->{"ID"};
+				if (defined($id)) {
+					my $obj = Saclient::Util::create_class_instance("saclient.cloud.resource.Archive", [$self->{'_client'}, $s]);
+					$self->{'_source'} = $obj;
 				}
 			}
 		}
@@ -233,16 +240,14 @@ sub _on_after_api_serialize {
 		return;
 	}
 	if (defined($self->{'_source'})) {
-		if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Archive")) {
-			my $archive = $self->{'_source'};
-			my $s = $withClean ? $archive->api_serialize(1) : {'ID' => $archive->_id()};
-			$r->{"SourceArchive"} = $s;
+		if ($self->{'_source'}->class_name() eq "Disk") {
+			my $s = $withClean ? $self->{'_source'}->api_serialize(1) : {'ID' => $self->{'_source'}->_id()};
+			$r->{"SourceDisk"} = $s;
 		}
 		else {
-			if ($self->{'_source'}->isa("Saclient::Cloud::Resource::Disk")) {
-				my $disk = $self->{'_source'};
-				my $s = $withClean ? $disk->api_serialize(1) : {'ID' => $disk->_id()};
-				$r->{"SourceDisk"} = $s;
+			if ($self->{'_source'}->class_name() eq "Archive") {
+				my $s = $withClean ? $self->{'_source'}->api_serialize(1) : {'ID' => $self->{'_source'}->_id()};
+				$r->{"SourceArchive"} = $s;
 			}
 			else {
 				$self->{'_source'} = undef;

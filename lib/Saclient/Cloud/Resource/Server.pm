@@ -67,6 +67,12 @@ sub _root_key_m {
 	return "Servers";
 }
 
+sub class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Server";
+}
+
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
