@@ -266,4 +266,60 @@ sub with_iso_image {
 	return $self;
 }
 
+=head2 sort_by_name(bool $reverse=0) : Saclient::Cloud::Model::Model_Server
+
+名前でソートします。
+
+=cut
+sub sort_by_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reverse = shift || (0);
+	Saclient::Util::validate_type($reverse, "bool");
+	$self->_sort("Name", $reverse);
+	return $self;
+}
+
+=head2 sort_by_plan(bool $reverse=0) : Saclient::Cloud::Model::Model_Server
+
+プランでソートします。
+
+=cut
+sub sort_by_plan {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reverse = shift || (0);
+	Saclient::Util::validate_type($reverse, "bool");
+	$self->_sort("ServerPlan.ID", $reverse);
+	return $self;
+}
+
+=head2 sort_by_cpu(bool $reverse=0) : Saclient::Cloud::Model::Model_Server
+
+仮想コア数でソートします。
+
+=cut
+sub sort_by_cpu {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reverse = shift || (0);
+	Saclient::Util::validate_type($reverse, "bool");
+	$self->_sort("ServerPlan.CPU", $reverse);
+	return $self;
+}
+
+=head2 sort_by_memory(bool $reverse=0) : Saclient::Cloud::Model::Model_Server
+
+メモリ容量でソートします。
+
+=cut
+sub sort_by_memory {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reverse = shift || (0);
+	Saclient::Util::validate_type($reverse, "bool");
+	$self->_sort("ServerPlan.MemoryMB", $reverse);
+	return $self;
+}
+
 1;

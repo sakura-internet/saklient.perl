@@ -210,4 +210,18 @@ sub with_user_scope {
 	return $self;
 }
 
+=head2 sort_by_name(bool $reverse=0) : Saclient::Cloud::Model::Model_Script
+
+名前でソートします。
+
+=cut
+sub sort_by_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reverse = shift || (0);
+	Saclient::Util::validate_type($reverse, "bool");
+	$self->_sort("Name", $reverse);
+	return $self;
+}
+
 1;

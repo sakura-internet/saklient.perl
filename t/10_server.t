@@ -57,12 +57,13 @@ isa_ok $api, 'Saclient::Cloud::API';
 
 
 # should be found
-my $servers = $api->server->find;
+my $servers = $api->server->sort_by_memory->find;
 isa_ok $servers, 'ARRAY';
 cmp_ok scalar(@$servers), '>', 0;
 
+my $mem = 0;
 foreach my $server (@$servers) {
-	$tests += 7;
+	$tests += 8;
 	isa_ok $server, 'Saclient::Cloud::Resource::Server';
 	isa_ok $server->plan(), 'Saclient::Cloud::Resource::ServerPlan';
 	cmp_ok $server->plan()->cpu(), '>', 0;
@@ -75,6 +76,8 @@ foreach my $server (@$servers) {
 		ok !ref($tag);
 		like($tag, qr/./);
 	}
+	cmp_ok $server->plan->memory_gib(), '>=', $mem;
+	$mem = $server->plan->memory_gib();
 }
 
 # should be limited
@@ -88,7 +91,7 @@ my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::
 my $description = 'This instance was created by saclient.perl test';
 my $tag = 'saclient-test';
 my $cpu = 1;
-my $mem = 2;
+$mem = 2;
 my $host_name = 'saclient-test';
 my $ssh_public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3sSg8Vfxrs3eFTx3G//wMRlgqmFGxh5Ia8DZSSf2YrkZGqKbL1t2AsiUtIMwxGiEVVBc0K89lORzra7qoHQj5v5Xlcdqodgcs9nwuSeS38XWO6tXNF4a8LvKnfGS55+uzmBmVUwAztr3TIJR5TTWxZXpcxSsSEHx7nIcr31zcvosjgdxqvSokAsIgJyPQyxCxsPK8SFIsUV+aATqBCWNyp+R1jECPkd74ipEBoccnA0pYZnRhIsKNWR9phBRXIVd5jx/gK5jHqouhFWvCucUs0gwilEGwpng3b/YxrinNskpfOpMhOD9zjNU58OCoMS8MA17yqoZv59l3u16CrnrD saclient-test@local';
 my $ssh_private_key_file = dirname($FindBin::RealBin) . '/test-sshkey.txt';

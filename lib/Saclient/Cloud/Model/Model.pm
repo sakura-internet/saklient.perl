@@ -144,6 +144,23 @@ sub _limit {
 	return $self;
 }
 
+sub _sort {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $column = shift;
+	my $reverse = shift || (0);
+	Saclient::Util::validate_arg_count($_argnum, 1);
+	Saclient::Util::validate_type($column, "string");
+	Saclient::Util::validate_type($reverse, "bool");
+	if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Sort"})) {
+		$self->{'_params'}->{"Sort"} = [];
+	}
+	my $sort = $self->{'_params'}->{"Sort"};
+	my $op = $reverse ? "-" : "";
+	push(@{$sort}, $op . $column);
+	return $self;
+}
+
 sub _filter_by {
 	my $self = shift;
 	my $_argnum = scalar @_;
