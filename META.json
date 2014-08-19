@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Saclient",
+   "name" : "Saklient",
    "no_index" : {
       "directory" : [
          "t",
@@ -63,13 +63,13 @@
    "release_status" : "unstable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/sakura-internet/saclient.perl/issues"
+         "web" : "https://github.com/sakura-internet/saklient.perl/issues"
       },
-      "homepage" : "https://github.com/sakura-internet/saclient.perl",
+      "homepage" : "https://github.com/sakura-internet/saklient.perl",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/sakura-internet/saclient.perl.git",
-         "web" : "https://github.com/sakura-internet/saclient.perl"
+         "url" : "git://github.com/sakura-internet/saklient.perl.git",
+         "web" : "https://github.com/sakura-internet/saklient.perl"
       }
    },
    "version" : "0.01",

@@ -8,7 +8,7 @@ use FindBin;
 use lib "$FindBin::RealBin/../lib";
 
 use_ok $_ for qw(
-    Saclient::Cloud::API
+    Saklient::Cloud::API
 );
 
 done_testing;

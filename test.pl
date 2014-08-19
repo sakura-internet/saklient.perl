@@ -3,21 +3,21 @@
 use strict;
 use warnings;
 use errors;
-use Saclient::Cloud::API;
-use Saclient::Cloud::Enums::EServerInstanceStatus;
-use Saclient::Errors::HttpException;
+use Saklient::Cloud::API;
+use Saklient::Cloud::Enums::EServerInstanceStatus;
+use Saklient::Errors::HttpException;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
 binmode STDOUT, ":utf8";
 
-my $api = Saclient::Cloud::API::authorize($ARGV[0], $ARGV[1]);#->in_zone("is1b");
+my $api = Saklient::Cloud::API::authorize($ARGV[0], $ARGV[1]);#->in_zone("is1b");
 
 if (0) {
 	try {
 		$api->server->get_by_id(12345);
 	}
-	catch Saclient::Errors::HttpException with {
+	catch Saklient::Errors::HttpException with {
 		my $ex = shift;
 		die sprintf('%s(%d): %s', $ex->code, $ex->status, $ex->message) if $ex->code ne 'not_found';
 	};
@@ -27,12 +27,12 @@ if (0) {
 
 if (1) {
 	my $server = $api->server->create;
-	$server->name('saclient.pl');
-	$server->description('This instance was created by saclient.pl example');
-	$server->tags(['saclient-test']);
+	$server->name('saklient.pl');
+	$server->description('This instance was created by saklient.pl example');
+	$server->tags(['saklient-test']);
 	$server->plan($api->product->server->get_by_spec(1, 1));
 	$server->save;
-	my $servers = $api->server->with_name_like('saclient.pl')->find;
+	my $servers = $api->server->with_name_like('saklient.pl')->find;
 	printf "%s\n", $servers->[0]->name;
 	printf "%s\n", $servers->[0]->description;
 	printf "%s\n", join(', ', @{$servers->[0]->tags});
@@ -40,12 +40,12 @@ if (1) {
 	$server->boot;
 	sleep 1;
 	$server->reload;
-	die 'サーバが起動しません' if $server->instance->status ne Saclient::Cloud::Enums::EServerInstanceStatus::up;
+	die 'サーバが起動しません' if $server->instance->status ne Saklient::Cloud::Enums::EServerInstanceStatus::up;
 	my $ok = 0;
 	try {
 		$server->boot;
 	}
-	catch Saclient::Errors::HttpException with {
+	catch Saklient::Errors::HttpException with {
 		my $ex = shift;
 		throw $ex if $ex->code ne 'conflict';
 		$ok = 1;
@@ -83,10 +83,10 @@ if (0) {
 
 if (0) {
 	
-	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus::down();
-	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus->down();
-	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus::compare("up", "down");
-	printf "%s\n", Saclient::Cloud::Enums::EServerInstanceStatus->compare("up", "down");
+	printf "%s\n", Saklient::Cloud::Enums::EServerInstanceStatus::down();
+	printf "%s\n", Saklient::Cloud::Enums::EServerInstanceStatus->down();
+	printf "%s\n", Saklient::Cloud::Enums::EServerInstanceStatus::compare("up", "down");
+	printf "%s\n", Saklient::Cloud::Enums::EServerInstanceStatus->compare("up", "down");
 	
 }
 

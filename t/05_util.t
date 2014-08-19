@@ -7,9 +7,9 @@ use Test::More tests => 23;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
-use Saclient::Util qw(get_by_path set_by_path exists_path);
-use Saclient::Cloud::API;
-use Saclient::Errors::SaclientException;
+use Saklient::Util qw(get_by_path set_by_path exists_path);
+use Saklient::Cloud::API;
+use Saklient::Errors::SaklientException;
 binmode STDOUT, ":utf8";
 
 
@@ -59,39 +59,39 @@ is get_by_path($test, 'first.second'), 4560;
 #
 my $ok = 0;
 try {
-	Saclient::Cloud::API::authorize('abc');
+	Saklient::Cloud::API::authorize('abc');
 }
-catch Saclient::Errors::SaclientException with {
+catch Saklient::Errors::SaklientException with {
 	my $ex = shift;
 	throw $ex if $ex->code ne 'argument_count_mismatch';
 	$ok = 1;
 };
-ok $ok, '引数の数が足りない時は SaclientException がスローされなければなりません';
+ok $ok, '引数の数が足りない時は SaklientException がスローされなければなりません';
 
 #
 $ok = 0;
 try {
-	Saclient::Cloud::API::authorize('abc', []);
+	Saklient::Cloud::API::authorize('abc', []);
 }
-catch Saclient::Errors::SaclientException with {
+catch Saklient::Errors::SaklientException with {
 	my $ex = shift;
 	throw $ex if $ex->code ne 'argument_type_mismatch';
 	$ok = 1;
 };
-ok $ok, '引数の型が異なる時は SaclientException がスローされなければなりません';
+ok $ok, '引数の型が異なる時は SaklientException がスローされなければなりません';
 
 #
 $ok = 0;
 try {
-	my $server = Saclient::Cloud::API::authorize('a', 'a')->server->create;
+	my $server = Saklient::Cloud::API::authorize('a', 'a')->server->create;
 	$server->availability('available');
 }
-catch Saclient::Errors::SaclientException with {
+catch Saklient::Errors::SaklientException with {
 	my $ex = shift;
 	throw $ex if $ex->code ne 'non_writable_field';
 	$ok = 1;
 };
-ok $ok, '未定義または読み取り専用フィールドへのset時は SaclientException がスローされなければなりません';
+ok $ok, '未定義または読み取り専用フィールドへのset時は SaklientException がスローされなければなりません';
 
 
 

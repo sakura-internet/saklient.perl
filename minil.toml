@@ -1,4 +1,4 @@
-name = "Saclient"
+name = "Saklient"
 # badges = ["travis"]
 module_maker="ModuleBuildTiny"
 

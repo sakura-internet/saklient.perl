@@ -6,7 +6,7 @@ use Test::More;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
-use Saclient::Cloud::API;
+use Saklient::Cloud::API;
 use Socket;
 use List::Util 'min';
 use JSON;
@@ -49,15 +49,15 @@ ok $config{'SACLOUD_SECRET'}, 'SACLOUD_SECRET must be defined in config.sh';
 
 
 # authorize
-my $api = Saclient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
+my $api = Saklient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
 $api = $api->in_zone($config{'SACLOUD_ZONE'}) if $config{'SACLOUD_ZONE'};
-isa_ok $api, 'Saclient::Cloud::API';
+isa_ok $api, 'Saklient::Cloud::API';
 
 
 
 # should be CRUDed
 my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::Random->new->randregex('\\w{8}');
-my $description = 'This instance was created by saclient.perl test';
+my $description = 'This instance was created by saklient.perl test';
 my $mask_len = 28;
 
 #
@@ -67,7 +67,7 @@ if (1) {
 	my $plans = $api->product->router->find;
 	my $min_mbps = 0x7FFFFFFF;
 	foreach my $plan (@$plans) {
-		isa_ok $plan, 'Saclient::Cloud::Resource::RouterPlan';
+		isa_ok $plan, 'Saklient::Cloud::Resource::RouterPlan';
 		cmp_ok $plan->band_width_mbps, '>', 0;
 		$min_mbps = min($plan->band_width_mbps, $min_mbps);
 		$tests += 2;
@@ -87,15 +87,15 @@ if (1) {
 }
 else {
 	diag '既存のルータ＋スイッチを取得しています...';
-	my $swytches = $api->swytch->with_name_like('saclient-static-1')->limit(1)->find;
+	my $swytches = $api->swytch->with_name_like('saklient-static-1')->limit(1)->find;
 	is scalar(@$swytches), 1;
 	$swytch = $swytches->[0];
 	$tests++;
 }
 
-isa_ok $swytch, 'Saclient::Cloud::Resource::Swytch';
+isa_ok $swytch, 'Saklient::Cloud::Resource::Swytch';
 cmp_ok scalar(@{$swytch->ipv4_nets}), '>', 0;
-isa_ok $swytch->ipv4_nets->[0], 'Saclient::Cloud::Resource::Ipv4Net';
+isa_ok $swytch->ipv4_nets->[0], 'Saklient::Cloud::Resource::Ipv4Net';
 
 #
 diag 'ルータ＋スイッチの帯域プランを変更しています...';
@@ -110,7 +110,7 @@ if (0 < scalar(@{$swytch->ipv6_nets})) {
 }
 diag 'ルータ＋スイッチにIPv6ネットワークを割り当てています...';
 my $v6net = $swytch->add_ipv6_net;
-isa_ok $v6net, 'Saclient::Cloud::Resource::Ipv6Net';
+isa_ok $v6net, 'Saklient::Cloud::Resource::Ipv6Net';
 is scalar(@{$swytch->ipv6_nets}), 1;
 
 #
@@ -125,7 +125,7 @@ my $net0 = $swytch->ipv4_nets->[0];
 my $next_hop_n = unpack("N*", inet_aton($net0->address)) + 4;
 my $next_hop = inet_ntoa(pack("N*", $next_hop_n));
 my $sroute = $swytch->add_static_route(28, $next_hop);
-isa_ok $sroute, 'Saclient::Cloud::Resource::Ipv4Net';
+isa_ok $sroute, 'Saklient::Cloud::Resource::Ipv4Net';
 is scalar(@{$swytch->ipv4_nets}), 2;
 
 #

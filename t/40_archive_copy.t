@@ -7,7 +7,7 @@ use Test::More;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
-use Saclient::Cloud::API;
+use Saklient::Cloud::API;
 use JSON;
 use Data::Dumper;
 use POSIX qw(strftime tmpnam);
@@ -48,16 +48,16 @@ ok $config{'SACLOUD_SECRET'}, 'SACLOUD_SECRET must be defined in config.sh';
 
 
 # authorize
-my $api = Saclient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
+my $api = Saklient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
 $api = $api->in_zone($config{'SACLOUD_ZONE'}) if $config{'SACLOUD_ZONE'};
-isa_ok $api, 'Saclient::Cloud::API';
+isa_ok $api, 'Saklient::Cloud::API';
 
 
 
 # should be copied
 my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::Random->new->randregex('\\w{8}');
-my $description = 'This instance was created by saclient.perl test';
-my $tag = 'saclient-test';
+my $description = 'This instance was created by saklient.perl test';
+my $tag = 'saklient-test';
 
 my $disk = $api->disk->create;
 $disk
@@ -80,7 +80,7 @@ fail 'ディスクからアーカイブへのコピーがタイムアウトま�
 $disk->destroy;
 
 my $ftp = $archive->open_ftp->ftp_info;
-isa_ok $ftp, 'Saclient::Cloud::Resource::FtpInfo';
+isa_ok $ftp, 'Saklient::Cloud::Resource::FtpInfo';
 isnt $ftp->host_name, undef;
 isnt $ftp->user, undef;
 isnt $ftp->password, undef;

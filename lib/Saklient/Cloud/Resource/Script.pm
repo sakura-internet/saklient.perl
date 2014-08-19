@@ -1,0 +1,522 @@
+#!/usr/bin/perl
+
+package Saklient::Cloud::Resource::Script;
+
+use strict;
+use warnings;
+use Carp;
+use Error qw(:try);
+use Data::Dumper;
+use Saklient::Errors::SaklientException;
+use Saklient::Cloud::Client;
+use Saklient::Cloud::Resource::Resource;
+use Saklient::Cloud::Resource::Icon;
+use Saklient::Cloud::Enums::EScope;
+use Saklient::Cloud::Enums::EScriptClass;
+
+use base qw(Saklient::Cloud::Resource::Resource);
+
+=pod
+
+=encoding utf8
+
+=head1 Saklient::Cloud::Resource::Script
+
+スクリプトの実体1つに対応し、属性の取得や操作を行うためのクラス。
+
+=cut
+
+
+my $m_id;
+
+my $m_scope;
+
+my $m_clazz;
+
+my $m_name;
+
+my $m_description;
+
+my $m_tags;
+
+my $m_icon;
+
+my $m_content;
+
+my $m_annotation;
+
+sub _api_path {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "/note";
+}
+
+sub _root_key {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Note";
+}
+
+sub _root_key_m {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Notes";
+}
+
+sub _class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return "Script";
+}
+
+sub _id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->get_id();
+}
+
+=head2 save : Saklient::Cloud::Resource::Script
+
+このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+
+@return this
+
+=cut
+sub save {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->_save();
+}
+
+=head2 reload : Saklient::Cloud::Resource::Script
+
+最新のリソース情報を再取得します。
+
+@return this
+
+=cut
+sub reload {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->_reload();
+}
+
+sub new {
+	my $class = shift;
+	my $self;
+	my $_argnum = scalar @_;
+	my $client = shift;
+	my $obj = shift;
+	my $wrapped = shift || (0);
+	$self = $class->SUPER::new($client);
+	Saklient::Util::validate_arg_count($_argnum, 2);
+	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
+	Saklient::Util::validate_type($wrapped, "bool");
+	$self->api_deserialize($obj, $wrapped);
+	return $self;
+}
+
+my $n_id = 0;
+
+sub get_id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_id'};
+}
+
+=head2 id
+
+ID
+
+=cut
+sub id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Script#id");
+		throw $ex;
+	}
+	return $_[0]->get_id();
+}
+
+my $n_scope = 0;
+
+sub get_scope {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_scope'};
+}
+
+=head2 scope
+
+スコープ {@link EScope}
+
+=cut
+sub scope {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Script#scope");
+		throw $ex;
+	}
+	return $_[0]->get_scope();
+}
+
+my $n_clazz = 0;
+
+sub get_clazz {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_clazz'};
+}
+
+sub set_clazz {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "string");
+	$self->{'m_clazz'} = $v;
+	$self->{'n_clazz'} = 1;
+	return $self->{'m_clazz'};
+}
+
+=head2 clazz
+
+クラス {@link EScriptClass}
+
+=cut
+sub clazz {
+	if (1 < scalar(@_)) {
+		$_[0]->set_clazz($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_clazz();
+}
+
+my $n_name = 0;
+
+sub get_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_name'};
+}
+
+=head2 name
+
+名前
+
+=cut
+sub name {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Script#name");
+		throw $ex;
+	}
+	return $_[0]->get_name();
+}
+
+my $n_description = 0;
+
+sub get_description {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_description'};
+}
+
+sub set_description {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "string");
+	$self->{'m_description'} = $v;
+	$self->{'n_description'} = 1;
+	return $self->{'m_description'};
+}
+
+=head2 description
+
+説明
+
+=cut
+sub description {
+	if (1 < scalar(@_)) {
+		$_[0]->set_description($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_description();
+}
+
+my $n_tags = 0;
+
+sub get_tags {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_tags'};
+}
+
+sub set_tags {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "ARRAY");
+	$self->{'m_tags'} = $v;
+	$self->{'n_tags'} = 1;
+	return $self->{'m_tags'};
+}
+
+=head2 tags
+
+タグ
+
+=cut
+sub tags {
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_tags();
+}
+
+my $n_icon = 0;
+
+sub get_icon {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_icon'};
+}
+
+sub set_icon {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "Saklient::Cloud::Resource::Icon");
+	$self->{'m_icon'} = $v;
+	$self->{'n_icon'} = 1;
+	return $self->{'m_icon'};
+}
+
+=head2 icon
+
+アイコン
+
+=cut
+sub icon {
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_icon();
+}
+
+my $n_content = 0;
+
+sub get_content {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_content'};
+}
+
+sub set_content {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "string");
+	$self->{'m_content'} = $v;
+	$self->{'n_content'} = 1;
+	return $self->{'m_content'};
+}
+
+=head2 content
+
+内容
+
+=cut
+sub content {
+	if (1 < scalar(@_)) {
+		$_[0]->set_content($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_content();
+}
+
+my $n_annotation = 0;
+
+sub get_annotation {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_annotation'};
+}
+
+sub set_annotation {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	$self->{'m_annotation'} = $v;
+	$self->{'n_annotation'} = 1;
+	return $self->{'m_annotation'};
+}
+
+=head2 annotation
+
+注釈
+
+=cut
+sub annotation {
+	if (1 < scalar(@_)) {
+		$_[0]->set_annotation($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_annotation();
+}
+
+sub api_deserialize_impl {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	$self->{'is_new'} = !defined($r);
+	if ($self->{'is_new'}) {
+		$r = {};
+	}
+	$self->{'is_incomplete'} = 0;
+	if (Saklient::Util::exists_path($r, "ID")) {
+		$self->{'m_id'} = !defined(Saklient::Util::get_by_path($r, "ID")) ? undef : "" . Saklient::Util::get_by_path($r, "ID");
+	}
+	else {
+		$self->{'m_id'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_id'} = 0;
+	if (Saklient::Util::exists_path($r, "Scope")) {
+		$self->{'m_scope'} = !defined(Saklient::Util::get_by_path($r, "Scope")) ? undef : "" . Saklient::Util::get_by_path($r, "Scope");
+	}
+	else {
+		$self->{'m_scope'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_scope'} = 0;
+	if (Saklient::Util::exists_path($r, "Class")) {
+		$self->{'m_clazz'} = !defined(Saklient::Util::get_by_path($r, "Class")) ? undef : "" . Saklient::Util::get_by_path($r, "Class");
+	}
+	else {
+		$self->{'m_clazz'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_clazz'} = 0;
+	if (Saklient::Util::exists_path($r, "Name")) {
+		$self->{'m_name'} = !defined(Saklient::Util::get_by_path($r, "Name")) ? undef : "" . Saklient::Util::get_by_path($r, "Name");
+	}
+	else {
+		$self->{'m_name'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_name'} = 0;
+	if (Saklient::Util::exists_path($r, "Description")) {
+		$self->{'m_description'} = !defined(Saklient::Util::get_by_path($r, "Description")) ? undef : "" . Saklient::Util::get_by_path($r, "Description");
+	}
+	else {
+		$self->{'m_description'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_description'} = 0;
+	if (Saklient::Util::exists_path($r, "Tags")) {
+		if (!defined(Saklient::Util::get_by_path($r, "Tags"))) {
+			$self->{'m_tags'} = [];
+		}
+		else {
+			$self->{'m_tags'} = [];
+			foreach my $t (@{Saklient::Util::get_by_path($r, "Tags")}) {
+				my $v1 = undef;
+				$v1 = !defined($t) ? undef : "" . $t;
+				push(@{$self->{'m_tags'}}, $v1);
+			}
+		}
+	}
+	else {
+		$self->{'m_tags'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_tags'} = 0;
+	if (Saklient::Util::exists_path($r, "Icon")) {
+		$self->{'m_icon'} = !defined(Saklient::Util::get_by_path($r, "Icon")) ? undef : new Saklient::Cloud::Resource::Icon($self->{'_client'}, Saklient::Util::get_by_path($r, "Icon"));
+	}
+	else {
+		$self->{'m_icon'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_icon'} = 0;
+	if (Saklient::Util::exists_path($r, "Content")) {
+		$self->{'m_content'} = !defined(Saklient::Util::get_by_path($r, "Content")) ? undef : "" . Saklient::Util::get_by_path($r, "Content");
+	}
+	else {
+		$self->{'m_content'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_content'} = 0;
+	if (Saklient::Util::exists_path($r, "Remark")) {
+		$self->{'m_annotation'} = Saklient::Util::get_by_path($r, "Remark");
+	}
+	else {
+		$self->{'m_annotation'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_annotation'} = 0;
+}
+
+sub api_serialize_impl {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $withClean = shift || (0);
+	Saklient::Util::validate_type($withClean, "bool");
+	my $missing = [];
+	my $ret = {};
+	if ($withClean || $self->{'n_id'}) {
+		Saklient::Util::set_by_path($ret, "ID", $self->{'m_id'});
+	}
+	if ($withClean || $self->{'n_scope'}) {
+		Saklient::Util::set_by_path($ret, "Scope", $self->{'m_scope'});
+	}
+	if ($withClean || $self->{'n_clazz'}) {
+		Saklient::Util::set_by_path($ret, "Class", $self->{'m_clazz'});
+	}
+	if ($withClean || $self->{'n_name'}) {
+		Saklient::Util::set_by_path($ret, "Name", $self->{'m_name'});
+	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "name");
+		}
+	}
+	if ($withClean || $self->{'n_description'}) {
+		Saklient::Util::set_by_path($ret, "Description", $self->{'m_description'});
+	}
+	if ($withClean || $self->{'n_tags'}) {
+		Saklient::Util::set_by_path($ret, "Tags", []);
+		foreach my $r1 (@{$self->{'m_tags'}}) {
+			my $v = undef;
+			$v = $r1;
+			push(@{$ret->{"Tags"}}, $v);
+		}
+	}
+	if ($withClean || $self->{'n_icon'}) {
+		Saklient::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
+	}
+	if ($withClean || $self->{'n_content'}) {
+		Saklient::Util::set_by_path($ret, "Content", $self->{'m_content'});
+	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "content");
+		}
+	}
+	if ($withClean || $self->{'n_annotation'}) {
+		Saklient::Util::set_by_path($ret, "Remark", $self->{'m_annotation'});
+	}
+	if (scalar(@{$missing}) > 0) {
+		{ my $ex = new Saklient::Errors::SaklientException("required_field", "Required fields must be set before the Script creation: " . join(", ", @{$missing})); throw $ex; };
+	}
+	return $ret;
+}
+
+1;

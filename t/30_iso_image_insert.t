@@ -7,7 +7,7 @@ use Test::More;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
-use Saclient::Cloud::API;
+use Saklient::Cloud::API;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
@@ -48,16 +48,16 @@ ok $config{'SACLOUD_SECRET'}, 'SACLOUD_SECRET must be defined in config.sh';
 
 
 # authorize
-my $api = Saclient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
+my $api = Saklient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
 $api = $api->in_zone($config{'SACLOUD_ZONE'}) if $config{'SACLOUD_ZONE'};
-isa_ok $api, 'Saclient::Cloud::API';
+isa_ok $api, 'Saklient::Cloud::API';
 
 
 
 # should be inserted and ejected
 my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::Random->new->randregex('\\w{8}');
-my $description = 'This instance was created by saclient.perl test';
-my $tag = 'saclient-test';
+my $description = 'This instance was created by saklient.perl test';
+my $tag = 'saklient-test';
 
 # search iso images
 diag 'searching iso images...';
@@ -72,7 +72,7 @@ my $iso = $isos->[0];
 # create a server
 diag 'creating a server...';
 my $server = $api->server->create;
-isa_ok $server, 'Saclient::Cloud::Resource::Server';
+isa_ok $server, 'Saklient::Cloud::Resource::Server';
 $server
 	->name($name)
 	->description($description)
@@ -83,7 +83,7 @@ $server
 # insert iso image while the server is down
 diag 'inserting an ISO image to the server...';
 $server->insert_iso_image($iso);
-isa_ok $server->instance->iso_image, 'Saclient::Cloud::Resource::IsoImage';
+isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resource::IsoImage';
 is $server->instance->iso_image->id, $iso->id;
 
 # eject iso image while the server is down
@@ -99,7 +99,7 @@ sleep 3;
 # insert iso image while the server is up
 diag 'inserting an ISO image to the server...';
 $server->insert_iso_image($iso);
-isa_ok $server->instance->iso_image, 'Saclient::Cloud::Resource::IsoImage';
+isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resource::IsoImage';
 is $server->instance->iso_image->id, $iso->id;
 
 # eject iso image while the server is up

@@ -7,9 +7,9 @@ use Test::More;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
-use Saclient::Cloud::API;
-use Saclient::Cloud::Enums::EServerInstanceStatus;
-use Saclient::Errors::HttpException;
+use Saklient::Cloud::API;
+use Saklient::Cloud::Enums::EServerInstanceStatus;
+use Saklient::Errors::HttpException;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
@@ -50,9 +50,9 @@ ok $config{'SACLOUD_SECRET'}, 'SACLOUD_SECRET must be defined in config.sh';
 
 
 # authorize
-my $api = Saclient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
+my $api = Saklient::Cloud::API::authorize($config{'SACLOUD_TOKEN'}, $config{'SACLOUD_SECRET'});
 $api = $api->in_zone($config{'SACLOUD_ZONE'}) if $config{'SACLOUD_ZONE'};
-isa_ok $api, 'Saclient::Cloud::API';
+isa_ok $api, 'Saklient::Cloud::API';
 
 
 
@@ -64,8 +64,8 @@ cmp_ok scalar(@$servers), '>', 0;
 my $mem = 0;
 foreach my $server (@$servers) {
 	$tests += 8;
-	isa_ok $server, 'Saclient::Cloud::Resource::Server';
-	isa_ok $server->plan(), 'Saclient::Cloud::Resource::ServerPlan';
+	isa_ok $server, 'Saklient::Cloud::Resource::Server';
+	isa_ok $server->plan(), 'Saklient::Cloud::Resource::ServerPlan';
 	cmp_ok $server->plan()->cpu(), '>', 0;
 	cmp_ok $server->plan()->memory_mib(), '>', 0;
 	cmp_ok $server->plan()->memory_gib(), '>', 0;
@@ -88,12 +88,12 @@ is scalar(@$servers), 1;
 
 # should be CRUDed
 my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::Random->new->randregex('\\w{8}');
-my $description = 'This instance was created by saclient.perl test';
-my $tag = 'saclient-test';
+my $description = 'This instance was created by saklient.perl test';
+my $tag = 'saklient-test';
 my $cpu = 1;
 $mem = 2;
-my $host_name = 'saclient-test';
-my $ssh_public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3sSg8Vfxrs3eFTx3G//wMRlgqmFGxh5Ia8DZSSf2YrkZGqKbL1t2AsiUtIMwxGiEVVBc0K89lORzra7qoHQj5v5Xlcdqodgcs9nwuSeS38XWO6tXNF4a8LvKnfGS55+uzmBmVUwAztr3TIJR5TTWxZXpcxSsSEHx7nIcr31zcvosjgdxqvSokAsIgJyPQyxCxsPK8SFIsUV+aATqBCWNyp+R1jECPkd74ipEBoccnA0pYZnRhIsKNWR9phBRXIVd5jx/gK5jHqouhFWvCucUs0gwilEGwpng3b/YxrinNskpfOpMhOD9zjNU58OCoMS8MA17yqoZv59l3u16CrnrD saclient-test@local';
+my $host_name = 'saklient-test';
+my $ssh_public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3sSg8Vfxrs3eFTx3G//wMRlgqmFGxh5Ia8DZSSf2YrkZGqKbL1t2AsiUtIMwxGiEVVBc0K89lORzra7qoHQj5v5Xlcdqodgcs9nwuSeS38XWO6tXNF4a8LvKnfGS55+uzmBmVUwAztr3TIJR5TTWxZXpcxSsSEHx7nIcr31zcvosjgdxqvSokAsIgJyPQyxCxsPK8SFIsUV+aATqBCWNyp+R1jECPkd74ipEBoccnA0pYZnRhIsKNWR9phBRXIVd5jx/gK5jHqouhFWvCucUs0gwilEGwpng3b/YxrinNskpfOpMhOD9zjNU58OCoMS8MA17yqoZv59l3u16CrnrD saklient-test@local';
 my $ssh_private_key_file = dirname($FindBin::RealBin) . '/test-sshkey.txt';
 
 # search archives
@@ -124,12 +124,12 @@ my $ok = 0;
 try {
 	$disk->save;
 }
-catch Saclient::Errors::SaclientException with {
+catch Saklient::Errors::SaklientException with {
 	my $ex = shift;
 	throw $ex if $ex->code ne 'required_field';
 	$ok = 1;
 };
-ok $ok, 'Requiredフィールドが未set時は SaclientException がスローされなければなりません';
+ok $ok, 'Requiredフィールドが未set時は SaklientException がスローされなければなりません';
 $disk
 	->name($name)
 	->description($description)
@@ -144,18 +144,18 @@ $ok = 0;
 try {
 	$disk->size_mib(20480)->save;
 }
-catch Saclient::Errors::SaclientException with {
+catch Saklient::Errors::SaklientException with {
 	my $ex = shift;
 	throw $ex if $ex->code ne 'immutable_field';
 	$ok = 1;
 };
 #
-ok $ok, 'Immutableフィールドの再set時は SaclientException がスローされなければなりません';
+ok $ok, 'Immutableフィールドの再set時は SaklientException がスローされなければなりません';
 
 # create a server
 diag 'creating a server...';
 my $server = $api->server->create;
-isa_ok $server, 'Saclient::Cloud::Resource::Server';
+isa_ok $server, 'Saklient::Cloud::Resource::Server';
 $server->name($name)
 	->description($description)
 	->tags([$tag])
@@ -175,7 +175,7 @@ is $server->plan->memory_gib, $mem;
 # connect to shared segment
 diag 'connecting the server to shared segment...';
 my $iface = $server->add_iface;
-isa_ok $iface, 'Saclient::Cloud::Resource::Iface';
+isa_ok $iface, 'Saklient::Cloud::Resource::Iface';
 cmp_ok $iface->id, '>', 0;
 $iface->connect_to_shared_segment;
 
@@ -184,7 +184,7 @@ diag 'waiting disk copy...';
 fail 'アーカイブからディスクへのコピーがタイムアウトしました' unless $disk->sleep_while_copying;
 $disk->source(undef);
 $disk->reload;
-isa_ok $disk->source, 'Saclient::Cloud::Resource::Archive';
+isa_ok $disk->source, 'Saklient::Cloud::Resource::Archive';
 is $disk->source->id, $archive->id;
 is $disk->size_gib, $archive->size_gib;
 
@@ -206,7 +206,7 @@ diag 'booting the server...';
 $server->boot;
 sleep 1;
 $server->reload;
-is $server->instance->status, Saclient::Cloud::Enums::EServerInstanceStatus::up, 'サーバが起動しません';
+is $server->instance->status, Saklient::Cloud::Enums::EServerInstanceStatus::up, 'サーバが起動しません';
 
 # boot conflict
 diag 'checking the server power conflicts...';
@@ -214,7 +214,7 @@ $ok = 0;
 try {
 	$server->boot;
 }
-catch Saclient::Errors::HttpException with {
+catch Saklient::Errors::HttpException with {
 	my $ex = shift;
 	throw $ex if $ex->code ne 'conflict';
 	$ok = 1;
@@ -267,7 +267,7 @@ diag 'waiting disk duplication...';
 fail 'ディスクの複製がタイムアウトしました' unless $disk2->sleep_while_copying;
 $disk2->source(undef);
 $disk2->reload;
-isa_ok $disk2->source, 'Saclient::Cloud::Resource::Disk';
+isa_ok $disk2->source, 'Saklient::Cloud::Resource::Disk';
 is $disk2->source->id, $disk->id;
 is $disk2->size_gib, 40;
 
