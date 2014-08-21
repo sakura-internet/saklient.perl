@@ -12,55 +12,91 @@ use Saklient::Cloud::Resource::Resource;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::RouterPlan
-
-ルータ帯域プラン情報の1レコードに対応するクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::RouterPlan
+# 
+# @brief ルータ帯域プラン情報の1レコードに対応するクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::RouterPlan::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::RouterPlan::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private int Saklient::Cloud::Resource::RouterPlan::$m_band_width_mbps 
+# 
+# @brief 帯域幅
+#*
 my $m_band_width_mbps;
 
+#** @var private string Saklient::Cloud::Resource::RouterPlan::$m_service_class 
+# 
+# @brief サービスクラス
+#*
 my $m_service_class;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/product/internet";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "InternetPlan";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "InternetPlans";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "RouterPlan";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -76,19 +112,26 @@ sub new {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::RouterPlan::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::RouterPlan#id");
@@ -97,19 +140,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::RouterPlan::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::RouterPlan#name");
@@ -118,19 +168,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::RouterPlan::$n_band_width_mbps 
+# 
+# @brief null
+#*
 my $n_band_width_mbps = 0;
 
+#** @method private int get_band_width_mbps 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_band_width_mbps {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_band_width_mbps'};
 }
 
-=head2 band_width_mbps
-
-帯域幅
-
-=cut
+#** @method public int band_width_mbps ()
+# 
+# @brief 帯域幅
+#*
 sub band_width_mbps {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::RouterPlan#band_width_mbps");
@@ -139,19 +196,26 @@ sub band_width_mbps {
 	return $_[0]->get_band_width_mbps();
 }
 
+#** @var private bool Saklient::Cloud::Resource::RouterPlan::$n_service_class 
+# 
+# @brief null
+#*
 my $n_service_class = 0;
 
+#** @method private string get_service_class 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_service_class {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_service_class'};
 }
 
-=head2 service_class
-
-サービスクラス
-
-=cut
+#** @method public string service_class ()
+# 
+# @brief サービスクラス
+#*
 sub service_class {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::RouterPlan#service_class");
@@ -160,6 +224,10 @@ sub service_class {
 	return $_[0]->get_service_class();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -204,6 +272,10 @@ sub api_deserialize_impl {
 	$self->{'n_service_class'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

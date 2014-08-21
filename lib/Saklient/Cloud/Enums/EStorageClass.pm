@@ -8,15 +8,10 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Enums::EStorageClass
-
-ストレージのクラスを表す列挙子。
-
-=cut
+#** @class Saklient::Cloud::Enums::EStorageClass
+# 
+# @brief ストレージのクラスを表す列挙子。
+#*
 
 our $_map = {
 	"iscsi1204" => 110
@@ -29,6 +24,10 @@ sub new {
 };
 
 
+#** public
+# 
+# @brief null
+#*
 sub iscsi1204 { "iscsi1204"; }
 
 sub compare {

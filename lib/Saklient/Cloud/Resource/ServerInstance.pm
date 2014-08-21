@@ -15,25 +15,41 @@ use Saklient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::ServerInstance
-
-サーバインスタンスの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::ServerInstance
+# 
+# @brief サーバインスタンスの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::ServerInstance::$m_status 
+# 
+# @brief 起動状態 {@link EServerInstanceStatus}
+#*
 my $m_status;
 
+#** @var private string Saklient::Cloud::Resource::ServerInstance::$m_before_status 
+# 
+# @brief 前回の起動状態 {@link EServerInstanceStatus}
+#*
 my $m_before_status;
 
+#** @var private NativeDate Saklient::Cloud::Resource::ServerInstance::$m_status_changed_at 
+# 
+# @brief 現在の起動状態に変化した日時
+#*
 my $m_status_changed_at;
 
+#** @var private IsoImage Saklient::Cloud::Resource::ServerInstance::$m_iso_image 
+# 
+# @brief 挿入されているISOイメージ
+#*
 my $m_iso_image;
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -49,41 +65,46 @@ sub new {
 	return $self;
 }
 
-=head2 is_up : bool
-
-サーバが起動しているときtrueを返します。
-
-=cut
+#** @method public bool is_up 
+# 
+# @brief サーバが起動しているときtrueを返します。
+#*
 sub is_up {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return defined($self->get_status()) && Saklient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saklient::Cloud::Enums::EServerInstanceStatus::up) == 0;
 }
 
-=head2 is_down : bool
-
-サーバが停止しているときtrueを返します。
-
-=cut
+#** @method public bool is_down 
+# 
+# @brief サーバが停止しているときtrueを返します。
+#*
 sub is_down {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return !defined($self->get_status()) || Saklient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saklient::Cloud::Enums::EServerInstanceStatus::down) == 0;
 }
 
+#** @var private bool Saklient::Cloud::Resource::ServerInstance::$n_status 
+# 
+# @brief null
+#*
 my $n_status = 0;
 
+#** @method private string get_status 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_status {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_status'};
 }
 
-=head2 status
-
-起動状態 {@link EServerInstanceStatus}
-
-=cut
+#** @method public string status ()
+# 
+# @brief 起動状態 {@link EServerInstanceStatus}
+#*
 sub status {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::ServerInstance#status");
@@ -92,19 +113,26 @@ sub status {
 	return $_[0]->get_status();
 }
 
+#** @var private bool Saklient::Cloud::Resource::ServerInstance::$n_before_status 
+# 
+# @brief null
+#*
 my $n_before_status = 0;
 
+#** @method private string get_before_status 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_before_status {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_before_status'};
 }
 
-=head2 before_status
-
-前回の起動状態 {@link EServerInstanceStatus}
-
-=cut
+#** @method public string before_status ()
+# 
+# @brief 前回の起動状態 {@link EServerInstanceStatus}
+#*
 sub before_status {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::ServerInstance#before_status");
@@ -113,19 +141,26 @@ sub before_status {
 	return $_[0]->get_before_status();
 }
 
+#** @var private bool Saklient::Cloud::Resource::ServerInstance::$n_status_changed_at 
+# 
+# @brief null
+#*
 my $n_status_changed_at = 0;
 
+#** @method private NativeDate get_status_changed_at 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_status_changed_at {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_status_changed_at'};
 }
 
-=head2 status_changed_at
-
-現在の起動状態に変化した日時
-
-=cut
+#** @method public NativeDate status_changed_at ()
+# 
+# @brief 現在の起動状態に変化した日時
+#*
 sub status_changed_at {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::ServerInstance#status_changed_at");
@@ -134,19 +169,26 @@ sub status_changed_at {
 	return $_[0]->get_status_changed_at();
 }
 
+#** @var private bool Saklient::Cloud::Resource::ServerInstance::$n_iso_image 
+# 
+# @brief null
+#*
 my $n_iso_image = 0;
 
+#** @method private Saklient::Cloud::Resource::IsoImage get_iso_image 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_iso_image {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_iso_image'};
 }
 
-=head2 iso_image
-
-挿入されているISOイメージ
-
-=cut
+#** @method public Saklient::Cloud::Resource::IsoImage iso_image ()
+# 
+# @brief 挿入されているISOイメージ
+#*
 sub iso_image {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::ServerInstance#iso_image");
@@ -155,6 +197,10 @@ sub iso_image {
 	return $_[0]->get_iso_image();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -199,6 +245,10 @@ sub api_deserialize_impl {
 	$self->{'n_iso_image'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

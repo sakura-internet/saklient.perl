@@ -8,15 +8,10 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Enums::EScriptClass
-
-スクリプトのクラスを表す列挙子。
-
-=cut
+#** @class Saklient::Cloud::Enums::EScriptClass
+# 
+# @brief スクリプトのクラスを表す列挙子。
+#*
 
 our $_map = {
 	"shell" => 200,
@@ -31,8 +26,16 @@ sub new {
 };
 
 
+#** public
+# 
+# @brief null
+#*
 sub shell { "shell"; }
 
+#** public
+# 
+# @brief null
+#*
 sub ansible { "ansible"; }
 
 sub compare {

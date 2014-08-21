@@ -17,89 +17,139 @@ use Saklient::Cloud::Resource::Ipv6Net;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Swytch
-
-スイッチの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Swytch
+# 
+# @brief スイッチの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Swytch::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Swytch::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private string Saklient::Cloud::Resource::Swytch::$m_description 
+# 
+# @brief 説明
+#*
 my $m_description;
 
+#** @var private string Saklient::Cloud::Resource::Swytch::$m_user_default_route 
+# 
+# @brief ユーザ設定IPv4ネットワークのゲートウェイ
+#*
 my $m_user_default_route;
 
+#** @var private int Saklient::Cloud::Resource::Swytch::$m_user_mask_len 
+# 
+# @brief ユーザ設定IPv4ネットワークのマスク長
+#*
 my $m_user_mask_len;
 
+#** @var private Router Saklient::Cloud::Resource::Swytch::$m_router 
+# 
+# @brief 接続されているルータ
+#*
 my $m_router;
 
+#** @var private Saklient::Cloud::Resource::Ipv4Net* Saklient::Cloud::Resource::Swytch::$m_ipv4_nets 
+# 
+# @brief IPv4ネットワーク（ルータによる自動割当）
+#*
 my $m_ipv4_nets;
 
+#** @var private Saklient::Cloud::Resource::Ipv6Net* Saklient::Cloud::Resource::Swytch::$m_ipv6_nets 
+# 
+# @brief IPv6ネットワーク（ルータによる自動割当）
+#*
 my $m_ipv6_nets;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/switch";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Switch";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Switches";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Swytch";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 save : Saklient::Cloud::Resource::Swytch
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Swytch save 
+# 
+# @brief このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+# 
+# @retval this
+#*
 sub save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Swytch
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Swytch reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -115,13 +165,12 @@ sub new {
 	return $self;
 }
 
-=head2 add_ipv6_net : Saklient::Cloud::Resource::Ipv6Net
-
-このルータ＋スイッチでIPv6アドレスを有効にします。
-
-@return 有効化されたIPv6ネットワーク
-
-=cut
+#** @method public Saklient::Cloud::Resource::Ipv6Net add_ipv6_net 
+# 
+# @brief このルータ＋スイッチでIPv6アドレスを有効にします。
+# 
+# @retval 有効化されたIPv6ネットワーク
+#*
 sub add_ipv6_net {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -130,13 +179,12 @@ sub add_ipv6_net {
 	return $ret;
 }
 
-=head2 remove_ipv6_net : Saklient::Cloud::Resource::Swytch
-
-このルータ＋スイッチでIPv6アドレスを無効にします。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Swytch remove_ipv6_net 
+# 
+# @brief このルータ＋スイッチでIPv6アドレスを無効にします。
+# 
+# @retval this
+#*
 sub remove_ipv6_net {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -146,13 +194,14 @@ sub remove_ipv6_net {
 	return $self;
 }
 
-=head2 add_static_route(int $maskLen, string $nextHop) : Saklient::Cloud::Resource::Ipv4Net
-
-このルータ＋スイッチにスタティックルートを追加します。
-
-@return 追加されたIPv4ネットワーク
-
-=cut
+#** @method public Saklient::Cloud::Resource::Ipv4Net add_static_route ($maskLen, $nextHop)
+# 
+# @brief このルータ＋スイッチにスタティックルートを追加します。
+# 
+# @param int $maskLen
+# @param string $nextHop
+# @retval 追加されたIPv4ネットワーク
+#*
 sub add_static_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -166,13 +215,13 @@ sub add_static_route {
 	return $ret;
 }
 
-=head2 remove_static_route(Saklient::Cloud::Resource::Ipv4Net $ipv4Net) : Saklient::Cloud::Resource::Swytch
-
-このルータ＋スイッチからスタティックルートを削除します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Swytch remove_static_route ($ipv4Net)
+# 
+# @brief このルータ＋スイッチからスタティックルートを削除します。
+# 
+# @param Ipv4Net $ipv4Net
+# @retval this
+#*
 sub remove_static_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -184,13 +233,13 @@ sub remove_static_route {
 	return $self;
 }
 
-=head2 change_plan(int $bandWidthMbps) : Saklient::Cloud::Resource::Swytch
-
-このルータ＋スイッチの帯域プランを変更します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Swytch change_plan ($bandWidthMbps)
+# 
+# @brief このルータ＋スイッチの帯域プランを変更します。
+# 
+# @param int $bandWidthMbps
+# @retval this
+#*
 sub change_plan {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -202,19 +251,26 @@ sub change_plan {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Swytch#id");
@@ -223,14 +279,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
+#** @method private string set_name ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -242,11 +310,10 @@ sub set_name {
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		$_[0]->set_name($_[1]);
@@ -255,14 +322,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_description 
+# 
+# @brief null
+#*
 my $n_description = 0;
 
+#** @method private string get_description 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
+#** @method private string set_description ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -274,11 +353,10 @@ sub set_description {
 	return $self->{'m_description'};
 }
 
-=head2 description
-
-説明
-
-=cut
+#** @method public string description ()
+# 
+# @brief 説明
+#*
 sub description {
 	if (1 < scalar(@_)) {
 		$_[0]->set_description($_[1]);
@@ -287,19 +365,26 @@ sub description {
 	return $_[0]->get_description();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_user_default_route 
+# 
+# @brief null
+#*
 my $n_user_default_route = 0;
 
+#** @method private string get_user_default_route 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_user_default_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_user_default_route'};
 }
 
-=head2 user_default_route
-
-ユーザ設定IPv4ネットワークのゲートウェイ
-
-=cut
+#** @method public string user_default_route ()
+# 
+# @brief ユーザ設定IPv4ネットワークのゲートウェイ
+#*
 sub user_default_route {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Swytch#user_default_route");
@@ -308,19 +393,26 @@ sub user_default_route {
 	return $_[0]->get_user_default_route();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_user_mask_len 
+# 
+# @brief null
+#*
 my $n_user_mask_len = 0;
 
+#** @method private int get_user_mask_len 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_user_mask_len {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_user_mask_len'};
 }
 
-=head2 user_mask_len
-
-ユーザ設定IPv4ネットワークのマスク長
-
-=cut
+#** @method public int user_mask_len ()
+# 
+# @brief ユーザ設定IPv4ネットワークのマスク長
+#*
 sub user_mask_len {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Swytch#user_mask_len");
@@ -329,19 +421,26 @@ sub user_mask_len {
 	return $_[0]->get_user_mask_len();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_router 
+# 
+# @brief null
+#*
 my $n_router = 0;
 
+#** @method private Saklient::Cloud::Resource::Router get_router 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_router {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_router'};
 }
 
-=head2 router
-
-接続されているルータ
-
-=cut
+#** @method public Saklient::Cloud::Resource::Router router ()
+# 
+# @brief 接続されているルータ
+#*
 sub router {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Swytch#router");
@@ -350,19 +449,26 @@ sub router {
 	return $_[0]->get_router();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_ipv4_nets 
+# 
+# @brief null
+#*
 my $n_ipv4_nets = 0;
 
+#** @method private Saklient::Cloud::Resource::Ipv4Net[] get_ipv4_nets 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_ipv4_nets {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_ipv4_nets'};
 }
 
-=head2 ipv4_nets
-
-IPv4ネットワーク（ルータによる自動割当）
-
-=cut
+#** @method public Saklient::Cloud::Resource::Ipv4Net[] ipv4_nets ()
+# 
+# @brief IPv4ネットワーク（ルータによる自動割当）
+#*
 sub ipv4_nets {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Swytch#ipv4_nets");
@@ -371,19 +477,26 @@ sub ipv4_nets {
 	return $_[0]->get_ipv4_nets();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Swytch::$n_ipv6_nets 
+# 
+# @brief null
+#*
 my $n_ipv6_nets = 0;
 
+#** @method private Saklient::Cloud::Resource::Ipv6Net[] get_ipv6_nets 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_ipv6_nets {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_ipv6_nets'};
 }
 
-=head2 ipv6_nets
-
-IPv6ネットワーク（ルータによる自動割当）
-
-=cut
+#** @method public Saklient::Cloud::Resource::Ipv6Net[] ipv6_nets ()
+# 
+# @brief IPv6ネットワーク（ルータによる自動割当）
+#*
 sub ipv6_nets {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Swytch#ipv6_nets");
@@ -392,6 +505,10 @@ sub ipv6_nets {
 	return $_[0]->get_ipv6_nets();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -488,6 +605,10 @@ sub api_deserialize_impl {
 	$self->{'n_ipv6_nets'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

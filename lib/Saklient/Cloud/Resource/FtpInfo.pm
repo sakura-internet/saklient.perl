@@ -10,30 +10,32 @@ use Data::Dumper;
 use Saklient::Util;
 
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::FtpInfo
-
-FTPサーバのアカウント情報。
-
-=cut
+#** @class Saklient::Cloud::Resource::FtpInfo
+# 
+# @brief FTPサーバのアカウント情報。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::FtpInfo::$_host_name 
+# 
+# @private
+#*
 my $_host_name;
 
+#** @method public string get_host_name 
+# 
+# @brief null
+#*
 sub get_host_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_host_name'};
 }
 
-=head2 host_name
-
-ホスト名
-
-=cut
+#** @method public string host_name ()
+# 
+# @brief ホスト名
+#*
 sub host_name {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::FtpInfo#host_name");
@@ -42,19 +44,26 @@ sub host_name {
 	return $_[0]->get_host_name();
 }
 
+#** @var private string Saklient::Cloud::Resource::FtpInfo::$_user 
+# 
+# @private
+#*
 my $_user;
 
+#** @method public string get_user 
+# 
+# @brief null
+#*
 sub get_user {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_user'};
 }
 
-=head2 user
-
-ユーザ名
-
-=cut
+#** @method public string user ()
+# 
+# @brief ユーザ名
+#*
 sub user {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::FtpInfo#user");
@@ -63,19 +72,26 @@ sub user {
 	return $_[0]->get_user();
 }
 
+#** @var private string Saklient::Cloud::Resource::FtpInfo::$_password 
+# 
+# @private
+#*
 my $_password;
 
+#** @method public string get_password 
+# 
+# @brief null
+#*
 sub get_password {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_password'};
 }
 
-=head2 password
-
-パスワード
-
-=cut
+#** @method public string password ()
+# 
+# @brief パスワード
+#*
 sub password {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::FtpInfo#password");
@@ -84,6 +100,10 @@ sub password {
 	return $_[0]->get_password();
 }
 
+#** @method public void new ($obj)
+# 
+# @ignore
+#*
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;

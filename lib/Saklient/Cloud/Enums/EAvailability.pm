@@ -8,15 +8,10 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Enums::EAvailability
-
-リソースの有効性を表す列挙子。
-
-=cut
+#** @class Saklient::Cloud::Enums::EAvailability
+# 
+# @brief リソースの有効性を表す列挙子。
+#*
 
 our $_map = {
 	"selectable" => 69,
@@ -47,24 +42,64 @@ sub new {
 };
 
 
+#** public
+# 
+# @brief null
+#*
 sub selectable { "selectable"; }
 
+#** public
+# 
+# @brief null
+#*
 sub migrating { "migrating"; }
 
+#** public
+# 
+# @brief null
+#*
 sub precreate { "precreate"; }
 
+#** public
+# 
+# @brief null
+#*
 sub replicating { "replicating"; }
 
+#** public
+# 
+# @brief null
+#*
 sub transfering { "transfering"; }
 
+#** public
+# 
+# @brief null
+#*
 sub stopped { "stopped"; }
 
+#** public
+# 
+# @brief null
+#*
 sub failed { "failed"; }
 
+#** public
+# 
+# @brief null
+#*
 sub charged { "charged"; }
 
+#** public
+# 
+# @brief null
+#*
 sub uploading { "uploading"; }
 
+#** public
+# 
+# @brief null
+#*
 sub available { "available"; }
 
 sub compare {

@@ -8,15 +8,10 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Enums::EDiskConnection
-
-ディスクの接続方式を表す列挙子。
-
-=cut
+#** @class Saklient::Cloud::Enums::EDiskConnection
+# 
+# @brief ディスクの接続方式を表す列挙子。
+#*
 
 our $_map = {
 	"ide" => 100,
@@ -31,8 +26,16 @@ sub new {
 };
 
 
+#** public
+# 
+# @brief null
+#*
 sub ide { "ide"; }
 
+#** public
+# 
+# @brief null
+#*
 sub virtio { "virtio"; }
 
 sub compare {

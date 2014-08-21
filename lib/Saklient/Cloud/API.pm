@@ -23,27 +23,34 @@ use Saklient::Cloud::Model::Model_Ipv6Net;
 use Saklient::Cloud::Model::Model_Script;
 
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::API
-
-さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。
-
-@see API.authorize
-
-=cut
+#** @class Saklient::Cloud::API
+# 
+# @brief さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。
+# 
+# @see API.authorize
+#*
 
 
+#** @var private Client Saklient::Cloud::API::$_client 
+# 
+# @private
+#*
 my $_client;
 
+#** @method private Saklient::Cloud::Client get_client 
+# 
+# @brief null
+#*
 sub get_client {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_client'};
 }
 
+#** @method public Saklient::Cloud::Client client ()
+# 
+# @ignore
+#*
 sub client {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#client");
@@ -52,19 +59,26 @@ sub client {
 	return $_[0]->get_client();
 }
 
+#** @var private Product Saklient::Cloud::API::$_product 
+# 
+# @private
+#*
 my $_product;
 
+#** @method private Saklient::Cloud::Product get_product 
+# 
+# @brief null
+#*
 sub get_product {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_product'};
 }
 
-=head2 product
-
-商品情報にアクセスするためのモデルを集めたオブジェクト。
-
-=cut
+#** @method public Saklient::Cloud::Product product ()
+# 
+# @brief 商品情報にアクセスするためのモデルを集めたオブジェクト。
+#*
 sub product {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#product");
@@ -73,19 +87,26 @@ sub product {
 	return $_[0]->get_product();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Icon Saklient::Cloud::API::$_icon 
+# 
+# @private
+#*
 my $_icon;
 
+#** @method private Saklient::Cloud::Model::Model_Icon get_icon 
+# 
+# @brief null
+#*
 sub get_icon {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_icon'};
 }
 
-=head2 icon
-
-アイコンにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Icon icon ()
+# 
+# @brief アイコンにアクセスするためのモデル。
+#*
 sub icon {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#icon");
@@ -94,19 +115,26 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Server Saklient::Cloud::API::$_server 
+# 
+# @private
+#*
 my $_server;
 
+#** @method private Saklient::Cloud::Model::Model_Server get_server 
+# 
+# @brief null
+#*
 sub get_server {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_server'};
 }
 
-=head2 server
-
-サーバにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server server ()
+# 
+# @brief サーバにアクセスするためのモデル。
+#*
 sub server {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#server");
@@ -115,19 +143,26 @@ sub server {
 	return $_[0]->get_server();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Disk Saklient::Cloud::API::$_disk 
+# 
+# @private
+#*
 my $_disk;
 
+#** @method private Saklient::Cloud::Model::Model_Disk get_disk 
+# 
+# @brief null
+#*
 sub get_disk {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_disk'};
 }
 
-=head2 disk
-
-ディスクにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Disk disk ()
+# 
+# @brief ディスクにアクセスするためのモデル。
+#*
 sub disk {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#disk");
@@ -136,19 +171,26 @@ sub disk {
 	return $_[0]->get_disk();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Appliance Saklient::Cloud::API::$_appliance 
+# 
+# @private
+#*
 my $_appliance;
 
+#** @method private Saklient::Cloud::Model::Model_Appliance get_appliance 
+# 
+# @brief null
+#*
 sub get_appliance {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_appliance'};
 }
 
-=head2 appliance
-
-アプライアンスにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Appliance appliance ()
+# 
+# @brief アプライアンスにアクセスするためのモデル。
+#*
 sub appliance {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#appliance");
@@ -157,19 +199,26 @@ sub appliance {
 	return $_[0]->get_appliance();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Archive Saklient::Cloud::API::$_archive 
+# 
+# @private
+#*
 my $_archive;
 
+#** @method private Saklient::Cloud::Model::Model_Archive get_archive 
+# 
+# @brief null
+#*
 sub get_archive {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_archive'};
 }
 
-=head2 archive
-
-アーカイブにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Archive archive ()
+# 
+# @brief アーカイブにアクセスするためのモデル。
+#*
 sub archive {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#archive");
@@ -178,19 +227,26 @@ sub archive {
 	return $_[0]->get_archive();
 }
 
+#** @var private Saklient::Cloud::Model::Model_IsoImage Saklient::Cloud::API::$_iso_image 
+# 
+# @private
+#*
 my $_iso_image;
 
+#** @method private Saklient::Cloud::Model::Model_IsoImage get_iso_image 
+# 
+# @brief null
+#*
 sub get_iso_image {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_iso_image'};
 }
 
-=head2 iso_image
-
-ISOイメージにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_IsoImage iso_image ()
+# 
+# @brief ISOイメージにアクセスするためのモデル。
+#*
 sub iso_image {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#iso_image");
@@ -199,19 +255,26 @@ sub iso_image {
 	return $_[0]->get_iso_image();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Iface Saklient::Cloud::API::$_iface 
+# 
+# @private
+#*
 my $_iface;
 
+#** @method private Saklient::Cloud::Model::Model_Iface get_iface 
+# 
+# @brief null
+#*
 sub get_iface {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_iface'};
 }
 
-=head2 iface
-
-インタフェースにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Iface iface ()
+# 
+# @brief インタフェースにアクセスするためのモデル。
+#*
 sub iface {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#iface");
@@ -220,19 +283,26 @@ sub iface {
 	return $_[0]->get_iface();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Swytch Saklient::Cloud::API::$_swytch 
+# 
+# @private
+#*
 my $_swytch;
 
+#** @method private Saklient::Cloud::Model::Model_Swytch get_swytch 
+# 
+# @brief null
+#*
 sub get_swytch {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_swytch'};
 }
 
-=head2 swytch
-
-スイッチにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Swytch swytch ()
+# 
+# @brief スイッチにアクセスするためのモデル。
+#*
 sub swytch {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#swytch");
@@ -241,19 +311,26 @@ sub swytch {
 	return $_[0]->get_swytch();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Router Saklient::Cloud::API::$_router 
+# 
+# @private
+#*
 my $_router;
 
+#** @method private Saklient::Cloud::Model::Model_Router get_router 
+# 
+# @brief null
+#*
 sub get_router {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_router'};
 }
 
-=head2 router
-
-ルータにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Router router ()
+# 
+# @brief ルータにアクセスするためのモデル。
+#*
 sub router {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#router");
@@ -262,19 +339,26 @@ sub router {
 	return $_[0]->get_router();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Ipv6Net Saklient::Cloud::API::$_ipv6_net 
+# 
+# @private
+#*
 my $_ipv6_net;
 
+#** @method private Saklient::Cloud::Model::Model_Ipv6Net get_ipv6_net 
+# 
+# @brief null
+#*
 sub get_ipv6_net {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_ipv6_net'};
 }
 
-=head2 ipv6_net
-
-IPv6ネットワークにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Ipv6Net ipv6_net ()
+# 
+# @brief IPv6ネットワークにアクセスするためのモデル。
+#*
 sub ipv6_net {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#ipv6_net");
@@ -283,19 +367,26 @@ sub ipv6_net {
 	return $_[0]->get_ipv6_net();
 }
 
+#** @var private Saklient::Cloud::Model::Model_Script Saklient::Cloud::API::$_script 
+# 
+# @private
+#*
 my $_script;
 
+#** @method private Saklient::Cloud::Model::Model_Script get_script 
+# 
+# @brief null
+#*
 sub get_script {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_script'};
 }
 
-=head2 script
-
-スクリプトにアクセスするためのモデル。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Script script ()
+# 
+# @brief スクリプトにアクセスするためのモデル。
+#*
 sub script {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#script");
@@ -304,6 +395,11 @@ sub script {
 	return $_[0]->get_script();
 }
 
+#** @method private void new ($client)
+# 
+# @ignore
+# @param Client $client
+#*
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
@@ -327,18 +423,17 @@ sub new {
 	return $self;
 }
 
-=head2 authorize(string $token, string $secret) : Saklient::Cloud::API
-
-指定した認証情報を用いてアクセスを行うAPIクライアントを作成します。
-
-必要な認証情報は、コントロールパネル右上にあるアカウントのプルダウンから
-「設定」を選択し、「APIキー」のページにて作成できます。
-
-@param token ACCESS TOKEN
-@param secret ACCESS TOKEN SECRET
-@return APIクライアント
-
-=cut
+#** @cmethod public Saklient::Cloud::API authorize ($token, $secret)
+# 
+# @brief 指定した認証情報を用いてアクセスを行うAPIクライアントを作成します。
+# 
+# 必要な認証情報は、コントロールパネル右上にあるアカウントのプルダウンから
+# 「設定」を選択し、「APIキー」のページにて作成できます。
+# 
+# @param string $token ACCESS TOKEN
+# @param string $secret ACCESS TOKEN SECRET
+# @retval APIクライアント
+#*
 sub authorize {
 	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saklient::Cloud::API';
 	my $_argnum = scalar @_;
@@ -351,14 +446,13 @@ sub authorize {
 	return new Saklient::Cloud::API($c);
 }
 
-=head2 in_zone(string $name) : Saklient::Cloud::API
-
-認証情報を引き継ぎ、指定したゾーンへのアクセスを行うAPIクライアントを作成します。
-
-@param name ゾーン名
-@return APIクライアント
-
-=cut
+#** @method public Saklient::Cloud::API in_zone ($name)
+# 
+# @brief 認証情報を引き継ぎ、指定したゾーンへのアクセスを行うAPIクライアントを作成します。
+# 
+# @param string $name ゾーン名
+# @retval APIクライアント
+#*
 sub in_zone {
 	my $self = shift;
 	my $_argnum = scalar @_;

@@ -13,53 +13,85 @@ use Saklient::Cloud::Enums::EStorageClass;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::DiskPlan
-
-ディスクプラン情報の1レコードに対応するクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::DiskPlan
+# 
+# @brief ディスクプラン情報の1レコードに対応するクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::DiskPlan::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::DiskPlan::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private string Saklient::Cloud::Resource::DiskPlan::$m_storage_class 
+# 
+# @brief ストレージクラス {@link EStorageClass}
+#*
 my $m_storage_class;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/product/disk";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "DiskPlan";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "DiskPlans";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "DiskPlan";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -75,19 +107,26 @@ sub new {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::DiskPlan::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::DiskPlan#id");
@@ -96,19 +135,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::DiskPlan::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::DiskPlan#name");
@@ -117,19 +163,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::DiskPlan::$n_storage_class 
+# 
+# @brief null
+#*
 my $n_storage_class = 0;
 
+#** @method private string get_storage_class 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_storage_class {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_storage_class'};
 }
 
-=head2 storage_class
-
-ストレージクラス {@link EStorageClass}
-
-=cut
+#** @method public string storage_class ()
+# 
+# @brief ストレージクラス {@link EStorageClass}
+#*
 sub storage_class {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::DiskPlan#storage_class");
@@ -138,6 +191,10 @@ sub storage_class {
 	return $_[0]->get_storage_class();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -174,6 +231,10 @@ sub api_deserialize_impl {
 	$self->{'n_storage_class'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

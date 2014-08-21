@@ -16,91 +16,145 @@ use Saklient::Cloud::Enums::EScriptClass;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Script
-
-スクリプトの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Script
+# 
+# @brief スクリプトの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Script::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Script::$m_scope 
+# 
+# @brief スコープ {@link EScope}
+#*
 my $m_scope;
 
+#** @var private string Saklient::Cloud::Resource::Script::$m_clazz 
+# 
+# @brief クラス {@link EScriptClass}
+#*
 my $m_clazz;
 
+#** @var private string Saklient::Cloud::Resource::Script::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private string Saklient::Cloud::Resource::Script::$m_description 
+# 
+# @brief 説明
+#*
 my $m_description;
 
+#** @var private string* Saklient::Cloud::Resource::Script::$m_tags 
+# 
+# @brief タグ
+#*
 my $m_tags;
 
+#** @var private Icon Saklient::Cloud::Resource::Script::$m_icon 
+# 
+# @brief アイコン
+#*
 my $m_icon;
 
+#** @var private string Saklient::Cloud::Resource::Script::$m_content 
+# 
+# @brief 内容
+#*
 my $m_content;
 
+#** @var private any Saklient::Cloud::Resource::Script::$m_annotation 
+# 
+# @brief 注釈
+#*
 my $m_annotation;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/note";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Note";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Notes";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Script";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 save : Saklient::Cloud::Resource::Script
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Script save 
+# 
+# @brief このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+# 
+# @retval this
+#*
 sub save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Script
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Script reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -116,19 +170,26 @@ sub new {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Script#id");
@@ -137,19 +198,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_scope 
+# 
+# @brief null
+#*
 my $n_scope = 0;
 
+#** @method private string get_scope 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_scope {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_scope'};
 }
 
-=head2 scope
-
-スコープ {@link EScope}
-
-=cut
+#** @method public string scope ()
+# 
+# @brief スコープ {@link EScope}
+#*
 sub scope {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Script#scope");
@@ -158,14 +226,26 @@ sub scope {
 	return $_[0]->get_scope();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_clazz 
+# 
+# @brief null
+#*
 my $n_clazz = 0;
 
+#** @method private string get_clazz 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_clazz {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_clazz'};
 }
 
+#** @method private string set_clazz ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_clazz {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -177,11 +257,10 @@ sub set_clazz {
 	return $self->{'m_clazz'};
 }
 
-=head2 clazz
-
-クラス {@link EScriptClass}
-
-=cut
+#** @method public string clazz ()
+# 
+# @brief クラス {@link EScriptClass}
+#*
 sub clazz {
 	if (1 < scalar(@_)) {
 		$_[0]->set_clazz($_[1]);
@@ -190,19 +269,26 @@ sub clazz {
 	return $_[0]->get_clazz();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Script#name");
@@ -211,14 +297,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_description 
+# 
+# @brief null
+#*
 my $n_description = 0;
 
+#** @method private string get_description 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
+#** @method private string set_description ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -230,11 +328,10 @@ sub set_description {
 	return $self->{'m_description'};
 }
 
-=head2 description
-
-説明
-
-=cut
+#** @method public string description ()
+# 
+# @brief 説明
+#*
 sub description {
 	if (1 < scalar(@_)) {
 		$_[0]->set_description($_[1]);
@@ -243,14 +340,26 @@ sub description {
 	return $_[0]->get_description();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_tags 
+# 
+# @brief null
+#*
 my $n_tags = 0;
 
+#** @method private string[] get_tags 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_tags'};
 }
 
+#** @method private string[] set_tags (@$v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string[]} v
+#*
 sub set_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -262,11 +371,10 @@ sub set_tags {
 	return $self->{'m_tags'};
 }
 
-=head2 tags
-
-タグ
-
-=cut
+#** @method public string[] tags ()
+# 
+# @brief タグ
+#*
 sub tags {
 	if (1 < scalar(@_)) {
 		$_[0]->set_tags($_[1]);
@@ -275,14 +383,26 @@ sub tags {
 	return $_[0]->get_tags();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_icon 
+# 
+# @brief null
+#*
 my $n_icon = 0;
 
+#** @method private Saklient::Cloud::Resource::Icon get_icon 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_icon {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_icon'};
 }
 
+#** @method private Saklient::Cloud::Resource::Icon set_icon ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {Saklient::Cloud::Resource::Icon} v
+#*
 sub set_icon {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -294,11 +414,10 @@ sub set_icon {
 	return $self->{'m_icon'};
 }
 
-=head2 icon
-
-アイコン
-
-=cut
+#** @method public Saklient::Cloud::Resource::Icon icon ()
+# 
+# @brief アイコン
+#*
 sub icon {
 	if (1 < scalar(@_)) {
 		$_[0]->set_icon($_[1]);
@@ -307,14 +426,26 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_content 
+# 
+# @brief null
+#*
 my $n_content = 0;
 
+#** @method private string get_content 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_content {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_content'};
 }
 
+#** @method private string set_content ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_content {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -326,11 +457,10 @@ sub set_content {
 	return $self->{'m_content'};
 }
 
-=head2 content
-
-内容
-
-=cut
+#** @method public string content ()
+# 
+# @brief 内容
+#*
 sub content {
 	if (1 < scalar(@_)) {
 		$_[0]->set_content($_[1]);
@@ -339,14 +469,26 @@ sub content {
 	return $_[0]->get_content();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Script::$n_annotation 
+# 
+# @brief null
+#*
 my $n_annotation = 0;
 
+#** @method private any get_annotation 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_annotation {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_annotation'};
 }
 
+#** @method private any set_annotation ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub set_annotation {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -357,11 +499,10 @@ sub set_annotation {
 	return $self->{'m_annotation'};
 }
 
-=head2 annotation
-
-注釈
-
-=cut
+#** @method public any annotation ()
+# 
+# @brief 注釈
+#*
 sub annotation {
 	if (1 < scalar(@_)) {
 		$_[0]->set_annotation($_[1]);
@@ -370,6 +511,10 @@ sub annotation {
 	return $_[0]->get_annotation();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -464,6 +609,10 @@ sub api_deserialize_impl {
 	$self->{'n_annotation'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

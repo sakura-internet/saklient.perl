@@ -8,15 +8,10 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Enums::EServerInstanceStatus
-
-サーバの起動状態を表す列挙子。
-
-=cut
+#** @class Saklient::Cloud::Enums::EServerInstanceStatus
+# 
+# @brief サーバの起動状態を表す列挙子。
+#*
 
 our $_map = {
 	"down" => 0,
@@ -33,10 +28,22 @@ sub new {
 };
 
 
+#** public
+# 
+# @brief null
+#*
 sub down { "down"; }
 
+#** public
+# 
+# @brief null
+#*
 sub cleaning { "cleaning"; }
 
+#** public
+# 
+# @brief null
+#*
 sub up { "up"; }
 
 sub compare {

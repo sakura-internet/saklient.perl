@@ -19,6 +19,7 @@ cover_db/
 *.swp
 *.o
 *.obj
+*.log
 
 !LICENSE
 

@@ -13,30 +13,32 @@ use Saklient::Cloud::Model::Model_RouterPlan;
 use Saklient::Cloud::Client;
 
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Product
-
-商品情報にアクセスするためのモデルを集めたクラス。
-
-=cut
+#** @class Saklient::Cloud::Product
+# 
+# @brief 商品情報にアクセスするためのモデルを集めたクラス。
+#*
 
 
+#** @var private Saklient::Cloud::Model::Model_ServerPlan Saklient::Cloud::Product::$_server 
+# 
+# @private
+#*
 my $_server;
 
+#** @method private Saklient::Cloud::Model::Model_ServerPlan get_server 
+# 
+# @brief null
+#*
 sub get_server {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_server'};
 }
 
-=head2 server
-
-サーバプラン情報。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_ServerPlan server ()
+# 
+# @brief サーバプラン情報。
+#*
 sub server {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Product#server");
@@ -45,19 +47,26 @@ sub server {
 	return $_[0]->get_server();
 }
 
+#** @var private Saklient::Cloud::Model::Model_DiskPlan Saklient::Cloud::Product::$_disk 
+# 
+# @private
+#*
 my $_disk;
 
+#** @method private Saklient::Cloud::Model::Model_DiskPlan get_disk 
+# 
+# @brief null
+#*
 sub get_disk {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_disk'};
 }
 
-=head2 disk
-
-ディスクプラン情報。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_DiskPlan disk ()
+# 
+# @brief ディスクプラン情報。
+#*
 sub disk {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Product#disk");
@@ -66,19 +75,26 @@ sub disk {
 	return $_[0]->get_disk();
 }
 
+#** @var private Saklient::Cloud::Model::Model_RouterPlan Saklient::Cloud::Product::$_router 
+# 
+# @private
+#*
 my $_router;
 
+#** @method private Saklient::Cloud::Model::Model_RouterPlan get_router 
+# 
+# @brief null
+#*
 sub get_router {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_router'};
 }
 
-=head2 router
-
-ルータ帯域プラン情報。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_RouterPlan router ()
+# 
+# @brief ルータ帯域プラン情報。
+#*
 sub router {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Product#router");
@@ -87,11 +103,11 @@ sub router {
 	return $_[0]->get_router();
 }
 
-=head2 new(Saklient::Cloud::Client $client)
-
-@ignore
-
-=cut
+#** @method public void new ($client)
+# 
+# @ignore
+# @param Client $client
+#*
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;

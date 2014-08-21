@@ -8,15 +8,10 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Enums::EScope
-
-リソースの公開範囲を表す列挙子。
-
-=cut
+#** @class Saklient::Cloud::Enums::EScope
+# 
+# @brief リソースの公開範囲を表す列挙子。
+#*
 
 our $_map = {
 	"user" => 100,
@@ -31,8 +26,16 @@ sub new {
 };
 
 
+#** public
+# 
+# @brief null
+#*
 sub user { "user"; }
 
+#** public
+# 
+# @brief null
+#*
 sub shared { "shared"; }
 
 sub compare {

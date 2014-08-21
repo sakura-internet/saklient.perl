@@ -13,70 +13,109 @@ use Saklient::Cloud::Resource::Swytch;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Ipv4Net
-
-IPv4ネットワークの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Ipv4Net
+# 
+# @brief IPv4ネットワークの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Ipv4Net::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Ipv4Net::$m_address 
+# 
+# @brief ネットワークアドレス
+#*
 my $m_address;
 
+#** @var private int Saklient::Cloud::Resource::Ipv4Net::$m_mask_len 
+# 
+# @brief マスク長
+#*
 my $m_mask_len;
 
+#** @var private string Saklient::Cloud::Resource::Ipv4Net::$m_default_route 
+# 
+# @brief デフォルトルート
+#*
 my $m_default_route;
 
+#** @var private string Saklient::Cloud::Resource::Ipv4Net::$m_next_hop 
+# 
+# @brief ネクストホップ
+#*
 my $m_next_hop;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/subnet";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Subnet";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Subnets";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Ipv4Net";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Swytch
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Swytch reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -92,19 +131,26 @@ sub new {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::Ipv4Net::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Ipv4Net#id");
@@ -113,19 +159,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Ipv4Net::$n_address 
+# 
+# @brief null
+#*
 my $n_address = 0;
 
+#** @method private string get_address 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_address {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_address'};
 }
 
-=head2 address
-
-ネットワークアドレス
-
-=cut
+#** @method public string address ()
+# 
+# @brief ネットワークアドレス
+#*
 sub address {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Ipv4Net#address");
@@ -134,19 +187,26 @@ sub address {
 	return $_[0]->get_address();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Ipv4Net::$n_mask_len 
+# 
+# @brief null
+#*
 my $n_mask_len = 0;
 
+#** @method private int get_mask_len 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_mask_len {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_mask_len'};
 }
 
-=head2 mask_len
-
-マスク長
-
-=cut
+#** @method public int mask_len ()
+# 
+# @brief マスク長
+#*
 sub mask_len {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Ipv4Net#mask_len");
@@ -155,19 +215,26 @@ sub mask_len {
 	return $_[0]->get_mask_len();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Ipv4Net::$n_default_route 
+# 
+# @brief null
+#*
 my $n_default_route = 0;
 
+#** @method private string get_default_route 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_default_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_default_route'};
 }
 
-=head2 default_route
-
-デフォルトルート
-
-=cut
+#** @method public string default_route ()
+# 
+# @brief デフォルトルート
+#*
 sub default_route {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Ipv4Net#default_route");
@@ -176,19 +243,26 @@ sub default_route {
 	return $_[0]->get_default_route();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Ipv4Net::$n_next_hop 
+# 
+# @brief null
+#*
 my $n_next_hop = 0;
 
+#** @method private string get_next_hop 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_next_hop {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_next_hop'};
 }
 
-=head2 next_hop
-
-ネクストホップ
-
-=cut
+#** @method public string next_hop ()
+# 
+# @brief ネクストホップ
+#*
 sub next_hop {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Ipv4Net#next_hop");
@@ -197,6 +271,10 @@ sub next_hop {
 	return $_[0]->get_next_hop();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -249,6 +327,10 @@ sub api_deserialize_impl {
 	$self->{'n_next_hop'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

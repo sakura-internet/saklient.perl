@@ -14,81 +14,115 @@ use Saklient::Cloud::Enums::EScope;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Icon
-
-アイコンの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Icon
+# 
+# @brief アイコンの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Icon::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Icon::$m_scope 
+# 
+# @brief スコープ {@link EScope}
+#*
 my $m_scope;
 
+#** @var private string Saklient::Cloud::Resource::Icon::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private string Saklient::Cloud::Resource::Icon::$m_url 
+# 
+# @brief URL
+#*
 my $m_url;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/icon";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Icon";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Icons";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Icon";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 save : Saklient::Cloud::Resource::Icon
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Icon save 
+# 
+# @brief このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+# 
+# @retval this
+#*
 sub save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Icon
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Icon reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -104,19 +138,26 @@ sub new {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::Icon::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Icon#id");
@@ -125,19 +166,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Icon::$n_scope 
+# 
+# @brief null
+#*
 my $n_scope = 0;
 
+#** @method private string get_scope 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_scope {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_scope'};
 }
 
-=head2 scope
-
-スコープ {@link EScope}
-
-=cut
+#** @method public string scope ()
+# 
+# @brief スコープ {@link EScope}
+#*
 sub scope {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Icon#scope");
@@ -146,14 +194,26 @@ sub scope {
 	return $_[0]->get_scope();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Icon::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
+#** @method private string set_name ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -165,11 +225,10 @@ sub set_name {
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		$_[0]->set_name($_[1]);
@@ -178,19 +237,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Icon::$n_url 
+# 
+# @brief null
+#*
 my $n_url = 0;
 
+#** @method private string get_url 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_url {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_url'};
 }
 
-=head2 url
-
-URL
-
-=cut
+#** @method public string url ()
+# 
+# @brief URL
+#*
 sub url {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Icon#url");
@@ -199,6 +265,10 @@ sub url {
 	return $_[0]->get_url();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -243,6 +313,10 @@ sub api_deserialize_impl {
 	$self->{'n_url'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

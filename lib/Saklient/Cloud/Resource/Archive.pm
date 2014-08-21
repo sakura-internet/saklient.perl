@@ -19,93 +19,151 @@ use Saklient::Errors::SaklientException;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Archive
-
-アーカイブの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Archive
+# 
+# @brief アーカイブの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Archive::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Archive::$m_scope 
+# 
+# @brief スコープ {@link EScope}
+#*
 my $m_scope;
 
+#** @var private string Saklient::Cloud::Resource::Archive::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private string Saklient::Cloud::Resource::Archive::$m_description 
+# 
+# @brief 説明
+#*
 my $m_description;
 
+#** @var private string* Saklient::Cloud::Resource::Archive::$m_tags 
+# 
+# @brief タグ
+#*
 my $m_tags;
 
+#** @var private Icon Saklient::Cloud::Resource::Archive::$m_icon 
+# 
+# @brief アイコン
+#*
 my $m_icon;
 
+#** @var private int Saklient::Cloud::Resource::Archive::$m_size_mib 
+# 
+# @brief サイズ[MiB]
+#*
 my $m_size_mib;
 
+#** @var private string Saklient::Cloud::Resource::Archive::$m_service_class 
+# 
+# @brief サービスクラス
+#*
 my $m_service_class;
 
+#** @var private DiskPlan Saklient::Cloud::Resource::Archive::$m_plan 
+# 
+# @brief プラン
+#*
 my $m_plan;
 
+#** @var private string Saklient::Cloud::Resource::Archive::$m_availability 
+# 
+# @brief 有効状態 {@link EAvailability}
+#*
 my $m_availability;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/archive";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Archive";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Archives";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Archive";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 save : Saklient::Cloud::Resource::Archive
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Archive save 
+# 
+# @brief このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+# 
+# @retval this
+#*
 sub save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Archive
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Archive reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -121,17 +179,20 @@ sub new {
 	return $self;
 }
 
+#** @method private bool get_is_available 
+# 
+# @brief null
+#*
 sub get_is_available {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_availability() eq Saklient::Cloud::Enums::EAvailability::available;
 }
 
-=head2 is_available
-
-ディスクが利用可能なときtrueを返します。
-
-=cut
+#** @method public bool is_available ()
+# 
+# @brief ディスクが利用可能なときtrueを返します。
+#*
 sub is_available {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Archive#is_available");
@@ -140,12 +201,20 @@ sub is_available {
 	return $_[0]->get_is_available();
 }
 
+#** @method private int get_size_gib 
+# 
+# @brief null
+#*
 sub get_size_gib {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_size_mib() >> 10;
 }
 
+#** @method private int set_size_gib ($sizeGib)
+# 
+# @brief null@param {int} sizeGib
+#*
 sub set_size_gib {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -156,11 +225,10 @@ sub set_size_gib {
 	return $sizeGib;
 }
 
-=head2 size_gib
-
-サイズ[GiB]
-
-=cut
+#** @method public int size_gib ()
+# 
+# @brief サイズ[GiB]
+#*
 sub size_gib {
 	if (1 < scalar(@_)) {
 		$_[0]->set_size_gib($_[1]);
@@ -169,14 +237,26 @@ sub size_gib {
 	return $_[0]->get_size_gib();
 }
 
+#** @var private Resource Saklient::Cloud::Resource::Archive::$_source 
+# 
+# @private
+#*
 my $_source;
 
+#** @method public Saklient::Cloud::Resource::Resource get_source 
+# 
+# @brief null
+#*
 sub get_source {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_source'};
 }
 
+#** @method public Saklient::Cloud::Resource::Resource set_source ($source)
+# 
+# @brief null@param {Saklient::Cloud::Resource::Resource} source
+#*
 sub set_source {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -187,11 +267,10 @@ sub set_source {
 	return $source;
 }
 
-=head2 source
-
-アーカイブのコピー元
-
-=cut
+#** @method public Saklient::Cloud::Resource::Resource source ()
+# 
+# @brief アーカイブのコピー元
+#*
 sub source {
 	if (1 < scalar(@_)) {
 		$_[0]->set_source($_[1]);
@@ -200,19 +279,26 @@ sub source {
 	return $_[0]->get_source();
 }
 
+#** @var private FtpInfo Saklient::Cloud::Resource::Archive::$_ftp_info 
+# 
+# @private
+#*
 my $_ftp_info;
 
+#** @method public Saklient::Cloud::Resource::FtpInfo get_ftp_info 
+# 
+# @brief null
+#*
 sub get_ftp_info {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_ftp_info'};
 }
 
-=head2 ftp_info
-
-FTP情報
-
-=cut
+#** @method public Saklient::Cloud::Resource::FtpInfo ftp_info ()
+# 
+# @brief FTP情報
+#*
 sub ftp_info {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Archive#ftp_info");
@@ -221,6 +307,10 @@ sub ftp_info {
 	return $_[0]->get_ftp_info();
 }
 
+#** @method private void _on_after_api_deserialize ($r, $root)
+# 
+# @private
+#*
 sub _on_after_api_deserialize {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -258,6 +348,10 @@ sub _on_after_api_deserialize {
 	}
 }
 
+#** @method private void _on_after_api_serialize ($r, $withClean)
+# 
+# @private@param {bool} withClean
+#*
 sub _on_after_api_serialize {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -286,16 +380,15 @@ sub _on_after_api_serialize {
 	}
 }
 
-=head2 open_ftp(bool $reset=0) : Saklient::Cloud::Resource::Archive
-
-FTPSを開始し、イメージファイルをアップロード・ダウンロードできる状態にします。
-
-アカウント情報は、ftpInfo プロパティから取得することができます。
-
-@param reset 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Archive open_ftp ($reset)
+# 
+# @brief FTPSを開始し、イメージファイルをアップロード・ダウンロードできる状態にします。
+# 
+# アカウント情報は、ftpInfo プロパティから取得することができます。
+# 
+# @param bool $reset 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。
+# @retval this
+#*
 sub open_ftp {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -309,13 +402,12 @@ sub open_ftp {
 	return $self;
 }
 
-=head2 close_ftp : Saklient::Cloud::Resource::Archive
-
-FTPSを終了し、アーカイブを利用可能な状態にします。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Archive close_ftp 
+# 
+# @brief FTPSを終了し、アーカイブを利用可能な状態にします。
+# 
+# @retval this
+#*
 sub close_ftp {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -325,13 +417,14 @@ sub close_ftp {
 	return $self;
 }
 
-=head2 after_copy(int $timeoutSec, (Saklient::Cloud::Resource::Archive, bool) => void $callback) : void
-
-コピー中のアーカイブが利用可能になるまで待機します。
-
-@ignore
-
-=cut
+#** @method public void after_copy ($timeoutSec, $callback)
+# 
+# @brief コピー中のアーカイブが利用可能になるまで待機します。
+# 
+# @ignore
+# @param int $timeoutSec
+# @param (Saklient::Cloud::Resource::Archive, bool) => void $callback
+#*
 sub after_copy {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -344,13 +437,13 @@ sub after_copy {
 	$callback->($self, $ret);
 }
 
-=head2 sleep_while_copying(int $timeoutSec=3600) : bool
-
-コピー中のアーカイブが利用可能になるまで待機します。
-
-@return 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
-
-=cut
+#** @method public bool sleep_while_copying ($timeoutSec)
+# 
+# @brief コピー中のアーカイブが利用可能になるまで待機します。
+# 
+# @param int $timeoutSec
+# @retval 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+#*
 sub sleep_while_copying {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -374,19 +467,26 @@ sub sleep_while_copying {
 	return 0;
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Archive#id");
@@ -395,19 +495,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_scope 
+# 
+# @brief null
+#*
 my $n_scope = 0;
 
+#** @method private string get_scope 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_scope {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_scope'};
 }
 
-=head2 scope
-
-スコープ {@link EScope}
-
-=cut
+#** @method public string scope ()
+# 
+# @brief スコープ {@link EScope}
+#*
 sub scope {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Archive#scope");
@@ -416,14 +523,26 @@ sub scope {
 	return $_[0]->get_scope();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
+#** @method private string set_name ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -435,11 +554,10 @@ sub set_name {
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		$_[0]->set_name($_[1]);
@@ -448,14 +566,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_description 
+# 
+# @brief null
+#*
 my $n_description = 0;
 
+#** @method private string get_description 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
+#** @method private string set_description ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -467,11 +597,10 @@ sub set_description {
 	return $self->{'m_description'};
 }
 
-=head2 description
-
-説明
-
-=cut
+#** @method public string description ()
+# 
+# @brief 説明
+#*
 sub description {
 	if (1 < scalar(@_)) {
 		$_[0]->set_description($_[1]);
@@ -480,14 +609,26 @@ sub description {
 	return $_[0]->get_description();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_tags 
+# 
+# @brief null
+#*
 my $n_tags = 0;
 
+#** @method private string[] get_tags 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_tags'};
 }
 
+#** @method private string[] set_tags (@$v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string[]} v
+#*
 sub set_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -499,11 +640,10 @@ sub set_tags {
 	return $self->{'m_tags'};
 }
 
-=head2 tags
-
-タグ
-
-=cut
+#** @method public string[] tags ()
+# 
+# @brief タグ
+#*
 sub tags {
 	if (1 < scalar(@_)) {
 		$_[0]->set_tags($_[1]);
@@ -512,14 +652,26 @@ sub tags {
 	return $_[0]->get_tags();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_icon 
+# 
+# @brief null
+#*
 my $n_icon = 0;
 
+#** @method private Saklient::Cloud::Resource::Icon get_icon 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_icon {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_icon'};
 }
 
+#** @method private Saklient::Cloud::Resource::Icon set_icon ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {Saklient::Cloud::Resource::Icon} v
+#*
 sub set_icon {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -531,11 +683,10 @@ sub set_icon {
 	return $self->{'m_icon'};
 }
 
-=head2 icon
-
-アイコン
-
-=cut
+#** @method public Saklient::Cloud::Resource::Icon icon ()
+# 
+# @brief アイコン
+#*
 sub icon {
 	if (1 < scalar(@_)) {
 		$_[0]->set_icon($_[1]);
@@ -544,14 +695,26 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_size_mib 
+# 
+# @brief null
+#*
 my $n_size_mib = 0;
 
+#** @method private int get_size_mib 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_size_mib {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_size_mib'};
 }
 
+#** @method private int set_size_mib ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {int} v
+#*
 sub set_size_mib {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -566,11 +729,10 @@ sub set_size_mib {
 	return $self->{'m_size_mib'};
 }
 
-=head2 size_mib
-
-サイズ[MiB]
-
-=cut
+#** @method public int size_mib ()
+# 
+# @brief サイズ[MiB]
+#*
 sub size_mib {
 	if (1 < scalar(@_)) {
 		$_[0]->set_size_mib($_[1]);
@@ -579,19 +741,26 @@ sub size_mib {
 	return $_[0]->get_size_mib();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_service_class 
+# 
+# @brief null
+#*
 my $n_service_class = 0;
 
+#** @method private string get_service_class 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_service_class {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_service_class'};
 }
 
-=head2 service_class
-
-サービスクラス
-
-=cut
+#** @method public string service_class ()
+# 
+# @brief サービスクラス
+#*
 sub service_class {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Archive#service_class");
@@ -600,19 +769,26 @@ sub service_class {
 	return $_[0]->get_service_class();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_plan 
+# 
+# @brief null
+#*
 my $n_plan = 0;
 
+#** @method private Saklient::Cloud::Resource::DiskPlan get_plan 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_plan {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_plan'};
 }
 
-=head2 plan
-
-プラン
-
-=cut
+#** @method public Saklient::Cloud::Resource::DiskPlan plan ()
+# 
+# @brief プラン
+#*
 sub plan {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Archive#plan");
@@ -621,19 +797,26 @@ sub plan {
 	return $_[0]->get_plan();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Archive::$n_availability 
+# 
+# @brief null
+#*
 my $n_availability = 0;
 
+#** @method private string get_availability 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_availability {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_availability'};
 }
 
-=head2 availability
-
-有効状態 {@link EAvailability}
-
-=cut
+#** @method public string availability ()
+# 
+# @brief 有効状態 {@link EAvailability}
+#*
 sub availability {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Archive#availability");
@@ -642,6 +825,10 @@ sub availability {
 	return $_[0]->get_availability();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -744,6 +931,10 @@ sub api_deserialize_impl {
 	$self->{'n_availability'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

@@ -15,49 +15,59 @@ use Saklient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saklient::Cloud::Model::Model);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Model::Model_Server
-
-サーバを検索・作成するための機能を備えたクラス。
-
-=cut
+#** @class Saklient::Cloud::Model::Model_Server
+# 
+# @brief サーバを検索・作成するための機能を備えたクラス。
+#*
 
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/server";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Server";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Servers";
 }
 
+#** @method private string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Server";
 }
 
-=head2 offset(int $offset) : Saklient::Cloud::Model::Model_Server
-
-次に取得するリストの開始オフセットを指定します。
-
-@param offset オフセット
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server offset ($offset)
+# 
+# @brief 次に取得するリストの開始オフセットを指定します。
+# 
+# @param int $offset オフセット
+# @retval this
+#*
 sub offset {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -67,14 +77,13 @@ sub offset {
 	return $self->_offset($offset);
 }
 
-=head2 limit(int $count) : Saklient::Cloud::Model::Model_Server
-
-次に取得するリストの上限レコード数を指定します。
-
-@param count 上限レコード数
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server limit ($count)
+# 
+# @brief 次に取得するリストの上限レコード数を指定します。
+# 
+# @param int $count 上限レコード数
+# @retval this
+#*
 sub limit {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -84,11 +93,14 @@ sub limit {
 	return $self->_limit($count);
 }
 
-=head2 filter_by(string $key, $value, bool $multiple=0) : Saklient::Cloud::Model::Model_Server
-
-APIのフィルタリング設定を直接指定します。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server filter_by ($key, $value, $multiple)
+# 
+# @brief Web APIのフィルタリング設定を直接指定します。
+# 
+# @param string $key キー
+# @param $value 値
+# @param bool $multiple valueに配列を与え、OR条件で完全一致検索する場合にtrueを指定します。通常、valueはスカラ値であいまい検索されます。
+#*
 sub filter_by {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -101,41 +113,39 @@ sub filter_by {
 	return $self->_filter_by($key, $value, $multiple);
 }
 
-=head2 reset : Saklient::Cloud::Model::Model_Server
-
-次のリクエストのために設定されているステートをすべて破棄します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server reset 
+# 
+# @brief 次のリクエストのために設定されているステートをすべて破棄します。
+# 
+# @retval this
+#*
 sub reset {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reset();
 }
 
-=head2 create : Saklient::Cloud::Resource::Server
-
-新規リソース作成用のオブジェクトを用意します。
-
-返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
-
-@return リソースオブジェクト
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server create 
+# 
+# @brief 新規リソース作成用のオブジェクトを用意します。
+# 
+# 返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
+# 
+# @retval リソースオブジェクト
+#*
 sub create {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_create();
 }
 
-=head2 get_by_id(string $id) : Saklient::Cloud::Resource::Server
-
-指定したIDを持つ唯一のリソースを取得します。
-
-@return リソースオブジェクト
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server get_by_id ($id)
+# 
+# @brief 指定したIDを持つ唯一のリソースを取得します。
+# 
+# @param string $id
+# @retval リソースオブジェクト
+#*
 sub get_by_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -145,26 +155,27 @@ sub get_by_id {
 	return $self->_get_by_id($id);
 }
 
-=head2 find : Saklient::Cloud::Resource::Server[]
-
-リソースの検索リクエストを実行し、結果をリストで取得します。
-
-@return リソースオブジェクトの配列
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server[] find 
+# 
+# @brief リソースの検索リクエストを実行し、結果をリストで取得します。
+# 
+# @retval リソースオブジェクトの配列
+#*
 sub find {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_find();
 }
 
-=head2 with_name_like(string $name) : Saklient::Cloud::Model::Model_Server
-
-指定した文字列を名前に含むリソースに絞り込みます。
-大文字・小文字は区別されません。
-半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_name_like ($name)
+# 
+# @brief 指定した文字列を名前に含むリソースに絞り込みます。
+# 
+# 大文字・小文字は区別されません。
+# 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
+# 
+# @param string $name
+#*
 sub with_name_like {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -174,12 +185,14 @@ sub with_name_like {
 	return $self->_with_name_like($name);
 }
 
-=head2 with_tag(string $tag) : Saklient::Cloud::Model::Model_Server
-
-指定したタグを持つリソースに絞り込みます。
-複数のタグを指定する場合は withTags() を利用してください。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_tag ($tag)
+# 
+# @brief 指定したタグを持つリソースに絞り込みます。
+# 
+# 複数のタグを指定する場合は withTags() を利用してください。
+# 
+# @param string $tag
+#*
 sub with_tag {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -189,11 +202,12 @@ sub with_tag {
 	return $self->_with_tag($tag);
 }
 
-=head2 with_tags(string[] $tags) : Saklient::Cloud::Model::Model_Server
-
-指定したすべてのタグを持つリソースに絞り込みます。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_tags (@$tags)
+# 
+# @brief 指定したすべてのタグを持つリソースに絞り込みます。
+# 
+# @param string* $tags
+#*
 sub with_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -203,11 +217,12 @@ sub with_tags {
 	return $self->_with_tags($tags);
 }
 
-=head2 sort_by_name(bool $reverse=0) : Saklient::Cloud::Model::Model_Server
-
-名前でソートします。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server sort_by_name ($reverse)
+# 
+# @brief 名前でソートします。
+# 
+# @param bool $reverse
+#*
 sub sort_by_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -216,11 +231,12 @@ sub sort_by_name {
 	return $self->_sort_by_name($reverse);
 }
 
-=head2 with_plan(Saklient::Cloud::Resource::ServerPlan $plan) : Saklient::Cloud::Model::Model_Server
-
-指定したプランのサーバに絞り込みます。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_plan ($plan)
+# 
+# @brief 指定したプランのサーバに絞り込みます。
+# 
+# @param Saklient::Cloud::Resource::ServerPlan $plan
+#*
 sub with_plan {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -231,11 +247,12 @@ sub with_plan {
 	return $self;
 }
 
-=head2 with_status(string $status) : Saklient::Cloud::Model::Model_Server
-
-インスタンスが指定した状態にあるサーバに絞り込みます。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_status ($status)
+# 
+# @brief インスタンスが指定した状態にあるサーバに絞り込みます。
+# 
+# @param string $status
+#*
 sub with_status {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -246,33 +263,32 @@ sub with_status {
 	return $self;
 }
 
-=head2 with_status_up : Saklient::Cloud::Model::Model_Server
-
-インスタンスが起動中のサーバに絞り込みます。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_status_up 
+# 
+# @brief インスタンスが起動中のサーバに絞り込みます。
+#*
 sub with_status_up {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->with_status(Saklient::Cloud::Enums::EServerInstanceStatus::up);
 }
 
-=head2 with_status_down : Saklient::Cloud::Model::Model_Server
-
-インスタンスが停止中のサーバに絞り込みます。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_status_down 
+# 
+# @brief インスタンスが停止中のサーバに絞り込みます。
+#*
 sub with_status_down {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->with_status(Saklient::Cloud::Enums::EServerInstanceStatus::down);
 }
 
-=head2 with_iso_image(Saklient::Cloud::Resource::IsoImage $iso) : Saklient::Cloud::Model::Model_Server
-
-指定したISOイメージが挿入されているサーバに絞り込みます。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server with_iso_image ($iso)
+# 
+# @brief 指定したISOイメージが挿入されているサーバに絞り込みます。
+# 
+# @param Saklient::Cloud::Resource::IsoImage $iso
+#*
 sub with_iso_image {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -283,11 +299,12 @@ sub with_iso_image {
 	return $self;
 }
 
-=head2 sort_by_cpu(bool $reverse=0) : Saklient::Cloud::Model::Model_Server
-
-仮想コア数でソートします。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server sort_by_cpu ($reverse)
+# 
+# @brief 仮想コア数でソートします。
+# 
+# @param bool $reverse
+#*
 sub sort_by_cpu {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -297,11 +314,12 @@ sub sort_by_cpu {
 	return $self;
 }
 
-=head2 sort_by_memory(bool $reverse=0) : Saklient::Cloud::Model::Model_Server
-
-メモリ容量でソートします。
-
-=cut
+#** @method public Saklient::Cloud::Model::Model_Server sort_by_memory ($reverse)
+# 
+# @brief メモリ容量でソートします。
+# 
+# @param bool $reverse
+#*
 sub sort_by_memory {
 	my $self = shift;
 	my $_argnum = scalar @_;

@@ -8,15 +8,10 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Enums::EApplianceClass
-
-アプライアンスのクラスを表す列挙子。
-
-=cut
+#** @class Saklient::Cloud::Enums::EApplianceClass
+# 
+# @brief アプライアンスのクラスを表す列挙子。
+#*
 
 our $_map = {
 	"loadbalancer" => 10,
@@ -31,8 +26,16 @@ sub new {
 };
 
 
+#** public
+# 
+# @brief null
+#*
 sub loadbalancer { "loadbalancer"; }
 
+#** public
+# 
+# @brief null
+#*
 sub vpcrouter { "vpcrouter"; }
 
 sub compare {

@@ -21,91 +21,145 @@ use Saklient::Cloud::Enums::EAvailability;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Server
-
-サーバの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Server
+# 
+# @brief サーバの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Server::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Server::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private string Saklient::Cloud::Resource::Server::$m_description 
+# 
+# @brief 説明
+#*
 my $m_description;
 
+#** @var private string* Saklient::Cloud::Resource::Server::$m_tags 
+# 
+# @brief タグ
+#*
 my $m_tags;
 
+#** @var private Icon Saklient::Cloud::Resource::Server::$m_icon 
+# 
+# @brief アイコン
+#*
 my $m_icon;
 
+#** @var private ServerPlan Saklient::Cloud::Resource::Server::$m_plan 
+# 
+# @brief プラン
+#*
 my $m_plan;
 
+#** @var private Saklient::Cloud::Resource::Iface* Saklient::Cloud::Resource::Server::$m_ifaces 
+# 
+# @brief インタフェース
+#*
 my $m_ifaces;
 
+#** @var private ServerInstance Saklient::Cloud::Resource::Server::$m_instance 
+# 
+# @brief インスタンス情報
+#*
 my $m_instance;
 
+#** @var private string Saklient::Cloud::Resource::Server::$m_availability 
+# 
+# @brief 有効状態 {@link EAvailability}
+#*
 my $m_availability;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/server";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Server";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Servers";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Server";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 save : Saklient::Cloud::Resource::Server
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server save 
+# 
+# @brief このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+# 
+# @retval this
+#*
 sub save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Server
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -121,35 +175,32 @@ sub new {
 	return $self;
 }
 
-=head2 is_up : bool
-
-サーバが起動しているときtrueを返します。
-
-=cut
+#** @method public bool is_up 
+# 
+# @brief サーバが起動しているときtrueを返します。
+#*
 sub is_up {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_instance()->is_up();
 }
 
-=head2 is_down : bool
-
-サーバが停止しているときtrueを返します。
-
-=cut
+#** @method public bool is_down 
+# 
+# @brief サーバが停止しているときtrueを返します。
+#*
 sub is_down {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_instance()->is_down();
 }
 
-=head2 boot : Saklient::Cloud::Resource::Server
-
-サーバを起動します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server boot 
+# 
+# @brief サーバを起動します。
+# 
+# @retval this
+#*
 sub boot {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -157,13 +208,12 @@ sub boot {
 	return $self->reload();
 }
 
-=head2 shutdown : Saklient::Cloud::Resource::Server
-
-サーバをシャットダウンします。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server shutdown 
+# 
+# @brief サーバをシャットダウンします。
+# 
+# @retval this
+#*
 sub shutdown {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -171,13 +221,12 @@ sub shutdown {
 	return $self->reload();
 }
 
-=head2 stop : Saklient::Cloud::Resource::Server
-
-サーバを強制停止します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server stop 
+# 
+# @brief サーバを強制停止します。
+# 
+# @retval this
+#*
 sub stop {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -185,13 +234,12 @@ sub stop {
 	return $self->reload();
 }
 
-=head2 reboot : Saklient::Cloud::Resource::Server
-
-サーバを強制再起動します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server reboot 
+# 
+# @brief サーバを強制再起動します。
+# 
+# @retval this
+#*
 sub reboot {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -199,13 +247,14 @@ sub reboot {
 	return $self->reload();
 }
 
-=head2 after_down(int $timeoutSec, (Saklient::Cloud::Resource::Server, bool) => void $callback) : void
-
-サーバが停止するまで待機します。
-
-@return 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
-
-=cut
+#** @method public void after_down ($timeoutSec, $callback)
+# 
+# @brief サーバが停止するまで待機します。
+# 
+# @param int $timeoutSec
+# @param (Saklient::Cloud::Resource::Server, bool) => void $callback
+# @retval 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+#*
 sub after_down {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -217,6 +266,15 @@ sub after_down {
 	$self->after_status(Saklient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec, $callback);
 }
 
+#** @method private void after_status ($status, $timeoutSec, $callback)
+# 
+# @brief サーバが指定のステータスに遷移するまで待機します。
+# 
+# @ignore
+# @param string $status
+# @param int $timeoutSec
+# @param (Saklient::Cloud::Resource::Server, bool) => void $callback
+#*
 sub after_status {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -231,13 +289,13 @@ sub after_status {
 	$callback->($self, $ret);
 }
 
-=head2 sleep_until_down(int $timeoutSec=180) : bool
-
-サーバが停止するまで待機します。
-
-@return 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
-
-=cut
+#** @method public bool sleep_until_down ($timeoutSec)
+# 
+# @brief サーバが停止するまで待機します。
+# 
+# @param int $timeoutSec
+# @retval 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+#*
 sub sleep_until_down {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -246,6 +304,14 @@ sub sleep_until_down {
 	return $self->sleep_until(Saklient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec);
 }
 
+#** @method private bool sleep_until ($status, $timeoutSec)
+# 
+# @brief サーバが指定のステータスに遷移するまで待機します。
+# 
+# @ignore
+# @param string $status
+# @param int $timeoutSec
+#*
 sub sleep_until {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -272,15 +338,15 @@ sub sleep_until {
 	return 0;
 }
 
-=head2 change_plan(Saklient::Cloud::Resource::ServerPlan $planTo) : Saklient::Cloud::Resource::Server
-
-サーバプランを変更します。
-
-成功時はリソースIDが変わることにご注意ください。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server change_plan ($planTo)
+# 
+# @brief サーバプランを変更します。
+# 
+# 成功時はリソースIDが変わることにご注意ください。
+# 
+# @param ServerPlan $planTo
+# @retval this
+#*
 sub change_plan {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -293,11 +359,10 @@ sub change_plan {
 	return $self;
 }
 
-=head2 find_disks : Saklient::Cloud::Resource::Disk[]
-
-サーバに接続されているディスクのリストを取得します。
-
-=cut
+#** @method public Saklient::Cloud::Resource::Disk[] find_disks 
+# 
+# @brief サーバに接続されているディスクのリストを取得します。
+#*
 sub find_disks {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -305,13 +370,12 @@ sub find_disks {
 	return $model->with_server_id($self->_id())->find();
 }
 
-=head2 add_iface : Saklient::Cloud::Resource::Iface
-
-サーバにインタフェースを1つ増設し、それを取得します。
-
-@return 増設されたインタフェース
-
-=cut
+#** @method public Saklient::Cloud::Resource::Iface add_iface 
+# 
+# @brief サーバにインタフェースを1つ増設し、それを取得します。
+# 
+# @retval 増設されたインタフェース
+#*
 sub add_iface {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -321,13 +385,13 @@ sub add_iface {
 	return $res->save();
 }
 
-=head2 insert_iso_image(Saklient::Cloud::Resource::IsoImage $iso) : Saklient::Cloud::Resource::Server
-
-サーバにISOイメージを挿入します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server insert_iso_image ($iso)
+# 
+# @brief サーバにISOイメージを挿入します。
+# 
+# @param IsoImage $iso
+# @retval this
+#*
 sub insert_iso_image {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -341,13 +405,12 @@ sub insert_iso_image {
 	return $self;
 }
 
-=head2 eject_iso_image : Saklient::Cloud::Resource::Server
-
-サーバに挿入されているISOイメージを排出します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Server eject_iso_image 
+# 
+# @brief サーバに挿入されているISOイメージを排出します。
+# 
+# @retval this
+#*
 sub eject_iso_image {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -357,19 +420,26 @@ sub eject_iso_image {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Server#id");
@@ -378,14 +448,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
+#** @method private string set_name ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -397,11 +479,10 @@ sub set_name {
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		$_[0]->set_name($_[1]);
@@ -410,14 +491,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_description 
+# 
+# @brief null
+#*
 my $n_description = 0;
 
+#** @method private string get_description 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
+#** @method private string set_description ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -429,11 +522,10 @@ sub set_description {
 	return $self->{'m_description'};
 }
 
-=head2 description
-
-説明
-
-=cut
+#** @method public string description ()
+# 
+# @brief 説明
+#*
 sub description {
 	if (1 < scalar(@_)) {
 		$_[0]->set_description($_[1]);
@@ -442,14 +534,26 @@ sub description {
 	return $_[0]->get_description();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_tags 
+# 
+# @brief null
+#*
 my $n_tags = 0;
 
+#** @method private string[] get_tags 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_tags'};
 }
 
+#** @method private string[] set_tags (@$v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string[]} v
+#*
 sub set_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -461,11 +565,10 @@ sub set_tags {
 	return $self->{'m_tags'};
 }
 
-=head2 tags
-
-タグ
-
-=cut
+#** @method public string[] tags ()
+# 
+# @brief タグ
+#*
 sub tags {
 	if (1 < scalar(@_)) {
 		$_[0]->set_tags($_[1]);
@@ -474,14 +577,26 @@ sub tags {
 	return $_[0]->get_tags();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_icon 
+# 
+# @brief null
+#*
 my $n_icon = 0;
 
+#** @method private Saklient::Cloud::Resource::Icon get_icon 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_icon {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_icon'};
 }
 
+#** @method private Saklient::Cloud::Resource::Icon set_icon ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {Saklient::Cloud::Resource::Icon} v
+#*
 sub set_icon {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -493,11 +608,10 @@ sub set_icon {
 	return $self->{'m_icon'};
 }
 
-=head2 icon
-
-アイコン
-
-=cut
+#** @method public Saklient::Cloud::Resource::Icon icon ()
+# 
+# @brief アイコン
+#*
 sub icon {
 	if (1 < scalar(@_)) {
 		$_[0]->set_icon($_[1]);
@@ -506,14 +620,26 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_plan 
+# 
+# @brief null
+#*
 my $n_plan = 0;
 
+#** @method private Saklient::Cloud::Resource::ServerPlan get_plan 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_plan {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_plan'};
 }
 
+#** @method private Saklient::Cloud::Resource::ServerPlan set_plan ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {Saklient::Cloud::Resource::ServerPlan} v
+#*
 sub set_plan {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -528,11 +654,10 @@ sub set_plan {
 	return $self->{'m_plan'};
 }
 
-=head2 plan
-
-プラン
-
-=cut
+#** @method public Saklient::Cloud::Resource::ServerPlan plan ()
+# 
+# @brief プラン
+#*
 sub plan {
 	if (1 < scalar(@_)) {
 		$_[0]->set_plan($_[1]);
@@ -541,19 +666,26 @@ sub plan {
 	return $_[0]->get_plan();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_ifaces 
+# 
+# @brief null
+#*
 my $n_ifaces = 0;
 
+#** @method private Saklient::Cloud::Resource::Iface[] get_ifaces 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_ifaces {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_ifaces'};
 }
 
-=head2 ifaces
-
-インタフェース
-
-=cut
+#** @method public Saklient::Cloud::Resource::Iface[] ifaces ()
+# 
+# @brief インタフェース
+#*
 sub ifaces {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Server#ifaces");
@@ -562,19 +694,26 @@ sub ifaces {
 	return $_[0]->get_ifaces();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_instance 
+# 
+# @brief null
+#*
 my $n_instance = 0;
 
+#** @method private Saklient::Cloud::Resource::ServerInstance get_instance 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_instance {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_instance'};
 }
 
-=head2 instance
-
-インスタンス情報
-
-=cut
+#** @method public Saklient::Cloud::Resource::ServerInstance instance ()
+# 
+# @brief インスタンス情報
+#*
 sub instance {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Server#instance");
@@ -583,19 +722,26 @@ sub instance {
 	return $_[0]->get_instance();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Server::$n_availability 
+# 
+# @brief null
+#*
 my $n_availability = 0;
 
+#** @method private string get_availability 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_availability {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_availability'};
 }
 
-=head2 availability
-
-有効状態 {@link EAvailability}
-
-=cut
+#** @method public string availability ()
+# 
+# @brief 有効状態 {@link EAvailability}
+#*
 sub availability {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Server#availability");
@@ -604,6 +750,10 @@ sub availability {
 	return $_[0]->get_availability();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -708,6 +858,10 @@ sub api_deserialize_impl {
 	$self->{'n_availability'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

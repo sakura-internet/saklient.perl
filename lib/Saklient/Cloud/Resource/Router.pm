@@ -17,85 +17,127 @@ use Saklient::Cloud::Resource::Ipv6Net;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Router
-
-ルータの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Router
+# 
+# @brief ルータの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Router::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Router::$m_name 
+# 
+# @brief 名前
+#*
 my $m_name;
 
+#** @var private string Saklient::Cloud::Resource::Router::$m_description 
+# 
+# @brief 説明
+#*
 my $m_description;
 
+#** @var private int Saklient::Cloud::Resource::Router::$m_network_mask_len 
+# 
+# @brief ネットワークのマスク長
+#*
 my $m_network_mask_len;
 
+#** @var private int Saklient::Cloud::Resource::Router::$m_band_width_mbps 
+# 
+# @brief 帯域幅
+#*
 my $m_band_width_mbps;
 
+#** @var private string Saklient::Cloud::Resource::Router::$m_swytch_id 
+# 
+# @brief スイッチ
+#*
 my $m_swytch_id;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/internet";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Internet";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Internet";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Router";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 save : Saklient::Cloud::Resource::Router
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Router save 
+# 
+# @brief このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+# 
+# @retval this
+#*
 sub save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Router
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Router reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -111,13 +153,14 @@ sub new {
 	return $self;
 }
 
-=head2 after_create(int $timeoutSec, (Saklient::Cloud::Resource::Router, bool) => void $callback) : void
-
-作成中のルータが利用可能になるまで待機します。
-
-@ignore
-
-=cut
+#** @method public void after_create ($timeoutSec, $callback)
+# 
+# @brief 作成中のルータが利用可能になるまで待機します。
+# 
+# @ignore
+# @param int $timeoutSec
+# @param (Saklient::Cloud::Resource::Router, bool) => void $callback
+#*
 sub after_create {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -130,13 +173,13 @@ sub after_create {
 	$callback->($self, $ret);
 }
 
-=head2 sleep_while_creating(int $timeoutSec=120) : bool
-
-作成中のルータが利用可能になるまで待機します。
-
-@return 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
-
-=cut
+#** @method public bool sleep_while_creating ($timeoutSec)
+# 
+# @brief 作成中のルータが利用可能になるまで待機します。
+# 
+# @param int $timeoutSec
+# @retval 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+#*
 sub sleep_while_creating {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -156,11 +199,10 @@ sub sleep_while_creating {
 	return 0;
 }
 
-=head2 get_swytch : Saklient::Cloud::Resource::Swytch
-
-このルータが接続されているスイッチを取得します。
-
-=cut
+#** @method public Saklient::Cloud::Resource::Swytch get_swytch 
+# 
+# @brief このルータが接続されているスイッチを取得します。
+#*
 sub get_swytch {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -169,13 +211,12 @@ sub get_swytch {
 	return $model->get_by_id($id);
 }
 
-=head2 add_ipv6_net : Saklient::Cloud::Resource::Ipv6Net
-
-このルータ＋スイッチでIPv6アドレスを有効にします。
-
-@return 有効化されたIPv6ネットワーク
-
-=cut
+#** @method public Saklient::Cloud::Resource::Ipv6Net add_ipv6_net 
+# 
+# @brief このルータ＋スイッチでIPv6アドレスを有効にします。
+# 
+# @retval 有効化されたIPv6ネットワーク
+#*
 sub add_ipv6_net {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -184,13 +225,13 @@ sub add_ipv6_net {
 	return new Saklient::Cloud::Resource::Ipv6Net($self->{'_client'}, $result->{"IPv6Net"});
 }
 
-=head2 remove_ipv6_net(Saklient::Cloud::Resource::Ipv6Net $ipv6Net) : Saklient::Cloud::Resource::Router
-
-このルータ＋スイッチでIPv6アドレスを無効にします。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Router remove_ipv6_net ($ipv6Net)
+# 
+# @brief このルータ＋スイッチでIPv6アドレスを無効にします。
+# 
+# @param Ipv6Net $ipv6Net
+# @retval this
+#*
 sub remove_ipv6_net {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -202,13 +243,14 @@ sub remove_ipv6_net {
 	return $self;
 }
 
-=head2 add_static_route(int $maskLen, string $nextHop) : Saklient::Cloud::Resource::Ipv4Net
-
-このルータ＋スイッチにスタティックルートを追加します。
-
-@return 追加されたスタティックルート
-
-=cut
+#** @method public Saklient::Cloud::Resource::Ipv4Net add_static_route ($maskLen, $nextHop)
+# 
+# @brief このルータ＋スイッチにスタティックルートを追加します。
+# 
+# @param int $maskLen
+# @param string $nextHop
+# @retval 追加されたスタティックルート
+#*
 sub add_static_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -225,13 +267,13 @@ sub add_static_route {
 	return new Saklient::Cloud::Resource::Ipv4Net($self->{'_client'}, $result->{"Subnet"});
 }
 
-=head2 remove_static_route(Saklient::Cloud::Resource::Ipv4Net $ipv4Net) : Saklient::Cloud::Resource::Router
-
-このルータ＋スイッチからスタティックルートを削除します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Router remove_static_route ($ipv4Net)
+# 
+# @brief このルータ＋スイッチからスタティックルートを削除します。
+# 
+# @param Ipv4Net $ipv4Net
+# @retval this
+#*
 sub remove_static_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -243,15 +285,15 @@ sub remove_static_route {
 	return $self;
 }
 
-=head2 change_plan(int $bandWidthMbps) : Saklient::Cloud::Resource::Router
-
-このルータ＋スイッチの帯域プランを変更します。
-
-成功時はリソースIDが変わることにご注意ください。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Router change_plan ($bandWidthMbps)
+# 
+# @brief このルータ＋スイッチの帯域プランを変更します。
+# 
+# 成功時はリソースIDが変わることにご注意ください。
+# 
+# @param int $bandWidthMbps
+# @retval this
+#*
 sub change_plan {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -266,19 +308,26 @@ sub change_plan {
 	return $self;
 }
 
+#** @var private bool Saklient::Cloud::Resource::Router::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Router#id");
@@ -287,14 +336,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Router::$n_name 
+# 
+# @brief null
+#*
 my $n_name = 0;
 
+#** @method private string get_name 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_name'};
 }
 
+#** @method private string set_name ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -306,11 +367,10 @@ sub set_name {
 	return $self->{'m_name'};
 }
 
-=head2 name
-
-名前
-
-=cut
+#** @method public string name ()
+# 
+# @brief 名前
+#*
 sub name {
 	if (1 < scalar(@_)) {
 		$_[0]->set_name($_[1]);
@@ -319,14 +379,26 @@ sub name {
 	return $_[0]->get_name();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Router::$n_description 
+# 
+# @brief null
+#*
 my $n_description = 0;
 
+#** @method private string get_description 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_description'};
 }
 
+#** @method private string set_description ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_description {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -338,11 +410,10 @@ sub set_description {
 	return $self->{'m_description'};
 }
 
-=head2 description
-
-説明
-
-=cut
+#** @method public string description ()
+# 
+# @brief 説明
+#*
 sub description {
 	if (1 < scalar(@_)) {
 		$_[0]->set_description($_[1]);
@@ -351,14 +422,26 @@ sub description {
 	return $_[0]->get_description();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Router::$n_network_mask_len 
+# 
+# @brief null
+#*
 my $n_network_mask_len = 0;
 
+#** @method private int get_network_mask_len 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_network_mask_len {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_network_mask_len'};
 }
 
+#** @method private int set_network_mask_len ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {int} v
+#*
 sub set_network_mask_len {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -373,11 +456,10 @@ sub set_network_mask_len {
 	return $self->{'m_network_mask_len'};
 }
 
-=head2 network_mask_len
-
-ネットワークのマスク長
-
-=cut
+#** @method public int network_mask_len ()
+# 
+# @brief ネットワークのマスク長
+#*
 sub network_mask_len {
 	if (1 < scalar(@_)) {
 		$_[0]->set_network_mask_len($_[1]);
@@ -386,14 +468,26 @@ sub network_mask_len {
 	return $_[0]->get_network_mask_len();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Router::$n_band_width_mbps 
+# 
+# @brief null
+#*
 my $n_band_width_mbps = 0;
 
+#** @method private int get_band_width_mbps 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_band_width_mbps {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_band_width_mbps'};
 }
 
+#** @method private int set_band_width_mbps ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {int} v
+#*
 sub set_band_width_mbps {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -408,11 +502,10 @@ sub set_band_width_mbps {
 	return $self->{'m_band_width_mbps'};
 }
 
-=head2 band_width_mbps
-
-帯域幅
-
-=cut
+#** @method public int band_width_mbps ()
+# 
+# @brief 帯域幅
+#*
 sub band_width_mbps {
 	if (1 < scalar(@_)) {
 		$_[0]->set_band_width_mbps($_[1]);
@@ -421,19 +514,26 @@ sub band_width_mbps {
 	return $_[0]->get_band_width_mbps();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Router::$n_swytch_id 
+# 
+# @brief null
+#*
 my $n_swytch_id = 0;
 
+#** @method private string get_swytch_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_swytch_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_swytch_id'};
 }
 
-=head2 swytch_id
-
-スイッチ
-
-=cut
+#** @method public string swytch_id ()
+# 
+# @brief スイッチ
+#*
 sub swytch_id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Router#swytch_id");
@@ -442,6 +542,10 @@ sub swytch_id {
 	return $_[0]->get_swytch_id();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -502,6 +606,10 @@ sub api_deserialize_impl {
 	$self->{'n_swytch_id'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;

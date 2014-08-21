@@ -12,25 +12,32 @@ use Saklient::Cloud::Client;
 use Saklient::Cloud::Resource::Script;
 
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::DiskConfig
-
-ディスク修正のパラメータ。
-
-=cut
+#** @class Saklient::Cloud::Resource::DiskConfig
+# 
+# @brief ディスク修正のパラメータ。
+#*
 
 
+#** @var private Saklient::Cloud::Client Saklient::Cloud::Resource::DiskConfig::$_client 
+# 
+# @private
+#*
 my $_client;
 
+#** @method private Saklient::Cloud::Client get_client 
+# 
+# @brief null
+#*
 sub get_client {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_client'};
 }
 
+#** @method public Saklient::Cloud::Client client ()
+# 
+# @ignore
+#*
 sub client {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::DiskConfig#client");
@@ -39,14 +46,26 @@ sub client {
 	return $_[0]->get_client();
 }
 
+#** @var private string Saklient::Cloud::Resource::DiskConfig::$_disk_id 
+# 
+# @private
+#*
 my $_disk_id;
 
+#** @method private string get_disk_id 
+# 
+# @brief null
+#*
 sub get_disk_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_disk_id'};
 }
 
+#** @method public string disk_id ()
+# 
+# @ignore
+#*
 sub disk_id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::DiskConfig#disk_id");
@@ -55,14 +74,26 @@ sub disk_id {
 	return $_[0]->get_disk_id();
 }
 
+#** @var private string Saklient::Cloud::Resource::DiskConfig::$_host_name 
+# 
+# @private
+#*
 my $_host_name;
 
+#** @method private string get_host_name 
+# 
+# @brief null
+#*
 sub get_host_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_host_name'};
 }
 
+#** @method private string set_host_name ($v)
+# 
+# @brief null@param {string} v
+#*
 sub set_host_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -73,11 +104,10 @@ sub set_host_name {
 	return $v;
 }
 
-=head2 host_name
-
-ホスト名
-
-=cut
+#** @method public string host_name ()
+# 
+# @brief ホスト名
+#*
 sub host_name {
 	if (1 < scalar(@_)) {
 		$_[0]->set_host_name($_[1]);
@@ -86,14 +116,26 @@ sub host_name {
 	return $_[0]->get_host_name();
 }
 
+#** @var private string Saklient::Cloud::Resource::DiskConfig::$_password 
+# 
+# @private
+#*
 my $_password;
 
+#** @method private string get_password 
+# 
+# @brief null
+#*
 sub get_password {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_password'};
 }
 
+#** @method private string set_password ($v)
+# 
+# @brief null@param {string} v
+#*
 sub set_password {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -104,11 +146,10 @@ sub set_password {
 	return $v;
 }
 
-=head2 password
-
-ログインパスワード
-
-=cut
+#** @method public string password ()
+# 
+# @brief ログインパスワード
+#*
 sub password {
 	if (1 < scalar(@_)) {
 		$_[0]->set_password($_[1]);
@@ -117,14 +158,26 @@ sub password {
 	return $_[0]->get_password();
 }
 
+#** @var private string Saklient::Cloud::Resource::DiskConfig::$_ssh_key 
+# 
+# @private
+#*
 my $_ssh_key;
 
+#** @method private string get_ssh_key 
+# 
+# @brief null
+#*
 sub get_ssh_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_ssh_key'};
 }
 
+#** @method private string set_ssh_key ($v)
+# 
+# @brief null@param {string} v
+#*
 sub set_ssh_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -135,11 +188,10 @@ sub set_ssh_key {
 	return $v;
 }
 
-=head2 ssh_key
-
-SSHキー
-
-=cut
+#** @method public string ssh_key ()
+# 
+# @brief SSHキー
+#*
 sub ssh_key {
 	if (1 < scalar(@_)) {
 		$_[0]->set_ssh_key($_[1]);
@@ -148,14 +200,26 @@ sub ssh_key {
 	return $_[0]->get_ssh_key();
 }
 
+#** @var private string Saklient::Cloud::Resource::DiskConfig::$_ip_address 
+# 
+# @private
+#*
 my $_ip_address;
 
+#** @method private string get_ip_address 
+# 
+# @brief null
+#*
 sub get_ip_address {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_ip_address'};
 }
 
+#** @method private string set_ip_address ($v)
+# 
+# @brief null@param {string} v
+#*
 sub set_ip_address {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -166,11 +230,10 @@ sub set_ip_address {
 	return $v;
 }
 
-=head2 ip_address
-
-IPアドレス
-
-=cut
+#** @method public string ip_address ()
+# 
+# @brief IPアドレス
+#*
 sub ip_address {
 	if (1 < scalar(@_)) {
 		$_[0]->set_ip_address($_[1]);
@@ -179,14 +242,26 @@ sub ip_address {
 	return $_[0]->get_ip_address();
 }
 
+#** @var private string Saklient::Cloud::Resource::DiskConfig::$_default_route 
+# 
+# @private
+#*
 my $_default_route;
 
+#** @method private string get_default_route 
+# 
+# @brief null
+#*
 sub get_default_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_default_route'};
 }
 
+#** @method private string set_default_route ($v)
+# 
+# @brief null@param {string} v
+#*
 sub set_default_route {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -197,11 +272,10 @@ sub set_default_route {
 	return $v;
 }
 
-=head2 default_route
-
-デフォルトルート
-
-=cut
+#** @method public string default_route ()
+# 
+# @brief デフォルトルート
+#*
 sub default_route {
 	if (1 < scalar(@_)) {
 		$_[0]->set_default_route($_[1]);
@@ -210,14 +284,26 @@ sub default_route {
 	return $_[0]->get_default_route();
 }
 
+#** @var private int Saklient::Cloud::Resource::DiskConfig::$_network_mask_len 
+# 
+# @private
+#*
 my $_network_mask_len;
 
+#** @method private int get_network_mask_len 
+# 
+# @brief null
+#*
 sub get_network_mask_len {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_network_mask_len'};
 }
 
+#** @method private int set_network_mask_len ($v)
+# 
+# @brief null@param {int} v
+#*
 sub set_network_mask_len {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -228,11 +314,10 @@ sub set_network_mask_len {
 	return $v;
 }
 
-=head2 network_mask_len
-
-ネットワークマスク長
-
-=cut
+#** @method public int network_mask_len ()
+# 
+# @brief ネットワークマスク長
+#*
 sub network_mask_len {
 	if (1 < scalar(@_)) {
 		$_[0]->set_network_mask_len($_[1]);
@@ -241,19 +326,26 @@ sub network_mask_len {
 	return $_[0]->get_network_mask_len();
 }
 
+#** @var private Saklient::Cloud::Resource::Script* Saklient::Cloud::Resource::DiskConfig::$_scripts 
+# 
+# @private
+#*
 my $_scripts;
 
+#** @method private Saklient::Cloud::Resource::Script[] get_scripts 
+# 
+# @brief null
+#*
 sub get_scripts {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'_scripts'};
 }
 
-=head2 scripts
-
-スタートアップスクリプト（pushによりスクリプトを追加できます）
-
-=cut
+#** @method public Saklient::Cloud::Resource::Script[] scripts ()
+# 
+# @brief スタートアップスクリプト（pushによりスクリプトを追加できます）
+#*
 sub scripts {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::DiskConfig#scripts");
@@ -262,6 +354,11 @@ sub scripts {
 	return $_[0]->get_scripts();
 }
 
+#** @method public void new ($client, $diskId)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param string $diskId
+#*
 sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
@@ -283,15 +380,15 @@ sub new {
 	return $self;
 }
 
-=head2 add_script(Saklient::Cloud::Resource::Script $script) : Saklient::Cloud::Resource::DiskConfig
-
-スタートアップスクリプトを追加します。
-
-diskConfig.addScript(script) と diskConfig.scripts.push(script) の効果は同等です。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::DiskConfig add_script ($script)
+# 
+# @brief スタートアップスクリプトを追加します。
+# 
+# diskConfig.addScript(script) と diskConfig.scripts.push(script) の効果は同等です。
+# 
+# @param Script $script
+# @retval this
+#*
 sub add_script {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -302,13 +399,12 @@ sub add_script {
 	return $self;
 }
 
-=head2 write : Saklient::Cloud::Resource::DiskConfig
-
-修正内容を実際のディスクに書き込みます。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::DiskConfig write 
+# 
+# @brief 修正内容を実際のディスクに書き込みます。
+# 
+# @retval this
+#*
 sub write {
 	my $self = shift;
 	my $_argnum = scalar @_;

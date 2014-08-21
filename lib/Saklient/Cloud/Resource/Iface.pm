@@ -13,83 +13,121 @@ use Saklient::Cloud::Resource::Resource;
 
 use base qw(Saklient::Cloud::Resource::Resource);
 
-=pod
-
-=encoding utf8
-
-=head1 Saklient::Cloud::Resource::Iface
-
-インタフェースの実体1つに対応し、属性の取得や操作を行うためのクラス。
-
-=cut
+#** @class Saklient::Cloud::Resource::Iface
+# 
+# @brief インタフェースの実体1つに対応し、属性の取得や操作を行うためのクラス。
+#*
 
 
+#** @var private string Saklient::Cloud::Resource::Iface::$m_id 
+# 
+# @brief ID
+#*
 my $m_id;
 
+#** @var private string Saklient::Cloud::Resource::Iface::$m_mac_address 
+# 
+# @brief MACアドレス
+#*
 my $m_mac_address;
 
+#** @var private string Saklient::Cloud::Resource::Iface::$m_ip_address 
+# 
+# @brief IPv4アドレス（共有セグメントによる自動割当）
+#*
 my $m_ip_address;
 
+#** @var private string Saklient::Cloud::Resource::Iface::$m_user_ip_address 
+# 
+# @brief ユーザ設定IPv4アドレス
+#*
 my $m_user_ip_address;
 
+#** @var private string Saklient::Cloud::Resource::Iface::$m_server_id 
+# 
+# @brief このインタフェースが取り付けられているサーバのID
+#*
 my $m_server_id;
 
+#** @method private string _api_path 
+# 
+# @private
+#*
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/interface";
 }
 
+#** @method private string _root_key 
+# 
+# @private
+#*
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Interface";
 }
 
+#** @method private string _root_key_m 
+# 
+# @private
+#*
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Interfaces";
 }
 
+#** @method public string _class_name 
+# 
+# @private
+#*
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Iface";
 }
 
+#** @method public string _id 
+# 
+# @private
+#*
 sub _id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->get_id();
 }
 
-=head2 save : Saklient::Cloud::Resource::Iface
-
-このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Iface save 
+# 
+# @brief このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
+# 
+# @retval this
+#*
 sub save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_save();
 }
 
-=head2 reload : Saklient::Cloud::Resource::Iface
-
-最新のリソース情報を再取得します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Iface reload 
+# 
+# @brief 最新のリソース情報を再取得します。
+# 
+# @retval this
+#*
 sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
 }
 
+#** @method public void new ($client, $obj, $wrapped)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+# @param bool $wrapped
+#*
 sub new {
 	my $class = shift;
 	my $self;
@@ -105,13 +143,12 @@ sub new {
 	return $self;
 }
 
-=head2 connect_to_shared_segment : Saklient::Cloud::Resource::Iface
-
-共有セグメントに接続します。
-
-@return this
-
-=cut
+#** @method public Saklient::Cloud::Resource::Iface connect_to_shared_segment 
+# 
+# @brief 共有セグメントに接続します。
+# 
+# @retval this
+#*
 sub connect_to_shared_segment {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -119,19 +156,26 @@ sub connect_to_shared_segment {
 	return $self->reload();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Iface::$n_id 
+# 
+# @brief null
+#*
 my $n_id = 0;
 
+#** @method private string get_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_id'};
 }
 
-=head2 id
-
-ID
-
-=cut
+#** @method public string id ()
+# 
+# @brief ID
+#*
 sub id {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Iface#id");
@@ -140,19 +184,26 @@ sub id {
 	return $_[0]->get_id();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Iface::$n_mac_address 
+# 
+# @brief null
+#*
 my $n_mac_address = 0;
 
+#** @method private string get_mac_address 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_mac_address {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_mac_address'};
 }
 
-=head2 mac_address
-
-MACアドレス
-
-=cut
+#** @method public string mac_address ()
+# 
+# @brief MACアドレス
+#*
 sub mac_address {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Iface#mac_address");
@@ -161,19 +212,26 @@ sub mac_address {
 	return $_[0]->get_mac_address();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Iface::$n_ip_address 
+# 
+# @brief null
+#*
 my $n_ip_address = 0;
 
+#** @method private string get_ip_address 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_ip_address {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_ip_address'};
 }
 
-=head2 ip_address
-
-IPv4アドレス（共有セグメントによる自動割当）
-
-=cut
+#** @method public string ip_address ()
+# 
+# @brief IPv4アドレス（共有セグメントによる自動割当）
+#*
 sub ip_address {
 	if (1 < scalar(@_)) {
 		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Iface#ip_address");
@@ -182,14 +240,26 @@ sub ip_address {
 	return $_[0]->get_ip_address();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Iface::$n_user_ip_address 
+# 
+# @brief null
+#*
 my $n_user_ip_address = 0;
 
+#** @method private string get_user_ip_address 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_user_ip_address {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_user_ip_address'};
 }
 
+#** @method private string set_user_ip_address ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_user_ip_address {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -201,11 +271,10 @@ sub set_user_ip_address {
 	return $self->{'m_user_ip_address'};
 }
 
-=head2 user_ip_address
-
-ユーザ設定IPv4アドレス
-
-=cut
+#** @method public string user_ip_address ()
+# 
+# @brief ユーザ設定IPv4アドレス
+#*
 sub user_ip_address {
 	if (1 < scalar(@_)) {
 		$_[0]->set_user_ip_address($_[1]);
@@ -214,14 +283,26 @@ sub user_ip_address {
 	return $_[0]->get_user_ip_address();
 }
 
+#** @var private bool Saklient::Cloud::Resource::Iface::$n_server_id 
+# 
+# @brief null
+#*
 my $n_server_id = 0;
 
+#** @method private string get_server_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub get_server_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->{'m_server_id'};
 }
 
+#** @method private string set_server_id ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
 sub set_server_id {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -236,11 +317,10 @@ sub set_server_id {
 	return $self->{'m_server_id'};
 }
 
-=head2 server_id
-
-このインタフェースが取り付けられているサーバのID
-
-=cut
+#** @method public string server_id ()
+# 
+# @brief このインタフェースが取り付けられているサーバのID
+#*
 sub server_id {
 	if (1 < scalar(@_)) {
 		$_[0]->set_server_id($_[1]);
@@ -249,6 +329,10 @@ sub server_id {
 	return $_[0]->get_server_id();
 }
 
+#** @method private void api_deserialize_impl ($r)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
 sub api_deserialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
@@ -301,6 +385,10 @@ sub api_deserialize_impl {
 	$self->{'n_server_id'} = 0;
 }
 
+#** @method private any api_serialize_impl ($withClean)
+# 
+# @ignore@param {bool} withClean
+#*
 sub api_serialize_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
