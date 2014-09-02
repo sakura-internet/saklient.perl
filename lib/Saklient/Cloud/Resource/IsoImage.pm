@@ -58,6 +58,12 @@ my $m_tags;
 #*
 my $m_icon;
 
+#** @var private int Saklient::Cloud::Resource::IsoImage::$m_display_order 
+# 
+# @brief 表示順序
+#*
+my $m_display_order;
+
 #** @var private int Saklient::Cloud::Resource::IsoImage::$m_size_mib 
 # 
 # @brief サイズ[MiB]
@@ -515,6 +521,49 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
+#** @var private bool Saklient::Cloud::Resource::IsoImage::$n_display_order 
+# 
+# @brief null
+#*
+my $n_display_order = 0;
+
+#** @method private int get_display_order 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_display_order {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_display_order'};
+}
+
+#** @method private int set_display_order ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {int} v
+#*
+sub set_display_order {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "int");
+	$self->{'m_display_order'} = $v;
+	$self->{'n_display_order'} = 1;
+	return $self->{'m_display_order'};
+}
+
+#** @method public int display_order ()
+# 
+# @brief 表示順序
+#*
+sub display_order {
+	if (1 < scalar(@_)) {
+		$_[0]->set_display_order($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_display_order();
+}
+
 #** @var private bool Saklient::Cloud::Resource::IsoImage::$n_size_mib 
 # 
 # @brief null
@@ -661,6 +710,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_icon'} = 0;
+	if (Saklient::Util::exists_path($r, "DisplayOrder")) {
+		$self->{'m_display_order'} = !defined(Saklient::Util::get_by_path($r, "DisplayOrder")) ? undef : (0+("" . Saklient::Util::get_by_path($r, "DisplayOrder")));
+	}
+	else {
+		$self->{'m_display_order'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_display_order'} = 0;
 	if (Saklient::Util::exists_path($r, "SizeMB")) {
 		$self->{'m_size_mib'} = !defined(Saklient::Util::get_by_path($r, "SizeMB")) ? undef : (0+("" . Saklient::Util::get_by_path($r, "SizeMB")));
 	}
@@ -717,6 +774,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_icon'}) {
 		Saklient::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
+	}
+	if ($withClean || $self->{'n_display_order'}) {
+		Saklient::Util::set_by_path($ret, "DisplayOrder", $self->{'m_display_order'});
 	}
 	if ($withClean || $self->{'n_size_mib'}) {
 		Saklient::Util::set_by_path($ret, "SizeMB", $self->{'m_size_mib'});

@@ -946,6 +946,11 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_plan'}) {
 		Saklient::Util::set_by_path($ret, "Plan", $withClean ? (!defined($self->{'m_plan'}) ? undef : $self->{'m_plan'}->api_serialize($withClean)) : (!defined($self->{'m_plan'}) ? {'ID' => "0"} : $self->{'m_plan'}->api_serialize_id()));
 	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "plan");
+		}
+	}
 	if ($withClean || $self->{'n_server'}) {
 		Saklient::Util::set_by_path($ret, "Server", $withClean ? (!defined($self->{'m_server'}) ? undef : $self->{'m_server'}->api_serialize($withClean)) : (!defined($self->{'m_server'}) ? {'ID' => "0"} : $self->{'m_server'}->api_serialize_id()));
 	}
