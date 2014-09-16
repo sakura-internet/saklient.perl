@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resource::Resource;
+use Saklient::Cloud::Model::QueryParams;
 use Saklient::Errors::SaklientException;
 
 
@@ -41,13 +42,13 @@ sub client {
 	return $_[0]->get_client();
 }
 
-#** @var private TQueryParams Saklient::Cloud::Model::Model::$_query 
+#** @var private QueryParams Saklient::Cloud::Model::Model::$_query 
 # 
 # @private
 #*
 my $_query;
 
-#** @method private TQueryParams get_query 
+#** @method private Saklient::Cloud::Model::QueryParams get_query 
 # 
 # @brief null
 #*
@@ -57,7 +58,7 @@ sub get_query {
 	return $self->{'_query'};
 }
 
-#** @method public TQueryParams query ()
+#** @method public Saklient::Cloud::Model::QueryParams query ()
 # 
 # @brief null
 #*
@@ -195,7 +196,7 @@ sub _offset {
 	my $offset = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($offset, "int");
-	$self->{'_query'}->{"Begin"} = $offset;
+	$self->{'_query'}->{'begin'} = $offset;
 	return $self;
 }
 
@@ -213,7 +214,7 @@ sub _limit {
 	my $count = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($count, "int");
-	$self->{'_query'}->{"Count"} = $count;
+	$self->{'_query'}->{'count'} = $count;
 	return $self;
 }
 
@@ -234,12 +235,8 @@ sub _sort {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($column, "string");
 	Saklient::Util::validate_type($reverse, "bool");
-	if (!(ref($self->{'_query'}) eq 'HASH' && exists $self->{'_query'}->{"Sort"})) {
-		$self->{'_query'}->{"Sort"} = [];
-	}
-	my $sort = $self->{'_query'}->{"Sort"};
 	my $op = $reverse ? "-" : "";
-	push(@{$sort}, $op . $column);
+	push(@{$self->{'_query'}->{'sort'}}, $op . $column);
 	return $self;
 }
 
@@ -261,10 +258,7 @@ sub _filter_by {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($key, "string");
 	Saklient::Util::validate_type($multiple, "bool");
-	if (!(ref($self->{'_query'}) eq 'HASH' && exists $self->{'_query'}->{"Filter"})) {
-		$self->{'_query'}->{"Filter"} = {};
-	}
-	my $filter = $self->{'_query'}->{"Filter"};
+	my $filter = $self->{'_query'}->{'filter'};
 	if ($multiple) {
 		if (!(ref($filter) eq 'HASH' && exists $filter->{$key})) {
 			$filter->{$key} = [];
@@ -291,7 +285,7 @@ sub _filter_by {
 sub _reset {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	$self->{'_query'} = {'Count' => 0};
+	$self->{'_query'} = new Saklient::Cloud::Model::QueryParams();
 	$self->{'_total'} = 0;
 	$self->{'_count'} = 0;
 	return $self;
@@ -326,7 +320,7 @@ sub _get_by_id {
 	my $id = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($id, "string");
-	my $query = $self->{'_query'};
+	my $query = $self->{'_query'}->build();
 	$self->_reset();
 	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($id), $query);
 	$self->{'_total'} = 1;
@@ -348,7 +342,7 @@ sub _get_by_id {
 sub _find {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $query = $self->{'_query'};
+	my $query = $self->{'_query'}->build();
 	$self->_reset();
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
 	$self->{'_total'} = $result->{"Total"};
@@ -372,7 +366,7 @@ sub _find {
 sub _find_one {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $query = $self->{'_query'};
+	my $query = $self->{'_query'}->build();
 	$self->_reset();
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
 	$self->{'_total'} = $result->{"Total"};
@@ -401,7 +395,7 @@ sub _with_name_like {
 	my $name = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($name, "string");
-	return $self->_filter_by("Name", [$name]);
+	return $self->_filter_by("Name", $name);
 }
 
 #** @method private Saklient::Cloud::Model::Model _with_tag ($tag)

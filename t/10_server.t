@@ -134,6 +134,7 @@ $disk
 	->name($name)
 	->description($description)
 	->tags([$tag])
+	->plan($api->product->disk->ssd)
 	->source($archive)
 	->save;
 is $disk->size_gib, 20;
@@ -254,13 +255,14 @@ $server->destroy;
 
 # duplicate the disk
 diag 'duplicating the disk (expanding to 40GiB)...';
-my $disk2 = $api->disk->create;
-$disk2->name($name . "-copy");
-$disk2->description($description);
-$disk2->tags([$tag]);
-$disk2->source($disk);
-$disk2->size_gib(40);
-$disk2->save;
+my $disk2 = $api->disk->create
+	->name($name . "-copy")
+	->description($description)
+	->tags([$tag])
+	->plan($api->product->disk->hdd)
+	->source($disk)
+	->size_gib(40)
+	->save;
 
 # wait disk duplication
 diag 'waiting disk duplication...';
