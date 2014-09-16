@@ -413,7 +413,7 @@ sub api_serialize_impl {
 	}
 	else {
 		if ($self->{'is_new'}) {
-			push(@{$missing}, "serverId");
+			push(@{$missing}, "server_id");
 		}
 	}
 	if (scalar(@{$missing}) > 0) {

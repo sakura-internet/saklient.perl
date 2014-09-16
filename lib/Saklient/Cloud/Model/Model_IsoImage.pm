@@ -172,6 +172,7 @@ sub find {
 # 大文字・小文字は区別されません。
 # 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 # 
+# @todo Implement test case
 # @param string $name
 #*
 sub with_name_like {
@@ -189,6 +190,7 @@ sub with_name_like {
 # 
 # 複数のタグを指定する場合は withTags() を利用してください。
 # 
+# @todo Implement test case
 # @param string $tag
 #*
 sub with_tag {
@@ -204,6 +206,7 @@ sub with_tag {
 # 
 # @brief 指定したすべてのタグを持つリソースに絞り込みます。
 # 
+# @todo Implement test case
 # @param string* $tags
 #*
 sub with_tags {
@@ -215,10 +218,27 @@ sub with_tags {
 	return $self->_with_tags($tags);
 }
 
+#** @method public Saklient::Cloud::Model::Model_IsoImage with_tag_dnf (@$dnf)
+# 
+# @brief 指定したDNFに合致するタグを持つリソースに絞り込みます。
+# 
+# @todo Implement test case
+# @param string[]* $dnf
+#*
+sub with_tag_dnf {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $dnf = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($dnf, "ARRAY");
+	return $self->_with_tag_dnf($dnf);
+}
+
 #** @method public Saklient::Cloud::Model::Model_IsoImage sort_by_name ($reverse)
 # 
 # @brief 名前でソートします。
 # 
+# @todo Implement test case
 # @param bool $reverse
 #*
 sub sort_by_name {
@@ -241,7 +261,7 @@ sub with_size_gib {
 	my $sizeGib = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($sizeGib, "int");
-	$self->_filter_by("SizeMB", $sizeGib * 1024);
+	$self->_filter_by("SizeMB", [$sizeGib * 1024]);
 	return $self;
 }
 
@@ -252,7 +272,7 @@ sub with_size_gib {
 sub with_shared_scope {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	$self->_filter_by("Scope", Saklient::Cloud::Enums::EScope::shared);
+	$self->_filter_by("Scope", [Saklient::Cloud::Enums::EScope::shared]);
 	return $self;
 }
 
@@ -263,7 +283,7 @@ sub with_shared_scope {
 sub with_user_scope {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	$self->_filter_by("Scope", Saklient::Cloud::Enums::EScope::user);
+	$self->_filter_by("Scope", [Saklient::Cloud::Enums::EScope::user]);
 	return $self;
 }
 

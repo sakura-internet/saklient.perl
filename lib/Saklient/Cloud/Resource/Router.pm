@@ -636,7 +636,7 @@ sub api_serialize_impl {
 	}
 	else {
 		if ($self->{'is_new'}) {
-			push(@{$missing}, "networkMaskLen");
+			push(@{$missing}, "network_mask_len");
 		}
 	}
 	if ($withClean || $self->{'n_band_width_mbps'}) {
@@ -644,7 +644,7 @@ sub api_serialize_impl {
 	}
 	else {
 		if ($self->{'is_new'}) {
-			push(@{$missing}, "bandWidthMbps");
+			push(@{$missing}, "band_width_mbps");
 		}
 	}
 	if ($withClean || $self->{'n_swytch_id'}) {

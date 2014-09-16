@@ -165,8 +165,8 @@ sub get_by_spec {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($cores, "int");
 	Saklient::Util::validate_type($memoryGib, "int");
-	$self->_filter_by("CPU", $cores, 1);
-	$self->_filter_by("MemoryMB", $memoryGib * 1024, 1);
+	$self->_filter_by("CPU", [$cores]);
+	$self->_filter_by("MemoryMB", [$memoryGib * 1024]);
 	return $self->_find_one();
 }
 

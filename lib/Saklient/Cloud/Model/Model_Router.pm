@@ -171,6 +171,7 @@ sub find {
 # 大文字・小文字は区別されません。
 # 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 # 
+# @todo Implement test case
 # @param string $name
 #*
 sub with_name_like {
@@ -186,6 +187,7 @@ sub with_name_like {
 # 
 # @brief 名前でソートします。
 # 
+# @todo Implement test case
 # @param bool $reverse
 #*
 sub sort_by_name {
@@ -208,7 +210,7 @@ sub with_band_width_mbps {
 	my $mbps = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($mbps, "int");
-	$self->_filter_by("BandWidthMbps", $mbps);
+	$self->_filter_by("BandWidthMbps", [$mbps]);
 	return $self;
 }
 

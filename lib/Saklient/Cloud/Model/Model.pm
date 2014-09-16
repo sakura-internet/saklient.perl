@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resource::Resource;
+use Saklient::Errors::SaklientException;
 
 
 
@@ -40,32 +41,32 @@ sub client {
 	return $_[0]->get_client();
 }
 
-#** @var private TQueryParams Saklient::Cloud::Model::Model::$_params 
+#** @var private TQueryParams Saklient::Cloud::Model::Model::$_query 
 # 
 # @private
 #*
-my $_params;
+my $_query;
 
-#** @method private TQueryParams get_params 
+#** @method private TQueryParams get_query 
 # 
 # @brief null
 #*
-sub get_params {
+sub get_query {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->{'_params'};
+	return $self->{'_query'};
 }
 
-#** @method public TQueryParams params ()
+#** @method public TQueryParams query ()
 # 
 # @brief null
 #*
-sub params {
+sub query {
 	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Model::Model#params");
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Model::Model#query");
 		throw $ex;
 	}
-	return $_[0]->get_params();
+	return $_[0]->get_query();
 }
 
 #** @var private int Saklient::Cloud::Model::Model::$_total 
@@ -194,7 +195,7 @@ sub _offset {
 	my $offset = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($offset, "int");
-	$self->{'_params'}->{"Begin"} = $offset;
+	$self->{'_query'}->{"Begin"} = $offset;
 	return $self;
 }
 
@@ -212,7 +213,7 @@ sub _limit {
 	my $count = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($count, "int");
-	$self->{'_params'}->{"Count"} = $count;
+	$self->{'_query'}->{"Count"} = $count;
 	return $self;
 }
 
@@ -233,10 +234,10 @@ sub _sort {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($column, "string");
 	Saklient::Util::validate_type($reverse, "bool");
-	if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Sort"})) {
-		$self->{'_params'}->{"Sort"} = [];
+	if (!(ref($self->{'_query'}) eq 'HASH' && exists $self->{'_query'}->{"Sort"})) {
+		$self->{'_query'}->{"Sort"} = [];
 	}
-	my $sort = $self->{'_params'}->{"Sort"};
+	my $sort = $self->{'_query'}->{"Sort"};
 	my $op = $reverse ? "-" : "";
 	push(@{$sort}, $op . $column);
 	return $self;
@@ -260,10 +261,10 @@ sub _filter_by {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($key, "string");
 	Saklient::Util::validate_type($multiple, "bool");
-	if (!(ref($self->{'_params'}) eq 'HASH' && exists $self->{'_params'}->{"Filter"})) {
-		$self->{'_params'}->{"Filter"} = {};
+	if (!(ref($self->{'_query'}) eq 'HASH' && exists $self->{'_query'}->{"Filter"})) {
+		$self->{'_query'}->{"Filter"} = {};
 	}
-	my $filter = $self->{'_params'}->{"Filter"};
+	my $filter = $self->{'_query'}->{"Filter"};
 	if ($multiple) {
 		if (!(ref($filter) eq 'HASH' && exists $filter->{$key})) {
 			$filter->{$key} = [];
@@ -272,6 +273,9 @@ sub _filter_by {
 		push(@{$values}, $value);
 	}
 	else {
+		if ((ref($filter) eq 'HASH' && exists $filter->{$key})) {
+			{ my $ex = new Saklient::Errors::SaklientException("filter_duplicated", "The same filter key can be specified only once (by calling the same method 'withFooBar')"); throw $ex; };
+		}
 		$filter->{$key} = $value;
 	}
 	return $self;
@@ -287,7 +291,7 @@ sub _filter_by {
 sub _reset {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	$self->{'_params'} = {'Count' => 0};
+	$self->{'_query'} = {'Count' => 0};
 	$self->{'_total'} = 0;
 	$self->{'_count'} = 0;
 	return $self;
@@ -322,9 +326,9 @@ sub _get_by_id {
 	my $id = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($id, "string");
-	my $params = $self->{'_params'};
+	my $query = $self->{'_query'};
 	$self->_reset();
-	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($id), $params);
+	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($id), $query);
 	$self->{'_total'} = 1;
 	$self->{'_count'} = 1;
 	return Saklient::Util::create_class_instance("saklient.cloud.resource." . $self->_class_name(), [
@@ -344,9 +348,9 @@ sub _get_by_id {
 sub _find {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $params = $self->{'_params'};
+	my $query = $self->{'_query'};
 	$self->_reset();
-	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
+	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
 	$self->{'_total'} = $result->{"Total"};
 	$self->{'_count'} = $result->{"Count"};
 	my $records = $result->{$self->_root_key_m()};
@@ -368,9 +372,9 @@ sub _find {
 sub _find_one {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $params = $self->{'_params'};
+	my $query = $self->{'_query'};
 	$self->_reset();
-	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
+	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
 	$self->{'_total'} = $result->{"Total"};
 	$self->{'_count'} = $result->{"Count"};
 	if ($self->{'_total'} == 0) {
@@ -388,6 +392,7 @@ sub _find_one {
 # 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 # 
 # @private
+# @todo Implement test case
 # @param string $name
 #*
 sub _with_name_like {
@@ -396,7 +401,7 @@ sub _with_name_like {
 	my $name = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($name, "string");
-	return $self->_filter_by("Name", $name);
+	return $self->_filter_by("Name", [$name]);
 }
 
 #** @method private Saklient::Cloud::Model::Model _with_tag ($tag)
@@ -406,6 +411,7 @@ sub _with_name_like {
 # 複数のタグを指定する場合は withTags() を利用してください。
 # 
 # @private
+# @todo Implement test case
 # @param string $tag
 #*
 sub _with_tag {
@@ -414,7 +420,7 @@ sub _with_tag {
 	my $tag = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($tag, "string");
-	return $self->_filter_by("Tags.Name", $tag, 1);
+	return $self->_filter_by("Tags.Name", [$tag]);
 }
 
 #** @method private Saklient::Cloud::Model::Model _with_tags (@$tags)
@@ -422,6 +428,7 @@ sub _with_tag {
 # @brief 指定したすべてのタグを持つリソースに絞り込みます。
 # 
 # @private
+# @todo Implement test case
 # @param string* $tags
 #*
 sub _with_tags {
@@ -430,7 +437,24 @@ sub _with_tags {
 	my $tags = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($tags, "ARRAY");
-	return $self->_filter_by("Tags.Name", $tags, 1);
+	return $self->_filter_by("Tags.Name", [$tags]);
+}
+
+#** @method private Saklient::Cloud::Model::Model _with_tag_dnf (@$dnf)
+# 
+# @brief 指定したDNFに合致するタグを持つリソースに絞り込みます。
+# 
+# @private
+# @todo Implement test case
+# @param string[]* $dnf
+#*
+sub _with_tag_dnf {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $dnf = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($dnf, "ARRAY");
+	return $self->_filter_by("Tags.Name", $dnf);
 }
 
 #** @method private Saklient::Cloud::Model::Model _sort_by_name ($reverse)
@@ -438,6 +462,7 @@ sub _with_tags {
 # @brief 名前でソートします。
 # 
 # @private
+# @todo Implement test case
 # @param bool $reverse
 #*
 sub _sort_by_name {

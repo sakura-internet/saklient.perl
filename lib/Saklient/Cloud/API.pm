@@ -423,7 +423,7 @@ sub new {
 	return $self;
 }
 
-#** @cmethod public Saklient::Cloud::API authorize ($token, $secret)
+#** @cmethod public Saklient::Cloud::API authorize ($token, $secret, $zone)
 # 
 # @brief 指定した認証情報を用いてアクセスを行うAPIクライアントを作成します。
 # 
@@ -432,6 +432,7 @@ sub new {
 # 
 # @param string $token ACCESS TOKEN
 # @param string $secret ACCESS TOKEN SECRET
+# @param string $zone
 # @retval APIクライアント
 #*
 sub authorize {
@@ -439,11 +440,17 @@ sub authorize {
 	my $_argnum = scalar @_;
 	my $token = shift;
 	my $secret = shift;
+	my $zone = shift || (undef);
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($token, "string");
 	Saklient::Util::validate_type($secret, "string");
+	Saklient::Util::validate_type($zone, "string");
 	my $c = new Saklient::Cloud::Client($token, $secret);
-	return new Saklient::Cloud::API($c);
+	my $ret = new Saklient::Cloud::API($c);
+	if (defined($zone)) {
+		$ret = $ret->in_zone($zone);
+	}
+	return $ret;
 }
 
 #** @method public Saklient::Cloud::API in_zone ($name)
@@ -460,6 +467,11 @@ sub in_zone {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($name, "string");
 	my $ret = new Saklient::Cloud::API($self->{'_client'}->clone_instance());
+	my $suffix = "";
+	if ($name eq "is1x" || $name eq "is1y") {
+		$suffix = "-test";
+	}
+	$ret->{'_client'}->set_api_root("https://secure.sakura.ad.jp/cloud" . $suffix . "/");
 	$ret->{'_client'}->set_api_root_suffix("zone/" . $name);
 	return $ret;
 }

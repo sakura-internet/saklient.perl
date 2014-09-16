@@ -40,11 +40,11 @@ sub client {
 	return $_[0]->get_client();
 }
 
-#** @var private any Saklient::Cloud::Resource::Resource::$_params 
+#** @var private any Saklient::Cloud::Resource::Resource::$_query 
 # 
 # @private
 #*
-my $_params;
+my $_query;
 
 #** @method public void set_param ($key, $value)
 # 
@@ -57,7 +57,7 @@ sub set_param {
 	my $value = shift;
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($key, "string");
-	$self->{'_params'}->{$key} = $value;
+	$self->{'_query'}->{$key} = $value;
 }
 
 #** @method private string _api_path 
@@ -122,7 +122,7 @@ sub new {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	$self->{'_client'} = $client;
-	$self->{'_params'} = {};
+	$self->{'_query'} = {};
 	return $self;
 }
 
@@ -299,11 +299,11 @@ sub _save {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $r = $self->api_serialize();
-	my $params = $self->{'_params'};
-	$self->{'_params'} = {};
-	my $keys = [keys %{$params}];
+	my $query = $self->{'_query'};
+	$self->{'_query'} = {};
+	my $keys = [keys %{$query}];
 	foreach my $k (@{$keys}) {
-		my $v = $params->{$k};
+		my $v = $query->{$k};
 		$r->{$k} = $v;
 	}
 	$self->_on_before_save($r);
@@ -355,10 +355,10 @@ sub _reload {
 sub exists {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $params = {};
-	Saklient::Util::set_by_path($params, "Filter.ID", [$self->_id()]);
-	Saklient::Util::set_by_path($params, "Include", ["ID"]);
-	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $params);
+	my $query = {};
+	Saklient::Util::set_by_path($query, "Filter.ID", [$self->_id()]);
+	Saklient::Util::set_by_path($query, "Include", ["ID"]);
+	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
 	return $result->{"Count"} == 1;
 }
 

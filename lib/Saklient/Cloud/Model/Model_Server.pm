@@ -174,6 +174,7 @@ sub find {
 # 大文字・小文字は区別されません。
 # 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 # 
+# @todo Implement test case
 # @param string $name
 #*
 sub with_name_like {
@@ -191,6 +192,7 @@ sub with_name_like {
 # 
 # 複数のタグを指定する場合は withTags() を利用してください。
 # 
+# @todo Implement test case
 # @param string $tag
 #*
 sub with_tag {
@@ -206,6 +208,7 @@ sub with_tag {
 # 
 # @brief 指定したすべてのタグを持つリソースに絞り込みます。
 # 
+# @todo Implement test case
 # @param string* $tags
 #*
 sub with_tags {
@@ -217,10 +220,27 @@ sub with_tags {
 	return $self->_with_tags($tags);
 }
 
+#** @method public Saklient::Cloud::Model::Model_Server with_tag_dnf (@$dnf)
+# 
+# @brief 指定したDNFに合致するタグを持つリソースに絞り込みます。
+# 
+# @todo Implement test case
+# @param string[]* $dnf
+#*
+sub with_tag_dnf {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $dnf = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($dnf, "ARRAY");
+	return $self->_with_tag_dnf($dnf);
+}
+
 #** @method public Saklient::Cloud::Model::Model_Server sort_by_name ($reverse)
 # 
 # @brief 名前でソートします。
 # 
+# @todo Implement test case
 # @param bool $reverse
 #*
 sub sort_by_name {
@@ -243,7 +263,7 @@ sub with_plan {
 	my $plan = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($plan, "Saklient::Cloud::Resource::ServerPlan");
-	$self->_filter_by("ServerPlan.ID", $plan->_id(), 1);
+	$self->_filter_by("ServerPlan.ID", [$plan->_id()]);
 	return $self;
 }
 
@@ -259,7 +279,7 @@ sub with_status {
 	my $status = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($status, "string");
-	$self->_filter_by("Instance.Status", $status, 1);
+	$self->_filter_by("Instance.Status", [$status]);
 	return $self;
 }
 
@@ -295,7 +315,7 @@ sub with_iso_image {
 	my $iso = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($iso, "Saklient::Cloud::Resource::IsoImage");
-	$self->_filter_by("Instance.CDROM.ID", $iso->_id(), 1);
+	$self->_filter_by("Instance.CDROM.ID", [$iso->_id()]);
 	return $self;
 }
 

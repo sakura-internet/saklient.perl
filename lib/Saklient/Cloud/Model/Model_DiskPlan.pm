@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saklient::Cloud::Client;
 use Saklient::Cloud::Model::Model;
 use Saklient::Cloud::Resource::DiskPlan;
 
@@ -148,6 +149,85 @@ sub find {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_find();
+}
+
+#** @method public void new ($client)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+#*
+sub new {
+	my $class = shift;
+	my $self;
+	my $_argnum = scalar @_;
+	my $client = shift;
+	$self = $class->SUPER::new($client);
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
+	$self->{'_hdd'} = undef;
+	$self->{'_ssd'} = undef;
+	return $self;
+}
+
+#** @var private Saklient::Cloud::Resource::DiskPlan Saklient::Cloud::Model::Model_DiskPlan::$_hdd 
+# 
+# @private
+#*
+my $_hdd;
+
+#** @method private Saklient::Cloud::Resource::DiskPlan get_hdd 
+# 
+# @brief null
+#*
+sub get_hdd {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	if (!defined($self->{'_hdd'})) {
+		$self->{'_hdd'} = $self->get_by_id("2");
+	}
+	return $self->{'_hdd'};
+}
+
+#** @method public Saklient::Cloud::Resource::DiskPlan hdd ()
+# 
+# @brief 標準プラン
+#*
+sub hdd {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Model::Model_DiskPlan#hdd");
+		throw $ex;
+	}
+	return $_[0]->get_hdd();
+}
+
+#** @var private Saklient::Cloud::Resource::DiskPlan Saklient::Cloud::Model::Model_DiskPlan::$_ssd 
+# 
+# @private
+#*
+my $_ssd;
+
+#** @method private Saklient::Cloud::Resource::DiskPlan get_ssd 
+# 
+# @brief null
+#*
+sub get_ssd {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	if (!defined($self->{'_ssd'})) {
+		$self->{'_ssd'} = $self->get_by_id("4");
+	}
+	return $self->{'_ssd'};
+}
+
+#** @method public Saklient::Cloud::Resource::DiskPlan ssd ()
+# 
+# @brief SSDプラン
+#*
+sub ssd {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Model::Model_DiskPlan#ssd");
+		throw $ex;
+	}
+	return $_[0]->get_ssd();
 }
 
 1;

@@ -783,7 +783,7 @@ sub api_serialize_impl {
 	}
 	else {
 		if ($self->{'is_new'}) {
-			push(@{$missing}, "sizeMib");
+			push(@{$missing}, "size_mib");
 		}
 	}
 	if ($withClean || $self->{'n_service_class'}) {

@@ -727,14 +727,32 @@ sub get_plan {
 	return $self->{'m_plan'};
 }
 
+#** @method private Saklient::Cloud::Resource::DiskPlan set_plan ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {Saklient::Cloud::Resource::DiskPlan} v
+#*
+sub set_plan {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "Saklient::Cloud::Resource::DiskPlan");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saklient::Errors::SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient::Cloud::Resource::Disk#plan"); throw $ex; };
+	}
+	$self->{'m_plan'} = $v;
+	$self->{'n_plan'} = 1;
+	return $self->{'m_plan'};
+}
+
 #** @method public Saklient::Cloud::Resource::DiskPlan plan ()
 # 
 # @brief プラン
 #*
 sub plan {
 	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resource::Disk#plan");
-		throw $ex;
+		$_[0]->set_plan($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_plan();
 }
