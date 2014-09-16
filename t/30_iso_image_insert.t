@@ -72,7 +72,7 @@ my $iso = $isos->[0];
 # create a server
 diag 'creating a server...';
 my $server = $api->server->create;
-isa_ok $server, 'Saklient::Cloud::Resource::Server';
+isa_ok $server, 'Saklient::Cloud::Resources::Server';
 $server
 	->name($name)
 	->description($description)
@@ -83,7 +83,7 @@ $server
 # insert iso image while the server is down
 diag 'inserting an ISO image to the server...';
 $server->insert_iso_image($iso);
-isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resource::IsoImage';
+isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resources::IsoImage';
 is $server->instance->iso_image->id, $iso->id;
 
 # eject iso image while the server is down
@@ -99,7 +99,7 @@ sleep 3;
 # insert iso image while the server is up
 diag 'inserting an ISO image to the server...';
 $server->insert_iso_image($iso);
-isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resource::IsoImage';
+isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resources::IsoImage';
 is $server->instance->iso_image->id, $iso->id;
 
 # eject iso image while the server is up

@@ -10,17 +10,17 @@ use Data::Dumper;
 use Saklient::Util;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Product;
-use Saklient::Cloud::Model::Model_Icon;
-use Saklient::Cloud::Model::Model_Server;
-use Saklient::Cloud::Model::Model_Disk;
-use Saklient::Cloud::Model::Model_Appliance;
-use Saklient::Cloud::Model::Model_Archive;
-use Saklient::Cloud::Model::Model_IsoImage;
-use Saklient::Cloud::Model::Model_Iface;
-use Saklient::Cloud::Model::Model_Swytch;
-use Saklient::Cloud::Model::Model_Router;
-use Saklient::Cloud::Model::Model_Ipv6Net;
-use Saklient::Cloud::Model::Model_Script;
+use Saklient::Cloud::Models::Model_Icon;
+use Saklient::Cloud::Models::Model_Server;
+use Saklient::Cloud::Models::Model_Disk;
+use Saklient::Cloud::Models::Model_Appliance;
+use Saklient::Cloud::Models::Model_Archive;
+use Saklient::Cloud::Models::Model_IsoImage;
+use Saklient::Cloud::Models::Model_Iface;
+use Saklient::Cloud::Models::Model_Swytch;
+use Saklient::Cloud::Models::Model_Router;
+use Saklient::Cloud::Models::Model_Ipv6Net;
+use Saklient::Cloud::Models::Model_Script;
 
 
 #** @class Saklient::Cloud::API
@@ -87,13 +87,13 @@ sub product {
 	return $_[0]->get_product();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Icon Saklient::Cloud::API::$_icon 
+#** @var private Saklient::Cloud::Models::Model_Icon Saklient::Cloud::API::$_icon 
 # 
 # @private
 #*
 my $_icon;
 
-#** @method private Saklient::Cloud::Model::Model_Icon get_icon 
+#** @method private Saklient::Cloud::Models::Model_Icon get_icon 
 # 
 # @brief null
 #*
@@ -103,7 +103,7 @@ sub get_icon {
 	return $self->{'_icon'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Icon icon ()
+#** @method public Saklient::Cloud::Models::Model_Icon icon ()
 # 
 # @brief アイコンにアクセスするためのモデル。
 #*
@@ -115,13 +115,13 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Server Saklient::Cloud::API::$_server 
+#** @var private Saklient::Cloud::Models::Model_Server Saklient::Cloud::API::$_server 
 # 
 # @private
 #*
 my $_server;
 
-#** @method private Saklient::Cloud::Model::Model_Server get_server 
+#** @method private Saklient::Cloud::Models::Model_Server get_server 
 # 
 # @brief null
 #*
@@ -131,7 +131,7 @@ sub get_server {
 	return $self->{'_server'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Server server ()
+#** @method public Saklient::Cloud::Models::Model_Server server ()
 # 
 # @brief サーバにアクセスするためのモデル。
 #*
@@ -143,13 +143,13 @@ sub server {
 	return $_[0]->get_server();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Disk Saklient::Cloud::API::$_disk 
+#** @var private Saklient::Cloud::Models::Model_Disk Saklient::Cloud::API::$_disk 
 # 
 # @private
 #*
 my $_disk;
 
-#** @method private Saklient::Cloud::Model::Model_Disk get_disk 
+#** @method private Saklient::Cloud::Models::Model_Disk get_disk 
 # 
 # @brief null
 #*
@@ -159,7 +159,7 @@ sub get_disk {
 	return $self->{'_disk'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Disk disk ()
+#** @method public Saklient::Cloud::Models::Model_Disk disk ()
 # 
 # @brief ディスクにアクセスするためのモデル。
 #*
@@ -171,13 +171,13 @@ sub disk {
 	return $_[0]->get_disk();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Appliance Saklient::Cloud::API::$_appliance 
+#** @var private Saklient::Cloud::Models::Model_Appliance Saklient::Cloud::API::$_appliance 
 # 
 # @private
 #*
 my $_appliance;
 
-#** @method private Saklient::Cloud::Model::Model_Appliance get_appliance 
+#** @method private Saklient::Cloud::Models::Model_Appliance get_appliance 
 # 
 # @brief null
 #*
@@ -187,7 +187,7 @@ sub get_appliance {
 	return $self->{'_appliance'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Appliance appliance ()
+#** @method public Saklient::Cloud::Models::Model_Appliance appliance ()
 # 
 # @brief アプライアンスにアクセスするためのモデル。
 #*
@@ -199,13 +199,13 @@ sub appliance {
 	return $_[0]->get_appliance();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Archive Saklient::Cloud::API::$_archive 
+#** @var private Saklient::Cloud::Models::Model_Archive Saklient::Cloud::API::$_archive 
 # 
 # @private
 #*
 my $_archive;
 
-#** @method private Saklient::Cloud::Model::Model_Archive get_archive 
+#** @method private Saklient::Cloud::Models::Model_Archive get_archive 
 # 
 # @brief null
 #*
@@ -215,7 +215,7 @@ sub get_archive {
 	return $self->{'_archive'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Archive archive ()
+#** @method public Saklient::Cloud::Models::Model_Archive archive ()
 # 
 # @brief アーカイブにアクセスするためのモデル。
 #*
@@ -227,13 +227,13 @@ sub archive {
 	return $_[0]->get_archive();
 }
 
-#** @var private Saklient::Cloud::Model::Model_IsoImage Saklient::Cloud::API::$_iso_image 
+#** @var private Saklient::Cloud::Models::Model_IsoImage Saklient::Cloud::API::$_iso_image 
 # 
 # @private
 #*
 my $_iso_image;
 
-#** @method private Saklient::Cloud::Model::Model_IsoImage get_iso_image 
+#** @method private Saklient::Cloud::Models::Model_IsoImage get_iso_image 
 # 
 # @brief null
 #*
@@ -243,7 +243,7 @@ sub get_iso_image {
 	return $self->{'_iso_image'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_IsoImage iso_image ()
+#** @method public Saklient::Cloud::Models::Model_IsoImage iso_image ()
 # 
 # @brief ISOイメージにアクセスするためのモデル。
 #*
@@ -255,13 +255,13 @@ sub iso_image {
 	return $_[0]->get_iso_image();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Iface Saklient::Cloud::API::$_iface 
+#** @var private Saklient::Cloud::Models::Model_Iface Saklient::Cloud::API::$_iface 
 # 
 # @private
 #*
 my $_iface;
 
-#** @method private Saklient::Cloud::Model::Model_Iface get_iface 
+#** @method private Saklient::Cloud::Models::Model_Iface get_iface 
 # 
 # @brief null
 #*
@@ -271,7 +271,7 @@ sub get_iface {
 	return $self->{'_iface'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Iface iface ()
+#** @method public Saklient::Cloud::Models::Model_Iface iface ()
 # 
 # @brief インタフェースにアクセスするためのモデル。
 #*
@@ -283,13 +283,13 @@ sub iface {
 	return $_[0]->get_iface();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Swytch Saklient::Cloud::API::$_swytch 
+#** @var private Saklient::Cloud::Models::Model_Swytch Saklient::Cloud::API::$_swytch 
 # 
 # @private
 #*
 my $_swytch;
 
-#** @method private Saklient::Cloud::Model::Model_Swytch get_swytch 
+#** @method private Saklient::Cloud::Models::Model_Swytch get_swytch 
 # 
 # @brief null
 #*
@@ -299,7 +299,7 @@ sub get_swytch {
 	return $self->{'_swytch'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Swytch swytch ()
+#** @method public Saklient::Cloud::Models::Model_Swytch swytch ()
 # 
 # @brief スイッチにアクセスするためのモデル。
 #*
@@ -311,13 +311,13 @@ sub swytch {
 	return $_[0]->get_swytch();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Router Saklient::Cloud::API::$_router 
+#** @var private Saklient::Cloud::Models::Model_Router Saklient::Cloud::API::$_router 
 # 
 # @private
 #*
 my $_router;
 
-#** @method private Saklient::Cloud::Model::Model_Router get_router 
+#** @method private Saklient::Cloud::Models::Model_Router get_router 
 # 
 # @brief null
 #*
@@ -327,7 +327,7 @@ sub get_router {
 	return $self->{'_router'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Router router ()
+#** @method public Saklient::Cloud::Models::Model_Router router ()
 # 
 # @brief ルータにアクセスするためのモデル。
 #*
@@ -339,13 +339,13 @@ sub router {
 	return $_[0]->get_router();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Ipv6Net Saklient::Cloud::API::$_ipv6_net 
+#** @var private Saklient::Cloud::Models::Model_Ipv6Net Saklient::Cloud::API::$_ipv6_net 
 # 
 # @private
 #*
 my $_ipv6_net;
 
-#** @method private Saklient::Cloud::Model::Model_Ipv6Net get_ipv6_net 
+#** @method private Saklient::Cloud::Models::Model_Ipv6Net get_ipv6_net 
 # 
 # @brief null
 #*
@@ -355,7 +355,7 @@ sub get_ipv6_net {
 	return $self->{'_ipv6_net'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Ipv6Net ipv6_net ()
+#** @method public Saklient::Cloud::Models::Model_Ipv6Net ipv6_net ()
 # 
 # @brief IPv6ネットワークにアクセスするためのモデル。
 #*
@@ -367,13 +367,13 @@ sub ipv6_net {
 	return $_[0]->get_ipv6_net();
 }
 
-#** @var private Saklient::Cloud::Model::Model_Script Saklient::Cloud::API::$_script 
+#** @var private Saklient::Cloud::Models::Model_Script Saklient::Cloud::API::$_script 
 # 
 # @private
 #*
 my $_script;
 
-#** @method private Saklient::Cloud::Model::Model_Script get_script 
+#** @method private Saklient::Cloud::Models::Model_Script get_script 
 # 
 # @brief null
 #*
@@ -383,7 +383,7 @@ sub get_script {
 	return $self->{'_script'};
 }
 
-#** @method public Saklient::Cloud::Model::Model_Script script ()
+#** @method public Saklient::Cloud::Models::Model_Script script ()
 # 
 # @brief スクリプトにアクセスするためのモデル。
 #*
@@ -409,17 +409,17 @@ sub new {
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	$self->{'_client'} = $client;
 	$self->{'_product'} = new Saklient::Cloud::Product($client);
-	$self->{'_icon'} = new Saklient::Cloud::Model::Model_Icon($client);
-	$self->{'_server'} = new Saklient::Cloud::Model::Model_Server($client);
-	$self->{'_disk'} = new Saklient::Cloud::Model::Model_Disk($client);
-	$self->{'_appliance'} = new Saklient::Cloud::Model::Model_Appliance($client);
-	$self->{'_archive'} = new Saklient::Cloud::Model::Model_Archive($client);
-	$self->{'_iso_image'} = new Saklient::Cloud::Model::Model_IsoImage($client);
-	$self->{'_iface'} = new Saklient::Cloud::Model::Model_Iface($client);
-	$self->{'_swytch'} = new Saklient::Cloud::Model::Model_Swytch($client);
-	$self->{'_router'} = new Saklient::Cloud::Model::Model_Router($client);
-	$self->{'_ipv6_net'} = new Saklient::Cloud::Model::Model_Ipv6Net($client);
-	$self->{'_script'} = new Saklient::Cloud::Model::Model_Script($client);
+	$self->{'_icon'} = new Saklient::Cloud::Models::Model_Icon($client);
+	$self->{'_server'} = new Saklient::Cloud::Models::Model_Server($client);
+	$self->{'_disk'} = new Saklient::Cloud::Models::Model_Disk($client);
+	$self->{'_appliance'} = new Saklient::Cloud::Models::Model_Appliance($client);
+	$self->{'_archive'} = new Saklient::Cloud::Models::Model_Archive($client);
+	$self->{'_iso_image'} = new Saklient::Cloud::Models::Model_IsoImage($client);
+	$self->{'_iface'} = new Saklient::Cloud::Models::Model_Iface($client);
+	$self->{'_swytch'} = new Saklient::Cloud::Models::Model_Swytch($client);
+	$self->{'_router'} = new Saklient::Cloud::Models::Model_Router($client);
+	$self->{'_ipv6_net'} = new Saklient::Cloud::Models::Model_Ipv6Net($client);
+	$self->{'_script'} = new Saklient::Cloud::Models::Model_Script($client);
 	return $self;
 }
 

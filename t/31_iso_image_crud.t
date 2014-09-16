@@ -60,7 +60,7 @@ my $description = 'This instance was created by saklient.perl test';
 my $tag = 'saklient-test';
 
 my $iso = $api->iso_image->create;
-isa_ok $iso, 'Saklient::Cloud::Resource::IsoImage';
+isa_ok $iso, 'Saklient::Cloud::Resources::IsoImage';
 $iso->name($name)
 	->description($description)
 	->tags([$tag])
@@ -69,12 +69,12 @@ $iso->name($name)
 
 #
 my $ftp = $iso->ftp_info;
-isa_ok $ftp, 'Saklient::Cloud::Resource::FtpInfo';
+isa_ok $ftp, 'Saklient::Cloud::Resources::FtpInfo';
 isnt $ftp->host_name, undef;
 isnt $ftp->user, undef;
 isnt $ftp->password, undef;
 my $ftp2 = $iso->open_ftp(1)->ftp_info;
-isa_ok $ftp2, 'Saklient::Cloud::Resource::FtpInfo';
+isa_ok $ftp2, 'Saklient::Cloud::Resources::FtpInfo';
 isnt $ftp2->host_name, undef;
 isnt $ftp2->user, undef;
 isnt $ftp2->password, undef;

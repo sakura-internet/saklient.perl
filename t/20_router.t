@@ -67,7 +67,7 @@ if (1) {
 	my $plans = $api->product->router->find;
 	my $min_mbps = 0x7FFFFFFF;
 	foreach my $plan (@$plans) {
-		isa_ok $plan, 'Saklient::Cloud::Resource::RouterPlan';
+		isa_ok $plan, 'Saklient::Cloud::Resources::RouterPlan';
 		cmp_ok $plan->band_width_mbps, '>', 0;
 		$min_mbps = min($plan->band_width_mbps, $min_mbps);
 		$tests += 2;
@@ -93,9 +93,9 @@ else {
 	$tests++;
 }
 
-isa_ok $swytch, 'Saklient::Cloud::Resource::Swytch';
+isa_ok $swytch, 'Saklient::Cloud::Resources::Swytch';
 cmp_ok scalar(@{$swytch->ipv4_nets}), '>', 0;
-isa_ok $swytch->ipv4_nets->[0], 'Saklient::Cloud::Resource::Ipv4Net';
+isa_ok $swytch->ipv4_nets->[0], 'Saklient::Cloud::Resources::Ipv4Net';
 
 #
 diag 'ルータ＋スイッチの帯域プランを変更しています...';
@@ -110,7 +110,7 @@ if (0 < scalar(@{$swytch->ipv6_nets})) {
 }
 diag 'ルータ＋スイッチにIPv6ネットワークを割り当てています...';
 my $v6net = $swytch->add_ipv6_net;
-isa_ok $v6net, 'Saklient::Cloud::Resource::Ipv6Net';
+isa_ok $v6net, 'Saklient::Cloud::Resources::Ipv6Net';
 is scalar(@{$swytch->ipv6_nets}), 1;
 
 #
@@ -125,7 +125,7 @@ my $net0 = $swytch->ipv4_nets->[0];
 my $next_hop_n = unpack("N*", inet_aton($net0->address)) + 4;
 my $next_hop = inet_ntoa(pack("N*", $next_hop_n));
 my $sroute = $swytch->add_static_route(28, $next_hop);
-isa_ok $sroute, 'Saklient::Cloud::Resource::Ipv4Net';
+isa_ok $sroute, 'Saklient::Cloud::Resources::Ipv4Net';
 is scalar(@{$swytch->ipv4_nets}), 2;
 
 #

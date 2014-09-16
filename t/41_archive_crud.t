@@ -60,7 +60,7 @@ my $description = 'This instance was created by saklient.perl test';
 my $tag = 'saklient-test';
 
 my $archive = $api->archive->create;
-isa_ok $archive, 'Saklient::Cloud::Resource::Archive';
+isa_ok $archive, 'Saklient::Cloud::Resources::Archive';
 $archive->name($name)
 	->description($description)
 	->tags([$tag])
@@ -69,12 +69,12 @@ $archive->name($name)
 
 #
 my $ftp = $archive->ftp_info;
-isa_ok $ftp, 'Saklient::Cloud::Resource::FtpInfo';
+isa_ok $ftp, 'Saklient::Cloud::Resources::FtpInfo';
 isnt $ftp->host_name, undef;
 isnt $ftp->user, undef;
 isnt $ftp->password, undef;
 my $ftp2 = $archive->open_ftp(1)->ftp_info;
-isa_ok $ftp2, 'Saklient::Cloud::Resource::FtpInfo';
+isa_ok $ftp2, 'Saklient::Cloud::Resources::FtpInfo';
 isnt $ftp2->host_name, undef;
 isnt $ftp2->user, undef;
 isnt $ftp2->password, undef;

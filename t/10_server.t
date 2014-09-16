@@ -64,8 +64,8 @@ cmp_ok scalar(@$servers), '>', 0;
 my $mem = 0;
 foreach my $server (@$servers) {
 	$tests += 8;
-	isa_ok $server, 'Saklient::Cloud::Resource::Server';
-	isa_ok $server->plan(), 'Saklient::Cloud::Resource::ServerPlan';
+	isa_ok $server, 'Saklient::Cloud::Resources::Server';
+	isa_ok $server->plan(), 'Saklient::Cloud::Resources::ServerPlan';
 	cmp_ok $server->plan()->cpu(), '>', 0;
 	cmp_ok $server->plan()->memory_mib(), '>', 0;
 	cmp_ok $server->plan()->memory_gib(), '>', 0;
@@ -156,7 +156,7 @@ ok $ok, 'Immutableフィールドの再set時は SaklientException がスロー�
 # create a server
 diag 'creating a server...';
 my $server = $api->server->create;
-isa_ok $server, 'Saklient::Cloud::Resource::Server';
+isa_ok $server, 'Saklient::Cloud::Resources::Server';
 $server->name($name)
 	->description($description)
 	->tags([$tag])
@@ -176,7 +176,7 @@ is $server->plan->memory_gib, $mem;
 # connect to shared segment
 diag 'connecting the server to shared segment...';
 my $iface = $server->add_iface;
-isa_ok $iface, 'Saklient::Cloud::Resource::Iface';
+isa_ok $iface, 'Saklient::Cloud::Resources::Iface';
 cmp_ok $iface->id, '>', 0;
 $iface->connect_to_shared_segment;
 
@@ -185,7 +185,7 @@ diag 'waiting disk copy...';
 fail 'アーカイブからディスクへのコピーがタイムアウトしました' unless $disk->sleep_while_copying;
 $disk->source(undef);
 $disk->reload;
-isa_ok $disk->source, 'Saklient::Cloud::Resource::Archive';
+isa_ok $disk->source, 'Saklient::Cloud::Resources::Archive';
 is $disk->source->id, $archive->id;
 is $disk->size_gib, $archive->size_gib;
 
@@ -269,7 +269,7 @@ diag 'waiting disk duplication...';
 fail 'ディスクの複製がタイムアウトしました' unless $disk2->sleep_while_copying;
 $disk2->source(undef);
 $disk2->reload;
-isa_ok $disk2->source, 'Saklient::Cloud::Resource::Disk';
+isa_ok $disk2->source, 'Saklient::Cloud::Resources::Disk';
 is $disk2->source->id, $disk->id;
 is $disk2->size_gib, 40;
 

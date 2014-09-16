@@ -80,7 +80,7 @@ fail 'ディスクからアーカイブへのコピーがタイムアウトま�
 $disk->destroy;
 
 my $ftp = $archive->open_ftp->ftp_info;
-isa_ok $ftp, 'Saklient::Cloud::Resource::FtpInfo';
+isa_ok $ftp, 'Saklient::Cloud::Resources::FtpInfo';
 isnt $ftp->host_name, undef;
 isnt $ftp->user, undef;
 isnt $ftp->password, undef;
