@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saklient::Cloud::Client;
 use Saklient::Cloud::Models::Model;
 use Saklient::Cloud::Resources::Router;
 
@@ -196,6 +197,21 @@ sub sort_by_name {
 	my $reverse = shift || (0);
 	Saklient::Util::validate_type($reverse, "bool");
 	return $self->_sort_by_name($reverse);
+}
+
+#** @method public void new ($client)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+#*
+sub new {
+	my $class = shift;
+	my $self;
+	my $_argnum = scalar @_;
+	my $client = shift;
+	$self = $class->SUPER::new($client);
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
+	return $self;
 }
 
 #** @method public Saklient::Cloud::Models::Model_Router with_band_width_mbps ($mbps)

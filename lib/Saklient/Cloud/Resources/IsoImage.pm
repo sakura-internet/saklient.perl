@@ -198,7 +198,22 @@ sub _on_after_api_deserialize {
 sub get_size_gib {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->get_size_mib() >> 10;
+	my $sizeMib = $self->get_size_mib();
+	return !defined($sizeMib) ? undef : $sizeMib >> 10;
+}
+
+#** @method private int set_size_gib ($sizeGib)
+# 
+# @brief null@param {int} sizeGib
+#*
+sub set_size_gib {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $sizeGib = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($sizeGib, "int");
+	$self->set_size_mib(!defined($sizeGib) ? undef : $sizeGib * 1024);
+	return $sizeGib;
 }
 
 #** @method public int size_gib ()
@@ -207,8 +222,8 @@ sub get_size_gib {
 #*
 sub size_gib {
 	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::IsoImage#size_gib");
-		throw $ex;
+		$_[0]->set_size_gib($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_size_gib();
 }

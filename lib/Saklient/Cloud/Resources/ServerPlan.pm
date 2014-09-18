@@ -125,7 +125,8 @@ sub new {
 sub get_memory_gib {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->get_memory_mib() >> 10;
+	my $memoryMib = $self->get_memory_mib();
+	return !defined($memoryMib) ? undef : $memoryMib >> 10;
 }
 
 #** @method public int memory_gib ()

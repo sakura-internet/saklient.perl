@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 
 
+
 #** @var public int Saklient::Cloud::Models::QueryParams::$begin 
 # 
 # @brief null
@@ -27,7 +28,7 @@ my $count;
 #*
 my $filter;
 
-#** @var public string* Saklient::Cloud::Models::QueryParams::$sort 
+#** @var public any* Saklient::Cloud::Models::QueryParams::$sort 
 # 
 # @brief null
 #*

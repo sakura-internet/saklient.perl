@@ -209,7 +209,8 @@ sub is_available {
 sub get_size_gib {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->get_size_mib() >> 10;
+	my $sizeMib = $self->get_size_mib();
+	return !defined($sizeMib) ? undef : $sizeMib >> 10;
 }
 
 #** @method private int set_size_gib ($sizeGib)
@@ -222,7 +223,7 @@ sub set_size_gib {
 	my $sizeGib = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($sizeGib, "int");
-	$self->set_size_mib($sizeGib * 1024);
+	$self->set_size_mib(!defined($sizeGib) ? undef : $sizeGib * 1024);
 	return $sizeGib;
 }
 

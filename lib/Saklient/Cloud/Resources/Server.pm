@@ -323,7 +323,7 @@ sub sleep_until {
 	my $step = 3;
 	while (0 < $timeoutSec) {
 		$self->reload();
-		my $s = $self->get_instance()->status;
+		my $s = $self->get_instance()->{'status'};
 		if (!defined($s)) {
 			$s = Saklient::Cloud::Enums::EServerInstanceStatus::down;
 		}

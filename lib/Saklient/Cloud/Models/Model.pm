@@ -303,7 +303,8 @@ sub _reset {
 sub _create {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), [$self->{'_client'}, undef]);
+	my $a = [$self->{'_client'}, undef];
+	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
 }
 
 #** @method private Saklient::Cloud::Resources::Resource _get_by_id ($id)
@@ -350,7 +351,8 @@ sub _find {
 	my $records = $result->{$self->_root_key_m()};
 	my $data = [];
 	foreach my $record (@{$records}) {
-		my $i = Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), [$self->{'_client'}, $record]);
+		my $a = [$self->{'_client'}, $record];
+		my $i = Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
 		push(@{$data}, $i);
 	}
 	return $data;
