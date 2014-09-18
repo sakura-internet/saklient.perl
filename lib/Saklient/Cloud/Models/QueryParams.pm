@@ -28,7 +28,7 @@ my $count;
 #*
 my $filter;
 
-#** @var public any* Saklient::Cloud::Models::QueryParams::$sort 
+#** @var public string* Saklient::Cloud::Models::QueryParams::$sort 
 # 
 # @brief null
 #*

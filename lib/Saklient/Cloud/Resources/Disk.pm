@@ -306,7 +306,11 @@ sub _on_after_api_deserialize {
 			if (defined($s)) {
 				my $id = $s->{"ID"};
 				if (defined($id)) {
-					my $obj = Saklient::Util::create_class_instance("saklient.cloud.resources.Archive", [$self->{'_client'}, $s]);
+					my $obj = Saklient::Util::create_class_instance("saklient.cloud.resources.Archive", [
+						$self->{'_client'},
+						$s,
+						0
+					]);
 					$self->{'_source'} = $obj;
 				}
 			}

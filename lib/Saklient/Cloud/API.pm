@@ -447,10 +447,7 @@ sub authorize {
 	Saklient::Util::validate_type($zone, "string");
 	my $c = new Saklient::Cloud::Client($token, $secret);
 	my $ret = new Saklient::Cloud::API($c);
-	if (defined($zone)) {
-		$ret = $ret->in_zone($zone);
-	}
-	return $ret;
+	return defined($zone) ? $ret->in_zone($zone) : $ret;
 }
 
 #** @method public Saklient::Cloud::API in_zone ($name)

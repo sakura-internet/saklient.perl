@@ -14,6 +14,7 @@ use Saklient::Cloud::Resources::Icon;
 use Saklient::Cloud::Resources::Swytch;
 use Saklient::Cloud::Resources::Ipv4Net;
 use Saklient::Cloud::Resources::Ipv6Net;
+use Saklient::Cloud::Models::Model_Swytch;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 

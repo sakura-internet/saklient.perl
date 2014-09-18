@@ -435,7 +435,7 @@ sub write {
 		Saklient::Util::set_by_path($q, "Notes", $notes);
 	}
 	my $path = "/disk/" . $self->{'_disk_id'} . "/config";
-	my $result = $self->{'_client'}->request("PUT", $path, $q);
+	$self->{'_client'}->request("PUT", $path, $q);
 	return $self;
 }
 

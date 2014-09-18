@@ -347,7 +347,11 @@ sub _on_after_api_deserialize {
 			if (defined($s)) {
 				my $id = $s->{"ID"};
 				if (defined($id)) {
-					my $obj = Saklient::Util::create_class_instance("saklient.cloud.resources.Disk", [$self->{'_client'}, $s]);
+					my $obj = Saklient::Util::create_class_instance("saklient.cloud.resources.Disk", [
+						$self->{'_client'},
+						$s,
+						0
+					]);
 					$self->{'_source'} = $obj;
 				}
 			}
@@ -419,7 +423,7 @@ sub close_ftp {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $path = $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/ftp";
-	my $result = $self->{'_client'}->request("DELETE", $path);
+	$self->{'_client'}->request("DELETE", $path);
 	$self->{'_ftp_info'} = undef;
 	return $self;
 }

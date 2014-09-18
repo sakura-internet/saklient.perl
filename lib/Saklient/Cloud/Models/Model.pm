@@ -303,7 +303,11 @@ sub _reset {
 sub _create {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $a = [$self->{'_client'}, undef];
+	my $a = [
+		$self->{'_client'},
+		undef,
+		0
+	];
 	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
 }
 
@@ -326,11 +330,12 @@ sub _get_by_id {
 	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($id), $query);
 	$self->{'_total'} = 1;
 	$self->{'_count'} = 1;
-	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), [
+	my $a = [
 		$self->{'_client'},
 		$result,
 		1
-	]);
+	];
+	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
 }
 
 #** @method private Saklient::Cloud::Resources::Resource[] _find 
@@ -348,10 +353,14 @@ sub _find {
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
 	$self->{'_total'} = $result->{"Total"};
 	$self->{'_count'} = $result->{"Count"};
-	my $records = $result->{$self->_root_key_m()};
 	my $data = [];
+	my $records = $result->{$self->_root_key_m()};
 	foreach my $record (@{$records}) {
-		my $a = [$self->{'_client'}, $record];
+		my $a = [
+			$self->{'_client'},
+			$record,
+			0
+		];
 		my $i = Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
 		push(@{$data}, $i);
 	}
@@ -377,7 +386,12 @@ sub _find_one {
 		return undef;
 	}
 	my $records = $result->{$self->_root_key_m()};
-	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), [$self->{'_client'}, $records->[0]]);
+	my $a = [
+		$self->{'_client'},
+		$records->[0],
+		0
+	];
+	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
 }
 
 #** @method private Saklient::Cloud::Models::Model _with_name_like ($name)

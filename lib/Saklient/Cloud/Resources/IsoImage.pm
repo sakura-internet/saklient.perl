@@ -288,7 +288,7 @@ sub close_ftp {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $path = $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/ftp";
-	my $result = $self->{'_client'}->request("DELETE", $path);
+	$self->{'_client'}->request("DELETE", $path);
 	$self->{'_ftp_info'} = undef;
 	return $self;
 }

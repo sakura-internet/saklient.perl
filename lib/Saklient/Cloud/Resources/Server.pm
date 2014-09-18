@@ -18,6 +18,8 @@ use Saklient::Cloud::Resources::ServerInstance;
 use Saklient::Cloud::Resources::IsoImage;
 use Saklient::Cloud::Enums::EServerInstanceStatus;
 use Saklient::Cloud::Enums::EAvailability;
+use Saklient::Cloud::Models::Model_Disk;
+use Saklient::Cloud::Models::Model_Iface;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 
@@ -400,7 +402,7 @@ sub insert_iso_image {
 	Saklient::Util::validate_type($iso, "Saklient::Cloud::Resources::IsoImage");
 	my $path = $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/cdrom";
 	my $q = {'CDROM' => {'ID' => $iso->_id()}};
-	my $result = $self->{'_client'}->request("PUT", $path, $q);
+	$self->{'_client'}->request("PUT", $path, $q);
 	$self->reload();
 	return $self;
 }
@@ -415,7 +417,7 @@ sub eject_iso_image {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $path = $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/cdrom";
-	my $result = $self->{'_client'}->request("DELETE", $path);
+	$self->{'_client'}->request("DELETE", $path);
 	$self->reload();
 	return $self;
 }
