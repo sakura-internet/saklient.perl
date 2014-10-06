@@ -138,14 +138,14 @@ my $is_new;
 #*
 my $is_incomplete;
 
-#** @method private void _on_before_save ($r)
+#** @method private void _on_before_save ($query)
 # 
 # @private
 #*
 sub _on_before_save {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $r = shift;
+	my $query = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 }
 
@@ -272,6 +272,20 @@ sub normalize_field_name {
 	return $name;
 }
 
+#** @method public any get_property ($name)
+# 
+# @ignore @param {string} name
+#*
+sub get_property {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $name = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($name, "string");
+	$name = $self->normalize_field_name($name);
+	return $self->{"m_" . $name};
+}
+
 #** @method public void set_property ($name, $value)
 # 
 # @ignore @param {string} name
@@ -306,7 +320,6 @@ sub _save {
 		my $v = $query->{$k};
 		$r->{$k} = $v;
 	}
-	$self->_on_before_save($r);
 	my $method = $self->{'is_new'} ? "POST" : "PUT";
 	my $path = $self->_api_path();
 	if (!$self->{'is_new'}) {
@@ -314,6 +327,7 @@ sub _save {
 	}
 	my $q = {};
 	$q->{$self->_root_key()} = $r;
+	$self->_on_before_save($q);
 	my $result = $self->{'_client'}->request($method, $path, $q);
 	$self->api_deserialize($result, 1);
 	return $self;
@@ -359,7 +373,8 @@ sub exists {
 	Saklient::Util::set_by_path($query, "Filter.ID", [$self->_id()]);
 	Saklient::Util::set_by_path($query, "Include", ["ID"]);
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
-	return $result->{"Count"} == 1;
+	my $cnt = $result->{"Count"};
+	return $cnt == 1;
 }
 
 #** @method public any dump 
@@ -370,6 +385,46 @@ sub dump {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->api_serialize(1);
+}
+
+#** @method public string true_class_name 
+# 
+# @ignore
+#*
+sub true_class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return undef;
+}
+
+#** @cmethod public Saklient::Cloud::Resources::Resource create_with ($className, $client, $obj, $wrapped)
+# 
+# @ignore @param {string} className
+# @param Saklient::Cloud::Client $client
+# @param bool $wrapped
+#*
+sub create_with {
+	shift if 3 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saklient::Cloud::Resources::Resource';
+	my $_argnum = scalar @_;
+	my $className = shift;
+	my $client = shift;
+	my $obj = shift;
+	my $wrapped = shift || (0);
+	Saklient::Util::validate_arg_count($_argnum, 3);
+	Saklient::Util::validate_type($className, "string");
+	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
+	Saklient::Util::validate_type($wrapped, "bool");
+	my $a = [
+		$client,
+		$obj,
+		$wrapped
+	];
+	my $ret = Saklient::Util::create_class_instance("saklient.cloud.resources." . $className, $a);
+	my $trueClassName = $ret->true_class_name();
+	if (defined($trueClassName)) {
+		$ret = Saklient::Util::create_class_instance("saklient.cloud.resources." . $trueClassName, $a);
+	}
+	return $ret;
 }
 
 1;

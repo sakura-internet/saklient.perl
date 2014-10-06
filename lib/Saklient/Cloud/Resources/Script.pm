@@ -353,6 +353,7 @@ my $n_tags = 0;
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
+	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
 }
 
@@ -485,28 +486,14 @@ sub get_annotation {
 	return $self->{'m_annotation'};
 }
 
-#** @method private any set_annotation ($v)
-# 
-# @brief (This method is generated in Translator_default#buildImpl)
-#*
-sub set_annotation {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	my $v = shift;
-	Saklient::Util::validate_arg_count($_argnum, 1);
-	$self->{'m_annotation'} = $v;
-	$self->{'n_annotation'} = 1;
-	return $self->{'m_annotation'};
-}
-
 #** @method public any annotation ()
 # 
 # @brief 注釈
 #*
 sub annotation {
 	if (1 < scalar(@_)) {
-		$_[0]->set_annotation($_[1]);
-		return $_[0];
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Script#annotation");
+		throw $ex;
 	}
 	return $_[0]->get_annotation();
 }

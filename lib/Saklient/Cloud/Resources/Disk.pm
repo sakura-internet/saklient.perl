@@ -306,12 +306,7 @@ sub _on_after_api_deserialize {
 			if (defined($s)) {
 				my $id = $s->{"ID"};
 				if (defined($id)) {
-					my $obj = Saklient::Util::create_class_instance("saklient.cloud.resources.Archive", [
-						$self->{'_client'},
-						$s,
-						0
-					]);
-					$self->{'_source'} = $obj;
+					$self->{'_source'} = Saklient::Cloud::Resources::Resource::create_with("Archive", $self->{'_client'}, $s);
 				}
 			}
 		}
@@ -569,6 +564,7 @@ my $n_tags = 0;
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
+	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
 }
 

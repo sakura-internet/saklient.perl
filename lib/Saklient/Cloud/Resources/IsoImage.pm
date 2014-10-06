@@ -463,6 +463,7 @@ my $n_tags = 0;
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
+	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
 }
 

@@ -291,6 +291,20 @@ sub _reset {
 	return $self;
 }
 
+#** @method private Saklient::Cloud::Resources::Resource _create_resource_with ($obj, $wrapped)
+# 
+# @private@param {bool} wrapped
+#*
+sub _create_resource_with {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $obj = shift;
+	my $wrapped = shift || (0);
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($wrapped, "bool");
+	return Saklient::Cloud::Resources::Resource::create_with($self->_class_name(), $self->{'_client'}, $obj, $wrapped);
+}
+
 #** @method private Saklient::Cloud::Resources::Resource _create 
 # 
 # @brief 新規リソース作成用のオブジェクトを用意します。
@@ -303,12 +317,7 @@ sub _reset {
 sub _create {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $a = [
-		$self->{'_client'},
-		undef,
-		0
-	];
-	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
+	return $self->_create_resource_with(undef);
 }
 
 #** @method private Saklient::Cloud::Resources::Resource _get_by_id ($id)
@@ -330,12 +339,7 @@ sub _get_by_id {
 	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($id), $query);
 	$self->{'_total'} = 1;
 	$self->{'_count'} = 1;
-	my $a = [
-		$self->{'_client'},
-		$result,
-		1
-	];
-	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
+	return $self->_create_resource_with($result, 1);
 }
 
 #** @method private Saklient::Cloud::Resources::Resource[] _find 
@@ -356,13 +360,7 @@ sub _find {
 	my $data = [];
 	my $records = $result->{$self->_root_key_m()};
 	foreach my $record (@{$records}) {
-		my $a = [
-			$self->{'_client'},
-			$record,
-			0
-		];
-		my $i = Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
-		push(@{$data}, $i);
+		push(@{$data}, $self->_create_resource_with($record));
 	}
 	return $data;
 }
@@ -386,12 +384,7 @@ sub _find_one {
 		return undef;
 	}
 	my $records = $result->{$self->_root_key_m()};
-	my $a = [
-		$self->{'_client'},
-		$records->[0],
-		0
-	];
-	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $self->_class_name(), $a);
+	return $self->_create_resource_with($records->[0]);
 }
 
 #** @method private Saklient::Cloud::Models::Model _with_name_like ($name)

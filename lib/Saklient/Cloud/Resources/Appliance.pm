@@ -64,6 +64,24 @@ my $m_icon;
 #*
 my $m_ifaces;
 
+#** @var private any Saklient::Cloud::Resources::Appliance::$m_annotation 
+# 
+# @brief 注釈
+#*
+my $m_annotation;
+
+#** @var private any Saklient::Cloud::Resources::Appliance::$m_raw_settings 
+# 
+# @brief 設定の生データ
+#*
+my $m_raw_settings;
+
+#** @var private string Saklient::Cloud::Resources::Appliance::$m_raw_settings_hash 
+# 
+# @ignore
+#*
+my $m_raw_settings_hash;
+
 #** @var private string Saklient::Cloud::Resources::Appliance::$m_service_class 
 # 
 # @brief サービスクラス
@@ -144,6 +162,21 @@ sub reload {
 	return $self->_reload();
 }
 
+#** @method public string true_class_name 
+# 
+# @ignore
+#*
+sub true_class_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	if (($self->get_clazz()) eq "loadbalancer") {
+		return "LoadBalancer";
+	}
+	elsif (($self->get_clazz()) eq "vpcrouter") {
+		return "VpcRouter";
+	}
+}
+
 #** @method public void new ($client, $obj, $wrapped)
 # 
 # @ignore @param {Saklient::Cloud::Client} client
@@ -162,6 +195,18 @@ sub new {
 	Saklient::Util::validate_type($wrapped, "bool");
 	$self->api_deserialize($obj, $wrapped);
 	return $self;
+}
+
+#** @method private void _on_before_save ($query)
+# 
+# @private
+#*
+sub _on_before_save {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $query = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::set_by_path($query, "OriginalSettingsHash", $self->get_raw_settings_hash());
 }
 
 #** @method public Saklient::Cloud::Resources::Appliance boot 
@@ -389,6 +434,7 @@ my $n_tags = 0;
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
+	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
 }
 
@@ -488,6 +534,105 @@ sub ifaces {
 		throw $ex;
 	}
 	return $_[0]->get_ifaces();
+}
+
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_annotation 
+# 
+# @brief null
+#*
+my $n_annotation = 0;
+
+#** @method private any get_annotation 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_annotation {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_annotation'};
+}
+
+#** @method public any annotation ()
+# 
+# @brief 注釈
+#*
+sub annotation {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Appliance#annotation");
+		throw $ex;
+	}
+	return $_[0]->get_annotation();
+}
+
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_raw_settings 
+# 
+# @brief null
+#*
+my $n_raw_settings = 0;
+
+#** @method private any get_raw_settings 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_raw_settings {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	$self->{'n_raw_settings'} = 1;
+	return $self->{'m_raw_settings'};
+}
+
+#** @method private any set_raw_settings ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub set_raw_settings {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	$self->{'m_raw_settings'} = $v;
+	$self->{'n_raw_settings'} = 1;
+	return $self->{'m_raw_settings'};
+}
+
+#** @method public any raw_settings ()
+# 
+# @brief 設定の生データ
+#*
+sub raw_settings {
+	if (1 < scalar(@_)) {
+		$_[0]->set_raw_settings($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_raw_settings();
+}
+
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_raw_settings_hash 
+# 
+# @brief null
+#*
+my $n_raw_settings_hash = 0;
+
+#** @method private string get_raw_settings_hash 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_raw_settings_hash {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_raw_settings_hash'};
+}
+
+#** @method public string raw_settings_hash ()
+# 
+# @ignore
+#*
+sub raw_settings_hash {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Appliance#raw_settings_hash");
+		throw $ex;
+	}
+	return $_[0]->get_raw_settings_hash();
 }
 
 #** @var private bool Saklient::Cloud::Resources::Appliance::$n_service_class 
@@ -608,6 +753,30 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_ifaces'} = 0;
+	if (Saklient::Util::exists_path($r, "Remark")) {
+		$self->{'m_annotation'} = Saklient::Util::get_by_path($r, "Remark");
+	}
+	else {
+		$self->{'m_annotation'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_annotation'} = 0;
+	if (Saklient::Util::exists_path($r, "Settings")) {
+		$self->{'m_raw_settings'} = Saklient::Util::get_by_path($r, "Settings");
+	}
+	else {
+		$self->{'m_raw_settings'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_raw_settings'} = 0;
+	if (Saklient::Util::exists_path($r, "SettingsHash")) {
+		$self->{'m_raw_settings_hash'} = !defined(Saklient::Util::get_by_path($r, "SettingsHash")) ? undef : "" . Saklient::Util::get_by_path($r, "SettingsHash");
+	}
+	else {
+		$self->{'m_raw_settings_hash'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_raw_settings_hash'} = 0;
 	if (Saklient::Util::exists_path($r, "ServiceClass")) {
 		$self->{'m_service_class'} = !defined(Saklient::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saklient::Util::get_by_path($r, "ServiceClass");
 	}
@@ -669,6 +838,15 @@ sub api_serialize_impl {
 			$v = $withClean ? (!defined($r2) ? undef : $r2->api_serialize($withClean)) : (!defined($r2) ? {'ID' => "0"} : $r2->api_serialize_id());
 			push(@{$ret->{"Interfaces"}}, $v);
 		}
+	}
+	if ($withClean || $self->{'n_annotation'}) {
+		Saklient::Util::set_by_path($ret, "Remark", $self->{'m_annotation'});
+	}
+	if ($withClean || $self->{'n_raw_settings'}) {
+		Saklient::Util::set_by_path($ret, "Settings", $self->{'m_raw_settings'});
+	}
+	if ($withClean || $self->{'n_raw_settings_hash'}) {
+		Saklient::Util::set_by_path($ret, "SettingsHash", $self->{'m_raw_settings_hash'});
 	}
 	if ($withClean || $self->{'n_service_class'}) {
 		Saklient::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});

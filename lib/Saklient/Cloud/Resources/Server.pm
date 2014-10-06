@@ -325,7 +325,7 @@ sub sleep_until {
 	my $step = 3;
 	while (0 < $timeoutSec) {
 		$self->reload();
-		my $s = $self->get_instance()->{'status'};
+		my $s = $self->get_instance()->get_property("status");
 		if (!defined($s)) {
 			$s = Saklient::Cloud::Enums::EServerInstanceStatus::down;
 		}
@@ -549,6 +549,7 @@ my $n_tags = 0;
 sub get_tags {
 	my $self = shift;
 	my $_argnum = scalar @_;
+	$self->{'n_tags'} = 1;
 	return $self->{'m_tags'};
 }
 

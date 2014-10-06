@@ -10,6 +10,8 @@ use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Models::Model;
 use Saklient::Cloud::Resources::Archive;
+use Saklient::Cloud::Resources::LoadBalancer;
+use Saklient::Cloud::Resources::VpcRouter;
 use Saklient::Cloud::Enums::EScope;
 
 use base qw(Saklient::Cloud::Models::Model);

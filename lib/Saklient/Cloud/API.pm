@@ -432,7 +432,7 @@ sub new {
 # 
 # @param string $token ACCESS TOKEN
 # @param string $secret ACCESS TOKEN SECRET
-# @param string $zone
+# @param string $zone ゾーン名
 # @retval APIクライアント
 #*
 sub authorize {
