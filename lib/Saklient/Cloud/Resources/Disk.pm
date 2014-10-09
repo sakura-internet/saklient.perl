@@ -387,26 +387,6 @@ sub create_config {
 	return new Saklient::Cloud::Resources::DiskConfig($self->{'_client'}, $self->_id());
 }
 
-#** @method public void after_copy ($timeoutSec, $callback)
-# 
-# @brief コピー中のディスクが利用可能になるまで待機します。
-# 
-# @ignore
-# @param int $timeoutSec
-# @param (Saklient::Cloud::Resources::Disk, bool) => void $callback
-#*
-sub after_copy {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	my $timeoutSec = shift;
-	my $callback = shift;
-	Saklient::Util::validate_arg_count($_argnum, 2);
-	Saklient::Util::validate_type($timeoutSec, "int");
-	Saklient::Util::validate_type($callback, "CODE");
-	my $ret = $self->sleep_while_copying($timeoutSec);
-	$callback->($self, $ret);
-}
-
 #** @method public bool sleep_while_copying ($timeoutSec)
 # 
 # @brief コピー中のディスクが利用可能になるまで待機します。
@@ -419,7 +399,7 @@ sub sleep_while_copying {
 	my $_argnum = scalar @_;
 	my $timeoutSec = shift || (3600);
 	Saklient::Util::validate_type($timeoutSec, "int");
-	my $step = 3;
+	my $step = 10;
 	while (0 < $timeoutSec) {
 		$self->reload();
 		my $a = $self->get_availability();

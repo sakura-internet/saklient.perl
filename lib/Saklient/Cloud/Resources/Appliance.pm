@@ -13,6 +13,8 @@ use Saklient::Cloud::Resources::Resource;
 use Saklient::Cloud::Resources::Icon;
 use Saklient::Cloud::Resources::Iface;
 use Saklient::Cloud::Enums::EApplianceClass;
+use Saklient::Cloud::Enums::EAvailability;
+use Saklient::Cloud::Enums::EServerInstanceStatus;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 
@@ -58,17 +60,23 @@ my $m_tags;
 #*
 my $m_icon;
 
-#** @var private Saklient::Cloud::Resources::Iface* Saklient::Cloud::Resources::Appliance::$m_ifaces 
+#** @var private int Saklient::Cloud::Resources::Appliance::$m_plan_id 
 # 
 # @brief プラン
 #*
+my $m_plan_id;
+
+#** @var private Saklient::Cloud::Resources::Iface* Saklient::Cloud::Resources::Appliance::$m_ifaces 
+# 
+# @brief インタフェース
+#*
 my $m_ifaces;
 
-#** @var private any Saklient::Cloud::Resources::Appliance::$m_annotation 
+#** @var private any Saklient::Cloud::Resources::Appliance::$m_raw_annotation 
 # 
 # @brief 注釈
 #*
-my $m_annotation;
+my $m_raw_annotation;
 
 #** @var private any Saklient::Cloud::Resources::Appliance::$m_raw_settings 
 # 
@@ -82,11 +90,23 @@ my $m_raw_settings;
 #*
 my $m_raw_settings_hash;
 
+#** @var private string Saklient::Cloud::Resources::Appliance::$m_status 
+# 
+# @brief 起動状態 {@link EServerInstanceStatus}
+#*
+my $m_status;
+
 #** @var private string Saklient::Cloud::Resources::Appliance::$m_service_class 
 # 
 # @brief サービスクラス
 #*
 my $m_service_class;
+
+#** @var private string Saklient::Cloud::Resources::Appliance::$m_availability 
+# 
+# @brief 有効状態 {@link EAvailability}
+#*
+my $m_availability;
 
 #** @method private string _api_path 
 # 
@@ -169,12 +189,16 @@ sub reload {
 sub true_class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	if (($self->get_clazz()) eq "loadbalancer") {
+	if (!defined($self->clazz())) {
+		return undef;
+	}
+	if ($self->clazz() eq "loadbalancer") {
 		return "LoadBalancer";
 	}
-	elsif (($self->get_clazz()) eq "vpcrouter") {
+	elsif ($self->clazz() eq "vpcrouter") {
 		return "VpcRouter";
 	}
+	return undef;
 }
 
 #** @method public void new ($client, $obj, $wrapped)
@@ -259,6 +283,99 @@ sub reboot {
 	my $_argnum = scalar @_;
 	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/reset");
 	return $self;
+}
+
+#** @method public bool sleep_while_creating ($timeoutSec)
+# 
+# @brief 作成中のアプライアンスが利用可能になるまで待機します。
+# 
+# @param int $timeoutSec
+# @retval 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+#*
+sub sleep_while_creating {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $timeoutSec = shift || (600);
+	Saklient::Util::validate_type($timeoutSec, "int");
+	my $step = 10;
+	while (0 < $timeoutSec) {
+		$self->reload();
+		my $a = $self->get_availability();
+		if ($a eq Saklient::Cloud::Enums::EAvailability::available) {
+			return 1;
+		}
+		if ($a ne Saklient::Cloud::Enums::EAvailability::migrating) {
+			$timeoutSec = 0;
+		}
+		$timeoutSec -= $step;
+		if (0 < $timeoutSec) {
+			sleep $step;
+		}
+	}
+	return 0;
+}
+
+#** @method public bool sleep_until_up ($timeoutSec)
+# 
+# @brief アプライアンスが起動するまで待機します。
+# 
+# @param int $timeoutSec
+#*
+sub sleep_until_up {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $timeoutSec = shift || (600);
+	Saklient::Util::validate_type($timeoutSec, "int");
+	return $self->sleep_until(Saklient::Cloud::Enums::EServerInstanceStatus::up, $timeoutSec);
+}
+
+#** @method public bool sleep_until_down ($timeoutSec)
+# 
+# @brief アプライアンスが停止するまで待機します。
+# 
+# @param int $timeoutSec
+# @retval 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+#*
+sub sleep_until_down {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $timeoutSec = shift || (600);
+	Saklient::Util::validate_type($timeoutSec, "int");
+	return $self->sleep_until(Saklient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec);
+}
+
+#** @method private bool sleep_until ($status, $timeoutSec)
+# 
+# @brief アプライアンスが指定のステータスに遷移するまで待機します。
+# 
+# @ignore
+# @param string $status
+# @param int $timeoutSec
+#*
+sub sleep_until {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $status = shift;
+	my $timeoutSec = shift || (600);
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($status, "string");
+	Saklient::Util::validate_type($timeoutSec, "int");
+	my $step = 10;
+	while (0 < $timeoutSec) {
+		$self->reload();
+		my $s = $self->get_status();
+		if (!defined($s)) {
+			$s = Saklient::Cloud::Enums::EServerInstanceStatus::down;
+		}
+		if ($s eq $status) {
+			return 1;
+		}
+		$timeoutSec -= $step;
+		if (0 < $timeoutSec) {
+			sleep $step;
+		}
+	}
+	return 0;
 }
 
 #** @var private bool Saklient::Cloud::Resources::Appliance::$n_id 
@@ -508,6 +625,52 @@ sub icon {
 	return $_[0]->get_icon();
 }
 
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_plan_id 
+# 
+# @brief null
+#*
+my $n_plan_id = 0;
+
+#** @method private int get_plan_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_plan_id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_plan_id'};
+}
+
+#** @method private int set_plan_id ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {int} v
+#*
+sub set_plan_id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "int");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saklient::Errors::SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient::Cloud::Resources::Appliance#plan_id"); throw $ex; };
+	}
+	$self->{'m_plan_id'} = $v;
+	$self->{'n_plan_id'} = 1;
+	return $self->{'m_plan_id'};
+}
+
+#** @method public int plan_id ()
+# 
+# @brief プラン
+#*
+sub plan_id {
+	if (1 < scalar(@_)) {
+		$_[0]->set_plan_id($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_plan_id();
+}
+
 #** @var private bool Saklient::Cloud::Resources::Appliance::$n_ifaces 
 # 
 # @brief null
@@ -526,7 +689,7 @@ sub get_ifaces {
 
 #** @method public Saklient::Cloud::Resources::Iface[] ifaces ()
 # 
-# @brief プラン
+# @brief インタフェース
 #*
 sub ifaces {
 	if (1 < scalar(@_)) {
@@ -536,32 +699,49 @@ sub ifaces {
 	return $_[0]->get_ifaces();
 }
 
-#** @var private bool Saklient::Cloud::Resources::Appliance::$n_annotation 
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_raw_annotation 
 # 
 # @brief null
 #*
-my $n_annotation = 0;
+my $n_raw_annotation = 0;
 
-#** @method private any get_annotation 
+#** @method private any get_raw_annotation 
 # 
 # @brief (This method is generated in Translator_default#buildImpl)
 #*
-sub get_annotation {
+sub get_raw_annotation {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->{'m_annotation'};
+	return $self->{'m_raw_annotation'};
 }
 
-#** @method public any annotation ()
+#** @method private any set_raw_annotation ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub set_raw_annotation {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saklient::Errors::SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient::Cloud::Resources::Appliance#raw_annotation"); throw $ex; };
+	}
+	$self->{'m_raw_annotation'} = $v;
+	$self->{'n_raw_annotation'} = 1;
+	return $self->{'m_raw_annotation'};
+}
+
+#** @method public any raw_annotation ()
 # 
 # @brief 注釈
 #*
-sub annotation {
+sub raw_annotation {
 	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Appliance#annotation");
-		throw $ex;
+		$_[0]->set_raw_annotation($_[1]);
+		return $_[0];
 	}
-	return $_[0]->get_annotation();
+	return $_[0]->get_raw_annotation();
 }
 
 #** @var private bool Saklient::Cloud::Resources::Appliance::$n_raw_settings 
@@ -635,6 +815,34 @@ sub raw_settings_hash {
 	return $_[0]->get_raw_settings_hash();
 }
 
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_status 
+# 
+# @brief null
+#*
+my $n_status = 0;
+
+#** @method private string get_status 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_status {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_status'};
+}
+
+#** @method public string status ()
+# 
+# @brief 起動状態 {@link EServerInstanceStatus}
+#*
+sub status {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Appliance#status");
+		throw $ex;
+	}
+	return $_[0]->get_status();
+}
+
 #** @var private bool Saklient::Cloud::Resources::Appliance::$n_service_class 
 # 
 # @brief null
@@ -661,6 +869,34 @@ sub service_class {
 		throw $ex;
 	}
 	return $_[0]->get_service_class();
+}
+
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_availability 
+# 
+# @brief null
+#*
+my $n_availability = 0;
+
+#** @method private string get_availability 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_availability {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_availability'};
+}
+
+#** @method public string availability ()
+# 
+# @brief 有効状態 {@link EAvailability}
+#*
+sub availability {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Appliance#availability");
+		throw $ex;
+	}
+	return $_[0]->get_availability();
 }
 
 #** @method private void api_deserialize_impl ($r)
@@ -735,6 +971,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_icon'} = 0;
+	if (Saklient::Util::exists_path($r, "Plan.ID")) {
+		$self->{'m_plan_id'} = !defined(Saklient::Util::get_by_path($r, "Plan.ID")) ? undef : (0+("" . Saklient::Util::get_by_path($r, "Plan.ID")));
+	}
+	else {
+		$self->{'m_plan_id'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_plan_id'} = 0;
 	if (Saklient::Util::exists_path($r, "Interfaces")) {
 		if (!defined(Saklient::Util::get_by_path($r, "Interfaces"))) {
 			$self->{'m_ifaces'} = [];
@@ -754,13 +998,13 @@ sub api_deserialize_impl {
 	}
 	$self->{'n_ifaces'} = 0;
 	if (Saklient::Util::exists_path($r, "Remark")) {
-		$self->{'m_annotation'} = Saklient::Util::get_by_path($r, "Remark");
+		$self->{'m_raw_annotation'} = Saklient::Util::get_by_path($r, "Remark");
 	}
 	else {
-		$self->{'m_annotation'} = undef;
+		$self->{'m_raw_annotation'} = undef;
 		$self->{'is_incomplete'} = 1;
 	}
-	$self->{'n_annotation'} = 0;
+	$self->{'n_raw_annotation'} = 0;
 	if (Saklient::Util::exists_path($r, "Settings")) {
 		$self->{'m_raw_settings'} = Saklient::Util::get_by_path($r, "Settings");
 	}
@@ -777,6 +1021,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_raw_settings_hash'} = 0;
+	if (Saklient::Util::exists_path($r, "Instance.Status")) {
+		$self->{'m_status'} = !defined(Saklient::Util::get_by_path($r, "Instance.Status")) ? undef : "" . Saklient::Util::get_by_path($r, "Instance.Status");
+	}
+	else {
+		$self->{'m_status'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_status'} = 0;
 	if (Saklient::Util::exists_path($r, "ServiceClass")) {
 		$self->{'m_service_class'} = !defined(Saklient::Util::get_by_path($r, "ServiceClass")) ? undef : "" . Saklient::Util::get_by_path($r, "ServiceClass");
 	}
@@ -785,6 +1037,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_service_class'} = 0;
+	if (Saklient::Util::exists_path($r, "Availability")) {
+		$self->{'m_availability'} = !defined(Saklient::Util::get_by_path($r, "Availability")) ? undef : "" . Saklient::Util::get_by_path($r, "Availability");
+	}
+	else {
+		$self->{'m_availability'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_availability'} = 0;
 }
 
 #** @method private any api_serialize_impl ($withClean)
@@ -831,6 +1091,14 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_icon'}) {
 		Saklient::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
 	}
+	if ($withClean || $self->{'n_plan_id'}) {
+		Saklient::Util::set_by_path($ret, "Plan.ID", $self->{'m_plan_id'});
+	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "plan_id");
+		}
+	}
 	if ($withClean || $self->{'n_ifaces'}) {
 		Saklient::Util::set_by_path($ret, "Interfaces", []);
 		foreach my $r2 (@{$self->{'m_ifaces'}}) {
@@ -839,8 +1107,13 @@ sub api_serialize_impl {
 			push(@{$ret->{"Interfaces"}}, $v);
 		}
 	}
-	if ($withClean || $self->{'n_annotation'}) {
-		Saklient::Util::set_by_path($ret, "Remark", $self->{'m_annotation'});
+	if ($withClean || $self->{'n_raw_annotation'}) {
+		Saklient::Util::set_by_path($ret, "Remark", $self->{'m_raw_annotation'});
+	}
+	else {
+		if ($self->{'is_new'}) {
+			push(@{$missing}, "raw_annotation");
+		}
 	}
 	if ($withClean || $self->{'n_raw_settings'}) {
 		Saklient::Util::set_by_path($ret, "Settings", $self->{'m_raw_settings'});
@@ -848,8 +1121,14 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_raw_settings_hash'}) {
 		Saklient::Util::set_by_path($ret, "SettingsHash", $self->{'m_raw_settings_hash'});
 	}
+	if ($withClean || $self->{'n_status'}) {
+		Saklient::Util::set_by_path($ret, "Instance.Status", $self->{'m_status'});
+	}
 	if ($withClean || $self->{'n_service_class'}) {
 		Saklient::Util::set_by_path($ret, "ServiceClass", $self->{'m_service_class'});
+	}
+	if ($withClean || $self->{'n_availability'}) {
+		Saklient::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
 	}
 	if (scalar(@{$missing}) > 0) {
 		{ my $ex = new Saklient::Errors::SaklientException("required_field", "Required fields must be set before the Appliance creation: " . join(", ", @{$missing})); throw $ex; };

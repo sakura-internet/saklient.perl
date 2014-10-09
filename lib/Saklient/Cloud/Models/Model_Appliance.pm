@@ -10,6 +10,9 @@ use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Models::Model;
 use Saklient::Cloud::Resources::Appliance;
+use Saklient::Cloud::Resources::LoadBalancer;
+use Saklient::Cloud::Resources::VpcRouter;
+use Saklient::Cloud::Resources::Swytch;
 
 use base qw(Saklient::Cloud::Models::Model);
 
@@ -121,6 +124,40 @@ sub reset {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reset();
+}
+
+#** @method public Saklient::Cloud::Resources::LoadBalancer create_load_balancer ($swytch, $vrid, @$realIps, $isHighSpec)
+# 
+# @brief null@param {Saklient::Cloud::Resources::Swytch} swytch
+# 
+# @param int $vrid
+# @param string* $realIps
+# @param bool $isHighSpec
+#*
+sub create_load_balancer {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $swytch = shift;
+	my $vrid = shift;
+	my $realIps = shift;
+	my $isHighSpec = shift || (0);
+	Saklient::Util::validate_arg_count($_argnum, 3);
+	Saklient::Util::validate_type($swytch, "Saklient::Cloud::Resources::Swytch");
+	Saklient::Util::validate_type($vrid, "int");
+	Saklient::Util::validate_type($realIps, "ARRAY");
+	Saklient::Util::validate_type($isHighSpec, "bool");
+	my $ret = $self->_create("LoadBalancer");
+	return $ret->set_initial_params($swytch, $vrid, $realIps, $isHighSpec);
+}
+
+#** @method public Saklient::Cloud::Resources::VpcRouter create_vpc_router 
+# 
+# @brief null
+#*
+sub create_vpc_router {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->_create("VpcRouter");
 }
 
 #** @method public Saklient::Cloud::Resources::Appliance get_by_id ($id)
