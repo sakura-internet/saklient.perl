@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saklient::Util;
 use Saklient::Cloud::Client;
+use Saklient::Errors::HttpException;
 
 
 
@@ -161,6 +162,18 @@ sub _on_after_api_deserialize {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 }
 
+#** @method private void _on_before_api_serialize ($withClean)
+# 
+# @private@param {bool} withClean
+#*
+sub _on_before_api_serialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $withClean = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($withClean, "bool");
+}
+
 #** @method private void _on_after_api_serialize ($r, $withClean)
 # 
 # @private@param {bool} withClean
@@ -237,6 +250,7 @@ sub api_serialize {
 	my $_argnum = scalar @_;
 	my $withClean = shift || (0);
 	Saklient::Util::validate_type($withClean, "bool");
+	$self->_on_before_api_serialize($withClean);
 	my $ret = $self->api_serialize_impl($withClean);
 	$self->_on_after_api_serialize($ret, $withClean);
 	return $ret;
@@ -270,36 +284,6 @@ sub normalize_field_name {
 	Saklient::Util::validate_type($name, "string");
 	$name =~ s/([A-Z])/'_'.lc($1)/eg;
 	return $name;
-}
-
-#** @method public any get_property ($name)
-# 
-# @ignore @param {string} name
-#*
-sub get_property {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	my $name = shift;
-	Saklient::Util::validate_arg_count($_argnum, 1);
-	Saklient::Util::validate_type($name, "string");
-	$name = $self->normalize_field_name($name);
-	return $self->{"m_" . $name};
-}
-
-#** @method public void set_property ($name, $value)
-# 
-# @ignore @param {string} name
-#*
-sub set_property {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	my $name = shift;
-	my $value = shift;
-	Saklient::Util::validate_arg_count($_argnum, 2);
-	Saklient::Util::validate_type($name, "string");
-	$name = $self->normalize_field_name($name);
-	$self->{"m_" . $name} = $value;
-	$self->{"n_" . $name} = 1;
 }
 
 #** @method private Saklient::Cloud::Resources::Resource _save 
@@ -344,7 +328,7 @@ sub destroy {
 		return;
 	}
 	my $path = $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id());
-	$self->{'_client'}->request("DELETE", $path);
+	$self->request_retry("DELETE", $path);
 }
 
 #** @method private Saklient::Cloud::Resources::Resource _reload 
@@ -357,7 +341,7 @@ sub destroy {
 sub _reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()));
+	my $result = $self->request_retry("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()));
 	$self->api_deserialize($result, 1);
 	return $self;
 }
@@ -372,7 +356,7 @@ sub exists {
 	my $query = {};
 	Saklient::Util::set_by_path($query, "Filter.ID", [$self->_id()]);
 	Saklient::Util::set_by_path($query, "Include", ["ID"]);
-	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
+	my $result = $self->request_retry("GET", $self->_api_path(), $query);
 	my $cnt = $result->{"Count"};
 	return $cnt == 1;
 }
@@ -423,6 +407,52 @@ sub create_with {
 	my $trueClassName = $ret->true_class_name();
 	if (defined($trueClassName)) {
 		$ret = Saklient::Util::create_class_instance("saklient.cloud.resources." . $trueClassName, $a);
+	}
+	return $ret;
+}
+
+#** @method public any request_retry ($method, $path, $query, $retryCount, $retrySleep)
+# 
+# @brief null@param {string} method
+# 
+# @param string $path
+# @param int $retryCount
+# @param int $retrySleep
+#*
+sub request_retry {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $method = shift;
+	my $path = shift;
+	my $query = shift || (undef);
+	my $retryCount = shift || (5);
+	my $retrySleep = shift || (5);
+	Saklient::Util::validate_arg_count($_argnum, 2);
+	Saklient::Util::validate_type($method, "string");
+	Saklient::Util::validate_type($path, "string");
+	Saklient::Util::validate_type($retryCount, "int");
+	Saklient::Util::validate_type($retrySleep, "int");
+	my $ret = undef;
+	while (1 < $retryCount) {
+		my $isOk = 0;
+		try {
+			$ret = $self->{'_client'}->request($method, $path, $query);
+			$isOk = 1;
+		}
+		catch Saklient::Errors::HttpException with {
+			my $ex = shift;
+			$isOk = 0;
+		};
+		if ($isOk) {
+			$retryCount = -1;
+		}
+		else {
+			$retryCount--;
+			sleep $retrySleep;
+		}
+	}
+	if ($retryCount == 0) {
+		$ret = $self->{'_client'}->request($method, $path, $query);
 	}
 	return $ret;
 }

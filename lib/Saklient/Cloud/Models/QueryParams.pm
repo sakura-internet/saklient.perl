@@ -15,24 +15,40 @@ use Data::Dumper;
 # @brief null
 #*
 my $begin;
+sub begin {
+	$_[0]->{"begin"} = $_[1] if scalar(@_);
+		return $_[0]->{"begin"};
+	}
 
 #** @var public int Saklient::Cloud::Models::QueryParams::$count 
 # 
 # @brief null
 #*
 my $count;
+sub count {
+	$_[0]->{"count"} = $_[1] if scalar(@_);
+		return $_[0]->{"count"};
+	}
 
 #** @var public any Saklient::Cloud::Models::QueryParams::$filter 
 # 
 # @brief null
 #*
 my $filter;
+sub filter {
+	$_[0]->{"filter"} = $_[1] if scalar(@_);
+		return $_[0]->{"filter"};
+	}
 
 #** @var public string* Saklient::Cloud::Models::QueryParams::$sort 
 # 
 # @brief null
 #*
 my $sort;
+sub sort {
+	$_[0]->{"sort"} = $_[1] if scalar(@_);
+		return $_[0]->{"sort"};
+	}
 
 #** @method public void new 
 # 

@@ -249,46 +249,18 @@ sub reboot {
 	return $self->reload();
 }
 
-#** @method public void after_down ($timeoutSec, $callback)
+#** @method public bool sleep_until_up ($timeoutSec)
 # 
-# @brief サーバが停止するまで待機します。
+# @brief サーバが起動するまで待機します。
 # 
 # @param int $timeoutSec
-# @param (Saklient::Cloud::Resources::Server, bool) => void $callback
-# @retval 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 #*
-sub after_down {
+sub sleep_until_up {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $timeoutSec = shift;
-	my $callback = shift;
-	Saklient::Util::validate_arg_count($_argnum, 2);
+	my $timeoutSec = shift || (180);
 	Saklient::Util::validate_type($timeoutSec, "int");
-	Saklient::Util::validate_type($callback, "CODE");
-	$self->after_status(Saklient::Cloud::Enums::EServerInstanceStatus::down, $timeoutSec, $callback);
-}
-
-#** @method private void after_status ($status, $timeoutSec, $callback)
-# 
-# @brief サーバが指定のステータスに遷移するまで待機します。
-# 
-# @ignore
-# @param string $status
-# @param int $timeoutSec
-# @param (Saklient::Cloud::Resources::Server, bool) => void $callback
-#*
-sub after_status {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	my $status = shift;
-	my $timeoutSec = shift;
-	my $callback = shift;
-	Saklient::Util::validate_arg_count($_argnum, 3);
-	Saklient::Util::validate_type($status, "string");
-	Saklient::Util::validate_type($timeoutSec, "int");
-	Saklient::Util::validate_type($callback, "CODE");
-	my $ret = $self->sleep_until($status, $timeoutSec);
-	$callback->($self, $ret);
+	return $self->sleep_until(Saklient::Cloud::Enums::EServerInstanceStatus::up, $timeoutSec);
 }
 
 #** @method public bool sleep_until_down ($timeoutSec)
@@ -322,10 +294,14 @@ sub sleep_until {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($status, "string");
 	Saklient::Util::validate_type($timeoutSec, "int");
-	my $step = 3;
+	my $step = 10;
 	while (0 < $timeoutSec) {
 		$self->reload();
-		my $s = $self->get_instance()->get_property("status");
+		my $s = undef;
+		my $inst = $self->instance;
+		if (defined($inst)) {
+			$s = $inst->status;
+		}
 		if (!defined($s)) {
 			$s = Saklient::Cloud::Enums::EServerInstanceStatus::down;
 		}
@@ -383,7 +359,7 @@ sub add_iface {
 	my $_argnum = scalar @_;
 	my $model = Saklient::Util::create_class_instance("saklient.cloud.models.Model_Iface", [$self->{'_client'}]);
 	my $res = $model->create();
-	$res->set_property("serverId", $self->_id());
+	$res->server_id($self->_id());
 	return $res->save();
 }
 

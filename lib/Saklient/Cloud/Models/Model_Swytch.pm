@@ -184,6 +184,56 @@ sub with_name_like {
 	return $self->_with_name_like($name);
 }
 
+#** @method public Saklient::Cloud::Models::Model_Swytch with_tag ($tag)
+# 
+# @brief 指定したタグを持つリソースに絞り込みます。
+# 
+# 複数のタグを指定する場合は withTags() を利用してください。
+# 
+# @todo Implement test case
+# @param string $tag
+#*
+sub with_tag {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $tag = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($tag, "string");
+	return $self->_with_tag($tag);
+}
+
+#** @method public Saklient::Cloud::Models::Model_Swytch with_tags (@$tags)
+# 
+# @brief 指定したすべてのタグを持つリソースに絞り込みます。
+# 
+# @todo Implement test case
+# @param string* $tags
+#*
+sub with_tags {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $tags = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($tags, "ARRAY");
+	return $self->_with_tags($tags);
+}
+
+#** @method public Saklient::Cloud::Models::Model_Swytch with_tag_dnf (@$dnf)
+# 
+# @brief 指定したDNFに合致するタグを持つリソースに絞り込みます。
+# 
+# @todo Implement test case
+# @param string[]* $dnf
+#*
+sub with_tag_dnf {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $dnf = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($dnf, "ARRAY");
+	return $self->_with_tag_dnf($dnf);
+}
+
 #** @method public Saklient::Cloud::Models::Model_Swytch sort_by_name ($reverse)
 # 
 # @brief 名前でソートします。

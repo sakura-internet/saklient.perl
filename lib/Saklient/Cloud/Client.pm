@@ -86,7 +86,7 @@ sub request {
 	my $request = new HTTP::Request($method ne 'GET' ? 'POST' : 'GET', $path);
 	$request->header('Content-Type' => 'application/x-www-form-urlencoded');
 	$request->header('Authorization' => $self->{config}->{authorization});
-	$request->header('User-Agent' => 'sacloud-client-perl');
+	$request->header('User-Agent' => 'saklient.perl ver-1.0.2.1 rev-7645d631a416515d86375e18a155d7eeda449570');
 	$request->header('X-Requested-With' => 'XMLHttpRequest');
 	$request->header('X-Sakura-No-Authenticate-Header' => '1');
 	$request->header('X-Sakura-HTTP-Method' => $method);

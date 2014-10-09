@@ -423,26 +423,6 @@ sub close_ftp {
 	return $self;
 }
 
-#** @method public void after_copy ($timeoutSec, $callback)
-# 
-# @brief コピー中のアーカイブが利用可能になるまで待機します。
-# 
-# @ignore
-# @param int $timeoutSec
-# @param (Saklient::Cloud::Resources::Archive, bool) => void $callback
-#*
-sub after_copy {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	my $timeoutSec = shift;
-	my $callback = shift;
-	Saklient::Util::validate_arg_count($_argnum, 2);
-	Saklient::Util::validate_type($timeoutSec, "int");
-	Saklient::Util::validate_type($callback, "CODE");
-	my $ret = $self->sleep_while_copying($timeoutSec);
-	$callback->($self, $ret);
-}
-
 #** @method public bool sleep_while_copying ($timeoutSec)
 # 
 # @brief コピー中のアーカイブが利用可能になるまで待機します。

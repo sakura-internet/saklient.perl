@@ -67,6 +67,19 @@ sub get_by_path {
 	return $obj;
 }
 
+sub get_by_path_any {
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saklient::Util';
+	my $objects = shift;
+	my $pathes = shift;
+	foreach my $obj ($objects) {
+		foreach my $path ($pathes) {
+			my $ret = get_by_path($obj, $path);
+			return $ret if defined $ret;
+		}
+	}
+	return undef;
+}
+
 =head2 set_by_path($obj, string $path, $value) : void
 
 @todo array support
