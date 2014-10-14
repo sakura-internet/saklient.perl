@@ -71,8 +71,8 @@ sub get_by_path_any {
 	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saklient::Util';
 	my $objects = shift;
 	my $pathes = shift;
-	foreach my $obj ($objects) {
-		foreach my $path ($pathes) {
+	foreach my $obj (@{$objects}) {
+		foreach my $path (@{$pathes}) {
 			my $ret = get_by_path($obj, $path);
 			return $ret if defined $ret;
 		}
@@ -189,6 +189,15 @@ sub validate_type {
 		my $ex = new Saklient::Errors::SaklientException('argument_type_mismatch', 'Argument type mismatch (expected '.$typeName.')');
 		throw $ex;
 	}
+}
+
+sub num_eq {
+	shift if 2 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saklient::Util';
+	my $lhs = shift;
+	my $rhs = shift;
+	return 1 if !defined($lhs) && !defined($rhs);
+	return 0 unless defined($lhs) && defined($rhs);
+	return $lhs == $rhs;
 }
 
 1;

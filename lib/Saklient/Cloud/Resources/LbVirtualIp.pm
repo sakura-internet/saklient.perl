@@ -33,14 +33,28 @@ sub get_virtual_ip_address {
 	return $self->{'_virtual_ip_address'};
 }
 
+#** @method public string set_virtual_ip_address ($v)
+# 
+# @brief null@param {string} v
+#*
+sub set_virtual_ip_address {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "string");
+	$self->{'_virtual_ip_address'} = $v;
+	return $self->{'_virtual_ip_address'};
+}
+
 #** @method public string virtual_ip_address ()
 # 
 # @brief VIPアドレス
 #*
 sub virtual_ip_address {
 	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::LbVirtualIp#virtual_ip_address");
-		throw $ex;
+		$_[0]->set_virtual_ip_address($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_virtual_ip_address();
 }
@@ -61,14 +75,28 @@ sub get_port {
 	return $self->{'_port'};
 }
 
+#** @method public int set_port ($v)
+# 
+# @brief null@param {int} v
+#*
+sub set_port {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "int");
+	$self->{'_port'} = $v;
+	return $self->{'_port'};
+}
+
 #** @method public int port ()
 # 
 # @brief ポート番号
 #*
 sub port {
 	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::LbVirtualIp#port");
-		throw $ex;
+		$_[0]->set_port($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_port();
 }
@@ -89,14 +117,28 @@ sub get_delay_loop {
 	return $self->{'_delay_loop'};
 }
 
+#** @method public int set_delay_loop ($v)
+# 
+# @brief null@param {int} v
+#*
+sub set_delay_loop {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "int");
+	$self->{'_delay_loop'} = $v;
+	return $self->{'_delay_loop'};
+}
+
 #** @method public int delay_loop ()
 # 
 # @brief チェック間隔 [秒]
 #*
 sub delay_loop {
 	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::LbVirtualIp#delay_loop");
-		throw $ex;
+		$_[0]->set_delay_loop($_[1]);
+		return $_[0];
 	}
 	return $_[0]->get_delay_loop();
 }
@@ -137,8 +179,10 @@ sub new {
 	my $class = shift;
 	my $self = bless {}, $class;
 	my $_argnum = scalar @_;
-	my $obj = shift;
-	Saklient::Util::validate_arg_count($_argnum, 1);
+	my $obj = shift || (undef);
+	if (!defined($obj)) {
+		$obj = {};
+	}
 	my $vip = Saklient::Util::get_by_path_any([$obj], [
 		"VirtualIPAddress",
 		"virtualIpAddress",
@@ -147,8 +191,11 @@ sub new {
 	]);
 	$self->{'_virtual_ip_address'} = $vip;
 	my $port = Saklient::Util::get_by_path_any([$obj], ["Port", "port"]);
-	$self->{'_port'} = !defined($port) ? undef : (0+($port));
-	if ($self->{'_port'} == 0) {
+	$self->{'_port'} = undef;
+	if (defined($port)) {
+		$self->{'_port'} = (0+($port));
+	}
+	if (Saklient::Util::num_eq($self->{'_port'}, 0)) {
 		$self->{'_port'} = undef;
 	}
 	my $delayLoop = Saklient::Util::get_by_path_any([$obj], [
@@ -157,8 +204,11 @@ sub new {
 		"delay_loop",
 		"delay"
 	]);
-	$self->{'_delay_loop'} = !defined($delayLoop) ? undef : (0+($delayLoop));
-	if ($self->{'_delay_loop'} == 0) {
+	$self->{'_delay_loop'} = undef;
+	if (defined($delayLoop)) {
+		$self->{'_delay_loop'} = (0+($delayLoop));
+	}
+	if (Saklient::Util::num_eq($self->{'_delay_loop'}, 0)) {
 		$self->{'_delay_loop'} = undef;
 	}
 	$self->{'_servers'} = [];
@@ -172,17 +222,17 @@ sub new {
 	return $self;
 }
 
-#** @method public Saklient::Cloud::Resources::LbVirtualIp add_server ($settings)
+#** @method public Saklient::Cloud::Resources::LbServer add_server ($settings)
 # 
 # @brief null
 #*
 sub add_server {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $settings = shift;
-	Saklient::Util::validate_arg_count($_argnum, 1);
-	push(@{$self->{'_servers'}}, new Saklient::Cloud::Resources::LbServer($settings));
-	return $self;
+	my $settings = shift || (undef);
+	my $ret = new Saklient::Cloud::Resources::LbServer($settings);
+	push(@{$self->{'_servers'}}, $ret);
+	return $ret;
 }
 
 #** @method public any to_raw_settings 
@@ -202,6 +252,45 @@ sub to_raw_settings {
 		'DelayLoop' => $self->{'_delay_loop'},
 		'Servers' => $servers
 	};
+}
+
+#** @method public Saklient::Cloud::Resources::LbServer get_server_by_address ($address)
+# 
+# @brief null@param {string} address
+#*
+sub get_server_by_address {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $address = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($address, "string");
+	foreach my $srv (@{$self->{'_servers'}}) {
+		if ($srv->ip_address eq $address) {
+			return $srv;
+		}
+	}
+	return undef;
+}
+
+#** @method public Saklient::Cloud::Resources::LbVirtualIp update_status (@$srvs)
+# 
+# @brief null@param {any[]} srvs
+#*
+sub update_status {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $srvs = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($srvs, "ARRAY");
+	foreach my $srvDyn (@{$srvs}) {
+		my $ip = $srvDyn->{"IPAddress"};
+		my $srv = $self->get_server_by_address($ip);
+		if (!defined($srv)) {
+			next;
+		}
+		$srv->update_status($srvDyn);
+	}
+	return $self;
 }
 
 1;

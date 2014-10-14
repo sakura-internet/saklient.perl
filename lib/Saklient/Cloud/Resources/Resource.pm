@@ -358,7 +358,7 @@ sub exists {
 	Saklient::Util::set_by_path($query, "Include", ["ID"]);
 	my $result = $self->request_retry("GET", $self->_api_path(), $query);
 	my $cnt = $result->{"Count"};
-	return $cnt == 1;
+	return Saklient::Util::num_eq($cnt, 1);
 }
 
 #** @method public any dump 
@@ -447,11 +447,11 @@ sub request_retry {
 			$retryCount = -1;
 		}
 		else {
-			$retryCount--;
+			$retryCount -= 1;
 			sleep $retrySleep;
 		}
 	}
-	if ($retryCount == 0) {
+	if (Saklient::Util::num_eq($retryCount, 0)) {
 		$ret = $self->{'_client'}->request($method, $path, $query);
 	}
 	return $ret;

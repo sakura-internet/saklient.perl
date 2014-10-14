@@ -72,7 +72,7 @@ sub new {
 sub is_up {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return defined($self->get_status()) && Saklient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saklient::Cloud::Enums::EServerInstanceStatus::up) == 0;
+	return defined($self->get_status()) && Saklient::Util::num_eq(Saklient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saklient::Cloud::Enums::EServerInstanceStatus::up), 0);
 }
 
 #** @method public bool is_down 
@@ -82,7 +82,7 @@ sub is_up {
 sub is_down {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return !defined($self->get_status()) || Saklient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saklient::Cloud::Enums::EServerInstanceStatus::down) == 0;
+	return !defined($self->get_status()) || Saklient::Util::num_eq(Saklient::Cloud::Enums::EServerInstanceStatus::compare($self->get_status(), Saklient::Cloud::Enums::EServerInstanceStatus::down), 0);
 }
 
 #** @var private bool Saklient::Cloud::Resources::ServerInstance::$n_status 

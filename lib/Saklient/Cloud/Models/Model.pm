@@ -389,7 +389,7 @@ sub _find_one {
 	my $result = $self->{'_client'}->request("GET", $self->_api_path(), $query);
 	$self->{'_total'} = $result->{"Total"};
 	$self->{'_count'} = $result->{"Count"};
-	if ($self->{'_total'} == 0) {
+	if (Saklient::Util::num_eq($self->{'_total'}, 0)) {
 		return undef;
 	}
 	my $records = $result->{$self->_root_key_m()};

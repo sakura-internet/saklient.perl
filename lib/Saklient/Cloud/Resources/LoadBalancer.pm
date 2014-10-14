@@ -51,28 +51,6 @@ sub virtual_ips {
 	return $_[0]->get_virtual_ips();
 }
 
-#** @method public string get_swytch_id 
-# 
-# @brief null
-#*
-sub get_swytch_id {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	return Saklient::Util::get_by_path($self->raw_annotation(), "Switch.ID");
-}
-
-#** @method public string swytch_id ()
-# 
-# @brief スイッチID
-#*
-sub swytch_id {
-	if (1 < scalar(@_)) {
-		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::LoadBalancer#swytch_id");
-		throw $ex;
-	}
-	return $_[0]->get_swytch_id();
-}
-
 #** @method public string get_default_route 
 # 
 # @brief null
@@ -256,7 +234,9 @@ sub _on_before_api_serialize {
 		$self->raw_settings({});
 	}
 	$self->raw_settings()->{"LoadBalancer"} = $lb;
-	$self->clazz(Saklient::Cloud::Enums::EApplianceClass::loadbalancer);
+	if ($self->{'is_new'}) {
+		$self->clazz(Saklient::Cloud::Enums::EApplianceClass::loadbalancer);
+	}
 }
 
 #** @method public Saklient::Cloud::Resources::LoadBalancer set_initial_params ($swytch, $vrid, @$realIps, $isHighSpec)
@@ -300,17 +280,30 @@ sub set_initial_params {
 	return $self;
 }
 
-#** @method public Saklient::Cloud::Resources::LoadBalancer add_virtual_ip ($settings)
+#** @method public Saklient::Cloud::Resources::LoadBalancer clear_virtual_ips 
+# 
+# @brief null
+#*
+sub clear_virtual_ips {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	while (0 < scalar(@{$self->{'_virtual_ips'}})) {
+		pop(@{$self->{'_virtual_ips'}});
+	}
+	return $self;
+}
+
+#** @method public Saklient::Cloud::Resources::LbVirtualIp add_virtual_ip ($settings)
 # 
 # @brief null
 #*
 sub add_virtual_ip {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $settings = shift;
-	Saklient::Util::validate_arg_count($_argnum, 1);
-	push(@{$self->{'_virtual_ips'}}, new Saklient::Cloud::Resources::LbVirtualIp($settings));
-	return $self;
+	my $settings = shift || (undef);
+	my $ret = new Saklient::Cloud::Resources::LbVirtualIp($settings);
+	push(@{$self->{'_virtual_ips'}}, $ret);
+	return $ret;
 }
 
 #** @method public Saklient::Cloud::Resources::LbVirtualIp get_virtual_ip_by_address ($address)
@@ -324,11 +317,31 @@ sub get_virtual_ip_by_address {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($address, "string");
 	foreach my $vip (@{$self->{'_virtual_ips'}}) {
-		if ($vip->{'virtual_ip_address'} eq $address) {
+		if ($vip->virtual_ip_address eq $address) {
 			return $vip;
 		}
 	}
 	return undef;
+}
+
+#** @method public Saklient::Cloud::Resources::LoadBalancer reload_status 
+# 
+# @brief null
+#*
+sub reload_status {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $result = $self->request_retry("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/status");
+	my $vips = $result->{"LoadBalancer"};
+	foreach my $vipDyn (@{$vips}) {
+		my $vipStr = $vipDyn->{"VirtualIPAddress"};
+		my $vip = $self->get_virtual_ip_by_address($vipStr);
+		if (!defined($vip)) {
+			next;
+		}
+		$vip->update_status($vipDyn->{"Servers"});
+	}
+	return $self;
 }
 
 1;

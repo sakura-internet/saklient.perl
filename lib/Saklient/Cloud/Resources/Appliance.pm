@@ -12,6 +12,7 @@ use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
 use Saklient::Cloud::Resources::Icon;
 use Saklient::Cloud::Resources::Iface;
+use Saklient::Cloud::Resources::Swytch;
 use Saklient::Cloud::Enums::EApplianceClass;
 use Saklient::Cloud::Enums::EAvailability;
 use Saklient::Cloud::Enums::EServerInstanceStatus;
@@ -107,6 +108,12 @@ my $m_service_class;
 # @brief 有効状態 {@link EAvailability}
 #*
 my $m_availability;
+
+#** @var private string Saklient::Cloud::Resources::Appliance::$m_swytch_id 
+# 
+# @brief 接続先スイッチID
+#*
+my $m_swytch_id;
 
 #** @method private string _api_path 
 # 
@@ -231,6 +238,31 @@ sub _on_before_save {
 	my $query = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::set_by_path($query, "OriginalSettingsHash", $self->get_raw_settings_hash());
+}
+
+#** @method public Saklient::Cloud::Resources::Swytch get_swytch 
+# 
+# @brief このルータが接続されているスイッチを取得します。
+#*
+sub get_swytch {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $model = Saklient::Util::create_class_instance("saklient.cloud.models.Model_Swytch", [$self->{'_client'}]);
+	my $id = $self->get_swytch_id();
+	return $model->get_by_id($id);
+}
+
+#** @method public Saklient::Cloud::Resources::Appliance apply 
+# 
+# @brief アプライアンスの設定を反映します。
+# 
+# @retval this
+#*
+sub apply {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/config");
+	return $self;
 }
 
 #** @method public Saklient::Cloud::Resources::Appliance boot 
@@ -899,6 +931,34 @@ sub availability {
 	return $_[0]->get_availability();
 }
 
+#** @var private bool Saklient::Cloud::Resources::Appliance::$n_swytch_id 
+# 
+# @brief null
+#*
+my $n_swytch_id = 0;
+
+#** @method private string get_swytch_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_swytch_id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_swytch_id'};
+}
+
+#** @method public string swytch_id ()
+# 
+# @brief 接続先スイッチID
+#*
+sub swytch_id {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Appliance#swytch_id");
+		throw $ex;
+	}
+	return $_[0]->get_swytch_id();
+}
+
 #** @method private void api_deserialize_impl ($r)
 # 
 # @brief (This method is generated in Translator_default#buildImpl)
@@ -1045,6 +1105,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_availability'} = 0;
+	if (Saklient::Util::exists_path($r, "Switch.ID")) {
+		$self->{'m_swytch_id'} = !defined(Saklient::Util::get_by_path($r, "Switch.ID")) ? undef : "" . Saklient::Util::get_by_path($r, "Switch.ID");
+	}
+	else {
+		$self->{'m_swytch_id'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_swytch_id'} = 0;
 }
 
 #** @method private any api_serialize_impl ($withClean)
@@ -1129,6 +1197,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_availability'}) {
 		Saklient::Util::set_by_path($ret, "Availability", $self->{'m_availability'});
+	}
+	if ($withClean || $self->{'n_swytch_id'}) {
+		Saklient::Util::set_by_path($ret, "Switch.ID", $self->{'m_swytch_id'});
 	}
 	if (scalar(@{$missing}) > 0) {
 		{ my $ex = new Saklient::Errors::SaklientException("required_field", "Required fields must be set before the Appliance creation: " . join(", ", @{$missing})); throw $ex; };
