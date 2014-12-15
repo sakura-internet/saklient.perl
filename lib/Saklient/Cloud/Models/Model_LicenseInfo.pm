@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-package Saklient::Cloud::Models::Model_ServerPlan;
+package Saklient::Cloud::Models::Model_LicenseInfo;
 
 use strict;
 use warnings;
@@ -10,13 +10,13 @@ use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Models::Model;
 use Saklient::Cloud::Resources::Resource;
-use Saklient::Cloud::Resources::ServerPlan;
+use Saklient::Cloud::Resources::LicenseInfo;
 
 use base qw(Saklient::Cloud::Models::Model);
 
-#** @class Saklient::Cloud::Models::Model_ServerPlan
+#** @class Saklient::Cloud::Models::Model_LicenseInfo
 # 
-# @brief サーバプランを検索するための機能を備えたクラス。
+# @brief ライセンス種別情報を検索するための機能を備えたクラス。
 #*
 
 
@@ -27,7 +27,7 @@ use base qw(Saklient::Cloud::Models::Model);
 sub _api_path {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return "/product/server";
+	return "/product/license";
 }
 
 #** @method private string _root_key 
@@ -37,7 +37,7 @@ sub _api_path {
 sub _root_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return "ServerPlan";
+	return "LicenseInfo";
 }
 
 #** @method private string _root_key_m 
@@ -47,7 +47,7 @@ sub _root_key {
 sub _root_key_m {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return "ServerPlans";
+	return "LicenseInfo";
 }
 
 #** @method private string _class_name 
@@ -57,7 +57,7 @@ sub _root_key_m {
 sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return "ServerPlan";
+	return "LicenseInfo";
 }
 
 #** @method private Saklient::Cloud::Resources::Resource _create_resource_impl ($obj, $wrapped)
@@ -71,10 +71,10 @@ sub _create_resource_impl {
 	my $wrapped = shift || (0);
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($wrapped, "bool");
-	return new Saklient::Cloud::Resources::ServerPlan($self->{'_client'}, $obj, $wrapped);
+	return new Saklient::Cloud::Resources::LicenseInfo($self->{'_client'}, $obj, $wrapped);
 }
 
-#** @method public Saklient::Cloud::Models::Model_ServerPlan offset ($offset)
+#** @method public Saklient::Cloud::Models::Model_LicenseInfo offset ($offset)
 # 
 # @brief 次に取得するリストの開始オフセットを指定します。
 # 
@@ -90,7 +90,7 @@ sub offset {
 	return $self->_offset($offset);
 }
 
-#** @method public Saklient::Cloud::Models::Model_ServerPlan limit ($count)
+#** @method public Saklient::Cloud::Models::Model_LicenseInfo limit ($count)
 # 
 # @brief 次に取得するリストの上限レコード数を指定します。
 # 
@@ -106,7 +106,7 @@ sub limit {
 	return $self->_limit($count);
 }
 
-#** @method public Saklient::Cloud::Models::Model_ServerPlan filter_by ($key, $value, $multiple)
+#** @method public Saklient::Cloud::Models::Model_LicenseInfo filter_by ($key, $value, $multiple)
 # 
 # @brief Web APIのフィルタリング設定を直接指定します。
 # 
@@ -126,7 +126,7 @@ sub filter_by {
 	return $self->_filter_by($key, $value, $multiple);
 }
 
-#** @method public Saklient::Cloud::Models::Model_ServerPlan reset 
+#** @method public Saklient::Cloud::Models::Model_LicenseInfo reset 
 # 
 # @brief 次のリクエストのために設定されているステートをすべて破棄します。
 # 
@@ -138,7 +138,7 @@ sub reset {
 	return $self->_reset();
 }
 
-#** @method public Saklient::Cloud::Resources::ServerPlan get_by_id ($id)
+#** @method public Saklient::Cloud::Resources::LicenseInfo get_by_id ($id)
 # 
 # @brief 指定したIDを持つ唯一のリソースを取得します。
 # 
@@ -154,7 +154,7 @@ sub get_by_id {
 	return $self->_get_by_id($id);
 }
 
-#** @method public Saklient::Cloud::Resources::ServerPlan[] find 
+#** @method public Saklient::Cloud::Resources::LicenseInfo[] find 
 # 
 # @brief リソースの検索リクエストを実行し、結果をリストで取得します。
 # 
@@ -164,6 +164,40 @@ sub find {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_find();
+}
+
+#** @method public Saklient::Cloud::Models::Model_LicenseInfo with_name_like ($name)
+# 
+# @brief 指定した文字列を名前に含むリソースに絞り込みます。
+# 
+# 大文字・小文字は区別されません。
+# 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
+# 
+# @todo Implement test case
+# @param string $name
+#*
+sub with_name_like {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $name = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($name, "string");
+	return $self->_with_name_like($name);
+}
+
+#** @method public Saklient::Cloud::Models::Model_LicenseInfo sort_by_name ($reverse)
+# 
+# @brief 名前でソートします。
+# 
+# @todo Implement test case
+# @param bool $reverse
+#*
+sub sort_by_name {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reverse = shift || (0);
+	Saklient::Util::validate_type($reverse, "bool");
+	return $self->_sort_by_name($reverse);
 }
 
 #** @method public void new ($client)
@@ -179,26 +213,6 @@ sub new {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	return $self;
-}
-
-#** @method public Saklient::Cloud::Resources::ServerPlan get_by_spec ($cores, $memoryGib)
-# 
-# @brief 指定したスペックのプランを取得します。
-# 
-# @param int $cores
-# @param int $memoryGib
-#*
-sub get_by_spec {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	my $cores = shift;
-	my $memoryGib = shift;
-	Saklient::Util::validate_arg_count($_argnum, 2);
-	Saklient::Util::validate_type($cores, "int");
-	Saklient::Util::validate_type($memoryGib, "int");
-	$self->_filter_by("CPU", [$cores]);
-	$self->_filter_by("MemoryMB", [$memoryGib * 1024]);
-	return $self->_find_one();
 }
 
 1;

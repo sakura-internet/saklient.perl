@@ -41,7 +41,7 @@ sub get_virtual_ips {
 
 #** @method public Saklient::Cloud::Resources::LbVirtualIp[] virtual_ips ()
 # 
-# @brief 仮想IPアドレス
+# @brief 仮想IPアドレス {@link LbVirtualIp} の配列
 #*
 sub virtual_ips {
 	if (1 < scalar(@_)) {

@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saklient::Util;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Product;
+use Saklient::Cloud::Facility;
 use Saklient::Cloud::Models::Model_Icon;
 use Saklient::Cloud::Models::Model_Server;
 use Saklient::Cloud::Models::Model_Disk;
@@ -19,8 +20,10 @@ use Saklient::Cloud::Models::Model_IsoImage;
 use Saklient::Cloud::Models::Model_Iface;
 use Saklient::Cloud::Models::Model_Swytch;
 use Saklient::Cloud::Models::Model_Router;
+use Saklient::Cloud::Models::Model_Bridge;
 use Saklient::Cloud::Models::Model_Ipv6Net;
 use Saklient::Cloud::Models::Model_Script;
+use Saklient::Cloud::Models::Model_License;
 
 
 #** @class Saklient::Cloud::API
@@ -85,6 +88,34 @@ sub product {
 		throw $ex;
 	}
 	return $_[0]->get_product();
+}
+
+#** @var private Facility Saklient::Cloud::API::$_facility 
+# 
+# @private
+#*
+my $_facility;
+
+#** @method private Saklient::Cloud::Facility get_facility 
+# 
+# @brief null
+#*
+sub get_facility {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_facility'};
+}
+
+#** @method public Saklient::Cloud::Facility facility ()
+# 
+# @brief 設備情報にアクセスするためのモデルを集めたオブジェクト。
+#*
+sub facility {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#facility");
+		throw $ex;
+	}
+	return $_[0]->get_facility();
 }
 
 #** @var private Saklient::Cloud::Models::Model_Icon Saklient::Cloud::API::$_icon 
@@ -339,6 +370,34 @@ sub router {
 	return $_[0]->get_router();
 }
 
+#** @var private Saklient::Cloud::Models::Model_Bridge Saklient::Cloud::API::$_bridge 
+# 
+# @private
+#*
+my $_bridge;
+
+#** @method private Saklient::Cloud::Models::Model_Bridge get_bridge 
+# 
+# @brief null
+#*
+sub get_bridge {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_bridge'};
+}
+
+#** @method public Saklient::Cloud::Models::Model_Bridge bridge ()
+# 
+# @brief ブリッジにアクセスするためのモデル。
+#*
+sub bridge {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#bridge");
+		throw $ex;
+	}
+	return $_[0]->get_bridge();
+}
+
 #** @var private Saklient::Cloud::Models::Model_Ipv6Net Saklient::Cloud::API::$_ipv6_net 
 # 
 # @private
@@ -395,6 +454,34 @@ sub script {
 	return $_[0]->get_script();
 }
 
+#** @var private Saklient::Cloud::Models::Model_License Saklient::Cloud::API::$_license 
+# 
+# @private
+#*
+my $_license;
+
+#** @method private Saklient::Cloud::Models::Model_License get_license 
+# 
+# @brief null
+#*
+sub get_license {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_license'};
+}
+
+#** @method public Saklient::Cloud::Models::Model_License license ()
+# 
+# @brief ライセンスにアクセスするためのモデル。
+#*
+sub license {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#license");
+		throw $ex;
+	}
+	return $_[0]->get_license();
+}
+
 #** @method private void new ($client)
 # 
 # @ignore
@@ -409,6 +496,7 @@ sub new {
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	$self->{'_client'} = $client;
 	$self->{'_product'} = new Saklient::Cloud::Product($client);
+	$self->{'_facility'} = new Saklient::Cloud::Facility($client);
 	$self->{'_icon'} = new Saklient::Cloud::Models::Model_Icon($client);
 	$self->{'_server'} = new Saklient::Cloud::Models::Model_Server($client);
 	$self->{'_disk'} = new Saklient::Cloud::Models::Model_Disk($client);
@@ -418,8 +506,10 @@ sub new {
 	$self->{'_iface'} = new Saklient::Cloud::Models::Model_Iface($client);
 	$self->{'_swytch'} = new Saklient::Cloud::Models::Model_Swytch($client);
 	$self->{'_router'} = new Saklient::Cloud::Models::Model_Router($client);
+	$self->{'_bridge'} = new Saklient::Cloud::Models::Model_Bridge($client);
 	$self->{'_ipv6_net'} = new Saklient::Cloud::Models::Model_Ipv6Net($client);
 	$self->{'_script'} = new Saklient::Cloud::Models::Model_Script($client);
+	$self->{'_license'} = new Saklient::Cloud::Models::Model_License($client);
 	return $self;
 }
 

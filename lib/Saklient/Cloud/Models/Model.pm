@@ -291,42 +291,35 @@ sub _reset {
 	return $self;
 }
 
-#** @method private Saklient::Cloud::Resources::Resource _create_resource_with ($className, $obj, $wrapped)
+#** @method private Saklient::Cloud::Resources::Resource _create_resource_impl ($obj, $wrapped)
 # 
-# @private@param {string} className
+# @private
+# @ignore
 # @param bool $wrapped
 #*
-sub _create_resource_with {
+sub _create_resource_impl {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $className = shift;
 	my $obj = shift;
 	my $wrapped = shift || (0);
-	Saklient::Util::validate_arg_count($_argnum, 2);
-	Saklient::Util::validate_type($className, "string");
+	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($wrapped, "bool");
-	if (!defined($className)) {
-		$className = $self->_class_name();
-	}
-	return Saklient::Cloud::Resources::Resource::create_with($className, $self->{'_client'}, $obj, $wrapped);
+	return undef;
 }
 
-#** @method private Saklient::Cloud::Resources::Resource _create ($className)
+#** @method private Saklient::Cloud::Resources::Resource _create 
 # 
 # @brief 新規リソース作成用のオブジェクトを用意します。
 # 
 # 返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
 # 
 # @private
-# @param string $className
 # @retval リソースオブジェクト
 #*
 sub _create {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $className = shift || (undef);
-	Saklient::Util::validate_type($className, "string");
-	return $self->_create_resource_with($className, undef);
+	return $self->_create_resource_impl(undef);
 }
 
 #** @method private Saklient::Cloud::Resources::Resource _get_by_id ($id)
@@ -348,7 +341,7 @@ sub _get_by_id {
 	my $result = $self->{'_client'}->request("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($id), $query);
 	$self->{'_total'} = 1;
 	$self->{'_count'} = 1;
-	return $self->_create_resource_with(undef, $result, 1);
+	return $self->_create_resource_impl($result, 1);
 }
 
 #** @method private Saklient::Cloud::Resources::Resource[] _find 
@@ -369,7 +362,7 @@ sub _find {
 	my $data = [];
 	my $records = $result->{$self->_root_key_m()};
 	foreach my $record (@{$records}) {
-		push(@{$data}, $self->_create_resource_with(undef, $record));
+		push(@{$data}, $self->_create_resource_impl($record));
 	}
 	return $data;
 }
@@ -393,7 +386,7 @@ sub _find_one {
 		return undef;
 	}
 	my $records = $result->{$self->_root_key_m()};
-	return $self->_create_resource_with(undef, $records->[0]);
+	return $self->_create_resource_impl($records->[0]);
 }
 
 #** @method private Saklient::Cloud::Models::Model _with_name_like ($name)

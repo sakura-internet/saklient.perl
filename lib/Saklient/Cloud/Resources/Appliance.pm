@@ -16,6 +16,7 @@ use Saklient::Cloud::Resources::Swytch;
 use Saklient::Cloud::Enums::EApplianceClass;
 use Saklient::Cloud::Enums::EAvailability;
 use Saklient::Cloud::Enums::EServerInstanceStatus;
+use Saklient::Cloud::Models::Model_Swytch;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 
@@ -51,7 +52,7 @@ my $m_description;
 
 #** @var private string* Saklient::Cloud::Resources::Appliance::$m_tags 
 # 
-# @brief タグ
+# @brief タグ文字列の配列
 #*
 my $m_tags;
 
@@ -69,7 +70,7 @@ my $m_plan_id;
 
 #** @var private Saklient::Cloud::Resources::Iface* Saklient::Cloud::Resources::Appliance::$m_ifaces 
 # 
-# @brief インタフェース
+# @brief インタフェース {@link Iface} の配列
 #*
 my $m_ifaces;
 
@@ -187,25 +188,6 @@ sub reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return $self->_reload();
-}
-
-#** @method public string true_class_name 
-# 
-# @ignore
-#*
-sub true_class_name {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	if (!defined($self->clazz())) {
-		return undef;
-	}
-	if ($self->clazz() eq "loadbalancer") {
-		return "LoadBalancer";
-	}
-	elsif ($self->clazz() eq "vpcrouter") {
-		return "VpcRouter";
-	}
-	return undef;
 }
 
 #** @method public void new ($client, $obj, $wrapped)
@@ -604,7 +586,7 @@ sub set_tags {
 
 #** @method public string[] tags ()
 # 
-# @brief タグ
+# @brief タグ文字列の配列
 #*
 sub tags {
 	if (1 < scalar(@_)) {
@@ -721,7 +703,7 @@ sub get_ifaces {
 
 #** @method public Saklient::Cloud::Resources::Iface[] ifaces ()
 # 
-# @brief インタフェース
+# @brief インタフェース {@link Iface} の配列
 #*
 sub ifaces {
 	if (1 < scalar(@_)) {

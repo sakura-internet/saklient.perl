@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saklient::Cloud::Models::Model_ServerPlan;
 use Saklient::Cloud::Models::Model_DiskPlan;
 use Saklient::Cloud::Models::Model_RouterPlan;
+use Saklient::Cloud::Models::Model_LicenseInfo;
 use Saklient::Cloud::Client;
 
 
@@ -103,6 +104,34 @@ sub router {
 	return $_[0]->get_router();
 }
 
+#** @var private Saklient::Cloud::Models::Model_LicenseInfo Saklient::Cloud::Product::$_license 
+# 
+# @private
+#*
+my $_license;
+
+#** @method private Saklient::Cloud::Models::Model_LicenseInfo get_license 
+# 
+# @brief null
+#*
+sub get_license {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_license'};
+}
+
+#** @method public Saklient::Cloud::Models::Model_LicenseInfo license ()
+# 
+# @brief ライセンス種別情報。
+#*
+sub license {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Product#license");
+		throw $ex;
+	}
+	return $_[0]->get_license();
+}
+
 #** @method public void new ($client)
 # 
 # @ignore
@@ -118,6 +147,7 @@ sub new {
 	$self->{'_server'} = new Saklient::Cloud::Models::Model_ServerPlan($client);
 	$self->{'_disk'} = new Saklient::Cloud::Models::Model_DiskPlan($client);
 	$self->{'_router'} = new Saklient::Cloud::Models::Model_RouterPlan($client);
+	$self->{'_license'} = new Saklient::Cloud::Models::Model_LicenseInfo($client);
 	return $self;
 }
 

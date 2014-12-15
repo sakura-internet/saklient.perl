@@ -344,7 +344,7 @@ sub get_scripts {
 
 #** @method public Saklient::Cloud::Resources::Script[] scripts ()
 # 
-# @brief スタートアップスクリプト（pushによりスクリプトを追加できます）
+# @brief スタートアップスクリプト {@link Script} の配列（pushによりスクリプトを追加できます）
 #*
 sub scripts {
 	if (1 < scalar(@_)) {

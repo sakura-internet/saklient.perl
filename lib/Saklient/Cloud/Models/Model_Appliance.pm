@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Models::Model;
+use Saklient::Cloud::Resources::Resource;
 use Saklient::Cloud::Resources::Appliance;
 use Saklient::Cloud::Resources::LoadBalancer;
 use Saklient::Cloud::Resources::VpcRouter;
@@ -60,6 +61,28 @@ sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "Appliance";
+}
+
+#** @method private Saklient::Cloud::Resources::Resource _create_resource_impl ($obj, $wrapped)
+# 
+# @private@param {bool} wrapped
+#*
+sub _create_resource_impl {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $obj = shift;
+	my $wrapped = shift || (0);
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($wrapped, "bool");
+	my $ret = new Saklient::Cloud::Resources::Appliance($self->{'_client'}, $obj, $wrapped);
+	my $clazz = $ret->clazz;
+	if ($clazz eq "loadbalancer") {
+		return new Saklient::Cloud::Resources::LoadBalancer($self->{'_client'}, $obj, $wrapped);
+	}
+	if ($clazz eq "vpcrouter") {
+		return new Saklient::Cloud::Resources::VpcRouter($self->{'_client'}, $obj, $wrapped);
+	}
+	return $ret;
 }
 
 #** @method public Saklient::Cloud::Models::Model_Appliance offset ($offset)
@@ -146,7 +169,7 @@ sub create_load_balancer {
 	Saklient::Util::validate_type($vrid, "int");
 	Saklient::Util::validate_type($realIps, "ARRAY");
 	Saklient::Util::validate_type($isHighSpec, "bool");
-	my $ret = $self->_create("LoadBalancer");
+	my $ret = new Saklient::Cloud::Resources::LoadBalancer($self->{'_client'}, undef);
 	return $ret->set_initial_params($swytch, $vrid, $realIps, $isHighSpec);
 }
 
@@ -157,7 +180,8 @@ sub create_load_balancer {
 sub create_vpc_router {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->_create("VpcRouter");
+	my $ret = new Saklient::Cloud::Resources::VpcRouter($self->{'_client'}, undef);
+	return $ret;
 }
 
 #** @method public Saklient::Cloud::Resources::Appliance get_by_id ($id)

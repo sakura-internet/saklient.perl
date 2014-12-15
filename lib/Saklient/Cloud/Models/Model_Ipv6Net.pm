@@ -9,6 +9,7 @@ use Error qw(:try);
 use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Models::Model;
+use Saklient::Cloud::Resources::Resource;
 use Saklient::Cloud::Resources::Ipv6Net;
 
 use base qw(Saklient::Cloud::Models::Model);
@@ -57,6 +58,20 @@ sub _class_name {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "IPv6Net";
+}
+
+#** @method private Saklient::Cloud::Resources::Resource _create_resource_impl ($obj, $wrapped)
+# 
+# @private@param {bool} wrapped
+#*
+sub _create_resource_impl {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $obj = shift;
+	my $wrapped = shift || (0);
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($wrapped, "bool");
+	return new Saklient::Cloud::Resources::Ipv6Net($self->{'_client'}, $obj, $wrapped);
 }
 
 #** @method public Saklient::Cloud::Models::Model_Ipv6Net offset ($offset)

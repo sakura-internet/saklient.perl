@@ -371,16 +371,6 @@ sub dump {
 	return $self->api_serialize(1);
 }
 
-#** @method public string true_class_name 
-# 
-# @ignore
-#*
-sub true_class_name {
-	my $self = shift;
-	my $_argnum = scalar @_;
-	return undef;
-}
-
 #** @cmethod public Saklient::Cloud::Resources::Resource create_with ($className, $client, $obj, $wrapped)
 # 
 # @ignore @param {string} className
@@ -403,12 +393,7 @@ sub create_with {
 		$obj,
 		$wrapped
 	];
-	my $ret = Saklient::Util::create_class_instance("saklient.cloud.resources." . $className, $a);
-	my $trueClassName = $ret->true_class_name();
-	if (defined($trueClassName)) {
-		$ret = Saklient::Util::create_class_instance("saklient.cloud.resources." . $trueClassName, $a);
-	}
-	return $ret;
+	return Saklient::Util::create_class_instance("saklient.cloud.resources." . $className, $a);
 }
 
 #** @method public any request_retry ($method, $path, $query, $retryCount, $retrySleep)

@@ -161,7 +161,7 @@ sub get_servers {
 
 #** @method public Saklient::Cloud::Resources::LbServer[] servers ()
 # 
-# @brief 実サーバ
+# @brief 実サーバ {@link LbServer} の配列
 #*
 sub servers {
 	if (1 < scalar(@_)) {

@@ -41,6 +41,18 @@ my $m_name;
 #*
 my $m_description;
 
+#** @var private string* Saklient::Cloud::Resources::Swytch::$m_tags 
+# 
+# @brief タグ文字列の配列
+#*
+my $m_tags;
+
+#** @var private Icon Saklient::Cloud::Resources::Swytch::$m_icon 
+# 
+# @brief アイコン
+#*
+my $m_icon;
+
 #** @var private string Saklient::Cloud::Resources::Swytch::$m_user_default_route 
 # 
 # @brief ユーザ設定IPv4ネットワークのゲートウェイ
@@ -61,13 +73,13 @@ my $m_router;
 
 #** @var private Saklient::Cloud::Resources::Ipv4Net* Saklient::Cloud::Resources::Swytch::$m_ipv4_nets 
 # 
-# @brief IPv4ネットワーク（ルータによる自動割当）
+# @brief IPv4ネットワーク（ルータによる自動割当） {@link Ipv4Net} の配列
 #*
 my $m_ipv4_nets;
 
 #** @var private Saklient::Cloud::Resources::Ipv6Net* Saklient::Cloud::Resources::Swytch::$m_ipv6_nets 
 # 
-# @brief IPv6ネットワーク（ルータによる自動割当）
+# @brief IPv6ネットワーク（ルータによる自動割当） {@link Ipv6Net} の配列
 #*
 my $m_ipv6_nets;
 
@@ -365,6 +377,93 @@ sub description {
 	return $_[0]->get_description();
 }
 
+#** @var private bool Saklient::Cloud::Resources::Swytch::$n_tags 
+# 
+# @brief null
+#*
+my $n_tags = 0;
+
+#** @method private string[] get_tags 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_tags {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	$self->{'n_tags'} = 1;
+	return $self->{'m_tags'};
+}
+
+#** @method private string[] set_tags (@$v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string[]} v
+#*
+sub set_tags {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "ARRAY");
+	$self->{'m_tags'} = $v;
+	$self->{'n_tags'} = 1;
+	return $self->{'m_tags'};
+}
+
+#** @method public string[] tags ()
+# 
+# @brief タグ文字列の配列
+#*
+sub tags {
+	if (1 < scalar(@_)) {
+		$_[0]->set_tags($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_tags();
+}
+
+#** @var private bool Saklient::Cloud::Resources::Swytch::$n_icon 
+# 
+# @brief null
+#*
+my $n_icon = 0;
+
+#** @method private Saklient::Cloud::Resources::Icon get_icon 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_icon {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_icon'};
+}
+
+#** @method private Saklient::Cloud::Resources::Icon set_icon ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {Saklient::Cloud::Resources::Icon} v
+#*
+sub set_icon {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "Saklient::Cloud::Resources::Icon");
+	$self->{'m_icon'} = $v;
+	$self->{'n_icon'} = 1;
+	return $self->{'m_icon'};
+}
+
+#** @method public Saklient::Cloud::Resources::Icon icon ()
+# 
+# @brief アイコン
+#*
+sub icon {
+	if (1 < scalar(@_)) {
+		$_[0]->set_icon($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_icon();
+}
+
 #** @var private bool Saklient::Cloud::Resources::Swytch::$n_user_default_route 
 # 
 # @brief null
@@ -467,7 +566,7 @@ sub get_ipv4_nets {
 
 #** @method public Saklient::Cloud::Resources::Ipv4Net[] ipv4_nets ()
 # 
-# @brief IPv4ネットワーク（ルータによる自動割当）
+# @brief IPv4ネットワーク（ルータによる自動割当） {@link Ipv4Net} の配列
 #*
 sub ipv4_nets {
 	if (1 < scalar(@_)) {
@@ -495,7 +594,7 @@ sub get_ipv6_nets {
 
 #** @method public Saklient::Cloud::Resources::Ipv6Net[] ipv6_nets ()
 # 
-# @brief IPv6ネットワーク（ルータによる自動割当）
+# @brief IPv6ネットワーク（ルータによる自動割当） {@link Ipv6Net} の配列
 #*
 sub ipv6_nets {
 	if (1 < scalar(@_)) {
@@ -543,6 +642,32 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_description'} = 0;
+	if (Saklient::Util::exists_path($r, "Tags")) {
+		if (!defined(Saklient::Util::get_by_path($r, "Tags"))) {
+			$self->{'m_tags'} = [];
+		}
+		else {
+			$self->{'m_tags'} = [];
+			foreach my $t (@{Saklient::Util::get_by_path($r, "Tags")}) {
+				my $v1 = undef;
+				$v1 = !defined($t) ? undef : "" . $t;
+				push(@{$self->{'m_tags'}}, $v1);
+			}
+		}
+	}
+	else {
+		$self->{'m_tags'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_tags'} = 0;
+	if (Saklient::Util::exists_path($r, "Icon")) {
+		$self->{'m_icon'} = !defined(Saklient::Util::get_by_path($r, "Icon")) ? undef : new Saklient::Cloud::Resources::Icon($self->{'_client'}, Saklient::Util::get_by_path($r, "Icon"));
+	}
+	else {
+		$self->{'m_icon'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_icon'} = 0;
 	if (Saklient::Util::exists_path($r, "UserSubnet.DefaultRoute")) {
 		$self->{'m_user_default_route'} = !defined(Saklient::Util::get_by_path($r, "UserSubnet.DefaultRoute")) ? undef : "" . Saklient::Util::get_by_path($r, "UserSubnet.DefaultRoute");
 	}
@@ -574,9 +699,9 @@ sub api_deserialize_impl {
 		else {
 			$self->{'m_ipv4_nets'} = [];
 			foreach my $t (@{Saklient::Util::get_by_path($r, "Subnets")}) {
-				my $v1 = undef;
-				$v1 = !defined($t) ? undef : new Saklient::Cloud::Resources::Ipv4Net($self->{'_client'}, $t);
-				push(@{$self->{'m_ipv4_nets'}}, $v1);
+				my $v2 = undef;
+				$v2 = !defined($t) ? undef : new Saklient::Cloud::Resources::Ipv4Net($self->{'_client'}, $t);
+				push(@{$self->{'m_ipv4_nets'}}, $v2);
 			}
 		}
 	}
@@ -592,9 +717,9 @@ sub api_deserialize_impl {
 		else {
 			$self->{'m_ipv6_nets'} = [];
 			foreach my $t (@{Saklient::Util::get_by_path($r, "IPv6Nets")}) {
-				my $v2 = undef;
-				$v2 = !defined($t) ? undef : new Saklient::Cloud::Resources::Ipv6Net($self->{'_client'}, $t);
-				push(@{$self->{'m_ipv6_nets'}}, $v2);
+				my $v3 = undef;
+				$v3 = !defined($t) ? undef : new Saklient::Cloud::Resources::Ipv6Net($self->{'_client'}, $t);
+				push(@{$self->{'m_ipv6_nets'}}, $v3);
 			}
 		}
 	}
@@ -630,6 +755,17 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_description'}) {
 		Saklient::Util::set_by_path($ret, "Description", $self->{'m_description'});
 	}
+	if ($withClean || $self->{'n_tags'}) {
+		Saklient::Util::set_by_path($ret, "Tags", []);
+		foreach my $r1 (@{$self->{'m_tags'}}) {
+			my $v = undef;
+			$v = $r1;
+			push(@{$ret->{"Tags"}}, $v);
+		}
+	}
+	if ($withClean || $self->{'n_icon'}) {
+		Saklient::Util::set_by_path($ret, "Icon", $withClean ? (!defined($self->{'m_icon'}) ? undef : $self->{'m_icon'}->api_serialize($withClean)) : (!defined($self->{'m_icon'}) ? {'ID' => "0"} : $self->{'m_icon'}->api_serialize_id()));
+	}
 	if ($withClean || $self->{'n_user_default_route'}) {
 		Saklient::Util::set_by_path($ret, "UserSubnet.DefaultRoute", $self->{'m_user_default_route'});
 	}
@@ -641,17 +777,17 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_ipv4_nets'}) {
 		Saklient::Util::set_by_path($ret, "Subnets", []);
-		foreach my $r1 (@{$self->{'m_ipv4_nets'}}) {
+		foreach my $r2 (@{$self->{'m_ipv4_nets'}}) {
 			my $v = undef;
-			$v = $withClean ? (!defined($r1) ? undef : $r1->api_serialize($withClean)) : (!defined($r1) ? {'ID' => "0"} : $r1->api_serialize_id());
+			$v = $withClean ? (!defined($r2) ? undef : $r2->api_serialize($withClean)) : (!defined($r2) ? {'ID' => "0"} : $r2->api_serialize_id());
 			push(@{$ret->{"Subnets"}}, $v);
 		}
 	}
 	if ($withClean || $self->{'n_ipv6_nets'}) {
 		Saklient::Util::set_by_path($ret, "IPv6Nets", []);
-		foreach my $r2 (@{$self->{'m_ipv6_nets'}}) {
+		foreach my $r3 (@{$self->{'m_ipv6_nets'}}) {
 			my $v = undef;
-			$v = $withClean ? (!defined($r2) ? undef : $r2->api_serialize($withClean)) : (!defined($r2) ? {'ID' => "0"} : $r2->api_serialize_id());
+			$v = $withClean ? (!defined($r3) ? undef : $r3->api_serialize($withClean)) : (!defined($r3) ? {'ID' => "0"} : $r3->api_serialize_id());
 			push(@{$ret->{"IPv6Nets"}}, $v);
 		}
 	}

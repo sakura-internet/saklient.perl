@@ -46,7 +46,7 @@ my $m_description;
 
 #** @var private string* Saklient::Cloud::Resources::Disk::$m_tags 
 # 
-# @brief タグ
+# @brief タグ文字列の配列
 #*
 my $m_tags;
 
@@ -565,7 +565,7 @@ sub set_tags {
 
 #** @method public string[] tags ()
 # 
-# @brief タグ
+# @brief タグ文字列の配列
 #*
 sub tags {
 	if (1 < scalar(@_)) {

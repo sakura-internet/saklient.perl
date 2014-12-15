@@ -244,7 +244,7 @@ sub get_active_connections {
 
 #** @method public int active_connections ()
 # 
-# @brief レスポンスコード
+# @brief 現在の接続数
 #*
 sub active_connections {
 	if (1 < scalar(@_)) {
@@ -272,7 +272,7 @@ sub get_status {
 
 #** @method public string status ()
 # 
-# @brief レスポンスコード
+# @brief 現在の状態
 #*
 sub status {
 	if (1 < scalar(@_)) {
