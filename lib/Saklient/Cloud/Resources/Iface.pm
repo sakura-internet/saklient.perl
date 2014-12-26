@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saklient::Errors::SaklientException;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
+use Saklient::Cloud::Resources::Swytch;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 
@@ -143,6 +144,23 @@ sub new {
 	return $self;
 }
 
+#** @method public Saklient::Cloud::Resources::Iface connect_to_swytch ($swytch)
+# 
+# @brief スイッチに接続します。
+# 
+# @param Swytch $swytch 接続先のスイッチ。
+# @retval this
+#*
+sub connect_to_swytch {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $swytch = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($swytch, "Saklient::Cloud::Resources::Swytch");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/to/switch/" . Saklient::Util::url_encode($swytch->_id()));
+	return $self->reload();
+}
+
 #** @method public Saklient::Cloud::Resources::Iface connect_to_shared_segment 
 # 
 # @brief 共有セグメントに接続します。
@@ -153,6 +171,19 @@ sub connect_to_shared_segment {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/to/switch/shared");
+	return $self->reload();
+}
+
+#** @method public Saklient::Cloud::Resources::Iface disconnect_from_swytch 
+# 
+# @brief スイッチから切断します。
+# 
+# @retval this
+#*
+sub disconnect_from_swytch {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	$self->{'_client'}->request("DELETE", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/to/switch");
 	return $self->reload();
 }
 

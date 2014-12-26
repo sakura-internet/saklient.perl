@@ -14,6 +14,7 @@ use Saklient::Cloud::Resources::Icon;
 use Saklient::Cloud::Resources::Router;
 use Saklient::Cloud::Resources::Ipv4Net;
 use Saklient::Cloud::Resources::Ipv6Net;
+use Saklient::Cloud::Resources::Bridge;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 
@@ -70,6 +71,12 @@ my $m_user_mask_len;
 # @brief 接続されているルータ
 #*
 my $m_router;
+
+#** @var private Bridge Saklient::Cloud::Resources::Swytch::$m_bridge 
+# 
+# @brief 接続されているブリッジ
+#*
+my $m_bridge;
 
 #** @var private Saklient::Cloud::Resources::Ipv4Net* Saklient::Cloud::Resources::Swytch::$m_ipv4_nets 
 # 
@@ -249,7 +256,7 @@ sub remove_static_route {
 # 
 # @brief このルータ＋スイッチの帯域プランを変更します。
 # 
-# @param int $bandWidthMbps
+# @param int $bandWidthMbps 帯域幅（api.product.router.find() から取得できる {@link RouterPlan} の bandWidthMbps を指定）。
 # @retval this
 #*
 sub change_plan {
@@ -259,6 +266,39 @@ sub change_plan {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($bandWidthMbps, "int");
 	$self->get_router()->change_plan($bandWidthMbps);
+	$self->reload();
+	return $self;
+}
+
+#** @method public Saklient::Cloud::Resources::Swytch connect_to_bridge ($bridge)
+# 
+# @brief このルータ＋スイッチをブリッジに接続します。
+# 
+# @param $swytch 接続先のブリッジ。
+# @param Bridge $bridge
+# @retval this
+#*
+sub connect_to_bridge {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $bridge = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($bridge, "Saklient::Cloud::Resources::Bridge");
+	my $result = $self->{'_client'}->request("PUT", $self->_api_path() . "/" . $self->_id() . "/to/bridge/" . $bridge->_id());
+	$self->reload();
+	return $self;
+}
+
+#** @method public Saklient::Cloud::Resources::Swytch disconnect_from_bridge 
+# 
+# @brief このルータ＋スイッチをブリッジから切断します。
+# 
+# @retval this
+#*
+sub disconnect_from_bridge {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $result = $self->{'_client'}->request("DELETE", $self->_api_path() . "/" . $self->_id() . "/to/bridge");
 	$self->reload();
 	return $self;
 }
@@ -548,6 +588,34 @@ sub router {
 	return $_[0]->get_router();
 }
 
+#** @var private bool Saklient::Cloud::Resources::Swytch::$n_bridge 
+# 
+# @brief null
+#*
+my $n_bridge = 0;
+
+#** @method private Saklient::Cloud::Resources::Bridge get_bridge 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_bridge {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_bridge'};
+}
+
+#** @method public Saklient::Cloud::Resources::Bridge bridge ()
+# 
+# @brief 接続されているブリッジ
+#*
+sub bridge {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Swytch#bridge");
+		throw $ex;
+	}
+	return $_[0]->get_bridge();
+}
+
 #** @var private bool Saklient::Cloud::Resources::Swytch::$n_ipv4_nets 
 # 
 # @brief null
@@ -692,6 +760,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_router'} = 0;
+	if (Saklient::Util::exists_path($r, "Bridge")) {
+		$self->{'m_bridge'} = !defined(Saklient::Util::get_by_path($r, "Bridge")) ? undef : new Saklient::Cloud::Resources::Bridge($self->{'_client'}, Saklient::Util::get_by_path($r, "Bridge"));
+	}
+	else {
+		$self->{'m_bridge'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_bridge'} = 0;
 	if (Saklient::Util::exists_path($r, "Subnets")) {
 		if (!defined(Saklient::Util::get_by_path($r, "Subnets"))) {
 			$self->{'m_ipv4_nets'} = [];
@@ -774,6 +850,9 @@ sub api_serialize_impl {
 	}
 	if ($withClean || $self->{'n_router'}) {
 		Saklient::Util::set_by_path($ret, "Internet", $withClean ? (!defined($self->{'m_router'}) ? undef : $self->{'m_router'}->api_serialize($withClean)) : (!defined($self->{'m_router'}) ? {'ID' => "0"} : $self->{'m_router'}->api_serialize_id()));
+	}
+	if ($withClean || $self->{'n_bridge'}) {
+		Saklient::Util::set_by_path($ret, "Bridge", $withClean ? (!defined($self->{'m_bridge'}) ? undef : $self->{'m_bridge'}->api_serialize($withClean)) : (!defined($self->{'m_bridge'}) ? {'ID' => "0"} : $self->{'m_bridge'}->api_serialize_id()));
 	}
 	if ($withClean || $self->{'n_ipv4_nets'}) {
 		Saklient::Util::set_by_path($ret, "Subnets", []);
