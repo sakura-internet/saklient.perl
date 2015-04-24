@@ -13,7 +13,7 @@ use Saklient::Cloud::Resources::LbServer;
 
 #** @class Saklient::Cloud::Resources::LbVirtualIp
 # 
-# @brief ロードバランサの仮想IPアドレス。
+# @brief ロードバランサの仮想IPアドレス設定。
 #*
 
 
@@ -224,7 +224,9 @@ sub new {
 
 #** @method public Saklient::Cloud::Resources::LbServer add_server ($settings)
 # 
-# @brief null
+# @brief 監視対象サーバ設定を追加します。
+# 
+# @param $settings 設定オブジェクト
 #*
 sub add_server {
 	my $self = shift;
@@ -256,7 +258,10 @@ sub to_raw_settings {
 
 #** @method public Saklient::Cloud::Resources::LbServer get_server_by_address ($address)
 # 
-# @brief null@param {string} address
+# @brief 指定したIPアドレスにマッチする監視対象サーバ設定のうち、最初にマッチしたものを取得します。
+# 
+# @param string $address 検索するIPアドレス
+# @retval 監視対象サーバ設定（見つからなかった場合はnull）
 #*
 sub get_server_by_address {
 	my $self = shift;
@@ -272,9 +277,31 @@ sub get_server_by_address {
 	return undef;
 }
 
+#** @method public Saklient::Cloud::Resources::LbVirtualIp remove_server_by_address ($address)
+# 
+# @brief 指定したIPアドレスにマッチする監視対象サーバ設定をすべて削除します。
+# 
+# @param string $address
+#*
+sub remove_server_by_address {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $address = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($address, "string");
+	my $servers = [];
+	foreach my $srv (@{$self->{'_servers'}}) {
+		if ($srv->ip_address ne $address) {
+			push(@{$servers}, $srv);
+		}
+	}
+	$self->{'_servers'} = $servers;
+	return $self;
+}
+
 #** @method public Saklient::Cloud::Resources::LbVirtualIp update_status (@$srvs)
 # 
-# @brief null@param {any[]} srvs
+# @ignore @param {any[]} srvs
 #*
 sub update_status {
 	my $self = shift;

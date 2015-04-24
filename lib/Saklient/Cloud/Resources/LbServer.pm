@@ -12,7 +12,7 @@ use Saklient::Util;
 
 #** @class Saklient::Cloud::Resources::LbServer
 # 
-# @brief ロードバランサの監視対象サーバ。
+# @brief ロードバランサの監視対象サーバ設定。
 #*
 
 
@@ -357,7 +357,7 @@ sub to_raw_settings {
 
 #** @method public Saklient::Cloud::Resources::LbServer update_status ($obj)
 # 
-# @brief null
+# @ignore
 #*
 sub update_status {
 	my $self = shift;

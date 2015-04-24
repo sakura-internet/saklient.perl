@@ -86,7 +86,7 @@ sub request {
 	my $request = new HTTP::Request($method ne 'GET' ? 'POST' : 'GET', $path);
 	$request->header('Content-Type' => 'application/x-www-form-urlencoded');
 	$request->header('Authorization' => $self->{config}->{authorization});
-	$request->header('User-Agent' => 'saklient.perl ver-0.0.2.5 rev-a581b28f8ddd2cd75cb32f710d33d3d650bba044');
+	$request->header('User-Agent' => 'saklient.perl ver-0.0.2.6 rev-ea935ca9d640e87509db882d9fd06ec2bf75fe23');
 	$request->header('X-Requested-With' => 'XMLHttpRequest');
 	$request->header('X-Sakura-No-Authenticate-Header' => '1');
 	$request->header('X-Sakura-HTTP-Method' => $method);

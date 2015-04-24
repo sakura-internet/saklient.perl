@@ -295,7 +295,9 @@ sub clear_virtual_ips {
 
 #** @method public Saklient::Cloud::Resources::LbVirtualIp add_virtual_ip ($settings)
 # 
-# @brief null
+# @brief 仮想IPアドレス設定を追加します。
+# 
+# @param $settings 設定オブジェクト
 #*
 sub add_virtual_ip {
 	my $self = shift;
@@ -308,7 +310,9 @@ sub add_virtual_ip {
 
 #** @method public Saklient::Cloud::Resources::LbVirtualIp get_virtual_ip_by_address ($address)
 # 
-# @brief null@param {string} address
+# @brief 指定したIPアドレスにマッチする仮想IPアドレス設定を取得します。
+# 
+# @param string $address
 #*
 sub get_virtual_ip_by_address {
 	my $self = shift;
@@ -326,20 +330,22 @@ sub get_virtual_ip_by_address {
 
 #** @method public Saklient::Cloud::Resources::LoadBalancer reload_status 
 # 
-# @brief null
+# @brief 監視対象サーバのステータスを最新の状態に更新します。
 #*
 sub reload_status {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $result = $self->request_retry("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/status");
-	my $vips = $result->{"LoadBalancer"};
-	foreach my $vipDyn (@{$vips}) {
-		my $vipStr = $vipDyn->{"VirtualIPAddress"};
-		my $vip = $self->get_virtual_ip_by_address($vipStr);
-		if (!defined($vip)) {
-			next;
+	if ((ref($result) eq 'HASH' && exists $result->{"LoadBalancer"})) {
+		my $vips = $result->{"LoadBalancer"};
+		foreach my $vipDyn (@{$vips}) {
+			my $vipStr = $vipDyn->{"VirtualIPAddress"};
+			my $vip = $self->get_virtual_ip_by_address($vipStr);
+			if (!defined($vip)) {
+				next;
+			}
+			$vip->update_status($vipDyn->{"Servers"});
 		}
-		$vip->update_status($vipDyn->{"Servers"});
 	}
 	return $self;
 }
