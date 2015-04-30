@@ -14,7 +14,7 @@ use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 12;
+my $tests = 15;
 
 
 
@@ -62,7 +62,7 @@ my $tag = 'saklient-test';
 # search iso images
 diag 'searching iso images...';
 my $isos = $api->iso_image
-	->with_name_like('CentOS 6.5 64bit')
+	->with_name_like('CentOS 6. 64bit')
 	->with_shared_scope
 	->limit(1)
 	->find;
@@ -91,21 +91,27 @@ diag 'ejecting the ISO image from the server...';
 $server->eject_iso_image;
 is $server->instance->iso_image, undef;
 
+# insert iso image while the server is down
+diag 'inserting an ISO image to the server...';
+$server->insert_iso_image($iso);
+isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resources::IsoImage';
+is $server->instance->iso_image->id, $iso->id;
+
 # boot
 diag 'booting the server...';
 $server->boot;
-sleep 3;
+sleep 30;
+
+# eject iso image while the server is up
+diag 'ejecting the ISO image from the server...';
+$server->eject_iso_image;
+is $server->instance->iso_image, undef;
 
 # insert iso image while the server is up
 diag 'inserting an ISO image to the server...';
 $server->insert_iso_image($iso);
 isa_ok $server->instance->iso_image, 'Saklient::Cloud::Resources::IsoImage';
 is $server->instance->iso_image->id, $iso->id;
-
-# eject iso image while the server is up
-diag 'ejecting the ISO image from the server...';
-$server->eject_iso_image;
-is $server->instance->iso_image, undef;
 
 # stop
 sleep 1;

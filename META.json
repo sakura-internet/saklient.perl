@@ -1,4 +1,5 @@
 {
+   "version" : "0.0.2.7",
    "abstract" : "An easy interface to control your resources on SAKURA Cloud.",
    "author" : [
       "SAKURA Internet, Inc."
@@ -72,7 +73,6 @@
          "web" : "https://github.com/sakura-internet/saklient.perl"
       }
    },
-   "version" : "0.0.2.6",
    "x_contributors" : [
       "townewgokgok <townewgokgok@gmail.com>"
    ]

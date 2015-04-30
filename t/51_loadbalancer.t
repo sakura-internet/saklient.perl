@@ -8,7 +8,7 @@ use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
 use Saklient::Cloud::API;
-use Saklient::Util;
+use Saklient::Util qw(get_by_path set_by_path exists_path ip2long long2ip);
 use Saklient::Errors::SaklientException;
 use Socket;
 use List::Util 'min';
@@ -18,7 +18,7 @@ use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $TESTS_CONFIG_READYMADE_LB_ID = 112600809060;
+my $TESTS_CONFIG_READYMADE_LB_ID = undef;
 my $tests = 46 + ($TESTS_CONFIG_READYMADE_LB_ID ? 0 : 11);
 
 
@@ -73,9 +73,21 @@ if (!$TESTS_CONFIG_READYMADE_LB_ID) {
 	
 	# search a switch
 	diag 'searching a swytch...';
-	my $swytches = $api->swytch->with_tag('lb-attached')->limit(1)->find;
-	cmp_ok scalar(@$swytches), '>', 0;
-	$swytch = $swytches->[0];
+	my $swytches = $api->swytch->with_name_like('saklient-lb-attached')->limit(1)->find;
+	if (0 < scalar(@$swytches)) {
+		$swytch = $swytches->[0];
+	}
+	else {
+		diag 'ルータ＋スイッチを作成しています...';
+		my $router = $api->router->create;
+		$router->name('saklient-lb-attached');
+		$router->band_width_mbps(100);
+		$router->network_mask_len(28);
+		$router->save;
+		diag 'ルータ＋スイッチの作成完了を待機しています...';
+		fail 'ルータが正常に作成されません' unless $router->sleep_while_creating;
+		$swytch = $router->get_swytch;
+	}
 	isa_ok $swytch, 'Saklient::Cloud::Resources::Swytch';
 	cmp_ok scalar(@{$swytch->ipv4_nets}), '>', 0;
 	$net = $swytch->ipv4_nets->[0];
@@ -84,7 +96,9 @@ if (!$TESTS_CONFIG_READYMADE_LB_ID) {
 	# create a loadbalancer
 	diag 'creating a LB...';
 	my $vrid = 123;
-	$lb = $api->appliance->create_load_balancer($swytch, $vrid, ['133.242.255.244', '133.242.255.245'], 1);
+	my $real_ip1 = long2ip(ip2long($net->default_route) + 3);
+	my $real_ip2 = long2ip(ip2long($net->default_route) + 4);
+	$lb = $api->appliance->create_load_balancer($swytch, $vrid, [$real_ip1, $real_ip2], 1);
 	
 	my $ok = 0;
 	try {
@@ -236,14 +250,14 @@ foreach my $vip (@{$lb->virtual_ips}) {
 	diag sprintf('  vip %s:%s every %ssec(s)', $vip->virtual_ip_address, $vip->port, $vip->delay_loop);
 	foreach my $server (@{$vip->servers}) {
 		my $msg = '';
-		$msg .= sprintf('    [%s(%s)]', $server->status, $server->active_connections);
+		$msg .= sprintf('    [%s(%s)]', $server->status||'-', $server->active_connections);
 		$msg .= sprintf(' server %s://%s', $server->protocol, $server->ip_address);
 		$msg .= sprintf(':%d', $server->port) if $server->port();
 		$msg .= $server->path_to_check if $server->path_to_check();
 		$msg .= ' answers';
 		$msg .= sprintf(' %d', $server->response_expected) if $server->response_expected();
 		diag $msg;
-		is $server->status, 'down';
+		#is $server->status, 'down';
 	}
 }
 

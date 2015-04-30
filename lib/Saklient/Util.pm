@@ -10,9 +10,10 @@ use Data::Dumper;
 use Saklient::Errors::SaklientException;
 use URI::Escape;
 use DateTime::Format::Strptime;
+use Socket;
 
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(exists_path get_by_path set_by_path create_class_instance);
+our @EXPORT_OK = qw(exists_path get_by_path set_by_path create_class_instance ip2long long2ip);
 
 
 =pod
@@ -139,6 +140,25 @@ sub date2str {
 	my $s = $d->strftime("%Y-%m-%dT%H:%M:%S%z");
 	$s =~ s/([+-][0-9]{2})([0-9]{2})$/$1:$2/;
 	return $s;
+}
+
+sub ip2long {
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saklient::Util';
+	my $s = shift;
+	if (!defined($s) || ($s !~ /^\d+\.\d+\.\d+\.\d+$/)) {
+		return undef;
+	}
+	return unpack("N*", inet_aton($s));
+}
+
+sub long2ip {
+	shift if 1 < scalar(@_) && defined($_[0]) && $_[0] eq 'Saklient::Util';
+	my $n = shift;
+	if (!defined($n) || $n<-0x80000000 || 0xFFFFFFFF<$n) {
+		return undef;
+	}
+	$n += 1<<32 if $n<0;
+	return inet_ntoa(pack("N*", $n));
 }
 
 sub url_encode {

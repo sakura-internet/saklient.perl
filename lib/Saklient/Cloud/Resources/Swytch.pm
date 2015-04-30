@@ -303,6 +303,78 @@ sub disconnect_from_bridge {
 	return $self;
 }
 
+#** @method private any _used_ipv4_address_hash 
+# 
+# @private
+# @ignore
+#*
+sub _used_ipv4_address_hash {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $filter = {};
+	$filter->{"Switch" . ".ID"} = $self->_id();
+	my $query = {};
+	Saklient::Util::set_by_path($query, "Count", 0);
+	Saklient::Util::set_by_path($query, "Filter", $filter);
+	Saklient::Util::set_by_path($query, "Include", ["IPAddress", "UserIPAddress"]);
+	my $result = $self->{'_client'}->request("GET", "/interface", $query);
+	if (!defined($result)) {
+		return undef;
+	}
+	$result = $result->{"Interfaces"};
+	if (!defined($result)) {
+		return undef;
+	}
+	my $ifaces = $result;
+	if (!defined($ifaces)) {
+		return undef;
+	}
+	my $found = {};
+	foreach my $iface (@{$ifaces}) {
+		my $ip = $iface->{"IPAddress"};
+		my $userIp = $iface->{"UserIPAddress"};
+		if (!defined($ip)) {
+			$ip = $userIp;
+		}
+		if (defined($ip)) {
+			$found->{$ip} = 1;
+		}
+	}
+	return $found;
+}
+
+#** @method public string[] collect_used_ipv4_addresses 
+# 
+# @brief このルータ＋スイッチに接続中のインタフェースに割り当てられているIPアドレスを収集します。
+#*
+sub collect_used_ipv4_addresses {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $found = $self->_used_ipv4_address_hash();
+	return [sort @{[keys %{$found}]}];
+}
+
+#** @method public string[] collect_unused_ipv4_addresses 
+# 
+# @brief このルータ＋スイッチで利用できる未使用のIPアドレスを収集します。
+#*
+sub collect_unused_ipv4_addresses {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $nets = $self->get_ipv4_nets();
+	if (scalar(@{$nets}) < 1) {
+		return undef;
+	}
+	my $used = $self->_used_ipv4_address_hash();
+	my $ret = [];
+	foreach my $ip (@{$nets->[0]->get_range()->get_as_array()}) {
+		if (!(ref($used) eq 'HASH' && exists $used->{$ip})) {
+			push(@{$ret}, $ip);
+		}
+	}
+	return [sort @{$ret}];
+}
+
 #** @var private bool Saklient::Cloud::Resources::Swytch::$n_id 
 # 
 # @brief null

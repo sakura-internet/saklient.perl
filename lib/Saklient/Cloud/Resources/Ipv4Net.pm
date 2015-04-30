@@ -10,6 +10,7 @@ use Data::Dumper;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
 use Saklient::Cloud::Resources::Swytch;
+use Saklient::Cloud::Resources::Ipv4Range;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 
@@ -48,6 +49,34 @@ my $m_default_route;
 # @brief ネクストホップ
 #*
 my $m_next_hop;
+
+#** @var private Ipv4Range Saklient::Cloud::Resources::Ipv4Net::$_range 
+# 
+# @private
+#*
+my $_range;
+
+#** @method public Saklient::Cloud::Resources::Ipv4Range get_range 
+# 
+# @brief null
+#*
+sub get_range {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_range'};
+}
+
+#** @method public Saklient::Cloud::Resources::Ipv4Range range ()
+# 
+# @brief 利用可能なIPアドレス範囲
+#*
+sub range {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Ipv4Net#range");
+		throw $ex;
+	}
+	return $_[0]->get_range();
+}
 
 #** @method private string _api_path 
 # 
@@ -129,6 +158,23 @@ sub new {
 	Saklient::Util::validate_type($wrapped, "bool");
 	$self->api_deserialize($obj, $wrapped);
 	return $self;
+}
+
+#** @method private void _on_after_api_deserialize ($r, $root)
+# 
+# @private
+#*
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saklient::Util::validate_arg_count($_argnum, 2);
+	$self->{'_range'} = undef;
+	my $addresses = $r->{"IPAddresses"};
+	if (defined($addresses)) {
+		$self->{'_range'} = new Saklient::Cloud::Resources::Ipv4Range($addresses);
+	}
 }
 
 #** @var private bool Saklient::Cloud::Resources::Ipv4Net::$n_id 

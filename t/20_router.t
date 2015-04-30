@@ -15,7 +15,7 @@ use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
 
-my $tests = 13;
+my $tests = 20;
 
 
 
@@ -59,6 +59,9 @@ isa_ok $api, 'Saklient::Cloud::API';
 my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::Random->new->randregex('\\w{8}');
 my $description = 'This instance was created by saklient.perl test';
 my $mask_len = 28;
+my $mask_len_cnt = 1<<32-$mask_len;
+my $sroute_mask_len = 28;
+my $sroute_mask_len_cnt = 1<<32-$sroute_mask_len;
 
 #
 my $swytch;
@@ -94,8 +97,37 @@ else {
 }
 
 isa_ok $swytch, 'Saklient::Cloud::Resources::Swytch';
-cmp_ok scalar(@{$swytch->ipv4_nets}), '>', 0;
+is scalar(@{$swytch->ipv4_nets}), 1;
 isa_ok $swytch->ipv4_nets->[0], 'Saklient::Cloud::Resources::Ipv4Net';
+is scalar(@{$swytch->ipv4_nets->[0]->range->as_array}), $mask_len_cnt-5;
+is scalar(@{$swytch->collect_used_ipv4_addresses}), 0;
+is scalar(@{$swytch->collect_unused_ipv4_addresses}), $mask_len_cnt-5;
+
+#
+diag 'サーバを作成しています...';
+my $server = $api->server->create;
+isa_ok $server, 'Saklient::Cloud::Resources::Server';
+$server->name($name)
+	->description($description)
+	->plan($api->product->server->get_by_spec(1, 1))
+	->save;
+
+#
+diag 'インタフェースを増設しています...';
+my $iface = $server->add_iface;
+isa_ok $iface, 'Saklient::Cloud::Resources::Iface';
+cmp_ok $iface->id, '>', 0;
+
+#
+diag 'インタフェースをルータ＋スイッチに接続しています...';
+$iface->connect_to_swytch($swytch);
+
+#
+diag 'インタフェースにIPアドレスを設定しています...';
+$iface->user_ip_address($swytch->ipv4_nets->[0]->range->as_array->[1]);
+$iface->save;
+is scalar(@{$swytch->collect_used_ipv4_addresses}), 1;
+is scalar(@{$swytch->collect_unused_ipv4_addresses}), $mask_len_cnt-6;
 
 #
 diag 'ルータ＋スイッチの帯域プランを変更しています...';
@@ -104,14 +136,21 @@ $swytch->change_plan($swytch->router->band_width_mbps == 100 ? 500 : 100);
 isnt $swytch->router->id, $router_id_before;
 
 #
-if (0 < scalar(@{$swytch->ipv6_nets})) {
-	diag 'ルータ＋スイッチからIPv6ネットワークの割当を解除しています...';
-	$swytch->remove_ipv6_net;
-}
 diag 'ルータ＋スイッチにIPv6ネットワークを割り当てています...';
 my $v6net = $swytch->add_ipv6_net;
 isa_ok $v6net, 'Saklient::Cloud::Resources::Ipv6Net';
 is scalar(@{$swytch->ipv6_nets}), 1;
+
+#
+diag 'ルータ＋スイッチにスタティックルートを割り当てています...';
+my $net0 = $swytch->ipv4_nets->[0];
+my $next_hop_n = unpack("N*", inet_aton($net0->address)) + 4;
+my $next_hop = inet_ntoa(pack("N*", $next_hop_n));
+my $sroute = $swytch->add_static_route(28, $next_hop);
+isa_ok $sroute, 'Saklient::Cloud::Resources::Ipv4Net';
+is scalar(@{$swytch->ipv4_nets}), 2;
+
+
 
 #
 for (my $i = scalar(@{$swytch->ipv4_nets}) - 1; 1 <= $i; $i--) {
@@ -120,13 +159,15 @@ for (my $i = scalar(@{$swytch->ipv4_nets}) - 1; 1 <= $i; $i--) {
 	$swytch->remove_static_route($net);
 }
 
-diag 'ルータ＋スイッチにスタティックルートを割り当てています...';
-my $net0 = $swytch->ipv4_nets->[0];
-my $next_hop_n = unpack("N*", inet_aton($net0->address)) + 4;
-my $next_hop = inet_ntoa(pack("N*", $next_hop_n));
-my $sroute = $swytch->add_static_route(28, $next_hop);
-isa_ok $sroute, 'Saklient::Cloud::Resources::Ipv4Net';
-is scalar(@{$swytch->ipv4_nets}), 2;
+#
+if (0 < scalar(@{$swytch->ipv6_nets})) {
+	diag 'ルータ＋スイッチからIPv6ネットワークの割当を解除しています...';
+	$swytch->remove_ipv6_net;
+}
+
+#
+diag 'サーバを削除しています...';
+$server->destroy;
 
 #
 plan tests => $tests;

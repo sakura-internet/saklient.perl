@@ -3,11 +3,11 @@
 use strict;
 use warnings;
 use errors;
-use Test::More tests => 23;
+use Test::More tests => 47;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
-use Saklient::Util qw(get_by_path set_by_path exists_path);
+use Saklient::Util qw(get_by_path set_by_path exists_path ip2long long2ip);
 use Saklient::Cloud::API;
 use Saklient::Errors::SaklientException;
 binmode STDOUT, ":utf8";
@@ -92,6 +92,36 @@ catch Saklient::Errors::SaklientException with {
 	$ok = 1;
 };
 ok $ok, '未定義または読み取り専用フィールドへのset時は SaklientException がスローされなければなりません';
+
+
+
+#
+is ip2long('0.0.0.0'), 0;
+is ip2long('127.255.255.255'), 0x7FFFFFFF;
+is ip2long('128.0.0.0'), 0x80000000;
+is ip2long('255.255.255.255'), 0xFFFFFFFF;
+is ip2long('222.173.190.239'), 0xDEADBEEF;
+#
+is long2ip(0), '0.0.0.0';
+is long2ip(0x7FFFFFFF), '127.255.255.255';
+is long2ip(0x80000000), '128.0.0.0';
+is long2ip(0xFFFFFFFF), '255.255.255.255';
+is long2ip(0xDEADBEEF), '222.173.190.239';
+is long2ip(ip2long('127.255.255.255') + 1), '128.0.0.0';
+#
+is ip2long(undef), undef;
+is ip2long(0), undef;
+is ip2long(''), undef;
+is ip2long('x'), undef;
+is ip2long('0.0.0'), undef;
+is ip2long('0.0.0.x'), undef;
+is ip2long('0.0.0.0.0'), undef;
+is ip2long('255.255.255.256'), undef;
+is ip2long('256.255.255.255'), undef;
+is long2ip(undef), undef;
+is long2ip('0'), '0.0.0.0';
+is long2ip(ip2long('0.0.0.0') - 1), '255.255.255.255';
+is long2ip(ip2long('255.255.255.255') + 1), undef;
 
 
 

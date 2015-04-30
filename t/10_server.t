@@ -99,7 +99,7 @@ my $ssh_private_key_file = dirname($FindBin::RealBin) . '/test-sshkey.txt';
 # search archives
 diag 'searching archives...';
 my $archives = $api->archive
-	->with_name_like('CentOS 6.5 64bit')
+	->with_name_like('CentOS 6. 64bit')
 	->with_size_gib(20)
 	->with_shared_scope
 	->limit(1)

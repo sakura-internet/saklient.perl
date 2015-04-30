@@ -65,6 +65,7 @@ $disk
 	->description($description)
 	->tags([$tag])
 	->size_gib(20)
+	->plan($api->product->disk->ssd)
 	->save;
 
 my $archive = $api->archive->create;

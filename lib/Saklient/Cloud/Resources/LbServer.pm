@@ -334,6 +334,8 @@ sub new {
 	if (Saklient::Util::num_eq($self->{'_response_expected'}, 0)) {
 		$self->{'_response_expected'} = undef;
 	}
+	$self->{'_active_connections'} = 0;
+	$self->{'_status'} = undef;
 	return $self;
 }
 
