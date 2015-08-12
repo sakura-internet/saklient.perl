@@ -19,7 +19,7 @@ use String::Random;
 binmode STDOUT, ":utf8";
 
 my $TESTS_CONFIG_READYMADE_LB_ID = undef;
-my $tests = 46 + ($TESTS_CONFIG_READYMADE_LB_ID ? 0 : 11);
+my $tests = 37 + ($TESTS_CONFIG_READYMADE_LB_ID ? 0 : 6);
 
 
 
@@ -268,7 +268,7 @@ foreach my $vip (@{$lb->virtual_ips}) {
 if (!$TESTS_CONFIG_READYMADE_LB_ID) {
 	
 	# stop the LB
-	sleep 1;
+	sleep 5;
 	diag 'stopping the LB...';
 	fail 'ロードバランサが正常に停止しません' unless $lb->stop->sleep_until_down();
 	

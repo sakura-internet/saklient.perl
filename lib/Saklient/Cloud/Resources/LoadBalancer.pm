@@ -336,7 +336,7 @@ sub reload_status {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $result = $self->request_retry("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/status");
-	if ((ref($result) eq 'HASH' && exists $result->{"LoadBalancer"})) {
+	if (defined($result) && (ref($result) eq 'HASH' && exists $result->{"LoadBalancer"})) {
 		my $vips = $result->{"LoadBalancer"};
 		foreach my $vipDyn (@{$vips}) {
 			my $vipStr = $vipDyn->{"VirtualIPAddress"};

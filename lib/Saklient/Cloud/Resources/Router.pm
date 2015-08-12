@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saklient::Errors::HttpException;
 use Saklient::Errors::SaklientException;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
@@ -14,6 +15,7 @@ use Saklient::Cloud::Resources::Icon;
 use Saklient::Cloud::Resources::Swytch;
 use Saklient::Cloud::Resources::Ipv4Net;
 use Saklient::Cloud::Resources::Ipv6Net;
+use Saklient::Cloud::Resources::RouterActivity;
 use Saklient::Cloud::Models::Model_Swytch;
 
 use base qw(Saklient::Cloud::Resources::Resource);
@@ -134,6 +136,34 @@ sub reload {
 	return $self->_reload();
 }
 
+#** @var private RouterActivity Saklient::Cloud::Resources::Router::$_activity 
+# 
+# @private
+#*
+my $_activity;
+
+#** @method public Saklient::Cloud::Resources::RouterActivity get_activity 
+# 
+# @brief null
+#*
+sub get_activity {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_activity'};
+}
+
+#** @method public Saklient::Cloud::Resources::RouterActivity activity ()
+# 
+# @brief アクティビティ
+#*
+sub activity {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Router#activity");
+		throw $ex;
+	}
+	return $_[0]->get_activity();
+}
+
 #** @method public void new ($client, $obj, $wrapped)
 # 
 # @ignore @param {Saklient::Cloud::Client} client
@@ -150,8 +180,24 @@ sub new {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	Saklient::Util::validate_type($wrapped, "bool");
+	$self->{'_activity'} = new Saklient::Cloud::Resources::RouterActivity($client);
 	$self->api_deserialize($obj, $wrapped);
 	return $self;
+}
+
+#** @method private void _on_after_api_deserialize ($r, $root)
+# 
+# @private
+#*
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saklient::Util::validate_arg_count($_argnum, 2);
+	if (defined($r)) {
+		$self->{'_activity'}->set_source_id($self->_id());
+	}
 }
 
 #** @method public void after_create ($timeoutSec, $callback)
@@ -187,17 +233,27 @@ sub sleep_while_creating {
 	my $timeoutSec = shift || (120);
 	Saklient::Util::validate_type($timeoutSec, "int");
 	my $step = 3;
+	my $isOk = 0;
 	while (0 < $timeoutSec) {
-		if ($self->exists()) {
-			$self->reload();
-			return 1;
+		try {
+			if ($self->exists()) {
+				$self->reload();
+				$isOk = 1;
+			}
 		}
+		catch Saklient::Errors::HttpException with {
+			my $ex = shift;
+			{}
+		};
 		$timeoutSec -= $step;
+		if ($isOk) {
+			$timeoutSec = 0;
+		}
 		if (0 < $timeoutSec) {
 			sleep $step;
 		}
 	}
-	return 0;
+	return $isOk;
 }
 
 #** @method public Saklient::Cloud::Resources::Swytch get_swytch 

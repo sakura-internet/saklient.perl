@@ -8,12 +8,14 @@ use Carp;
 use Error qw(:try);
 use Data::Dumper;
 use Saklient::Errors::SaklientException;
+use Saklient::Errors::HttpException;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
 use Saklient::Cloud::Resources::Icon;
 use Saklient::Cloud::Resources::DiskPlan;
 use Saklient::Cloud::Resources::Server;
 use Saklient::Cloud::Resources::DiskConfig;
+use Saklient::Cloud::Resources::DiskActivity;
 use Saklient::Cloud::Enums::EAvailability;
 use Saklient::Cloud::Enums::EDiskConnection;
 use Saklient::Cloud::Enums::EStorageClass;
@@ -160,6 +162,34 @@ sub reload {
 	return $self->_reload();
 }
 
+#** @var private DiskActivity Saklient::Cloud::Resources::Disk::$_activity 
+# 
+# @private
+#*
+my $_activity;
+
+#** @method public Saklient::Cloud::Resources::DiskActivity get_activity 
+# 
+# @brief null
+#*
+sub get_activity {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_activity'};
+}
+
+#** @method public Saklient::Cloud::Resources::DiskActivity activity ()
+# 
+# @brief アクティビティ
+#*
+sub activity {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Disk#activity");
+		throw $ex;
+	}
+	return $_[0]->get_activity();
+}
+
 #** @method public void new ($client, $obj, $wrapped)
 # 
 # @ignore @param {Saklient::Cloud::Client} client
@@ -176,6 +206,7 @@ sub new {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	Saklient::Util::validate_type($wrapped, "bool");
+	$self->{'_activity'} = new Saklient::Cloud::Resources::DiskActivity($client);
 	$self->api_deserialize($obj, $wrapped);
 	return $self;
 }
@@ -292,6 +323,7 @@ sub _on_after_api_deserialize {
 	my $root = shift;
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	if (defined($r)) {
+		$self->{'_activity'}->set_source_id($self->_id());
 		if ((ref($r) eq 'HASH' && exists $r->{"SourceDisk"})) {
 			my $s = $r->{"SourceDisk"};
 			if (defined($s)) {
@@ -401,7 +433,13 @@ sub sleep_while_copying {
 	Saklient::Util::validate_type($timeoutSec, "int");
 	my $step = 10;
 	while (0 < $timeoutSec) {
-		$self->reload();
+		try {
+			$self->reload();
+		}
+		catch Saklient::Errors::HttpException with {
+			my $ex = shift;
+			{}
+		};
 		my $a = $self->get_availability();
 		if ($a eq Saklient::Cloud::Enums::EAvailability::available) {
 			return 1;

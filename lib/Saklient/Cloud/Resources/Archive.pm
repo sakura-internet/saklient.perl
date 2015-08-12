@@ -15,6 +15,7 @@ use Saklient::Cloud::Resources::DiskPlan;
 use Saklient::Cloud::Resources::Server;
 use Saklient::Cloud::Enums::EScope;
 use Saklient::Cloud::Enums::EAvailability;
+use Saklient::Errors::HttpException;
 use Saklient::Errors::SaklientException;
 
 use base qw(Saklient::Cloud::Resources::Resource);
@@ -437,7 +438,13 @@ sub sleep_while_copying {
 	Saklient::Util::validate_type($timeoutSec, "int");
 	my $step = 3;
 	while (0 < $timeoutSec) {
-		$self->reload();
+		try {
+			$self->reload();
+		}
+		catch Saklient::Errors::HttpException with {
+			my $ex = shift;
+			{}
+		};
 		my $a = $self->get_availability();
 		if ($a eq Saklient::Cloud::Enums::EAvailability::available) {
 			return 1;

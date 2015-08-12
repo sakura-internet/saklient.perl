@@ -158,11 +158,21 @@ sub password {
 	return $_[0]->get_password();
 }
 
-#** @var private string Saklient::Cloud::Resources::DiskConfig::$_ssh_key 
+#** @var private string* Saklient::Cloud::Resources::DiskConfig::$_ssh_keys 
 # 
 # @private
 #*
-my $_ssh_key;
+my $_ssh_keys;
+
+#** @method private string[] get_ssh_keys 
+# 
+# @brief null
+#*
+sub get_ssh_keys {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_ssh_keys'};
+}
 
 #** @method private string get_ssh_key 
 # 
@@ -171,7 +181,10 @@ my $_ssh_key;
 sub get_ssh_key {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	return $self->{'_ssh_key'};
+	if (scalar(@{$self->{'_ssh_keys'}}) < 1) {
+		return undef;
+	}
+	return $self->{'_ssh_keys'}->[0];
 }
 
 #** @method private string set_ssh_key ($v)
@@ -184,7 +197,12 @@ sub set_ssh_key {
 	my $v = shift;
 	Saklient::Util::validate_arg_count($_argnum, 1);
 	Saklient::Util::validate_type($v, "string");
-	$self->{'_ssh_key'} = $v;
+	if (scalar(@{$self->{'_ssh_keys'}}) < 1) {
+		push(@{$self->{'_ssh_keys'}}, $v);
+	}
+	else {
+		$self->{'_ssh_keys'}->[0] = $v;
+	}
 	return $v;
 }
 
@@ -198,6 +216,18 @@ sub ssh_key {
 		return $_[0];
 	}
 	return $_[0]->get_ssh_key();
+}
+
+#** @method public string[] ssh_keys ()
+# 
+# @brief SSHキー
+#*
+sub ssh_keys {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::DiskConfig#ssh_keys");
+		throw $ex;
+	}
+	return $_[0]->get_ssh_keys();
 }
 
 #** @var private string Saklient::Cloud::Resources::DiskConfig::$_ip_address 
@@ -372,7 +402,7 @@ sub new {
 	$self->{'_disk_id'} = $diskId;
 	$self->{'_host_name'} = undef;
 	$self->{'_password'} = undef;
-	$self->{'_ssh_key'} = undef;
+	$self->{'_ssh_keys'} = [];
 	$self->{'_ip_address'} = undef;
 	$self->{'_default_route'} = undef;
 	$self->{'_network_mask_len'} = undef;
@@ -415,8 +445,8 @@ sub write {
 	if (defined($self->{'_password'})) {
 		Saklient::Util::set_by_path($q, "Password", $self->{'_password'});
 	}
-	if (defined($self->{'_ssh_key'})) {
-		Saklient::Util::set_by_path($q, "SSHKey.PublicKey", $self->{'_ssh_key'});
+	if (scalar(@{$self->{'_ssh_keys'}}) > 0) {
+		Saklient::Util::set_by_path($q, "SSHKey.PublicKey", join("\n", @{$self->{'_ssh_keys'}}));
 	}
 	if (defined($self->{'_ip_address'})) {
 		Saklient::Util::set_by_path($q, "UserIPAddress", $self->{'_ip_address'});

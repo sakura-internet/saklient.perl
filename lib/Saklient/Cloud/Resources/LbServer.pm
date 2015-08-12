@@ -16,6 +16,48 @@ use Saklient::Util;
 #*
 
 
+#** @var private bool Saklient::Cloud::Resources::LbServer::$_enabled 
+# 
+# @private
+#*
+my $_enabled;
+
+#** @method public bool get_enabled 
+# 
+# @brief null
+#*
+sub get_enabled {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_enabled'};
+}
+
+#** @method public bool set_enabled ($v)
+# 
+# @brief null@param {bool} v
+#*
+sub set_enabled {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "bool");
+	$self->{'_enabled'} = $v;
+	return $self->{'_enabled'};
+}
+
+#** @method public bool enabled ()
+# 
+# @brief 有効状態
+#*
+sub enabled {
+	if (1 < scalar(@_)) {
+		$_[0]->set_enabled($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_enabled();
+}
+
 #** @var private string Saklient::Cloud::Resources::LbServer::$_ip_address 
 # 
 # @private
@@ -300,6 +342,12 @@ sub new {
 		"health_check",
 		"health"
 	]);
+	my $enabled = Saklient::Util::get_by_path_any([$obj], ["Enabled", "enabled"]);
+	$self->{'_enabled'} = undef;
+	if (defined($enabled)) {
+		my $enabledStr = $enabled;
+		$self->{'_enabled'} = lc($enabledStr) eq "true";
+	}
 	$self->{'_ip_address'} = Saklient::Util::get_by_path_any([$obj], [
 		"IPAddress",
 		"ipAddress",
@@ -347,6 +395,7 @@ sub to_raw_settings {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return {
+		'Enabled' => !defined($self->{'_enabled'}) ? undef : ($self->{'_enabled'} ? "True" : "False"),
 		'IPAddress' => $self->{'_ip_address'},
 		'Port' => $self->{'_port'},
 		'HealthCheck' => {

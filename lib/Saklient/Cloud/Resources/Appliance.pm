@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saklient::Errors::HttpException;
 use Saklient::Errors::SaklientException;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
@@ -313,7 +314,13 @@ sub sleep_while_creating {
 	Saklient::Util::validate_type($timeoutSec, "int");
 	my $step = 10;
 	while (0 < $timeoutSec) {
-		$self->reload();
+		try {
+			$self->reload();
+		}
+		catch Saklient::Errors::HttpException with {
+			my $ex = shift;
+			{}
+		};
 		my $a = $self->get_availability();
 		if ($a eq Saklient::Cloud::Enums::EAvailability::available) {
 			return 1;
@@ -376,7 +383,13 @@ sub sleep_until {
 	Saklient::Util::validate_type($timeoutSec, "int");
 	my $step = 10;
 	while (0 < $timeoutSec) {
-		$self->reload();
+		try {
+			$self->reload();
+		}
+		catch Saklient::Errors::HttpException with {
+			my $ex = shift;
+			{}
+		};
 		my $s = $self->get_status();
 		if (!defined($s)) {
 			$s = Saklient::Cloud::Enums::EServerInstanceStatus::down;

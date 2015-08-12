@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saklient::Errors::HttpException;
 use Saklient::Errors::SaklientException;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
@@ -16,6 +17,7 @@ use Saklient::Cloud::Resources::Iface;
 use Saklient::Cloud::Resources::ServerPlan;
 use Saklient::Cloud::Resources::ServerInstance;
 use Saklient::Cloud::Resources::IsoImage;
+use Saklient::Cloud::Resources::ServerActivity;
 use Saklient::Cloud::Enums::EServerInstanceStatus;
 use Saklient::Cloud::Enums::EAvailability;
 use Saklient::Cloud::Models::Model_Disk;
@@ -157,6 +159,34 @@ sub reload {
 	return $self->_reload();
 }
 
+#** @var private ServerActivity Saklient::Cloud::Resources::Server::$_activity 
+# 
+# @private
+#*
+my $_activity;
+
+#** @method public Saklient::Cloud::Resources::ServerActivity get_activity 
+# 
+# @brief null
+#*
+sub get_activity {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_activity'};
+}
+
+#** @method public Saklient::Cloud::Resources::ServerActivity activity ()
+# 
+# @brief アクティビティ
+#*
+sub activity {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Server#activity");
+		throw $ex;
+	}
+	return $_[0]->get_activity();
+}
+
 #** @method public void new ($client, $obj, $wrapped)
 # 
 # @ignore @param {Saklient::Cloud::Client} client
@@ -173,8 +203,24 @@ sub new {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	Saklient::Util::validate_type($wrapped, "bool");
+	$self->{'_activity'} = new Saklient::Cloud::Resources::ServerActivity($client);
 	$self->api_deserialize($obj, $wrapped);
 	return $self;
+}
+
+#** @method private void _on_after_api_deserialize ($r, $root)
+# 
+# @private
+#*
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saklient::Util::validate_arg_count($_argnum, 2);
+	if (defined($r)) {
+		$self->{'_activity'}->set_source_id($self->_id());
+	}
 }
 
 #** @method public bool is_up 
@@ -296,7 +342,13 @@ sub sleep_until {
 	Saklient::Util::validate_type($timeoutSec, "int");
 	my $step = 10;
 	while (0 < $timeoutSec) {
-		$self->reload();
+		try {
+			$self->reload();
+		}
+		catch Saklient::Errors::HttpException with {
+			my $ex = shift;
+			{}
+		};
 		my $s = undef;
 		my $inst = $self->instance;
 		if (defined($inst)) {

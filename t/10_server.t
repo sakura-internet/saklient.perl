@@ -14,6 +14,7 @@ use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
 use String::Random;
+use DateTime;
 binmode STDOUT, ":utf8";
 
 my $tests = 33;
@@ -244,6 +245,12 @@ sleep 3;
 diag 'stopping the server...';
 $server->stop;
 fail 'サーバが正常に停止しません' unless $server->sleep_until_down;
+		
+# activity
+foreach my $sample (@{$server->activity->fetch()->samples}) {
+	$tests += 1;
+	isa_ok $sample->at, 'DateTime';
+}
 
 # disconnect the disk from the server
 diag 'disconnecting the disk from the server...';

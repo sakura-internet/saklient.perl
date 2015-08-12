@@ -11,6 +11,7 @@ use Saklient::Errors::SaklientException;
 use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Resource;
 use Saklient::Cloud::Resources::Swytch;
+use Saklient::Cloud::Resources::IfaceActivity;
 
 use base qw(Saklient::Cloud::Resources::Resource);
 
@@ -124,6 +125,34 @@ sub reload {
 	return $self->_reload();
 }
 
+#** @var private IfaceActivity Saklient::Cloud::Resources::Iface::$_activity 
+# 
+# @private
+#*
+my $_activity;
+
+#** @method public Saklient::Cloud::Resources::IfaceActivity get_activity 
+# 
+# @brief null
+#*
+sub get_activity {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_activity'};
+}
+
+#** @method public Saklient::Cloud::Resources::IfaceActivity activity ()
+# 
+# @brief アクティビティ
+#*
+sub activity {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::Resources::Iface#activity");
+		throw $ex;
+	}
+	return $_[0]->get_activity();
+}
+
 #** @method public void new ($client, $obj, $wrapped)
 # 
 # @ignore @param {Saklient::Cloud::Client} client
@@ -140,8 +169,24 @@ sub new {
 	Saklient::Util::validate_arg_count($_argnum, 2);
 	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
 	Saklient::Util::validate_type($wrapped, "bool");
+	$self->{'_activity'} = new Saklient::Cloud::Resources::IfaceActivity($client);
 	$self->api_deserialize($obj, $wrapped);
 	return $self;
+}
+
+#** @method private void _on_after_api_deserialize ($r, $root)
+# 
+# @private
+#*
+sub _on_after_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saklient::Util::validate_arg_count($_argnum, 2);
+	if (defined($r)) {
+		$self->{'_activity'}->set_source_id($self->_id());
+	}
 }
 
 #** @method public Saklient::Cloud::Resources::Iface connect_to_swytch ($swytch)
