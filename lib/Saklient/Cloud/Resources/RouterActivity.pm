@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Error qw(:try);
 use Data::Dumper;
+use Saklient::Cloud::Client;
 use Saklient::Cloud::Resources::Activity;
 use Saklient::Cloud::Resources::RouterActivitySample;
 
@@ -49,6 +50,21 @@ sub _api_path_prefix {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	return "/internet";
+}
+
+#** @method public void new ($client)
+# 
+# @ignore @param {Saklient::Cloud::Client} client
+#*
+sub new {
+	my $class = shift;
+	my $self;
+	my $_argnum = scalar @_;
+	my $client = shift;
+	$self = $class->SUPER::new($client);
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($client, "Saklient::Cloud::Client");
+	return $self;
 }
 
 #** @method private void _add_sample ($atStr, $data)
