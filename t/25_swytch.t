@@ -2,7 +2,8 @@
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use errors;
+use Test::More;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
@@ -14,6 +15,8 @@ use Data::Dumper;
 use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
+
+my $tests = 10;
 
 
 
@@ -99,4 +102,5 @@ diag 'スイッチを削除しています...';
 $swytch->destroy;
 
 #
+plan tests => $tests;
 done_testing;

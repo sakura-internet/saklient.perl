@@ -1,5 +1,5 @@
 {
-   "version" : "0.0.2.11",
+   "version" : "0.0.4",
    "abstract" : "An easy interface to control your resources on SAKURA Cloud.",
    "author" : [
       "SAKURA Internet, Inc."
