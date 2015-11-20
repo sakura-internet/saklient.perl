@@ -3,11 +3,13 @@
 use strict;
 use warnings;
 use errors;
-use Test::More;
+use Test::More tests => 15;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
 use Saklient::Cloud::API;
+use Saklient::Util qw(get_by_path set_by_path exists_path ip2long long2ip);
+use Saklient::Errors::HttpException;
 use Socket;
 use List::Util 'min';
 use JSON;
@@ -15,8 +17,6 @@ use Data::Dumper;
 use POSIX 'strftime';
 use String::Random;
 binmode STDOUT, ":utf8";
-
-my $tests = 16;
 
 
 
@@ -58,57 +58,47 @@ isa_ok $api, 'Saklient::Cloud::API';
 
 # should be CRUDed
 my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::Random->new->randregex('\\w{8}');
-my $description = 'This instance was created by saklient.perl test';
 
 #
-diag 'スイッチを作成しています...';
-my $swytch = $api->swytch->create;
-isa_ok $swytch, 'Saklient::Cloud::Resources::Swytch';
-$swytch->name($name)
-	->description($description)
-	->save;
-cmp_ok $swytch->id, '>', 0;
+diag 'GSLBを作成しています...';
+my $gslb = $api->common_service_item->create_gslb('http', 10, 1);
+isa_ok $gslb, 'Saklient::Cloud::Resources::Gslb';
+$gslb->path_to_check('/index.html');
+$gslb->response_expected(200);
+$gslb->name($name);
+$gslb->description('This is a test');
+$gslb->save;
+my $id = $gslb->id;
+cmp_ok $id, '>', 0;
+is $gslb->name, $name;
+is scalar(@{$gslb->servers}), 0;
 
-#
-diag 'サーバを作成しています...';
-my $server = $api->server->create;
-isa_ok $server, 'Saklient::Cloud::Resources::Server';
-$server->name($name)
-	->description($description)
-	->plan($api->product->server->get_by_spec(1, 1))
-	->save;
-cmp_ok $server->id, '>', 0;
+$gslb = $api->common_service_item->get_by_id($id);
+is $gslb->id, $id;
+is $gslb->path_to_check, '/index.html';
+is $gslb->response_expected, 200;
+is $gslb->name, $name;
+is scalar(@{$gslb->servers}), 0;
 
-#
-diag 'インタフェースを増設しています...';
-my $iface = $server->add_iface;
-isa_ok $iface, 'Saklient::Cloud::Resources::Iface';
-cmp_ok $iface->id, '>', 0;
-is $iface->server_id, $server->id;
-$server->reload;
-is $server->ifaces->[0]->id, $iface->id;
-is $server->ifaces->[0]->server_id, $server->id;
-$iface->reload;
-is $iface->swytch_id, undef;
+my $server = $gslb->add_server;
+$server->enabled(1);
+$server->weight(10);
+$server->ip_address('49.212.82.90');
+$gslb->save;
+is scalar(@{$gslb->servers}), 1;
 
-#
-diag 'インタフェースをスイッチに接続しています...';
-$iface->connect_to_swytch($swytch);
-is $iface->swytch_id, $swytch->id;
-is $api->swytch->get_by_id($iface->swytch_id)->id, $swytch->id;
+$gslb = $api->common_service_item->get_by_id($id);
+is scalar(@{$gslb->servers}), 1;
 
-#
-diag 'インタフェースをスイッチから切断しています...';
-$iface->disconnect_from_swytch;
+diag 'GSLBを削除しています...';
+$gslb->destroy;
 
-#
-diag 'サーバを削除しています...';
-$server->destroy;
-
-#
-diag 'スイッチを削除しています...';
-$swytch->destroy;
-
-#
-plan tests => $tests;
-done_testing;
+my $ok = 0;
+try {
+	$gslb = $api->common_service_item->get_by_id($id);
+}
+catch Saklient::Errors::HttpException with {
+	my $ex = shift;
+	$ok = 1;
+};
+fail 'GSLBが正しく削除されていません' unless $ok;

@@ -208,6 +208,33 @@ sub new {
 	return $self;
 }
 
+#** @method private void _on_before_api_deserialize ($r, $root)
+# 
+# @private
+#*
+sub _on_before_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saklient::Util::validate_arg_count($_argnum, 2);
+	if (!defined($r)) {
+		return;
+	}
+	my $id = $r->{"ID"};
+	my $ifaces = $r->{"Interfaces"};
+	if (defined($ifaces)) {
+		foreach my $iface (@{$ifaces}) {
+			my $server = $iface->{"Server"};
+			if (!defined($server)) {
+				$server = {};
+				$iface->{"Server"} = $server;
+			}
+			$server->{"ID"} = $id;
+		}
+	}
+}
+
 #** @method private void _on_after_api_deserialize ($r, $root)
 # 
 # @private

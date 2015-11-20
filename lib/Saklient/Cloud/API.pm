@@ -16,6 +16,7 @@ use Saklient::Cloud::Models::Model_Server;
 use Saklient::Cloud::Models::Model_Disk;
 use Saklient::Cloud::Models::Model_Appliance;
 use Saklient::Cloud::Models::Model_Archive;
+use Saklient::Cloud::Models::Model_CommonServiceItem;
 use Saklient::Cloud::Models::Model_IsoImage;
 use Saklient::Cloud::Models::Model_Iface;
 use Saklient::Cloud::Models::Model_Swytch;
@@ -454,6 +455,34 @@ sub script {
 	return $_[0]->get_script();
 }
 
+#** @var private Saklient::Cloud::Models::Model_CommonServiceItem Saklient::Cloud::API::$_common_service_item 
+# 
+# @private
+#*
+my $_common_service_item;
+
+#** @method private Saklient::Cloud::Models::Model_CommonServiceItem get_common_service_item 
+# 
+# @brief null
+#*
+sub get_common_service_item {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'_common_service_item'};
+}
+
+#** @method public Saklient::Cloud::Models::Model_CommonServiceItem common_service_item ()
+# 
+# @brief 共通サービス契約にアクセスするためのモデル。
+#*
+sub common_service_item {
+	if (1 < scalar(@_)) {
+		my $ex = new Saklient::Errors::SaklientException('non_writable_field', "Non-writable field: Saklient::Cloud::API#common_service_item");
+		throw $ex;
+	}
+	return $_[0]->get_common_service_item();
+}
+
 #** @var private Saklient::Cloud::Models::Model_License Saklient::Cloud::API::$_license 
 # 
 # @private
@@ -509,6 +538,7 @@ sub new {
 	$self->{'_bridge'} = new Saklient::Cloud::Models::Model_Bridge($client);
 	$self->{'_ipv6_net'} = new Saklient::Cloud::Models::Model_Ipv6Net($client);
 	$self->{'_script'} = new Saklient::Cloud::Models::Model_Script($client);
+	$self->{'_common_service_item'} = new Saklient::Cloud::Models::Model_CommonServiceItem($client);
 	$self->{'_license'} = new Saklient::Cloud::Models::Model_License($client);
 	return $self;
 }

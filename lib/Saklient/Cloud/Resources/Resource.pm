@@ -150,6 +150,18 @@ sub _on_before_save {
 	Saklient::Util::validate_arg_count($_argnum, 1);
 }
 
+#** @method private void _on_before_api_deserialize ($r, $root)
+# 
+# @private
+#*
+sub _on_before_api_deserialize {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $r = shift;
+	my $root = shift;
+	Saklient::Util::validate_arg_count($_argnum, 2);
+}
+
 #** @method private void _on_after_api_deserialize ($r, $root)
 # 
 # @private
@@ -225,6 +237,7 @@ sub api_deserialize {
 			$record = $obj->{$rkey};
 		}
 	}
+	$self->_on_before_api_deserialize($record, $root);
 	$self->api_deserialize_impl($record);
 	$self->_on_after_api_deserialize($record, $root);
 }

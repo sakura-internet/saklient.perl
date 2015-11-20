@@ -51,6 +51,12 @@ my $m_user_ip_address;
 #*
 my $m_server_id;
 
+#** @var private string Saklient::Cloud::Resources::Iface::$m_swytch_id 
+# 
+# @brief このインタフェースの接続先スイッチのID
+#*
+my $m_swytch_id;
+
 #** @method private string _api_path 
 # 
 # @private
@@ -405,6 +411,52 @@ sub server_id {
 	return $_[0]->get_server_id();
 }
 
+#** @var private bool Saklient::Cloud::Resources::Iface::$n_swytch_id 
+# 
+# @brief null
+#*
+my $n_swytch_id = 0;
+
+#** @method private string get_swytch_id 
+# 
+# @brief (This method is generated in Translator_default#buildImpl)
+#*
+sub get_swytch_id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	return $self->{'m_swytch_id'};
+}
+
+#** @method private string set_swytch_id ($v)
+# 
+# @brief (This method is generated in Translator_default#buildImpl)@param {string} v
+#*
+sub set_swytch_id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $v = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($v, "string");
+	if (!$self->{'is_new'}) {
+		{ my $ex = new Saklient::Errors::SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient::Cloud::Resources::Iface#swytch_id"); throw $ex; };
+	}
+	$self->{'m_swytch_id'} = $v;
+	$self->{'n_swytch_id'} = 1;
+	return $self->{'m_swytch_id'};
+}
+
+#** @method public string swytch_id ()
+# 
+# @brief このインタフェースの接続先スイッチのID
+#*
+sub swytch_id {
+	if (1 < scalar(@_)) {
+		$_[0]->set_swytch_id($_[1]);
+		return $_[0];
+	}
+	return $_[0]->get_swytch_id();
+}
+
 #** @method private void api_deserialize_impl ($r)
 # 
 # @brief (This method is generated in Translator_default#buildImpl)
@@ -459,6 +511,14 @@ sub api_deserialize_impl {
 		$self->{'is_incomplete'} = 1;
 	}
 	$self->{'n_server_id'} = 0;
+	if (Saklient::Util::exists_path($r, "Switch.ID")) {
+		$self->{'m_swytch_id'} = !defined(Saklient::Util::get_by_path($r, "Switch.ID")) ? undef : "" . Saklient::Util::get_by_path($r, "Switch.ID");
+	}
+	else {
+		$self->{'m_swytch_id'} = undef;
+		$self->{'is_incomplete'} = 1;
+	}
+	$self->{'n_swytch_id'} = 0;
 }
 
 #** @method private any api_serialize_impl ($withClean)
@@ -491,6 +551,9 @@ sub api_serialize_impl {
 		if ($self->{'is_new'}) {
 			push(@{$missing}, "server_id");
 		}
+	}
+	if ($withClean || $self->{'n_swytch_id'}) {
+		Saklient::Util::set_by_path($ret, "Switch.ID", $self->{'m_swytch_id'});
 	}
 	if (scalar(@{$missing}) > 0) {
 		{ my $ex = new Saklient::Errors::SaklientException("required_field", "Required fields must be set before the Iface creation: " . join(", ", @{$missing})); throw $ex; };
