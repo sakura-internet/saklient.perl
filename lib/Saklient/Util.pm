@@ -148,7 +148,9 @@ sub ip2long {
 	if (!defined($s) || ($s !~ /^\d+\.\d+\.\d+\.\d+$/)) {
 		return undef;
 	}
-	return unpack("N*", inet_aton($s));
+	my $n = inet_aton($s);
+	return undef unless defined($n);
+	return unpack("N*", $n);
 }
 
 sub long2ip {
@@ -158,7 +160,9 @@ sub long2ip {
 		return undef;
 	}
 	$n += 1<<32 if $n<0;
-	return inet_ntoa(pack("N*", $n));
+	my $a = pack("N*", $n);
+	return undef unless defined($a);
+	return inet_ntoa($a);
 }
 
 sub url_encode {

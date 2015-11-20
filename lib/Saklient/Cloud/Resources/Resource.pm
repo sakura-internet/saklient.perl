@@ -354,8 +354,11 @@ sub destroy {
 sub _reload {
 	my $self = shift;
 	my $_argnum = scalar @_;
-	my $result = $self->request_retry("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()));
-	$self->api_deserialize($result, 1);
+	my $id = $self->_id();
+	if (defined($id)) {
+		my $result = $self->request_retry("GET", $self->_api_path() . "/" . Saklient::Util::url_encode($id));
+		$self->api_deserialize($result, 1);
+	}
 	return $self;
 }
 
