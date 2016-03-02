@@ -264,6 +264,18 @@ sub sort_by_name {
 	return $self->_sort_by_name($reverse);
 }
 
+#** @method public Saklient::Cloud::Models::Model_Disk sort_by_connection_order ($reverse)
+# 
+# @brief null@param {bool} reverse
+#*
+sub sort_by_connection_order {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $reverse = shift || (0);
+	Saklient::Util::validate_type($reverse, "bool");
+	return $self->_sort("ConnectionOrder", $reverse);
+}
+
 #** @method public void new ($client)
 # 
 # @ignore @param {Saklient::Cloud::Client} client

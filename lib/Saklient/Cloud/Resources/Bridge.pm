@@ -374,11 +374,6 @@ sub api_serialize_impl {
 	if ($withClean || $self->{'n_region'}) {
 		Saklient::Util::set_by_path($ret, "Region", $withClean ? (!defined($self->{'m_region'}) ? undef : $self->{'m_region'}->api_serialize($withClean)) : (!defined($self->{'m_region'}) ? {'ID' => "0"} : $self->{'m_region'}->api_serialize_id()));
 	}
-	else {
-		if ($self->{'is_new'}) {
-			push(@{$missing}, "region");
-		}
-	}
 	if (scalar(@{$missing}) > 0) {
 		{ my $ex = new Saklient::Errors::SaklientException("required_field", "Required fields must be set before the Bridge creation: " . join(", ", @{$missing})); throw $ex; };
 	}

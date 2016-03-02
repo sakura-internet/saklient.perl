@@ -11,6 +11,7 @@ use Saklient::Errors::SaklientException;
 use URI::Escape;
 use DateTime::Format::Strptime;
 use Socket;
+use Scalar::Util qw(blessed);
 
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(exists_path get_by_path set_by_path create_class_instance ip2long long2ip);
@@ -205,7 +206,7 @@ sub validate_type {
 				$isOk = ref($value) eq $typeName;
 			}
 			else {
-				$isOk = $value->isa($typeName);
+				$isOk = blessed($value) && $value->isa($typeName);
 			}
 		}
 	}

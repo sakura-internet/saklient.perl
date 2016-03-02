@@ -2,17 +2,19 @@
 
 use strict;
 use warnings;
+use errors;
 use Test::More;
 use FindBin;
 use File::Basename qw(basename dirname);
 BEGIN { unshift(@INC, dirname($FindBin::RealBin) . "/lib") }
 use Saklient::Cloud::API;
-use Socket;
-use List::Util 'min';
+use Saklient::Cloud::Enums::EServerInstanceStatus;
+use Saklient::Errors::HttpException;
 use JSON;
 use Data::Dumper;
 use POSIX 'strftime';
 use String::Random;
+use DateTime;
 binmode STDOUT, ":utf8";
 
 my $tests = 4;
@@ -55,19 +57,52 @@ isa_ok $api, 'Saklient::Cloud::API';
 
 
 
-# should be CRUDed
+# settings
 my $name = '!perl_test-' . strftime('%Y%m%d_%H%M%S', localtime) . '-' . String::Random->new->randregex('\\w{8}');
 my $description = 'This instance was created by saklient.perl test';
+my $tag = 'saklient-test';
 
-diag 'ブリッジを作成しています...';
-my $bridge = $api->bridge->create;
-$bridge->name($name);
-$bridge->description($description);
-$bridge->save;
+# create a server
+diag 'creating a server...';
+my $server = $api->server->create;
+$tests++; isa_ok $server, 'Saklient::Cloud::Resources::Server';
+$server->name($name)
+	->description($description)
+	->tags([$tag])
+	->plan($api->product->server->get_by_spec(1, 1))
+	->save;
 
-diag 'ブリッジを削除しています...';
-$bridge->destroy;
+# create empty disks
+diag 'creating empty disks...';
+my $disks = [];
+for (my $i=0; $i<3; $i++) {
+	my $disk = $api->disk->create
+		->name($name)
+		->description($description)
+		->tags([$tag])
+		->plan($api->product->disk->ssd)
+		->size_gib(20)
+		->save;
+	$tests++; is $disk->size_gib, 20;
+	$disk->connect_to($server);
+	push @$disks, $disk;
+}
+my $disk = $disks->[1]->disconnect;
+splice @$disks, 1, 1;
+$disk->connect_to($server);
+push @$disks, $disk;
+
 
 #
+my $disks_after = $server->find_disks;
+for (my $i=0; $i<3; $i++) {
+	$tests++; is $disks_after->[$i]->id, $disks->[$i]->id;
+}
+
+foreach my $disk (@$disks) {
+	$disk->disconnect->destroy;
+}
+$server->destroy;
+
 plan tests => $tests;
 done_testing;

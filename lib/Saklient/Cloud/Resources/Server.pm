@@ -424,7 +424,7 @@ sub find_disks {
 	my $self = shift;
 	my $_argnum = scalar @_;
 	my $model = Saklient::Util::create_class_instance("saklient.cloud.models.Model_Disk", [$self->{'_client'}]);
-	return $model->with_server_id($self->_id())->find();
+	return $model->with_server_id($self->_id())->sort_by_connection_order()->find();
 }
 
 #** @method public Saklient::Cloud::Resources::Iface add_iface 

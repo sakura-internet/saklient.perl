@@ -212,6 +212,23 @@ sub connect_to_swytch {
 	return $self->reload();
 }
 
+#** @method public Saklient::Cloud::Resources::Iface connect_to_swytch_by_id ($swytchId)
+# 
+# @brief 指定したIDのスイッチに接続します。
+# 
+# @param string $swytchId 接続先のスイッチID。
+# @retval this
+#*
+sub connect_to_swytch_by_id {
+	my $self = shift;
+	my $_argnum = scalar @_;
+	my $swytchId = shift;
+	Saklient::Util::validate_arg_count($_argnum, 1);
+	Saklient::Util::validate_type($swytchId, "string");
+	$self->{'_client'}->request("PUT", $self->_api_path() . "/" . Saklient::Util::url_encode($self->_id()) . "/to/switch/" . $swytchId);
+	return $self->reload();
+}
+
 #** @method public Saklient::Cloud::Resources::Iface connect_to_shared_segment 
 # 
 # @brief 共有セグメントに接続します。
